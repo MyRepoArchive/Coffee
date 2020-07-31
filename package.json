@@ -1,0 +1,23 @@
+{
+  "name": "Coffe",
+  "version": "1.0.0",
+  "description": "An open source Discord Bot, using the [Discord.js](https://discord.js.org/#/) library!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoaoSCoelho/Coffe.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JoaoSCoelho/Coffe/issues"
+  },
+  "homepage": "https://github.com/JoaoSCoelho/Coffe#readme",
+  "dependencies": {
+    "discord.js": "^12.2.0"
+  }
+}

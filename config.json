@@ -1,5 +1,6 @@
 {
     "prefix": "!",
-    "owner": "Id do dono do bot",
-    "token": "Token do bot"
+    "owner": "Seu ID",
+    "token": "Token do seu bot",
+    "logPrincipal": "Id da sala que você deseja que seja o log do seu bot" 
 }

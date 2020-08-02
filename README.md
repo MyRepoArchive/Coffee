@@ -1,5 +1,8 @@
 # Coffe
 
+[Português](#Português) |
+[English](#English)
+
 ## Português
 Um Bot para o Discord de código aberto, que usa a biblioteca [Discord.js](https://discord.js.org/#/)!
 
@@ -12,6 +15,10 @@ para:
 ```js
 const config = require("./config.json");
 ```
+
+#### Links
+[Como usar](#Como-usar?) |
+[Criando bot no Discord](#Criando-bot-no-discord)
 
 ### Como usar?
 Para rodar o bot na sua máquina, primeiramente você deve ter instalado o **Node js**, e ter [criado um bot na área de desenvolvedor do Discord](#Criando-bot-no-discord).

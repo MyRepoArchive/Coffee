@@ -9,9 +9,9 @@ const consoleColors = ['\033[0m', '\033[30m', '\033[31m', '\033[32m', '\033[33m'
 
 
 // Função que muda o que o bot exibe no "Activity" a cada 30 segundos
-var intervalActivity = null;
+let intervalActivity = null;
 function changeActivity() {
-    var activityId = 0
+    let activityId = 0
     if(intervalActivity !== null) {
         clearInterval(intervalActivity)
     }
@@ -30,7 +30,7 @@ function changeActivity() {
                 activityId = 3;
                 break;
             case 3:
-                var Hora = new Date
+                const Hora = new Date
                 client.user.setActivity(`Hora ${Hora.getHours()}:${Hora.getMinutes()}`);
                 activityId = 0;
                 break;
@@ -40,8 +40,6 @@ function changeActivity() {
         }
     }, 30000);
 };
-
-
 // Função para adicionar '0' à esquerda, para um número pequeno
 function pad(number, width) {
     number += ''
@@ -56,7 +54,7 @@ client.on("ready", () => {
     const qtdUsers = client.users.cache.size;
     const qtdChannels = client.channels.cache.size;
     const logChannel = client.channels.cache.filter(canais => canais.id == config.logPrincipal).find(log => log);
-    var lengthMax = (''+qtdChannels).length;
+    let lengthMax = (''+qtdChannels).length;
     
     
     if((''+qtdServers).length > lengthMax) {lengthMax = (''+qtdServers).length};
@@ -66,8 +64,8 @@ client.on("ready", () => {
 
     // Função que mostra o nome de todos os servidores até que eles ocupem 900 caracteres de tamanho
     function mostrarServersBlock() {
-        var result = ''
-        var i = 0
+        let result = ''
+        let i = 0
         while(i <= qtdServers-1) {
             if(result.length > 900) {
                 result += `[...]`
@@ -89,7 +87,7 @@ client.on("ready", () => {
     console.log(`Canais:          ${consoleColors[6]}${pad(qtdChannels, lengthMax)}${consoleColors[0]}`);
     console.log(`Servidores:      ${consoleColors[6]}${pad(qtdServers, lengthMax)}${consoleColors[0]}`)
     console.log(`${consoleColors[7]}------------------------- SERVIDORES ------------------------${consoleColors[0]}`);
-    for(var i = 0; i <= qtdServers-1; i++) {
+    for(let i = 0; i <= qtdServers-1; i++) {
         console.log(`${i+1} - ${consoleColors[5]}${nameServers[i]}${consoleColors[0]}`)
     };
     console.log(consoleColors[7]+"============================================================="+consoleColors[0]);
@@ -124,7 +122,7 @@ client.on("guildCreate", guild => {
     const qtdUsers = client.users.cache.size;
     const qtdChannels = client.channels.cache.size;
     const logChannel = client.channels.cache.filter(canais => canais.id == config.logPrincipal).find(log => log);
-    var lengthMax = (''+qtdChannels).length;
+    let lengthMax = (''+qtdChannels).length;
     
     
     if((''+qtdServers).length > lengthMax) {lengthMax = (''+qtdServers).length};
@@ -180,7 +178,7 @@ client.on("guildDelete", guild => {
     const qtdUsers = client.users.cache.size;
     const qtdChannels = client.channels.cache.size;
     const logChannel = client.channels.cache.filter(canais => canais.id == config.logPrincipal).find(log => log);
-    var lengthMax = (''+qtdChannels).length;
+    let lengthMax = (''+qtdChannels).length;
     
     
     if((''+qtdServers).length > lengthMax) {lengthMax = (''+qtdServers).length};
@@ -221,12 +219,10 @@ client.on("guildDelete", guild => {
 });
 
 
-
-
+// Evento acionado quando alguém manda alguma mensagem no chat
 client.on("message", async message => {
     if(message.author.bot) return;
     
-
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
     const comando = args.shift().toLowerCase()
     const firstWord = message.content.trim().split(/ +/g).shift().toLowerCase()
@@ -243,8 +239,12 @@ client.on("message", async message => {
         .setTimestamp()
         .setFooter(client.user.tag)
 
+    // Comandos por DM
     if(message.channel.type === 'dm') {
-        if(message.channel.messages.cache.map(message => message)[message.channel.messages.cache.size-2].content === 'helpEmbed') {
+        const penultMsg = message.channel.messages.cache.map(message => message)[message.channel.messages.cache.size-2]
+        const anteAntePenultMsg = message.channel.messages.cache.map(message => message)[message.channel.messages.cache.size-4]
+        if(penultMsg === undefined)return;
+        if(penultMsg.content === 'helpEmbed' || anteAntePenultMsg.content === 'helpEmbed') {
             switch (firstWord) {
                 case '1':
                 case '[1]':
@@ -262,22 +262,52 @@ client.on("message", async message => {
 
         if(firstWord == `<@${client.user.id}>` || firstWord === '!ajuda') {
             const msg = await message.author.send(helpEmbed);
+            msg.react('🔄')
             msg.content = 'helpEmbed'
         }
 
+
         // Todos os comandos que começam com o prefixo
         if(message.content.startsWith(config.prefix)) {
+
             if(comando === 'ping') {
-                const m = await message.channel.send("Ping?");
-                m.edit(`Pong! A latência é ${m.createdTimestamp - message.createdTimestamp}ms. A latência da API é ${Math.round(client.ws.ping)}ms`);
+                
             };
+
+            if(message.member.hasPermission('MANAGE_CHANNELS')) {
+                if(comando === 'createChannel') {
+                    message.guild.channels.add()
+                }
+            }
         }
-    }
+    }  
 });
 
 
 // Evento acionado quando algum usuário adiciona uma reação em uma mensagem
-client.on("messageReactionAdd", async react => {});
+client.on("messageReactionAdd", async react => {
+    if(react.me === true && react.count > 1 && react.message.content === 'helpEmbed') {
+
+        const author = react.users.cache.find(user => user.id !== client.user.id)
+        const helpEmbed = new Discord.MessageEmbed() 
+        .setColor(hex.white)
+        .setURL('https://github.com/joaoscoelho/Coffe')
+        .setAuthor(author.tag, (author.avatarURL() === null) ? '' : author.avatarURL())
+        .setTitle(`Central de auto-atendimento **${client.user.username}**`)
+        .setDescription(`Como posso ajuda Sr(a) ${author.username}?`)
+        .addFields(
+            {name: `[1] - Comandos Básicos`, value: `Lista de todos os comandos considerados básicos`},
+            {name: `[2] - Comandos de moderação`, value: `Lista de todos os comandos usados para moderação`}
+        )
+        .setTimestamp()
+        .setFooter(client.user.tag)
+
+
+        const msg = await react.message.channel.send(helpEmbed)
+        msg.react('🔄')
+        msg.content = 'helpEmbed'
+    }
+});
 
 
 // Evento não documentado

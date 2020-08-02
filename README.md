@@ -32,6 +32,26 @@ E pronto, seu bot ficará online, mostrando no terminal a quantidade de pessoas,
 
 **LEMBRE-SE que seu bot só ficará online enquanto sua máquina estiver ligada, ou até o momento que você parar de rodar o bot (pode usar *"CTRL + C"* dentro do terminal para parar o bot).**
 
+### Criando bot no discord
+Você precisa criar uma aplicação no discord para que o código tenha onde "rodar". Se não sabe fazer isso siga esses passos:
+
+1. Acesse o [site oficial do discord](https://discord.com/new)
+2. Procure a *"Área de desenvolvedores"*
+    ![dev-area](image/devarea-br.PNG)
+3. Dentro do portal do Desenvolvedor clique em *"Applications"/"Aplicações"*!
+    ![applications](image/developer-aplications.PNG)
+4. Clique em *"New Applications"/"Nova aplicação"*
+    ![new-app](image/new-app.PNG)
+5. Coloque o nome do seu bot e clique em *"Create"/"Criar"*
+    ![create-name](image/create-name.PNG)
+6. Do lado esquerdo, clique em *"Bot"*, logo em seguida em *"Add Bot"* e confirme!
+    ![add-bot](image/add-bot.PNG)
+    ![comfirm-add-bot](image/confirm-add-bot.PNG)
+7. Pronto! Seu bot foi criado, agora copie o **Token** e cole no **config.json** do seu bot!
+    ![token](image/token.PNG)
+
+
+
 [...]README INCOMPLETO
 
 ---

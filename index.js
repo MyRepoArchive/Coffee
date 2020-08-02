@@ -1,10 +1,8 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const config = require("./config.json");
+const config = require("./info.json");
 const hex = require('./colors.json');
 const Data = new Date;
-
-
 // CORES PARA COLORIR TERMINAL
 const consoleColors = ['\033[0m', '\033[30m', '\033[31m', '\033[32m', '\033[33m', '\033[34m', '\033[35m', '\033[36m', '\033[37m'];
 // 0 = reset; 1 = black; 2 = red; 3 = green; 4 = yellow; 5 = roxo; 6 = magenta; 7 = cyan; 8 = white;
@@ -58,7 +56,7 @@ client.on("ready", () => {
     const qtdUsers = client.users.cache.size;
     const qtdChannels = client.channels.cache.size;
     const logChannel = client.channels.cache.filter(canais => canais.id == config.logPrincipal).find(log => log);
-    const lengthMax = (''+qtdChannels).length;
+    var lengthMax = (''+qtdChannels).length;
     
     
     if((''+qtdServers).length > lengthMax) {lengthMax = (''+qtdServers).length};
@@ -121,11 +119,12 @@ client.on("guildCreate", guild => {
     const guildChannelCount = guild.channels.cache.size
     const guildOwnerTag = client.users.cache.filter(user => user.id == guild.owner.id).map(dono => dono.tag)
     const guildAdmins = guild.members.cache.filter(member => member.hasPermission("ADMINISTRATOR")).map(member => member.displayName).join(', ')
-
-    qtdServers = client.guilds.cache.size;
-    qtdUsers = client.users.cache.size;
-    qtdChannels = client.channels.cache.size;
-    lengthMax = (''+qtdChannels).length;
+    const nameServers = client.guilds.cache.map(server => server.name);
+    const qtdServers = nameServers.length;
+    const qtdUsers = client.users.cache.size;
+    const qtdChannels = client.channels.cache.size;
+    const logChannel = client.channels.cache.filter(canais => canais.id == config.logPrincipal).find(log => log);
+    var lengthMax = (''+qtdChannels).length;
     
     
     if((''+qtdServers).length > lengthMax) {lengthMax = (''+qtdServers).length};
@@ -167,9 +166,8 @@ client.on("guildCreate", guild => {
 });
 
 
+// Evento acionado quando o bot sai de algum servidor
 client.on("guildDelete", guild => {
-    /* console.log(`O bot foi removido do servidor: ${guild.name} ${guild.id}`);
-    changeActivity(); */
     const guildName = guild.name
     const guildDescription = guild.description
     const guildId = guild.id
@@ -177,11 +175,12 @@ client.on("guildDelete", guild => {
     const guildChannelCount = guild.channels.cache.size
     const guildOwnerTag = client.users.cache.filter(user => user.id == guild.owner.id).map(dono => dono.tag)
     const guildAdmins = guild.members.cache.filter(member => member.hasPermission("ADMINISTRATOR")).map(member => member.displayName).join(', ')
-
-    qtdServers = client.guilds.cache.size;
-    qtdUsers = client.users.cache.size;
-    qtdChannels = client.channels.cache.size;
-    lengthMax = (''+qtdChannels).length;
+    const nameServers = client.guilds.cache.map(server => server.name);
+    const qtdServers = nameServers.length;
+    const qtdUsers = client.users.cache.size;
+    const qtdChannels = client.channels.cache.size;
+    const logChannel = client.channels.cache.filter(canais => canais.id == config.logPrincipal).find(log => log);
+    var lengthMax = (''+qtdChannels).length;
     
     
     if((''+qtdServers).length > lengthMax) {lengthMax = (''+qtdServers).length};
@@ -190,12 +189,11 @@ client.on("guildDelete", guild => {
 
     
     // Log quando o bot sai de um servidor
-    console.log(`${consoleColors[7]}=================== SAIU DE SERVIDOR ===================${consoleColors[0]}`)
+    console.log(`${consoleColors[7]}=================== SAIU DE UM SERVIDOR ===================${consoleColors[0]}`)
     console.log(`Nome do Servidor:                   ${consoleColors[5]}${guildName}${consoleColors[0]}`);
     console.log(`Descrição:                          ${consoleColors[4]}${(guildDescription == null) ? 'Sem descrição' : `"${guildDescription}"`}${consoleColors[0]}`)
     console.log(`Id do Servidor:                     ${consoleColors[6]}${guildId}${consoleColors[0]}`);
     console.log(`População do servidor:              ${consoleColors[6]}${pad(guildMemberCount, lengthMax)}${consoleColors[0]}`)
-    console.log(`Quantidade de canais do Servidor:   ${consoleColors[6]}${pad(guildChannelCount, lengthMax)}${consoleColors[0]}`)
     console.log(`Ícone do Servidor:                  ${consoleColors[4]}${(guild.iconURL() == null) ? 'Sem ícone' : guild.iconURL()}${consoleColors[0]}`);
     console.log(`Dono do servidor:                   ${consoleColors[5]}${guildOwnerTag}${consoleColors[0]}  ID: ${consoleColors[6]}${guild.owner.id}${consoleColors[0]}`);
     console.log(`Admins:                             ${consoleColors[4]}${guildAdmins}${consoleColors[0]}`)
@@ -211,7 +209,7 @@ client.on("guildDelete", guild => {
         .setColor(hex.darkred)
         .setTitle('-------------------- SAIU DE UM SERVIDOR --------------------')
         .setThumbnail(guild.iconURL())
-        .addField('------------ SERVIDOR ------------', `Nome do Servidor: **${guildName}**\nDescrição: ${(guildDescription == null) ? '**Sem descrição**' : `**"${guildDescription}"**`}\nID do Servidor: **${guildId}**\nPopulação do Servidor: **${pad(guildMemberCount, lengthMax)}**\nCanais do Servidor: **${pad(guildChannelCount, lengthMax)}**\nDono do Servidor: **${guildOwnerTag}**\nID do Owner: **${guild.owner.id}**\nAdmins: **${guildAdmins}**`)
+        .addField('------------ SERVIDOR ------------', `Nome do Servidor: **${guildName}**\nDescrição: ${(guildDescription == null) ? '**Sem descrição**' : `**"${guildDescription}"**`}\nID do Servidor: **${guildId}**\nPopulação do Servidor: **${pad(guildMemberCount, lengthMax)}**\nDono do Servidor: **${guildOwnerTag}**\nID do Owner: **${guild.owner.id}**\nAdmins: **${guildAdmins}**`)
         .addField('------------- STATUS -------------', `População:     **${pad(qtdUsers, lengthMax)}**\nCanais:             **${pad(qtdChannels, lengthMax)}**\nServidores:     **${pad(qtdServers, lengthMax)}**`)  
         .setTimestamp()
         .setFooter(client.user.tag)
@@ -222,9 +220,68 @@ client.on("guildDelete", guild => {
 
 });
 
-client.on("message", async message => {
-    if(message.author.bot || message.channel.type == "dm") return;
 
+
+
+client.on("message", async message => {
+    if(message.author.bot) return;
+    
+
+    const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
+    const comando = args.shift().toLowerCase()
+    const firstWord = message.content.trim().split(/ +/g).shift().toLowerCase()
+    const helpEmbed = new Discord.MessageEmbed() 
+        .setColor(hex.white)
+        .setURL('https://github.com/joaoscoelho/Coffe')
+        .setAuthor(message.author.tag, (message.author.avatarURL() === null) ? '' : message.author.avatarURL())
+        .setTitle(`Central de auto-atendimento **${client.user.username}**`)
+        .setDescription(`Como posso ajuda Sr(a) ${message.author.username}?`)
+        .addFields(
+            {name: `[1] - Comandos Básicos`, value: `Lista de todos os comandos considerados básicos`},
+            {name: `[2] - Comandos de moderação`, value: `Lista de todos os comandos usados para moderação`}
+        )
+        .setTimestamp()
+        .setFooter(client.user.tag)
+
+    if(message.channel.type === 'dm') {
+        if(message.channel.messages.cache.map(message => message)[message.channel.messages.cache.size-2].content === 'helpEmbed') {
+            switch (firstWord) {
+                case '1':
+                case '[1]':
+                    message.channel.send(`Aqui está a lista dos comandos básicos!`);
+                    break;
+                case '2':
+                case '[2]':
+                    message.channel.send(`Aqui está a lista dos comandos de moderação!`);
+                    break;
+                default: 
+                    message.channel.send(`Opção inválida, use uma das opções mencionadas na embed!`);
+            }
+        }
+    } else {
+
+        if(firstWord == `<@${client.user.id}>` || firstWord === '!ajuda') {
+            const msg = await message.author.send(helpEmbed);
+            msg.content = 'helpEmbed'
+        }
+
+        // Todos os comandos que começam com o prefixo
+        if(message.content.startsWith(config.prefix)) {
+            if(comando === 'ping') {
+                const m = await message.channel.send("Ping?");
+                m.edit(`Pong! A latência é ${m.createdTimestamp - message.createdTimestamp}ms. A latência da API é ${Math.round(client.ws.ping)}ms`);
+            };
+        }
+    }
 });
+
+
+// Evento acionado quando algum usuário adiciona uma reação em uma mensagem
+client.on("messageReactionAdd", async react => {});
+
+
+// Evento não documentado
+client.on("raw", async raw => {});
+
 
 client.login(config.token)

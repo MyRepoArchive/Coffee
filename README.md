@@ -3,10 +3,25 @@
 ## Português
 Um Bot para o Discord de código aberto, que usa a biblioteca [Discord.js](https://discord.js.org/#/)!
 
+### Aviso
+**Antes de tudo, para seu bot funcionar corretamente, entre no arquivo *index.js* e modifique a linha de número 3:**
+```js
+const config = require("./info.json");
+```
+para:
+```js
+const config = require("./config.json");
+```
+
 ### Como usar?
 Para rodar o bot na sua máquina, primeiramente você deve ter instalado o **Node js**, e ter [criado um bot na área de desenvolvedor do Discord](#Criando-bot-no-discord).
 Após esses dois passos concluídos, copie o *token* do seu bot, e cole na área reservada para o token no arquivo **config.json** dentro dos arquivos do bot.
-Se você julgar necessário colocar o seu ID, coloque-o na área que lhe é reservada no mesmo arquivo *config.json*.
+Neste mesmo arquivo **config.json**, você vai perceber que existe uma informação que se chama: 
+```json
+"logPrincipal": "Id da sala que você deseja que seja o log do seu bot"
+```
+você vai preencher ela com o ID de algum canal de texto de algum servidor (O bot deve estar neste servidor e ter permissão para enviar mensagens!), recomendo que você crie um servidor próprio para o Bot e crie um canal de log.
+Coloque seu ID na área que lhe é reservada no mesmo arquivo *config.json*!
 
 Se você estiver utilizando o **Visual Studio Code** como editor de códigos, nele abra a pasta do bot, em seguida abra o terminal, e execute dentro do terminal o seguinte comando:
 ```
@@ -18,6 +33,8 @@ E pronto, seu bot ficará online, mostrando no terminal a quantidade de pessoas,
 **LEMBRE-SE que seu bot só ficará online enquanto sua máquina estiver ligada, ou até o momento que você parar de rodar o bot (pode usar *"CTRL + C"* dentro do terminal para parar o bot).**
 
 [...]README INCOMPLETO
+
+---
 
 ## English
 An open source Discord Bot, using the [Discord.js](https://discord.js.org/#/) library!

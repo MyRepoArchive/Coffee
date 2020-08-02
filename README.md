@@ -17,7 +17,7 @@ const config = require("./config.json");
 ```
 
 #### Links
-[Como usar](#Como-usar?) |
+[Como usar](#Como-usar) |
 [Criando bot no Discord](#Criando-bot-no-discord)
 
 ### Como usar?

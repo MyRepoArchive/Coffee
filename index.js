@@ -1,3 +1,4 @@
+const fs = require('fs');
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const config = require("./info.json");
@@ -6,7 +7,37 @@ const Data = new Date;
 // CORES PARA COLORIR TERMINAL
 const consoleColors = ['\033[0m', '\033[30m', '\033[31m', '\033[32m', '\033[33m', '\033[34m', '\033[35m', '\033[36m', '\033[37m'];
 // 0 = reset; 1 = black; 2 = red; 3 = green; 4 = yellow; 5 = roxo; 6 = magenta; 7 = cyan; 8 = white;
+client.commands = new Discord.Collection();
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
+for (const file of commandFiles) {
+    const command = require(`./commands/${file}`);
+    client.commands.set(command.name, command);
+    client.commands.set(command.name2, command);
+    client.commands.set(command.name3, command);
+    client.commands.set(command.name4, command);
+    client.commands.set(command.name5, command);
+    client.commands.set(command.name6, command);
+    client.commands.set(command.name7, command);
+    client.commands.set(command.name8, command);
+    client.commands.set(command.name9, command);
+    client.commands.set(command.name10, command);
+    client.commands.set(command.name11, command);
+    client.commands.set(command.name12, command);
+    client.commands.set(command.name13, command);
+    client.commands.set(command.name14, command);
+    client.commands.set(command.name15, command);
+    client.commands.set(command.name16, command);
+    client.commands.set(command.name17, command);
+    client.commands.set(command.name18, command);
+    client.commands.set(command.name19, command);
+    client.commands.set(command.name20, command);
+    client.commands.set(command.name21, command);
+    client.commands.set(command.name22, command);
+    client.commands.set(command.name23, command);
+    client.commands.set(command.name24, command);
+    client.commands.set(command.name25, command);
+}
 
 // Função que muda o que o bot exibe no "Activity" a cada 30 segundos
 let intervalActivity = null;
@@ -220,24 +251,14 @@ client.on("guildDelete", guild => {
 
 
 // Evento acionado quando alguém manda alguma mensagem no chat
-client.on("message", async message => {
-    if(message.author.bot) return;
-    
+client.on("message", async message => { 
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
     const comando = args.shift().toLowerCase()
     const firstWord = message.content.trim().split(/ +/g).shift().toLowerCase()
-    const helpEmbed = new Discord.MessageEmbed() 
-        .setColor(hex.white)
-        .setURL('https://github.com/joaoscoelho/Coffe')
-        .setAuthor(message.author.tag, (message.author.avatarURL() === null) ? '' : message.author.avatarURL())
-        .setTitle(`Central de auto-atendimento **${client.user.username}**`)
-        .setDescription(`Como posso ajuda Sr(a) ${message.author.username}?`)
-        .addFields(
-            {name: `[1] - Comandos Básicos`, value: `Lista de todos os comandos considerados básicos`},
-            {name: `[2] - Comandos de moderação`, value: `Lista de todos os comandos usados para moderação`}
-        )
-        .setTimestamp()
-        .setFooter(client.user.tag)
+    const logChannel = client.channels.cache.filter(canais => canais.id == config.logPrincipal).find(log => log);
+    const logErrorChannel = client.channels.cache.filter(canais => canais.id == config.logErro).find(log => log);
+    
+    if(message.author.bot) return;
 
     // Comandos por DM
     if(message.channel.type === 'dm') {
@@ -258,29 +279,48 @@ client.on("message", async message => {
                     message.channel.send(`Opção inválida, use uma das opções mencionadas na embed!`);
             }
         }
-    } else {
+    } 
+    
+    if(message.channel.type === 'dm')return;
 
-        if(firstWord == `<@${client.user.id}>` || firstWord === '!ajuda') {
-            const msg = await message.author.send(helpEmbed);
-            msg.react('🔄')
-            msg.content = 'helpEmbed'
-        }
+    // Comandos que não precisam começar com o prefixo
+    if(firstWord == `<@${client.user.id}>` || firstWord === '!ajuda') {
+        const helpEmbed = new Discord.MessageEmbed() 
+            .setColor(hex.white)
+            .setURL('https://github.com/joaoscoelho/Coffe')
+            .setAuthor(message.author.tag, (message.author.avatarURL() === null) ? '' : message.author.avatarURL())
+            .setTitle(`Central de auto-atendimento **${client.user.username}**`)
+            .setDescription(`Como posso ajuda Sr(a) ${message.author.username}?`)
+            .addFields(
+                {name: `[1] - Comandos Básicos`, value: `Lista de todos os comandos considerados básicos`},
+                {name: `[2] - Comandos de moderação`, value: `Lista de todos os comandos usados para moderação`}
+            )
+            .setTimestamp()
+            .setFooter(client.user.tag)
 
+        const msg = await message.author.send(helpEmbed);
+        msg.react('🔄')
+        msg.content = 'helpEmbed'
+    }
 
-        // Todos os comandos que começam com o prefixo
-        if(message.content.startsWith(config.prefix)) {
+    // Todos os comandos que começam com o prefixo
+    if(!message.content.startsWith(config.prefix))return;
+    message.guild.channels.create('nome', {})
 
-            if(comando === 'ping') {
-                
-            };
-
-            if(message.member.hasPermission('MANAGE_CHANNELS')) {
-                if(comando === 'createChannel') {
-                    message.guild.channels.add()
-                }
-            }
-        }
-    }  
+    if(!client.commands.has(comando)) return;
+    try {
+        client.commands.get(comando).execute(message, args, comando);
+    } catch (error) {
+        const errorEmbed = new Discord.MessageEmbed()
+            .setTitle(`Erro ao executar comando ${comando}`)
+            .setDescription(`Houve um erro ao executar o comando **${comando}**, no servidor **${message.guild.name}**. Quem executou foi **${message.author.tag}** (**${message.member.permissions}**). O dono do servidor se chama **${message.guild.owner.user.tag}**`)
+            .setColor(hex.orangered)
+            .setTimestamp()
+            .setFooter(`${client.user.tag} log sistem`)
+        console.log(error);
+        message.reply('Houve um erro ao executar esse comando! A Equipe já foi informada!')
+        logErrorChannel.send(errorEmbed)
+    }
 });
 
 

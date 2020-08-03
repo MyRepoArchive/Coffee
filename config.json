@@ -2,5 +2,6 @@
     "prefix": "!",
     "owner": "Seu ID",
     "token": "Token do seu bot",
-    "logPrincipal": "Id da sala que você deseja que seja o log do seu bot" 
+    "logPrincipal": "Id da sala que você deseja que seja o log do seu bot" ,
+    "logErro": "Id da sala que você deseja que seja o log de erros do seu bot"
 }

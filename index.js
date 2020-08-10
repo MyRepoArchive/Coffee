@@ -84,14 +84,12 @@ client.on("ready", () => {
     const qtdServers = nameServers.length;
     const qtdUsers = client.users.cache.size;
     const qtdChannels = client.channels.cache.size;
-    const logChannel = client.channels.cache.filter(canais => canais.id == config.logPrincipal).find(log => log);
+    const logChannel = client.channels.cache.get(config.logPrincipal);
     let lengthMax = (''+qtdChannels).length;
-    
     
     if((''+qtdServers).length > lengthMax) {lengthMax = (''+qtdServers).length};
     if((''+qtdUsers).length > lengthMax) {lengthMax = (''+qtdUsers).length};
     if(lengthMax < 3) {lengthMax = 3};
-
 
     // Função que mostra o nome de todos os servidores até que eles ocupem 900 caracteres de tamanho
     function mostrarServersBlock() {
@@ -138,7 +136,6 @@ client.on("ready", () => {
     changeActivity()
 });
 
-
 // Evento acionado quando o bot entra em um novo servidor
 client.on("guildCreate", guild => {
     const guildName = guild.name
@@ -146,13 +143,13 @@ client.on("guildCreate", guild => {
     const guildId = guild.id
     const guildMemberCount = guild.memberCount
     const guildChannelCount = guild.channels.cache.size
-    const guildOwnerTag = client.users.cache.filter(user => user.id == guild.owner.id).map(dono => dono.tag)
+    const guildOwnerTag = client.users.cache.get(guild.ownerID).tag
     const guildAdmins = guild.members.cache.filter(member => member.hasPermission("ADMINISTRATOR")).map(member => member.displayName).join(', ')
     const nameServers = client.guilds.cache.map(server => server.name);
     const qtdServers = nameServers.length;
     const qtdUsers = client.users.cache.size;
     const qtdChannels = client.channels.cache.size;
-    const logChannel = client.channels.cache.filter(canais => canais.id == config.logPrincipal).find(log => log);
+    const logChannel = client.channels.cache.get(config.logPrincipal);
     let lengthMax = (''+qtdChannels).length;
     
     
@@ -194,7 +191,6 @@ client.on("guildCreate", guild => {
 
 });
 
-
 // Evento acionado quando o bot sai de algum servidor
 client.on("guildDelete", guild => {
     const guildName = guild.name
@@ -202,13 +198,13 @@ client.on("guildDelete", guild => {
     const guildId = guild.id
     const guildMemberCount = guild.memberCount
     const guildChannelCount = guild.channels.cache.size
-    const guildOwnerTag = client.users.cache.filter(user => user.id == guild.owner.id).map(dono => dono.tag)
+    const guildOwnerTag = client.users.cache.get(guild.ownerID).tag
     const guildAdmins = guild.members.cache.filter(member => member.hasPermission("ADMINISTRATOR")).map(member => member.displayName).join(', ')
     const nameServers = client.guilds.cache.map(server => server.name);
     const qtdServers = nameServers.length;
     const qtdUsers = client.users.cache.size;
     const qtdChannels = client.channels.cache.size;
-    const logChannel = client.channels.cache.filter(canais => canais.id == config.logPrincipal).find(log => log);
+    const logChannel = client.channels.cache.get(config.logPrincipal);
     let lengthMax = (''+qtdChannels).length;
     
     
@@ -249,67 +245,75 @@ client.on("guildDelete", guild => {
 
 });
 
-
 // Evento acionado quando alguém manda alguma mensagem no chat
 client.on("message", async message => { 
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
-    const comando = args.shift().toLowerCase()
-    const firstWord = message.content.trim().split(/ +/g).shift().toLowerCase()
-    const logChannel = client.channels.cache.filter(canais => canais.id == config.logPrincipal).find(log => log);
-    const logErrorChannel = client.channels.cache.filter(canais => canais.id == config.logErro).find(log => log);
+    const comando = args.shift().toLowerCase();
+    const firstWord = message.content.trim().split(/ +/g).shift().toLowerCase();
+    const logErrorChannel = client.channels.cache.get(config.logErro);
+
+    if(message.channel.messages.cache.filter(messagem => messagem.author.id === client.user.id).map(msg => msg)[message.channel.messages.cache.filter(messagem => messagem.author.id === client.user.id).map(msg => msg).length-1] !== undefined) {
+        let nomeChannel = null
+        let tipoChannel = null
+        if(message.channel.messages.cache.filter(messagem => messagem.author.id === client.user.id).map(msg => msg)[message.channel.messages.cache.filter(messagem => messagem.author.id === client.user.id).map(msg => msg).length-1].embeds[0].title === `Olá ${message.author.username}, vamos configurar como será seu novo canal!?`) {
+            const embedTipo = new Discord.MessageEmbed()
+                .setColor(hex.beige)
+                .setTitle(`${message.author.username}, qual vai ser o tipo desse canal?`)
+                .setDescription(`Digite abaixo o tipo do novo canal!`)
+                .addField(`Tipos`, `text\nvoice\ncategory`)
+                .setTimestamp()
+                .setFooter(client.user.username, client.user.avatarURL())
+            if(nomeChannel === null) {
+                nomeChannel = message.content;
+                console.log(nomeChannel)
+                message.delete()
+                message.channel.messages.cache.filter(messagem => messagem.author.id === client.user.id).filter(messagem => messagem.embeds[0].title === `Olá ${message.author.username}, vamos configurar como será seu novo canal!?`).last().edit(embedTipo)
+                return;
+            } 
+        } else if (message.channel.messages.cache.filter(messagem => messagem.author.id === client.user.id).map(msg => msg)[message.channel.messages.cache.filter(messagem => messagem.author.id === client.user.id).map(msg => msg).length-1].embeds[0].title === `${message.author.username}, qual vai ser o tipo desse canal?`) {
+            const embedParent = new Discord.MessageEmbed()
+                .setColor(hex.beige)
+                .setTitle(`${message.author.username}, esse canal deve ficar dentro de qual categoria?`)
+                .setDescription(`Digite abaixo a categoria do novo canal!`)
+                .addField(`Categorias`, `nenhuma\n${message.guild.channels.cache.filter(canal => canal.type === 'category').map(canal => canal).join('\n')}`)
+                .setTimestamp()
+                .setFooter(client.user.username, client.user.avatarURL())
+            if(tipoChannel === null) {
+                tipoChannel = message.content;
+                console.log(tipoChannel)
+                console.log(nomeChannel)
+                message.delete()
+                message.channel.messages.cache.filter(messagem => messagem.author.id === client.user.id).filter(messagem => messagem.embeds[0].title === `${message.author.username}, qual vai ser o tipo desse canal?`).last().edit(embedParent)
+                return;
+            }         
+        }
+        
+    }
+    
+    
     
     if(message.author.bot) return;
-
-    // Comandos por DM
-    if(message.channel.type === 'dm') {
-        const penultMsg = message.channel.messages.cache.map(message => message)[message.channel.messages.cache.size-2]
-        const anteAntePenultMsg = message.channel.messages.cache.map(message => message)[message.channel.messages.cache.size-4]
-        if(penultMsg === undefined)return;
-        if(penultMsg.content === 'helpEmbed' || anteAntePenultMsg.content === 'helpEmbed') {
-            switch (firstWord) {
-                case '1':
-                case '[1]':
-                    message.channel.send(`Aqui está a lista dos comandos básicos!`);
-                    break;
-                case '2':
-                case '[2]':
-                    message.channel.send(`Aqui está a lista dos comandos de moderação!`);
-                    break;
-                default: 
-                    message.channel.send(`Opção inválida, use uma das opções mencionadas na embed!`);
-            }
-        }
-    } 
-    
     if(message.channel.type === 'dm')return;
-
-    // Comandos que não precisam começar com o prefixo
-    if(firstWord == `<@${client.user.id}>` || firstWord === '!ajuda') {
-        const helpEmbed = new Discord.MessageEmbed() 
-            .setColor(hex.white)
-            .setURL('https://github.com/joaoscoelho/Coffe')
-            .setAuthor(message.author.tag, (message.author.avatarURL() === null) ? '' : message.author.avatarURL())
-            .setTitle(`Central de auto-atendimento **${client.user.username}**`)
-            .setDescription(`Como posso ajuda Sr(a) ${message.author.username}?`)
+    if(firstWord === `<@${client.user.id}>`) {message.reply(`Alguém me chamou??🤗 Se estiver precisando de ajuda, use ${config.prefix}ajuda!`)}
+    if(!message.content.startsWith(config.prefix))return;
+    if(comando === "createfullchannel") {
+        const configNewChannel = new Discord.MessageEmbed()
+            .setTitle(`Olá ${message.author.username}, vamos configurar como será seu novo canal!?`)
             .addFields(
-                {name: `[1] - Comandos Básicos`, value: `Lista de todos os comandos considerados básicos`},
-                {name: `[2] - Comandos de moderação`, value: `Lista de todos os comandos usados para moderação`}
+                { name: `Como será o nome do novo canal?`, value: `${message.author.username}, digite abaixo o nome do novo canal!\nNão se preocupe, sua mensagem será apagada!` }
             )
             .setTimestamp()
-            .setFooter(client.user.tag)
-
-        const msg = await message.author.send(helpEmbed);
-        msg.react('🔄')
-        msg.content = 'helpEmbed'
+            .setFooter(client.user.username, client.user.avatarURL())
+        await message.channel.send(configNewChannel)
     }
-
-    // Todos os comandos que começam com o prefixo
-    if(!message.content.startsWith(config.prefix))return;
-    message.guild.channels.create('nome', {})
-
+    
     if(!client.commands.has(comando)) return;
+
+    
+    
+
     try {
-        client.commands.get(comando).execute(message, args, comando);
+        client.commands.get(comando).execute(message, args, comando, client);
     } catch (error) {
         const errorEmbed = new Discord.MessageEmbed()
             .setTitle(`Erro ao executar comando ${comando}`)
@@ -317,41 +321,82 @@ client.on("message", async message => {
             .setColor(hex.orangered)
             .setTimestamp()
             .setFooter(`${client.user.tag} log sistem`)
+        await message.reply('Houve um erro ao executar esse comando! A Equipe já foi informada!')
+        await logErrorChannel.send(errorEmbed)
         console.log(error);
-        message.reply('Houve um erro ao executar esse comando! A Equipe já foi informada!')
-        logErrorChannel.send(errorEmbed)
     }
 });
-
 
 // Evento acionado quando algum usuário adiciona uma reação em uma mensagem
 client.on("messageReactionAdd", async react => {
-    if(react.me === true && react.count > 1 && react.message.content === 'helpEmbed') {
-
-        const author = react.users.cache.find(user => user.id !== client.user.id)
-        const helpEmbed = new Discord.MessageEmbed() 
-        .setColor(hex.white)
-        .setURL('https://github.com/joaoscoelho/Coffe')
-        .setAuthor(author.tag, (author.avatarURL() === null) ? '' : author.avatarURL())
-        .setTitle(`Central de auto-atendimento **${client.user.username}**`)
-        .setDescription(`Como posso ajuda Sr(a) ${author.username}?`)
-        .addFields(
-            {name: `[1] - Comandos Básicos`, value: `Lista de todos os comandos considerados básicos`},
-            {name: `[2] - Comandos de moderação`, value: `Lista de todos os comandos usados para moderação`}
-        )
-        .setTimestamp()
-        .setFooter(client.user.tag)
-
-
-        const msg = await react.message.channel.send(helpEmbed)
-        msg.react('🔄')
-        msg.content = 'helpEmbed'
+    if(react.me === true && react.count > 1 && react.message.embeds[0].title === `Central de auto-atendimento ${client.user.username}`) {
+        const commandList = {
+            basic: {
+                color: hex.lightblue,
+                title: 'Comandos básicos',
+                author: {
+                    name: react.users.cache.find(user => user).username,
+                    icon_url: react.users.cache.find(user => user).avatarURL(),
+                },
+                fields: [
+                    {
+                        name: `${config.prefix}ping`,
+                        value: 'Responde com a latência do BOT e da API',
+                    },
+                    {
+                        name: `${config.prefix}ajuda`,
+                        value: 'Envia na DM da pessoa uma mensagem de ajuda',
+                    },
+                ],
+                timestamp: new Date(),
+                footer: {
+                    text: `Serviço de auto-atendimento ${client.user.username}`,
+                    icon_url: client.user.avatarURL(),
+                },
+            },
+            mod: {
+                color: hex.lightblue,
+                title: 'Comandos de moderação',
+                author: {
+                    name: react.users.cache.find(user => user).username,
+                    icon_url: react.users.cache.find(user => user).avatarURL(),
+                },
+                timestamp: new Date(),
+                footer: {
+                    text: `Serviço de auto-atendimento ${client.user.username}`,
+                    icon_url: client.user.avatarURL(),
+                },
+            },
+            manager: {
+                color: hex.lightblue,
+                title: 'Comandos de gerenciamento do servidor',
+                author: {
+                    name: react.users.cache.find(user => user).username,
+                    icon_url: react.users.cache.find(user => user).avatarURL(),
+                },
+                fields: [
+                    {
+                        name: `${config.prefix}criarCanal *nome* *tipo*`,
+                        value: 'Cria um canal novo no servidor\n\nObs: *Deve ser colocado o nome do canal logo após o comando e o tipo do canal logo após o nome (**text** ou **voice**), caso não seja colocado um nome e um tipo, será criado um canal com nome padrão e tipo **text**.\n\n Caso queira manter o nome padrão e alterar o tipo, use **auto** (entre crases) no lugar do nome. Caso queira deixar o tipo padrão e alterar o nome, basta ignorar o tipo.*',
+                    },
+                ],
+                timestamp: new Date(),
+                footer: {
+                    text: `Serviço de auto-atendimento ${client.user.username}`,
+                    icon_url: client.user.avatarURL(),
+                },
+            },
+        };
+        if(react.emoji.name === '1️⃣') {
+            react.message.channel.send({ embed: commandList.basic });
+        }
+        if(react.emoji.name === '2️⃣') {
+            react.message.channel.send({ embed: commandList.mod });
+        }
+        if(react.emoji.name === '3️⃣') {
+            react.message.channel.send({ embed: commandList.manager });
+        }
     }
 });
-
-
-// Evento não documentado
-client.on("raw", async raw => {});
-
 
 client.login(config.token)

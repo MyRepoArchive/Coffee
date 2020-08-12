@@ -23,11 +23,12 @@ const config = require("./config.json");
 ### Como usar?
 Para rodar o bot na sua máquina, primeiramente você deve ter instalado o **Node js**, e ter [criado um bot na área de desenvolvedor do Discord](#Criando-bot-no-discord).
 Após esses dois passos concluídos, copie o *token* do seu bot, e cole na área reservada para o token no arquivo **config.json** dentro dos arquivos do bot.
-Neste mesmo arquivo **config.json**, você vai perceber que existe uma informação que se chama: 
+Neste mesmo arquivo **config.json**, você vai perceber que existem duas informações que se chamam: 
 ```json
-"logPrincipal": "Id da sala que você deseja que seja o log do seu bot"
+"logPrincipal": "Id da sala que você deseja que seja o log do seu bot",
+"logErro": "Id da sala que você deseja que seja o log de erros do seu bot"
 ```
-você vai preencher ela com o ID de algum canal de texto de algum servidor (O bot deve estar neste servidor e ter permissão para enviar mensagens!), recomendo que você crie um servidor próprio para o Bot e crie um canal de log.
+você vai preencher elas com o ID de algum canal de texto de algum servidor (O bot deve estar neste servidor e ter permissão para enviar mensagens!), recomendo que você crie um servidor próprio para o bot e crie um canal de log (também pode criar um canal de erros).
 Coloque seu ID na área que lhe é reservada no mesmo arquivo *config.json*!
 
 Se você estiver utilizando o **Visual Studio Code** como editor de códigos, nele abra a pasta do bot, em seguida abra o terminal, e execute dentro do terminal o seguinte comando:
@@ -80,4 +81,24 @@ And ready, your bot will be online, showing in the terminal the amount of people
 
 **REMEMBER that your bot will only be online while your machine is on, or until the moment you stop running the bot (you can use *"CTRL + C"* inside the terminal to stop the bot).**
 
+### Creating bot on discord
+You need to create an application on discord so that the code has nowhere to "run". If you don't know how to do this, follow these steps:
+
+1. Visit the [official discord website](https://discord.com/new)
+2. Search for the *"Developer Area"*
+    ![dev-area](image/devarea-en.PNG)
+3. Within the Developer portal click on *"Applications"*!
+    ![applications](image/developer-aplications.PNG)
+4. Click *"New Applications"*
+    ![new-app](image/new-app.PNG)
+5. Enter the name of your bot and click *"Create"*
+    ![create-name](image/create-name.PNG)
+6. On the left side, click on *"Bot"*, then on *"Add Bot"* and confirm!
+    ![add-bot](image/add-bot.PNG)
+    ![comfirm-add-bot](image/confirm-add-bot.PNG)
+7. Ready! Your bot has been created, now copy the **Token** and paste it into the **config.json** of your bot!
+    ![token](image/token.PNG)
+
+
+    
 [...]INCOMPLETE RADME

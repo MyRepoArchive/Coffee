@@ -252,66 +252,12 @@ client.on("message", async message => {
     const firstWord = message.content.trim().split(/ +/g).shift().toLowerCase();
     const logErrorChannel = client.channels.cache.get(config.logErro);
 
-    if(message.channel.messages.cache.filter(messagem => messagem.author.id === client.user.id).map(msg => msg)[message.channel.messages.cache.filter(messagem => messagem.author.id === client.user.id).map(msg => msg).length-1] !== undefined) {
-        let nomeChannel = null
-        let tipoChannel = null
-        if(message.channel.messages.cache.filter(messagem => messagem.author.id === client.user.id).map(msg => msg)[message.channel.messages.cache.filter(messagem => messagem.author.id === client.user.id).map(msg => msg).length-1].embeds[0].title === `Olá ${message.author.username}, vamos configurar como será seu novo canal!?`) {
-            const embedTipo = new Discord.MessageEmbed()
-                .setColor(hex.beige)
-                .setTitle(`${message.author.username}, qual vai ser o tipo desse canal?`)
-                .setDescription(`Digite abaixo o tipo do novo canal!`)
-                .addField(`Tipos`, `text\nvoice\ncategory`)
-                .setTimestamp()
-                .setFooter(client.user.username, client.user.avatarURL())
-            if(nomeChannel === null) {
-                nomeChannel = message.content;
-                console.log(nomeChannel)
-                message.delete()
-                message.channel.messages.cache.filter(messagem => messagem.author.id === client.user.id).filter(messagem => messagem.embeds[0].title === `Olá ${message.author.username}, vamos configurar como será seu novo canal!?`).last().edit(embedTipo)
-                return;
-            } 
-        } else if (message.channel.messages.cache.filter(messagem => messagem.author.id === client.user.id).map(msg => msg)[message.channel.messages.cache.filter(messagem => messagem.author.id === client.user.id).map(msg => msg).length-1].embeds[0].title === `${message.author.username}, qual vai ser o tipo desse canal?`) {
-            const embedParent = new Discord.MessageEmbed()
-                .setColor(hex.beige)
-                .setTitle(`${message.author.username}, esse canal deve ficar dentro de qual categoria?`)
-                .setDescription(`Digite abaixo a categoria do novo canal!`)
-                .addField(`Categorias`, `nenhuma\n${message.guild.channels.cache.filter(canal => canal.type === 'category').map(canal => canal).join('\n')}`)
-                .setTimestamp()
-                .setFooter(client.user.username, client.user.avatarURL())
-            if(tipoChannel === null) {
-                tipoChannel = message.content;
-                console.log(tipoChannel)
-                console.log(nomeChannel)
-                message.delete()
-                message.channel.messages.cache.filter(messagem => messagem.author.id === client.user.id).filter(messagem => messagem.embeds[0].title === `${message.author.username}, qual vai ser o tipo desse canal?`).last().edit(embedParent)
-                return;
-            }         
-        }
-        
-    }
-    
-    
-    
     if(message.author.bot) return;
     if(message.channel.type === 'dm')return;
     if(firstWord === `<@${client.user.id}>`) {message.reply(`Alguém me chamou??🤗 Se estiver precisando de ajuda, use ${config.prefix}ajuda!`)}
     if(!message.content.startsWith(config.prefix))return;
-    if(comando === "createfullchannel") {
-        const configNewChannel = new Discord.MessageEmbed()
-            .setTitle(`Olá ${message.author.username}, vamos configurar como será seu novo canal!?`)
-            .addFields(
-                { name: `Como será o nome do novo canal?`, value: `${message.author.username}, digite abaixo o nome do novo canal!\nNão se preocupe, sua mensagem será apagada!` }
-            )
-            .setTimestamp()
-            .setFooter(client.user.username, client.user.avatarURL())
-        await message.channel.send(configNewChannel)
-    }
-    
     if(!client.commands.has(comando)) return;
-
     
-    
-
     try {
         client.commands.get(comando).execute(message, args, comando, client);
     } catch (error) {

@@ -15,8 +15,6 @@ module.exports = {
         const permissoesBot = message.channel.memberPermissions(botMembro)
         const podeEnviarMsg = permissoesBot.has("SEND_MESSAGES")
         const podeAddReactions = permissoesBot.has("ADD_REACTIONS")
-        const comandosGerais = [...new Set(client.commands.filter(comando => comando.type === 'geral').map(comando => comando.name))]
-        const descComandosGerais = [...new Set(client.commands.filter(comando => comando.type === 'geral').map(comando => comando.description))]
         const tiposComandos = [...new Set(client.commands.map(comando => comando.type))]
         const emojiArray = ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟']
         const helpEmbed = new Discord.MessageEmbed()

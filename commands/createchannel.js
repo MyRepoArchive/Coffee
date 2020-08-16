@@ -1,4 +1,3 @@
-const { description, execute } = require("./ping") 
 const Discord = require('discord.js') // Lib
 const hex = require('../colors.json') // Json das cores
 
@@ -11,11 +10,13 @@ module.exports = {
     name5: "novocanal",
     name6: "gerarcanal",
     name7: "generatechannel",
+    type: "Gerenciamento",
     description: "Cria um canal novo no servidor",
     // Execução do comando
     async execute(message, args, comando, client) {
+        const usernameFormatado = message.author.username.split(/ +/g).join('-')
         // Verifica se o usuário definiu o nome e o tipo do canal, logo após passa seus argumentos para minúsculas
-        if(args[0] === undefined || args[0] === '`auto`' ) {args[0] = `new-channel-by-${message.author.username}`}
+        if(args[0] === undefined || args[0] === '`auto`' ) {args[0] = `new-channel-by-${usernameFormatado}`}
         if(args[1] === undefined) {args[1] = 'text'}
         args[0] = args[0].toLowerCase()
         args[1] = args[1].toLowerCase()
@@ -60,7 +61,7 @@ module.exports = {
         }
 
         await message.guild.channels.create(args[0], { type: args[1] })
-        const canais = message.guild.channels.cache.filter(channel => channel.name === args[0]).array()
+        const canais = await message.guild.channels.cache.filter(channel => channel.name === args[0]).array()
         const embed = new Discord.MessageEmbed()
             .setColor(hex.green)
             .setTitle("Novo canal criado")

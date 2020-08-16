@@ -3,6 +3,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const config = require("./info.json");
 const hex = require('./colors.json');
+const help = require('./commands/help');
 const Data = new Date;
 // CORES PARA COLORIR TERMINAL
 const consoleColors = ['\033[0m', '\033[30m', '\033[31m', '\033[32m', '\033[33m', '\033[34m', '\033[35m', '\033[36m', '\033[37m'];
@@ -300,9 +301,14 @@ client.on("messageReactionAdd", async react => {
         const emojiArray = ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟']
         const usuario = react.users.cache.find(user => user.id !== client.user.id)
         const page = parseInt(react.message.embeds[0].footer.text.slice(react.message.embeds[0].footer.text.split('').lastIndexOf('(') + 1).split('').shift())
-        const comandos = client.commands.filter(comando => comando.type === tiposComandos[emojiArray.indexOf(react.emoji.name) + (page * 11 - 11)])
-        const nameComandos = [...new Set(comandos.map(comando => comando.name))]
-        const descComandos = [...new Set(comandos.map(comando => comando.description))]
+        const oldEmbed = new Discord.MessageEmbed()
+            .setColor(hex.white)
+            .setURL(config.commandsURL) // Aqui você pode colocar algum outro link
+            .setAuthor(usuario.username, usuario.displayAvatarURL())
+            .setTitle(`Central de atendimento ${client.user.username}`)
+            .setDescription(`Eu acabei de enviar uma nova mensagem com as outras opções, role o chat para baixo e confira! ⏬`)
+            .setTimestamp()
+            .setFooter(`Sistema de ajuda ${client.user.username} (${page}/${(tiposComandos.length % 11 > 0) ? parseInt(tiposComandos.length / 11) + 1 : parseInt(tiposComandos.length / 11)})`)
         if(react.emoji.name === '⏩') {
             const helpEmbed = new Discord.MessageEmbed()
                 .setColor(hex.white)
@@ -312,29 +318,83 @@ client.on("messageReactionAdd", async react => {
                 .setDescription(`Selecione o tipo de comando que você deseja procurar!`)
                 .setTimestamp()
                 .setFooter(`Sistema de ajuda ${client.user.username} (${page+1}/${(tiposComandos.length % 11 > 0) ? parseInt(tiposComandos.length / 11) + 1 : parseInt(tiposComandos.length / 11)})`)
-                for(let i = 0; i < tiposComandos.length - (page * 11 - 11); i++) {
-                    const exTiposComandos = [...new Set(client.commands.filter(comando => comando.type === tiposComandos[i * (page+1)]).map(comando => comando.name))]
+                for(let i = 0; i < tiposComandos.length - (page * 11); i++) {
+                    const exTiposComandos = [...new Set(client.commands.filter(comando => comando.type === tiposComandos[i + (page * 11)]).map(comando => comando.name))]
                     if(i < emojiArray.length) {
-                        helpEmbed.addField(`${emojiArray[i]} | ${tiposComandos[i * (page+1)]}`, `Exemplo: ${config.prefix}${exTiposComandos[0]}`)
+                        helpEmbed.addField(`${emojiArray[i]} | ${tiposComandos[i + (page * 11)]}`, `Exemplo: ${config.prefix}${exTiposComandos[0]}`)
                     } else {
-                        helpEmbed.addField(`⏩ | Mais tipos`, `Exemplo: ${tiposComandos[i * (page+1)]}`)
+                        helpEmbed.addField(`⏩ | Mais tipos`, `Exemplo: ${config.prefix}${tiposComandos[i + (page * 11)]}`)
                         i = Infinity
                     }
                 }
-            react.message.edit(helpEmbed)
+                helpEmbed.addField(`⏪ | Página anterior`, `Retorne para a página anterior`)
+            await react.message.edit(oldEmbed)
+            const newMsg = await react.message.channel.send(helpEmbed)
+            for(let i = 0; i < tiposComandos.length - (page * 11); i++) {
+                if(i < emojiArray.length) {
+                    newMsg.react(emojiArray[i])
+                } else {
+                    newMsg.react('⏩')
+                    i = Infinity
+                }
+            }
+            newMsg.react('⏪')
             return;
         }
-        console.log(page)
+        if(react.emoji.name === '⏪') {
+            const helpEmbed = new Discord.MessageEmbed()
+                .setColor(hex.white)
+                .setURL(config.commandsURL) // Aqui você pode colocar algum outro link
+                .setAuthor(usuario.username, usuario.displayAvatarURL())
+                .setTitle(`Central de atendimento ${client.user.username}`)
+                .setDescription(`Selecione o tipo de comando que você deseja procurar!`)
+                .setTimestamp()
+                .setFooter(`Sistema de ajuda ${client.user.username} (${page-1}/${(tiposComandos.length % 11 > 0) ? parseInt(tiposComandos.length / 11) + 1 : parseInt(tiposComandos.length / 11)})`)
+                for(let i = 0; i < tiposComandos.length - ((page - 2) * 11); i++) {
+                    const exTiposComandos = [...new Set(client.commands.filter(comando => comando.type === tiposComandos[i + ((page - 2) * 11)]).map(comando => comando.name))]
+                    if(i < emojiArray.length) {
+                        helpEmbed.addField(`${emojiArray[i]} | ${tiposComandos[i + ((page - 2) * 11)]}`, `Exemplo: ${config.prefix}${exTiposComandos[0]}`)
+                    } else {
+                        helpEmbed.addField(`⏩ | Mais tipos`, `Exemplo: ${config.prefix}${tiposComandos[i + ((page - 2) * 11)]}`)
+                        i = Infinity
+                    }
+                }
+            await react.message.edit(oldEmbed)
+            const newMsg = await react.message.channel.send(helpEmbed)
+            for(let i = 0; i < tiposComandos.length - ((page - 2) * 11); i++) {
+                if(i < emojiArray.length) {
+                    newMsg.react(emojiArray[i])
+                } else {
+                    newMsg.react('⏩')
+                    i = Infinity
+                }
+            }
+            if(page - 1 !== 1) {
+                newMsg.react('⏪')
+            }
+            return;
+        }
+        const comandos = client.commands.filter(comando => comando.type === tiposComandos[emojiArray.indexOf(react.emoji.name) + (page * 11 - 11)])
+        const nameComandos = [...new Set(comandos.map(comando => comando.name))]
+        const descComandos = [...new Set(comandos.map(comando => comando.description))]
+        const embed2 = new Discord.MessageEmbed()
         const embed = new Discord.MessageEmbed()
             .setColor(hex.aqua)                
             .setAuthor(usuario.username, usuario.displayAvatarURL())
-            .setTitle(`Comandos do tipo **${tiposComandos[emojiArray.indexOf(react.emoji.name) * page]}**`)
+            .setTitle(`Comandos do tipo **${tiposComandos[emojiArray.indexOf(react.emoji.name) + (page * 11 - 11)]}**`)
             .setTimestamp()
             .setFooter(`Sistema de ajuda ${client.user.username}`, client.user.displayAvatarURL())
             for(let i = 0; i < nameComandos.length; i++) {
-                embed.addField(config.prefix + nameComandos[i], descComandos[i])
+                if(i < 25) {
+                    embed.addField(config.prefix + nameComandos[i], descComandos[i])
+                } else {
+                    embed2.addField(config.prefix + nameComandos[i], descComandos[i])
+                }
             }
-        react.message.channel.send(embed)
+        await react.message.channel.send(embed)
+        if(embed2.fields.length !== 0) {
+            react.message.channel.send(embed2)
+        }
     }
 });
 

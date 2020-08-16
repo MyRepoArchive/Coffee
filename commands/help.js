@@ -32,7 +32,7 @@ module.exports = {
                 if(i < emojiArray.length) {
                     helpEmbed.addField(`${emojiArray[i]} | ${tiposComandos[i]}`, `Exemplo: ${config.prefix}${exTiposComandos[0]}`)
                 } else {
-                    helpEmbed.addField(`⏩ | Mais tipos`, `Exemplo: ${tiposComandos[i]}`)
+                    helpEmbed.addField(`⏩ | Mais tipos`, `Exemplo: ${config.prefix}${tiposComandos[i]}`)
                     i = Infinity
                 }
             }

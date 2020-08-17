@@ -8,7 +8,7 @@ module.exports = {
     name3: "comandos",
     name4: "commands",
     type: "Geral",
-    description: "ajuda",
+    description: "Comando usado quando o usuário necessita de ajuda ou precisa saber os comandos do bot",
 
     async execute(message, args, comando, client) {
         const botMembro = message.guild.member(client.user.id)
@@ -52,10 +52,6 @@ module.exports = {
                 message.react('❌')
             }
         })
-        
-        /* await msg.react('1️⃣')
-        await msg.react('2️⃣')
-        await msg.react('3️⃣') */
     }
 }
   

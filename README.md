@@ -7,7 +7,7 @@
 Um Bot para o Discord de código aberto, que usa a biblioteca [Discord.js](https://discord.js.org/#/)!
 
 ### Aviso
-**Antes de tudo, para seu bot funcionar corretamente, entre no arquivo *index.js*, e no arquivo *help.js* localizado dentro da pasta *commands*, e modifique a linha de número 3:**
+**Antes de tudo, para seu bot funcionar corretamente, entre nos arquivos *index.js*, *help.js* e *createChannel.js* localizados na pasta raíz do bot e dentro da pasta *commands*, respectivamente, e modifique a linha:**
 ```js
 const config = require("./info.json");
 ```
@@ -15,7 +15,7 @@ para:
 ```js
 const config = require("./config.json");
 ```
-**Ou você pode simplesmente trocar o nome do arquivo *config.json* para *info.json*!**
+**Ou você pode simplesmente trocar o nome do arquivo *config.json* para *info.json*! (RECOMENDADO)**
 
 #### Links
 [Como usar](#Como-usar) |

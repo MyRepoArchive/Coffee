@@ -64,30 +64,30 @@ for (const file of reactCommandFiles) {
 let intervalActivity = null;
 function changeActivity() {
     let activityId = 0
-    if(intervalActivity !== null) {
+    if (intervalActivity !== null) {
         clearInterval(intervalActivity)
     }
-    intervalActivity = setInterval(() => {  
+    intervalActivity = setInterval(() => {
         switch (activityId) {
             case 0:
-                client.user.setActivity(`Estou em ${client.guilds.cache.size} servidores`, {type: "STREAMING", url: "https://github.com/joaoscoelho/Coffe"});
+                client.user.setActivity(`Estou em ${client.guilds.cache.size} servidores`, { type: "STREAMING", url: "https://github.com/joaoscoelho/Coffe" });
                 activityId = 1;
                 break;
             case 1:
-                client.user.setActivity(`Temos ${client.users.cache.size} usuários`, {type: "STREAMING", url: "https://github.com/joaoscoelho/Coffe"});
+                client.user.setActivity(`Temos ${client.users.cache.size} usuários`, { type: "STREAMING", url: "https://github.com/joaoscoelho/Coffe" });
                 activityId = 2;
                 break;
             case 2:
-                client.user.setActivity(`Estou a ${(((new Date()) - (Data.getTime()))/60000).toFixed(0)}m ativo`, {type: "STREAMING", url: "https://github.com/joaoscoelho/Coffe"});
+                client.user.setActivity(`Estou a ${(((new Date()) - (Data.getTime())) / 60000).toFixed(0)}m ativo`, { type: "STREAMING", url: "https://github.com/joaoscoelho/Coffe" });
                 activityId = 3;
                 break;
             case 3:
                 const Hora = new Date
-                client.user.setActivity(`Hora ${Hora.getHours()}:${Hora.getMinutes()}`, {type: "STREAMING", url: "https://github.com/joaoscoelho/Coffe"});
+                client.user.setActivity(`Hora ${(Hora.getUTCHours() < 3) ? Hora.getUTCHours()+21 : Hora.getUTCHours()-3}:${Hora.getUTCMinutes()}`, { type: "STREAMING", url: "https://github.com/joaoscoelho/Coffe" });
                 activityId = 0;
                 break;
             default:
-                client.user.setActivity(`Estou em ${client.guilds.cache.size} servidores`, {type: "STREAMING", url: "https://github.com/joaoscoelho/Coffe"});
+                client.user.setActivity(`Estou em ${client.guilds.cache.size} servidores`, { type: "STREAMING", url: "https://github.com/joaoscoelho/Coffe" });
                 activityId = 0;
         }
     }, 30000);
@@ -106,41 +106,41 @@ client.on("ready", () => {
     const qtdUsers = client.users.cache.size;
     const qtdChannels = client.channels.cache.size;
     const logChannel = client.channels.cache.get(config.logPrincipal);
-    let lengthMax = (''+qtdChannels).length;
-    
-    if((''+qtdServers).length > lengthMax) {lengthMax = (''+qtdServers).length};
-    if((''+qtdUsers).length > lengthMax) {lengthMax = (''+qtdUsers).length};
-    if(lengthMax < 3) {lengthMax = 3};
+    let lengthMax = ('' + qtdChannels).length;
+
+    if (('' + qtdServers).length > lengthMax) { lengthMax = ('' + qtdServers).length };
+    if (('' + qtdUsers).length > lengthMax) { lengthMax = ('' + qtdUsers).length };
+    if (lengthMax < 3) { lengthMax = 3 };
 
     // Função que mostra o nome de todos os servidores até que eles ocupem 900 caracteres de tamanho
     function mostrarServersBlock() {
         let result = ''
         let i = 0
-        while(i <= qtdServers-1) {
-            if(result.length > 900) {
+        while (i <= qtdServers - 1) {
+            if (result.length > 900) {
                 result += `[...]`
                 i = Infinity
             } else {
-                result += `**${i+1} - ${nameServers[i]}**\n`
+                result += `**${i + 1} - ${nameServers[i]}**\n`
                 i++
             }
         }
-        
+
         return result
     }
-    
+
 
     // Log de largada do bot no console
-    console.log(consoleColors[7]+"=========================== START ==========================="+consoleColors[0]);
+    console.log(consoleColors[7] + "=========================== START ===========================" + consoleColors[0]);
     console.log(`${consoleColors[3]}-PRONTO!-${consoleColors[0]}`)
     console.log(`População:       ${consoleColors[6]}${pad(qtdUsers, lengthMax)}${consoleColors[0]}`);
     console.log(`Canais:          ${consoleColors[6]}${pad(qtdChannels, lengthMax)}${consoleColors[0]}`);
     console.log(`Servidores:      ${consoleColors[6]}${pad(qtdServers, lengthMax)}${consoleColors[0]}`)
     console.log(`${consoleColors[7]}------------------------- SERVIDORES ------------------------${consoleColors[0]}`);
-    for(let i = 0; i <= qtdServers-1; i++) {
-        console.log(`${i+1} - ${consoleColors[5]}${nameServers[i]}${consoleColors[0]}`)
+    for (let i = 0; i <= qtdServers - 1; i++) {
+        console.log(`${i + 1} - ${consoleColors[5]}${nameServers[i]}${consoleColors[0]}`)
     };
-    console.log(consoleColors[7]+"============================================================="+consoleColors[0]);
+    console.log(consoleColors[7] + "=============================================================" + consoleColors[0]);
 
 
     // Log de largada na sala de log do bot
@@ -149,7 +149,7 @@ client.on("ready", () => {
         .setTitle('-------------------- START --------------------')
         .setAuthor(client.user.username, client.user.avatarURL())
         .addField('------------ STATUS ------------', `População:     **${pad(qtdUsers, lengthMax)}**\nCanais:             **${pad(qtdChannels, lengthMax)}**\nServidores:     **${pad(qtdServers, lengthMax)}**`)
-        .addField('------------ SERVIDORES ------------', mostrarServersBlock())  
+        .addField('------------ SERVIDORES ------------', mostrarServersBlock())
         .setTimestamp()
         .setFooter(client.user.tag, client.user.displayAvatarURL())
     logChannel.send(logEmbed)
@@ -170,14 +170,14 @@ client.on("guildCreate", guild => {
     const qtdUsers = client.users.cache.size;
     const qtdChannels = client.channels.cache.size;
     const logChannel = client.channels.cache.get(config.logPrincipal);
-    let lengthMax = (''+qtdChannels).length;
-    
-    
-    if((''+qtdServers).length > lengthMax) {lengthMax = (''+qtdServers).length};
-    if((''+qtdUsers).length > lengthMax) {lengthMax = (''+qtdUsers).length};
-    if(lengthMax < 3) {lengthMax = 3};
+    let lengthMax = ('' + qtdChannels).length;
 
-    
+
+    if (('' + qtdServers).length > lengthMax) { lengthMax = ('' + qtdServers).length };
+    if (('' + qtdUsers).length > lengthMax) { lengthMax = ('' + qtdUsers).length };
+    if (lengthMax < 3) { lengthMax = 3 };
+
+
     // Log quando o bot entra em um novo servidor
     console.log(`${consoleColors[7]}=================== ENTROU EM UM NOVO SERVIDOR ===================${consoleColors[0]}`)
     console.log(`Nome do Servidor:                   ${consoleColors[5]}${guildName}${consoleColors[0]}`);
@@ -201,12 +201,12 @@ client.on("guildCreate", guild => {
         .setTitle('-------------------- NOVO SERVIDOR --------------------')
         .setThumbnail(guild.iconURL())
         .addField('------------ SERVIDOR ------------', `Nome do Servidor: **${guildName}**\nDescrição: ${(guildDescription == null) ? '**Sem descrição**' : `**"${guildDescription}"**`}\nID do Servidor: **${guildId}**\nPopulação do Servidor: **${pad(guildMemberCount, lengthMax)}**\nCanais do Servidor: **${pad(guildChannelCount, lengthMax)}**\nDono do Servidor: **${guildOwnerTag}**\nID do Owner: **${guild.owner.id}**\nAdmins: **${guildAdmins}**`)
-        .addField('------------- STATUS -------------', `População:     **${pad(qtdUsers, lengthMax)}**\nCanais:             **${pad(qtdChannels, lengthMax)}**\nServidores:     **${pad(qtdServers, lengthMax)}**`)  
+        .addField('------------- STATUS -------------', `População:     **${pad(qtdUsers, lengthMax)}**\nCanais:             **${pad(qtdChannels, lengthMax)}**\nServidores:     **${pad(qtdServers, lengthMax)}**`)
         .setTimestamp()
         .setFooter(client.user.tag)
     logChannel.send(logEmbed)
 
-    
+
     changeActivity();
 
 });
@@ -225,14 +225,14 @@ client.on("guildDelete", guild => {
     const qtdUsers = client.users.cache.size;
     const qtdChannels = client.channels.cache.size;
     const logChannel = client.channels.cache.get(config.logPrincipal);
-    let lengthMax = (''+qtdChannels).length;
-    
-    
-    if((''+qtdServers).length > lengthMax) {lengthMax = (''+qtdServers).length};
-    if((''+qtdUsers).length > lengthMax) {lengthMax = (''+qtdUsers).length};
-    if(lengthMax < 3) {lengthMax = 3};
+    let lengthMax = ('' + qtdChannels).length;
 
-    
+
+    if (('' + qtdServers).length > lengthMax) { lengthMax = ('' + qtdServers).length };
+    if (('' + qtdUsers).length > lengthMax) { lengthMax = ('' + qtdUsers).length };
+    if (lengthMax < 3) { lengthMax = 3 };
+
+
     // Log quando o bot sai de um servidor
     console.log(`${consoleColors[7]}=================== SAIU DE UM SERVIDOR ===================${consoleColors[0]}`)
     console.log(`Nome do Servidor:                   ${consoleColors[5]}${guildName}${consoleColors[0]}`);
@@ -255,34 +255,45 @@ client.on("guildDelete", guild => {
         .setTitle('-------------------- SAIU DE UM SERVIDOR --------------------')
         .setThumbnail(guild.iconURL())
         .addField('------------ SERVIDOR ------------', `Nome do Servidor: **${guildName}**\nDescrição: ${(guildDescription == null) ? '**Sem descrição**' : `**"${guildDescription}"**`}\nID do Servidor: **${guildId}**\nPopulação do Servidor: **${pad(guildMemberCount, lengthMax)}**\nDono do Servidor: **${guildOwnerTag}**\nID do Owner: **${guild.owner.id}**\nAdmins: **${guildAdmins}**`)
-        .addField('------------- STATUS -------------', `População:     **${pad(qtdUsers, lengthMax)}**\nCanais:             **${pad(qtdChannels, lengthMax)}**\nServidores:     **${pad(qtdServers, lengthMax)}**`)  
+        .addField('------------- STATUS -------------', `População:     **${pad(qtdUsers, lengthMax)}**\nCanais:             **${pad(qtdChannels, lengthMax)}**\nServidores:     **${pad(qtdServers, lengthMax)}**`)
         .setTimestamp()
         .setFooter(client.user.tag)
     logChannel.send(logEmbed)
 
-    
+
     changeActivity();
 
 });
 
 // Evento acionado quando alguém manda alguma mensagem no chat
-client.on("message", async message => { 
+client.on("message", async message => {
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
     const comando = args.shift().toLowerCase();
     const firstWord = message.content.trim().split(/ +/g).shift().toLowerCase();
     const logErrorChannel = client.channels.cache.get(config.logErro);
 
-    if(message.author.bot) return;
-    if(message.channel.type === 'dm')return;
-    if(firstWord === `<@${client.user.id}>`) {message.reply(`Alguém me chamou??🤗 Se estiver precisando de ajuda, use **${config.prefix}ajuda**!`)}
-    if(!message.content.startsWith(config.prefix))return;
-    if(!client.commands.has(comando)) return;
+    if (message.author.bot) return;
+    if (message.channel.type === 'dm') return;
+    if (firstWord === `<@${client.user.id}>`) { message.reply(`Alguém me chamou??🤗 Se estiver precisando de ajuda, use **${config.prefix}ajuda**!`) }
+    if (!message.content.startsWith(config.prefix)) return;
     const botMembro = message.guild.member(client.user.id)
     const permissoesBot = message.channel.memberPermissions(botMembro)
     const podeEnviarMsg = permissoesBot.has("SEND_MESSAGES")
     const podeAddReactions = permissoesBot.has("ADD_REACTIONS")
     const podeCriarInvite = permissoesBot.has("CREATE_INSTANT_INVITE");
-    
+    const podeManageMessages = permissoesBot.has("MANAGE_MESSAGES");
+    if (!client.commands.has(comando)) {
+        if(podeEnviarMsg) {
+            const resp = await message.reply(`eu não conheço esse comando, use **${config.prefix}ajuda** para saber todos os meus comandos!`);
+            if(podeManageMessages) {
+                setTimeout(() => {
+                    resp.delete()
+                }, 10000);
+            }
+        }
+        return;
+    }  
+
     try {
         client.commands.get(comando).execute(message, args, comando, client);
     } catch (error) {
@@ -299,13 +310,13 @@ client.on("message", async message => {
             .setThumbnail(message.guild.iconURL())
             .setTimestamp()
             .setFooter(`${client.user.tag} log sistem`, client.user.displayAvatarURL())
-        if(podeEnviarMsg) {
+        if (podeEnviarMsg) {
             await message.reply('Houve um erro ao executar esse comando! A Equipe já foi informada!')
-        } else if(podeAddReactions) {
+        } else if (podeAddReactions) {
             await message.react('❌')
         }
         console.log(error);
-        if(podeCriarInvite) {
+        if (podeCriarInvite) {
             await message.channel.createInvite({ maxAge: 0, reason: `Houve um erro ao executar um comando do bot ${client.user.tag} e os administradores precisam ser chamados para averiguar o problema` }).then(invite => {
                 errorEmbed.setURL(`https://discord.gg/${invite.code}`)
             })
@@ -316,12 +327,12 @@ client.on("message", async message => {
 
 // Evento acionado quando algum usuário adiciona uma reação em uma mensagem
 client.on("messageReactionAdd", async (message, user) => {
-    if(user.id === client.user.id)return;
-    if(user.bot)return;
-    if(!client.reactCommands.has(message.emoji.name))return;
+    if (user.id === client.user.id) return;
+    if (user.bot) return;
+    if (!client.reactCommands.has(message.emoji.name)) return;
 
     const logErrorChannel = client.channels.cache.get(config.logErro);
-    
+
     try {
         client.reactCommands.get(message.emoji.name).execute(message, user, client)
     } catch (error) {
@@ -340,7 +351,7 @@ client.on("messageReactionAdd", async (message, user) => {
         console.log(error);
         logErrorChannel.send(errorEmbed)
     }
-    
+
 });
 
 client.login(config.token)

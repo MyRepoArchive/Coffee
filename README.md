@@ -7,7 +7,9 @@
 Um Bot para o Discord de código aberto, que usa a biblioteca [Discord.js](https://discord.js.org/#/)!
 
 ### Aviso
-**Antes de tudo, para seu bot funcionar corretamente, entre nos arquivos *index.js*, *help.js* e *createChannel.js* localizados na pasta raíz do bot e dentro da pasta *commands*, respectivamente, e modifique a linha:**
+**Antes de tudo, para seu bot funcionar corretamente, modifique o arquivo *config.json* para *info.json*! (RECOMENDADO)**
+
+**Ou você pode entrar em todos os arquivos que requerem o *info.json* e modificar a linha:**
 ```js
 const config = require("./info.json");
 ```
@@ -15,24 +17,24 @@ para:
 ```js
 const config = require("./config.json");
 ```
-**Ou você pode simplesmente trocar o nome do arquivo *config.json* para *info.json*! (RECOMENDADO)**
 
 #### Links
 [Como usar](#Como-usar) |
 [Criando bot no Discord](#Criando-bot-no-discord)
 
 ### Como usar?
-Para rodar o bot na sua máquina, primeiramente você deve ter instalado o **Node js**, e ter [criado um bot na área de desenvolvedor do Discord](#Criando-bot-no-discord).
-Após esses dois passos concluídos, copie o *token* do seu bot, e cole na área reservada para o token no arquivo **config.json** dentro dos arquivos do bot.
-Neste mesmo arquivo **config.json**, você vai perceber que existem duas informações que se chamam: 
-```json
-"logPrincipal": "Id da sala que você deseja que seja o log do seu bot",
-"logErro": "Id da sala que você deseja que seja o log de erros do seu bot"
-```
-você vai preencher elas com o ID de algum canal de texto de algum servidor (O bot deve estar neste servidor e ter permissão para enviar mensagens!), recomendo que você crie um servidor próprio para o bot e crie um canal de log (também pode criar um canal de erros).
-Coloque seu ID na área que lhe é reservada no mesmo arquivo *config.json*!
+Para rodar o bot na sua máquina, primeiramente você deve ter instalado o **NodeJS**, e ter [criado um bot na área de desenvolvedor do Discord](#Criando-bot-no-discord).
+
+Após esses dois passos concluídos, copie o *token* do seu bot, e cole na área reservada para o token no arquivo **info.json** dentro dos arquivos do bot.
+
+Neste mesmo arquivo **info.json**, você vai perceber que existem outras informações que tem uma descrição do que deve ser colocado alí, preencha-as corretamente!
 
 Se você estiver utilizando o **Visual Studio Code** como editor de códigos, nele abra a pasta do bot, em seguida abra o terminal, e execute dentro do terminal o seguinte comando:
+```
+node index.js
+```
+
+Se deseja rodar o bot usando o **PowerShell**, primeiro entre atravez do PowerShell na pasta do seu bot (use cd caminho_da_pasta), em seguida execute o comando:
 ```
 node index.js
 ```
@@ -59,7 +61,10 @@ Você precisa criar uma aplicação no discord para que o código tenha onde "ro
 7. Pronto! Seu bot foi criado, agora copie o **Token** e cole no **config.json** do seu bot!
     ![token](image/token.PNG)
 
+### Comandos do bot
 
+* **Comandos do tipo Geral**
+    * 
 
 [...]README INCOMPLETO
 
@@ -68,19 +73,42 @@ Você precisa criar uma aplicação no discord para que o código tenha onde "ro
 ## English
 An open source Discord Bot, using the [Discord.js](https://discord.js.org/#/) library!
 
+### Warning
+**First of all, for your bot to work correctly, modify the file *config.json* to *info.json*! (RECOMMENDED)**
+
+**Or you can enter all files that require *info.json* and modify the line:**
+```js
+const config = require("./info.json");
+```
+for:
+```js
+const config = require("./config.json");
+```
+
+#### Links
+[How to use](#How-to-use) |
+[Creating bot on Discord](#Creating-bot-on-discord)
+
 ### How to use?
-To run the bot on your machine, you must first have installed **Node js**, and [created a bot in the Discord developer area](#Creating-bot-on-discord).
-After these two steps are completed, copy the *token* of your bot, and paste it in the area reserved for the token in the **config.json** file inside the bot files.
-If you find it necessary to enter your ID, place it in the area reserved for you in the same *config.json* file.
+To run the bot on your machine, you must first have installed **NodeJS**, and [created a bot in the Discord developer area](#Creating-bot-on-discord).
+
+After these two steps are completed, copy the *token* of your bot, and paste it in the area reserved for the token in the file **info.json** inside the files of the bot.
+
+In this same file **info.json**, you will notice that there is other information that has a description of what should be placed there, fill it in correctly!
 
 If you are using **Visual Studio Code** as a code editor, open the bot folder there, then open the terminal, and run the following command inside the terminal:
 ```
 node index.js
 ```
 
-And ready, your bot will be online, showing in the terminal the amount of people, servers and channels, it will also be displayed a list with the name of all the servers that the bot is present!
+If you want to run the bot using **PowerShell**, first enter PowerShell in your bot folder (use cd path_of_folder), then run the command:
+```
+node index.js
+```
 
-**REMEMBER that your bot will only be online while your machine is on, or until the moment you stop running the bot (you can use *"CTRL + C"* inside the terminal to stop the bot).**
+And ready, your bot will be online, showing in the terminal the number of people, servers and channels, it will also be displayed a list with the name of all the servers that the bot is present!
+
+**REMEMBER that your bot will only be online while your machine is on, or until the moment you stop running the bot (you can use * "CTRL + C" * inside the terminal to stop the bot).**
 
 ### Creating bot on discord
 You need to create an application on discord so that the code has nowhere to "run". If you don't know how to do this, follow these steps:

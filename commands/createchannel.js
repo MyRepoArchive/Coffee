@@ -12,7 +12,7 @@ module.exports = {
     name6: "gerarcanal",
     name7: "generatechannel",
     type: "Gerenciamento",
-    description: `Comando que cria um novo canal no servidor em que foi executado!\nModo de usar: **${config.prefix}createChannel nome-do-canal voice**\n\n*OBS: Se você quiser alterar o tipo do canal mas quiser manter o nome padrão que ele gera, use **auto** entre crases no lugar do nome do canal.*`,
+    description: `Comando que cria um novo canal no servidor em que foi executado!\nModo de usar: **${config.prefix}createChannel nome-do-canal voice**\n\n*OBS: Se você quiser alterar o tipo do canal mas quiser manter o nome padrão que ele gera, use **\`\auto\`\** (entre crases) no lugar do nome do canal.*`,
     // Execução do comando
     async execute(message, args, comando, client) {
         const botMembro = message.guild.member(client.user.id)

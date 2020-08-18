@@ -5,7 +5,7 @@ module.exports = {
     name4: "lag",
     name5: "latency",
     type: 'Geral',
-    description: 'Ping!',
+    description: 'O ping é utilizado para saber se eu estou na ativa e saber quanto tempo eu demoro para responder minhas solicitações.',
     async execute(message, args, comando, client) {
         const botMembro = message.guild.member(client.user.id)
         const permissoesBot = message.channel.memberPermissions(botMembro)

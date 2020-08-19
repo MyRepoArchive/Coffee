@@ -64,8 +64,9 @@ Você precisa criar uma aplicação no discord para que o código tenha onde "ro
 ### Comandos do bot
 
 * **Comandos do tipo Geral**
-    * 
-
+    * say
+        O comando **say** é um comando simples, mas com algumas maneiras diferentes de ser usado.
+        O modo mais normal de usá-lo
 [...]README INCOMPLETO
 
 ---

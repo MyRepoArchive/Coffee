@@ -270,30 +270,33 @@ client.on("message", async message => {
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
     const comando = args.shift().toLowerCase();
     const firstWord = message.content.trim().split(/ +/g).shift().toLowerCase();
-    const logErrorChannel = client.channels.cache.get(config.logErro);
+    const logErrorChannel = client.channels.cache.get(config.logErroComandos);
 
     if (message.author.bot) return;
     if (message.channel.type === 'dm') return;
-    if (firstWord === `<@${client.user.id}>`) { message.reply(`Alguém me chamou??🤗 Se estiver precisando de ajuda, use **${config.prefix}ajuda**!`) }
-    if (!message.content.startsWith(config.prefix)) return;
     const botMembro = message.guild.member(client.user.id)
     const permissoesBot = message.channel.memberPermissions(botMembro)
     const podeEnviarMsg = permissoesBot.has("SEND_MESSAGES")
     const podeAddReactions = permissoesBot.has("ADD_REACTIONS")
     const podeCriarInvite = permissoesBot.has("CREATE_INSTANT_INVITE");
     const podeManageMessages = permissoesBot.has("MANAGE_MESSAGES");
+    if (firstWord === `<@!${client.user.id}>`) { 
+        if(podeEnviarMsg) {
+            message.reply(`Alguém me chamou??🤗 Se estiver precisando de ajuda, use **${config.prefix}ajuda**`) 
+        }
+        return;
+    }
+    if (!message.content.startsWith(config.prefix)) return;
     if (!client.commands.has(comando)) {
         if(podeEnviarMsg) {
-            const resp = await message.reply(`eu não conheço esse comando, use **${config.prefix}ajuda** para saber todos os meus comandos!`);
+            const resp = await message.reply(`eu não conheço esse comando<:terminal:745279127195615343>, use **${config.prefix}ajuda** para saber todos os meus comandos!`);
             if(podeManageMessages) {
-                setTimeout(() => {
-                    resp.delete()
-                }, 10000);
+                resp.delete({timeout: 5000})
             }
         }
         return;
     }  
-
+    
     try {
         client.commands.get(comando).execute(message, args, comando, client);
     } catch (error) {
@@ -313,7 +316,7 @@ client.on("message", async message => {
         if (podeEnviarMsg) {
             await message.reply('Houve um erro ao executar esse comando! A Equipe já foi informada!')
         } else if (podeAddReactions) {
-            await message.react('❌')
+            await message.react('745291079628226560')
         }
         console.log(error);
         if (podeCriarInvite) {
@@ -331,7 +334,7 @@ client.on("messageReactionAdd", async (message, user) => {
     if (user.bot) return;
     if (!client.reactCommands.has(message.emoji.name)) return;
 
-    const logErrorChannel = client.channels.cache.get(config.logErro);
+    const logErrorChannel = client.channels.cache.get(config.logErroComandos);
 
     try {
         client.reactCommands.get(message.emoji.name).execute(message, user, client)
@@ -352,6 +355,60 @@ client.on("messageReactionAdd", async (message, user) => {
         logErrorChannel.send(errorEmbed)
     }
 
+});
+
+// Evento acionado quando o bot se depara com algum erro
+client.on("error", error => {
+    console.log("Aconteceu um erro aqui")
+    const logErrorChannel = client.channels.cache.get(config.logErro);
+    const errorEmbed = new Discord.MessageEmbed()
+        .setColor(hex.red)
+        .setAuthor(client.user.username, client.user.displayAvatarURL())
+        .setTitle(`Aconteceu um erro!`)
+        .addField(`Erro`, error)
+        .addField(`Nome`, error.name)
+        .addField(`Stack`, error.stack)
+        .addField(`Mensagem`, error.message)
+        .setTimestamp()
+        .setFooter(`${client.user.tag} log sistem`, client.user.displayAvatarURL())
+    logErrorChannel.send(errorEmbed)
+    console.log(error)
+});
+
+process.on("unhandledRejection", (reason) => {
+    const logErrorChannel = client.channels.cache.get(config.logErro);
+    const embedError = new Discord.MessageEmbed()
+        .setColor(hex.yellow)
+        .setTitle(`Aconteceu um erro: **unhandledRejection**`)
+        .setDescription(reason.stack)
+        .setTimestamp()
+        .setFooter(client.user.tag, client.user.displayAvatarURL())
+    logErrorChannel.send(embedError)
+    console.error(reason)
+})
+
+process.on("uncaughtExceptionMonitor", (err, origin) => {
+    const logErrorChannel = client.channels.cache.get(config.logErro);
+    const embedError = new Discord.MessageEmbed()
+        .setColor(hex.darkred)
+        .setTitle(`Aconteceu um erro: **uncaughtException**`)
+        .setDescription(`${err} | ${origin}`)
+        .setTimestamp()
+        .setFooter(client.user.tag, client.user.displayAvatarURL())
+    logErrorChannel.send(embedError)
+    console.error(err, origin)
+})
+
+process.on("warning", warning => {
+    const logErrorChannel = client.channels.cache.get(config.logErro);
+    const embedError = new Discord.MessageEmbed()
+        .setColor(hex.yellow)
+        .setTitle(`Aconteceu um aviso: **Warning**`)
+        .setDescription(`${warning.name}\n\n${warning.message}\n\n${warning.stack}`)
+        .setTimestamp()
+        .setFooter(client.user.tag, client.user.displayAvatarURL())
+    logErrorChannel.send(embedError)
+    console.error(warning, warning.name, warning.message, warning.stack)
 });
 
 client.login(config.token)

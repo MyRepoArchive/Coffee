@@ -90,7 +90,7 @@ function changeActivity() {
                 client.user.setActivity(`Estou em ${client.guilds.cache.size} servidores`, { type: "STREAMING", url: "https://github.com/joaoscoelho/Coffe" });
                 activityId = 0;
         }
-    }, 30000);
+    }, 20000);
 };
 // Função para adicionar '0' à esquerda, para um número pequeno
 function pad(number, width) {
@@ -129,10 +129,8 @@ client.on("ready", () => {
         return result
     }
 
-
     // Log de largada do bot no console
     console.log(consoleColors[7] + "=========================== START ===========================" + consoleColors[0]);
-    console.log(`${consoleColors[3]}-PRONTO!-${consoleColors[0]}`)
     console.log(`População:       ${consoleColors[6]}${pad(qtdUsers, lengthMax)}${consoleColors[0]}`);
     console.log(`Canais:          ${consoleColors[6]}${pad(qtdChannels, lengthMax)}${consoleColors[0]}`);
     console.log(`Servidores:      ${consoleColors[6]}${pad(qtdServers, lengthMax)}${consoleColors[0]}`)
@@ -146,10 +144,10 @@ client.on("ready", () => {
     // Log de largada na sala de log do bot
     const logEmbed = new Discord.MessageEmbed()
         .setColor(hex.lime)
-        .setTitle('-------------------- START --------------------')
+        .setTitle('<:power:745693968830038106> Start')
         .setAuthor(client.user.username, client.user.avatarURL())
-        .addField('------------ STATUS ------------', `População:     **${pad(qtdUsers, lengthMax)}**\nCanais:             **${pad(qtdChannels, lengthMax)}**\nServidores:     **${pad(qtdServers, lengthMax)}**`)
-        .addField('------------ SERVIDORES ------------', mostrarServersBlock())
+        .addField('<:toggleright:745693968603545632> Status', `<:users:745708185670778951> População:     **${pad(qtdUsers, lengthMax)}**\n<:messagesquarecounter:745709235387498567> Canais:             **${pad(qtdChannels, lengthMax)}**\n<:servercounter:745708185809191002> Servidores:     **${pad(qtdServers, lengthMax)}**`)
+        .addField('<:server:745693968595157144> Servidores', mostrarServersBlock())
         .setTimestamp()
         .setFooter(client.user.tag, client.user.displayAvatarURL())
     logChannel.send(logEmbed)
@@ -158,10 +156,6 @@ client.on("ready", () => {
 
 // Evento acionado quando o bot entra em um novo servidor
 client.on("guildCreate", guild => {
-    const guildName = guild.name
-    const guildDescription = guild.description
-    const guildId = guild.id
-    const guildMemberCount = guild.memberCount
     const guildChannelCount = guild.channels.cache.size
     const guildOwnerTag = client.users.cache.get(guild.ownerID).tag
     const guildAdmins = guild.members.cache.filter(member => member.hasPermission("ADMINISTRATOR")).map(member => member.displayName).join(', ')
@@ -172,18 +166,16 @@ client.on("guildCreate", guild => {
     const logChannel = client.channels.cache.get(config.logPrincipal);
     let lengthMax = ('' + qtdChannels).length;
 
-
     if (('' + qtdServers).length > lengthMax) { lengthMax = ('' + qtdServers).length };
     if (('' + qtdUsers).length > lengthMax) { lengthMax = ('' + qtdUsers).length };
     if (lengthMax < 3) { lengthMax = 3 };
 
-
     // Log quando o bot entra em um novo servidor
     console.log(`${consoleColors[7]}=================== ENTROU EM UM NOVO SERVIDOR ===================${consoleColors[0]}`)
-    console.log(`Nome do Servidor:                   ${consoleColors[5]}${guildName}${consoleColors[0]}`);
-    console.log(`Descrição:                          ${consoleColors[4]}${(guildDescription == null) ? 'Sem descrição' : `"${guildDescription}"`}${consoleColors[0]}`)
-    console.log(`Id do Servidor:                     ${consoleColors[6]}${guildId}${consoleColors[0]}`);
-    console.log(`População do servidor:              ${consoleColors[6]}${pad(guildMemberCount, lengthMax)}${consoleColors[0]}`)
+    console.log(`Nome do Servidor:                   ${consoleColors[5]}${guild.name}${consoleColors[0]}`);
+    console.log(`Descrição:                          ${consoleColors[4]}${(guild.description == null) ? 'Sem descrição' : `"${guild.description}"`}${consoleColors[0]}`)
+    console.log(`Id do Servidor:                     ${consoleColors[6]}${guild.id}${consoleColors[0]}`);
+    console.log(`População do servidor:              ${consoleColors[6]}${pad(guild.memberCount, lengthMax)}${consoleColors[0]}`)
     console.log(`Quantidade de canais do Servidor:   ${consoleColors[6]}${pad(guildChannelCount, lengthMax)}${consoleColors[0]}`)
     console.log(`Ícone do Servidor:                  ${consoleColors[4]}${(guild.iconURL() == null) ? 'Sem ícone' : guild.iconURL()}${consoleColors[0]}`);
     console.log(`Dono do servidor:                   ${consoleColors[5]}${guildOwnerTag}${consoleColors[0]}  ID: ${consoleColors[6]}${guild.owner.id}${consoleColors[0]}`);
@@ -198,10 +190,10 @@ client.on("guildCreate", guild => {
     // Log na sala de logs do bot
     const logEmbed = new Discord.MessageEmbed()
         .setColor(hex.babyblue)
-        .setTitle('-------------------- NOVO SERVIDOR --------------------')
+        .setTitle('<:login:745708185611927553><:server:745693968595157144> Entrei em um novo servidor')
         .setThumbnail(guild.iconURL())
-        .addField('------------ SERVIDOR ------------', `Nome do Servidor: **${guildName}**\nDescrição: ${(guildDescription == null) ? '**Sem descrição**' : `**"${guildDescription}"**`}\nID do Servidor: **${guildId}**\nPopulação do Servidor: **${pad(guildMemberCount, lengthMax)}**\nCanais do Servidor: **${pad(guildChannelCount, lengthMax)}**\nDono do Servidor: **${guildOwnerTag}**\nID do Owner: **${guild.owner.id}**\nAdmins: **${guildAdmins}**`)
-        .addField('------------- STATUS -------------', `População:     **${pad(qtdUsers, lengthMax)}**\nCanais:             **${pad(qtdChannels, lengthMax)}**\nServidores:     **${pad(qtdServers, lengthMax)}**`)
+        .addField('<:info:745716823424630856> Informações', `<:edit3:745722860362006608> Nome do Servidor: **${guild.name}**\n<:bookopen:745722859984257027> Descrição: ${(guild.description == null) ? '**Sem descrição**' : `**"${guild.description}"**`}\n<:hash:745722860584173682> ID do Servidor: **${guild.id}**\n<:users:745708185670778951> População do Servidor: **${pad(guild.memberCount, lengthMax)}**\n<:messagesquarecounter:745709235387498567> Canais do Servidor: **${pad(guildChannelCount, lengthMax)}**\n<:tag:745722860789563532> Dono do Servidor: **${guildOwnerTag}**\n<:taghash:745722860869255348> ID do Owner: **${guild.owner.id}**\n<:shield:745722860718391406> Admins: **${guildAdmins}**`)
+        .addField('<:toggleright:745693968603545632> Status', `<:users:745708185670778951> População:     **${pad(qtdUsers, lengthMax)}**\n<:messagesquarecounter:745709235387498567> Canais:             **${pad(qtdChannels, lengthMax)}**\n<:servercounter:745708185809191002> Servidores:     **${pad(qtdServers, lengthMax)}**`)
         .setTimestamp()
         .setFooter(client.user.tag)
     logChannel.send(logEmbed)
@@ -212,12 +204,7 @@ client.on("guildCreate", guild => {
 });
 
 // Evento acionado quando o bot sai de algum servidor
-client.on("guildDelete", guild => {
-    const guildName = guild.name
-    const guildDescription = guild.description
-    const guildId = guild.id
-    const guildMemberCount = guild.memberCount
-    const guildChannelCount = guild.channels.cache.size
+client.on("guildDelete", guild => {    
     const guildOwnerTag = client.users.cache.get(guild.ownerID).tag
     const guildAdmins = guild.members.cache.filter(member => member.hasPermission("ADMINISTRATOR")).map(member => member.displayName).join(', ')
     const nameServers = client.guilds.cache.map(server => server.name);
@@ -227,18 +214,16 @@ client.on("guildDelete", guild => {
     const logChannel = client.channels.cache.get(config.logPrincipal);
     let lengthMax = ('' + qtdChannels).length;
 
-
     if (('' + qtdServers).length > lengthMax) { lengthMax = ('' + qtdServers).length };
     if (('' + qtdUsers).length > lengthMax) { lengthMax = ('' + qtdUsers).length };
     if (lengthMax < 3) { lengthMax = 3 };
 
-
     // Log quando o bot sai de um servidor
     console.log(`${consoleColors[7]}=================== SAIU DE UM SERVIDOR ===================${consoleColors[0]}`)
-    console.log(`Nome do Servidor:                   ${consoleColors[5]}${guildName}${consoleColors[0]}`);
-    console.log(`Descrição:                          ${consoleColors[4]}${(guildDescription == null) ? 'Sem descrição' : `"${guildDescription}"`}${consoleColors[0]}`)
-    console.log(`Id do Servidor:                     ${consoleColors[6]}${guildId}${consoleColors[0]}`);
-    console.log(`População do servidor:              ${consoleColors[6]}${pad(guildMemberCount, lengthMax)}${consoleColors[0]}`)
+    console.log(`Nome do Servidor:                   ${consoleColors[5]}${guild.name}${consoleColors[0]}`);
+    console.log(`Descrição:                          ${consoleColors[4]}${(guild.description == null) ? 'Sem descrição' : `"${guild.description}"`}${consoleColors[0]}`)
+    console.log(`Id do Servidor:                     ${consoleColors[6]}${guild.id}${consoleColors[0]}`);
+    console.log(`População do servidor:              ${consoleColors[6]}${pad(guild.memberCount, lengthMax)}${consoleColors[0]}`)
     console.log(`Ícone do Servidor:                  ${consoleColors[4]}${(guild.iconURL() == null) ? 'Sem ícone' : guild.iconURL()}${consoleColors[0]}`);
     console.log(`Dono do servidor:                   ${consoleColors[5]}${guildOwnerTag}${consoleColors[0]}  ID: ${consoleColors[6]}${guild.owner.id}${consoleColors[0]}`);
     console.log(`Admins:                             ${consoleColors[4]}${guildAdmins}${consoleColors[0]}`)
@@ -252,10 +237,10 @@ client.on("guildDelete", guild => {
     // Log na sala de logs do bot
     const logEmbed = new Discord.MessageEmbed()
         .setColor(hex.darkred)
-        .setTitle('-------------------- SAIU DE UM SERVIDOR --------------------')
+        .setTitle('<:server:745693968595157144><:logout:745708185540886688> Saí de um servidor')
         .setThumbnail(guild.iconURL())
-        .addField('------------ SERVIDOR ------------', `Nome do Servidor: **${guildName}**\nDescrição: ${(guildDescription == null) ? '**Sem descrição**' : `**"${guildDescription}"**`}\nID do Servidor: **${guildId}**\nPopulação do Servidor: **${pad(guildMemberCount, lengthMax)}**\nDono do Servidor: **${guildOwnerTag}**\nID do Owner: **${guild.owner.id}**\nAdmins: **${guildAdmins}**`)
-        .addField('------------- STATUS -------------', `População:     **${pad(qtdUsers, lengthMax)}**\nCanais:             **${pad(qtdChannels, lengthMax)}**\nServidores:     **${pad(qtdServers, lengthMax)}**`)
+        .addField('<:info:745716823424630856> Informações', `<:edit3:745722860362006608> Nome do Servidor: **${guild.name}**\n<:bookopen:745722859984257027> Descrição: ${(guild.description == null) ? '**Sem descrição**' : `**"${guild.description}"**`}\n<:hash:745722860584173682> ID do Servidor: **${guild.id}**\n<:users:745708185670778951> População do Servidor: **${pad(guild.memberCount, lengthMax)}**\n<:tag:745722860789563532> Dono do Servidor: **${guildOwnerTag}**\n<:taghash:745722860869255348> ID do Owner: **${guild.owner.id}**\n<:shield:745722860718391406> Admins: **${guildAdmins}**`)
+        .addField('<:toggleright:745693968603545632> Status', `<:users:745708185670778951> População:     **${pad(qtdUsers, lengthMax)}**\n<:messagesquarecounter:745709235387498567> Canais:             **${pad(qtdChannels, lengthMax)}**\n<:servercounter:745708185809191002> Servidores:     **${pad(qtdServers, lengthMax)}**`)
         .setTimestamp()
         .setFooter(client.user.tag)
     logChannel.send(logEmbed)
@@ -288,11 +273,9 @@ client.on("message", async message => {
     }
     if (!message.content.startsWith(config.prefix)) return;
     if (!client.commands.has(comando)) {
-        if(podeEnviarMsg) {
+        if(podeEnviarMsg && podeManageMessages) {
             const resp = await message.reply(`eu não conheço esse comando<:terminal:745279127195615343>, use **${config.prefix}ajuda** para saber todos os meus comandos!`);
-            if(podeManageMessages) {
-                resp.delete({timeout: 5000})
-            }
+            resp.delete({timeout: 5000})
         }
         return;
     }  
@@ -304,19 +287,19 @@ client.on("message", async message => {
             .setColor(hex.orangered)
             .setAuthor(message.author.username, message.author.displayAvatarURL())
             .setTitle(`Erro ao executar comando ${comando}`)
-            .setDescription(`Houve um erro ao executar o comando **${comando}**!`)
-            .addField(`Servidor:`, `**${message.guild.name}**`)
-            .addField(`Quem executou:`, `**${message.author.tag}\n${message.author.id}**`)
-            .addField(`Permissões:`, `**${message.member.permissions.toArray().join('\n')}**`)
-            .addField(`Dono do servidor:`, `**${message.guild.owner.user.tag}**`)
-            .addField(`Erro:`, error)
+            .setDescription(`<:alertcircle:745709428937981992> Houve um erro ao executar o comando **${comando}**!`)
+            .addField(`<:server:745693968595157144> Servidor:`, `**${message.guild.name}**`)
+            .addField(`<:user:745735266228240535> Quem executou:`, `**${message.author.tag}\n${message.author.id}**`)
+            .addField(`<:unlock:745735270569214083> Permissões:`, `**${message.member.permissions.toArray().join('\n')}**`)
+            .addField(`<:tag:745722860789563532> Dono do servidor:`, `**${message.guild.owner.user.tag}**`)
+            .addField(`<:xcircle:745735267448520704> Erro:`, error)
             .setThumbnail(message.guild.iconURL())
             .setTimestamp()
             .setFooter(`${client.user.tag} log sistem`, client.user.displayAvatarURL())
         if (podeEnviarMsg) {
-            await message.reply('Houve um erro ao executar esse comando! A Equipe já foi informada!')
+            await message.reply('<:alertcircle:745709428937981992> Houve um erro ao executar esse comando! A Equipe já foi informada!')
         } else if (podeAddReactions) {
-            await message.react('745291079628226560')
+            await message.react('alertcircle:745709428937981992')
         }
         console.log(error);
         if (podeCriarInvite) {
@@ -330,31 +313,48 @@ client.on("message", async message => {
 
 // Evento acionado quando algum usuário adiciona uma reação em uma mensagem
 client.on("messageReactionAdd", async (message, user) => {
+    const logErrorChannel = client.channels.cache.get(config.logErroComandos);
     if (user.id === client.user.id) return;
     if (user.bot) return;
-    if (!client.reactCommands.has(message.emoji.name)) return;
-
-    const logErrorChannel = client.channels.cache.get(config.logErroComandos);
-
-    try {
-        client.reactCommands.get(message.emoji.name).execute(message, user, client)
-    } catch (error) {
-        const errorEmbed = new Discord.MessageEmbed()
-            .setColor(hex.orange)
-            .setAuthor(user.username, user.displayAvatarURL())
-            .setTitle(`Erro ao executar ação na reação do emoji "${message.emoji.name}"`)
-            .setDescription(`Houve um erro ao reagir com" ${message.emoji.name}"`)
-            .addField(`Servidor:`, `**${(message.message.guild === null) ? 'Sem servidor (DM)' : message.message.guild.name}**`)
-            .addField(`Quem executou:`, `**${user.tag}\n${user.id}**`)
-            .addField(`Canal`, `**${(message.message.channel.name === undefined) ? '(DM)' : message.message.channel.name}**`)
-            .addField(`Erro:`, error)
-            .setThumbnail(user.displayAvatarURL())
-            .setTimestamp()
-            .setFooter(`${client.user.tag} log sistem`, client.user.displayAvatarURL())
-        console.log(error);
-        logErrorChannel.send(errorEmbed)
+    if (client.reactCommands.has(message.emoji.name)) {
+        try {
+            client.reactCommands.get(message.emoji.name).execute(message, user, client)
+        } catch (error) {
+            const errorEmbed = new Discord.MessageEmbed()
+                .setColor(hex.orange)
+                .setAuthor(user.username, user.displayAvatarURL())
+                .setTitle(`Erro ao executar ação na reação do emoji "${message.emoji.name}"`)
+                .setDescription(`<:alertcircle:745709428937981992> Houve um erro ao reagir com" ${message.emoji.name}"`)
+                .addField(`<:server:745693968595157144> Servidor:`, `**${(message.message.guild === null) ? 'Sem servidor (DM)' : message.message.guild.name}**`)
+                .addField(`<:user:745735266228240535> Quem executou:`, `**${user.tag}\n${user.id}**`)
+                .addField(`<:messagesquare:745708185490292946> Canal`, `**${(message.message.channel.name === undefined) ? '(DM)' : message.message.channel.name}**`)
+                .addField(`<:xcircle:745735267448520704> Erro:`, error)
+                .setThumbnail(user.displayAvatarURL())
+                .setTimestamp()
+                .setFooter(`${client.user.tag} log sistem`, client.user.displayAvatarURL())
+            console.log(error);
+            logErrorChannel.send(errorEmbed)
+        }
+    } else if(client.reactCommands.has(message.emoji.identifier)) {
+        try {
+            client.reactCommands.get(message.emoji.identifier).execute(message, user, client)
+        } catch (error) {
+            const errorEmbed = new Discord.MessageEmbed()
+                .setColor(hex.orange)
+                .setAuthor(user.username, user.displayAvatarURL())
+                .setTitle(`Erro ao executar ação na reação do emoji "<:${message.emoji.identifier}>"`)
+                .setDescription(`<:alertcircle:745709428937981992> Houve um erro ao reagir com "<:${message.emoji.identifier}>"`)
+                .addField(`<:server:745693968595157144> Servidor:`, `**${(message.message.guild === null) ? 'Sem servidor (DM)' : message.message.guild.name}**`)
+                .addField(`<:user:745735266228240535> Quem executou:`, `**${user.tag}\n${user.id}**`)
+                .addField(`<:messagesquare:745708185490292946> Canal`, `**${(message.message.channel.name === undefined) ? '(DM)' : message.message.channel.name}**`)
+                .addField(`<:xcircle:745735267448520704> Erro:`, error)
+                .setThumbnail(user.displayAvatarURL())
+                .setTimestamp()
+                .setFooter(`${client.user.tag} log sistem`, client.user.displayAvatarURL())
+            console.log(error);
+            logErrorChannel.send(errorEmbed)
+        }
     }
-
 });
 
 // Evento acionado quando o bot se depara com algum erro
@@ -365,10 +365,10 @@ client.on("error", error => {
         .setColor(hex.red)
         .setAuthor(client.user.username, client.user.displayAvatarURL())
         .setTitle(`Aconteceu um erro!`)
-        .addField(`Erro`, error)
-        .addField(`Nome`, error.name)
-        .addField(`Stack`, error.stack)
-        .addField(`Mensagem`, error.message)
+        .addField(`<:xcircle:745735267448520704> Erro`, error)
+        .addField(`<:edit3:745722860362006608> Nome`, error.name)
+        .addField(`<:paper:745741542861307915> Stack`, error.stack)
+        .addField(`<:messagesquare:745708185490292946> Mensagem`, error.message)
         .setTimestamp()
         .setFooter(`${client.user.tag} log sistem`, client.user.displayAvatarURL())
     logErrorChannel.send(errorEmbed)
@@ -379,7 +379,7 @@ process.on("unhandledRejection", (reason) => {
     const logErrorChannel = client.channels.cache.get(config.logErro);
     const embedError = new Discord.MessageEmbed()
         .setColor(hex.yellow)
-        .setTitle(`Aconteceu um erro: **unhandledRejection**`)
+        .setTitle(`<:xcircle:745735267448520704> Aconteceu um erro: **unhandledRejection**`)
         .setDescription(reason.stack)
         .setTimestamp()
         .setFooter(client.user.tag, client.user.displayAvatarURL())
@@ -391,7 +391,7 @@ process.on("uncaughtExceptionMonitor", (err, origin) => {
     const logErrorChannel = client.channels.cache.get(config.logErro);
     const embedError = new Discord.MessageEmbed()
         .setColor(hex.darkred)
-        .setTitle(`Aconteceu um erro: **uncaughtException**`)
+        .setTitle(`<:xcircle:745735267448520704> Aconteceu um erro: **uncaughtException**`)
         .setDescription(`${err} | ${origin}`)
         .setTimestamp()
         .setFooter(client.user.tag, client.user.displayAvatarURL())
@@ -403,7 +403,7 @@ process.on("warning", warning => {
     const logErrorChannel = client.channels.cache.get(config.logErro);
     const embedError = new Discord.MessageEmbed()
         .setColor(hex.yellow)
-        .setTitle(`Aconteceu um aviso: **Warning**`)
+        .setTitle(`<:alertcircle:745709428937981992> Aconteceu um aviso: **Warning**`)
         .setDescription(`${warning.name}\n\n${warning.message}\n\n${warning.stack}`)
         .setTimestamp()
         .setFooter(client.user.tag, client.user.displayAvatarURL())

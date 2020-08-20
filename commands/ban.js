@@ -1,5 +1,6 @@
 const config = require('../info.json')
 const hex = require('../colors.json')
+const Discord = require('discord.js')
 
 module.exports = {
   name: "ban",

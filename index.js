@@ -265,7 +265,7 @@ client.on("message", async message => {
     const podeAddReactions = permissoesBot.has("ADD_REACTIONS")
     const podeCriarInvite = permissoesBot.has("CREATE_INSTANT_INVITE");
     const podeManageMessages = permissoesBot.has("MANAGE_MESSAGES");
-    if (firstWord === `<@!${client.user.id}>`) { 
+    if (firstWord === `<@${client.user.id}>`) { 
         if(podeEnviarMsg) {
             message.reply(`Alguém me chamou??🤗 Se estiver precisando de ajuda, use **${config.prefix}ajuda**`) 
         }

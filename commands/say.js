@@ -23,9 +23,15 @@ module.exports = {
     // Se não houver argumentos na frente do comando, verifica se pode enviar mensagens naquele canal, caso não possa, verifica se pode adicionar reações, caso não possa apenas retorna.
     if (args.length === 0) {
       if (podeEnviarMsg) {
-        message.reply(`O que eu devo falar?`);
+        const descEmbed = new Discord.MessageEmbed()
+          .setColor(hex.blue2)
+          .setTitle(`Como usar o comando ${config.prefix}${comando}`)
+          .setDescription(`Como usar:\n**No mesmo canal:** *${config.prefix}say O que deve ser dito por mim*\n**Em outro canal do servidor:** *${config.prefix}say #outro-canal O que deve ser dito por mim*\n**Usando Embed no mesmo canal:** *${config.prefix}say \`\embed\`\ Título da embed \\ Descrição da embed \\ #f5f5f5*\n**Usando Embed em outro canal:** *${config.prefix}say #outro-canal \`\embed\`\ Título da embed \\ Descrição da embed \\ #808080*\n\n*OBS: Se você for utilizar embed na sua mensagem, coloque o termo **"embed"** entre crases. O título da embed é obrigatório, mas a descrição e a cor não são. Se você ficou confuso do que deve ser colocado no ultimo campo da embed, aquilo deve ser a cor em **hex** que a embed deve assumir. Como você também deve ter percebido, os campos da embed devem ser separador com "**\\**" (barra invertida)!*`)
+          .setTimestamp()
+          .setFooter(`Sistema de ajuda ${client.user.username}`, client.user.displayAvatarURL())
+        message.reply(descEmbed)
       } else if (podeAddReactions) {
-        message.react('❌')
+        message.react('helpcircle:745759636589903922')
       }
       return;
     }
@@ -35,7 +41,7 @@ module.exports = {
         if (podeEnviarMsg) {
           message.reply(`Você não pode marcar everyone/here meu querido!`)
         } else if (podeAddReactions) {
-          message.react('❌')
+          message.react('slash:745761670340804660')
         }
         if (podeManageMessages) {
           message.delete()
@@ -55,7 +61,7 @@ module.exports = {
                 if(podeEnviarMsg) {
                   message.reply(`O que eu devo falar?`)
                 } else if(podeAddReactions) {
-                  message.react('❌')
+                  message.react('helpcircle:745759636589903922')
                 }
                 return;
               }
@@ -83,10 +89,10 @@ module.exports = {
             }
             return;
           } else if (podeAddReactions) {
-            message.react('❌')
+            message.react('slash:745761670340804660')
           }
         } else if (podeAddReactions) {
-          message.react('❌')
+          message.react('slash:745761670340804660')
         }
       }
     }
@@ -108,7 +114,7 @@ module.exports = {
         if (podeEnviarMsg) {
           message.channel.send(embed)
         } else if (podeAddReactions) {
-          message.react('❌')
+          message.react('slash:745761670340804660')
           return;
         }
         // Verifica se naquele canal o bot pode deletar mensagens
@@ -122,7 +128,7 @@ module.exports = {
     if (podeEnviarMsg) {
       message.channel.send(message.content.slice(config.prefix.length + comando.length + 1))
     } else if (podeAddReactions) {
-      message.react('❌')
+      message.react('slash:745761670340804660')
       return;
     }
     // Verifica se naquele canal o bot pode deletar mensagens

@@ -104,7 +104,7 @@ module.exports = {
         if(message.guild.channels.cache.filter(canal => canal.name === args[0]).filter(canal => canal.type === args[1]).size > 1) {
             embed
                 .setColor(hex.orangered)
-                .addField('ALERTA', 'Já existe um canal de mesmo nome neste servidor!')
+                .addField('<:alertcircle:745709428937981992> ALERTA', 'Já existe um canal de mesmo nome neste servidor!')
                 if(!podeEnviarMsg && podeAddReactions) {
                     message.react('<:alertcircle:745709428937981992>')
                 }

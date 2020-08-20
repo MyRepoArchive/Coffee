@@ -1,4 +1,6 @@
 const config = require('../info.json')
+const Discord = require('discord.js')
+const hex = require('../colors.json')
 
 module.exports = {
   name: "kick",
@@ -22,9 +24,15 @@ module.exports = {
     if (mencoes.members.size === 0) {
       if(usernamesDigitados[0] === '') {
         if (podeEnviarMsg) {
-          message.reply(`Quem eu devo kickar do servidor?`);
+          const descEmbed = new Discord.MessageEmbed()
+            .setColor(hex.blue2)
+            .setTitle(`Como usar o ${config.prefix}${comando}`)
+            .setDescription(`Modo de usar:\n**Mencionando o(s) usuário(s):** *${config.prefix}kick @user1 @user2 \`\motivo da expulsão\`\*\n**Pelo username ou apelido:** *${config.prefix}kick username1 \\ apelido1 \`\motivo da expulsão\`\*\n\nOBS: *O motivo da expulsão não é obrigatório, mas se for utilizá-lo, coloque-o entre "\`\" (crases) e após os usuários a serem expulsos!*`)
+            .setTimestamp()
+            .setFooter(`Sistema de ajuda ${client.user.username}`, client.user.displayAvatarURL())
+          message.reply(descEmbed)
         } else if (podeAddReactions) {
-          message.react('❌')
+          message.react('helpcircle:745759636589903922')
         }
         return;
       } else {
@@ -36,7 +44,7 @@ module.exports = {
               if (podeEnviarMsg) {
                 message.reply(`você não pode chutar membros nesse servidor!`);
               } else if (podeAddReactions) {
-                message.react('❌')
+                message.react('slash:745761670340804660')
               }
               return;
             }
@@ -44,7 +52,7 @@ module.exports = {
               if (podeEnviarMsg) {
                 message.reply(`eu não tenho permissão para chutar membros!`);
               } else if (podeAddReactions) {
-                message.react('❌')
+                message.react('slash:745761670340804660')
               }
               return;
             }
@@ -52,7 +60,7 @@ module.exports = {
               if (podeEnviarMsg) {
                 message.reply(`ele é o dono do servidor, não posso fazer isso!`)
               } else if (podeAddReactions) {
-                message.react('❌')
+                message.react('slash:745761670340804660')
               }
               return;
             }
@@ -60,7 +68,7 @@ module.exports = {
               if (podeEnviarMsg) {
                 message.reply(`eu não posso chutar esse membro, ele tem um cargo maior que o meu!`)
               } else if (podeAddReactions) {
-                message.react('❌')
+                message.react('slash:745761670340804660')
               }
               return;
             }
@@ -68,7 +76,7 @@ module.exports = {
               if (podeEnviarMsg) {
                 message.reply(`eu não posso chutar esse membro, ele tem um cargo maior que o seu!`)
               } else if (podeAddReactions) {
-                message.react('❌')
+                message.react('slash:745761670340804660')
               }
               return;
             }
@@ -76,15 +84,15 @@ module.exports = {
               if (podeEnviarMsg) {
                 message.reply(`eu não posso me kickar do servidor, faça isso manualmente ou peça ajuda a outro bot!`);
               } else if (podeAddReactions) {
-                message.react('❌')
+                message.react('alertcircle:745709428937981992')
               }
               return;
             }
             if (usernameMembers.has(message.member)) {
               if (podeEnviarMsg) {
-                message.reply(`Você não pode se kickar do servidor, isso é apenas questão de segurança!`);
+                message.reply(`você não pode se kickar do servidor, isso é apenas questão de segurança!`);
               } else if (podeAddReactions) {
-                message.react('❌')
+                message.react('alertcircle:745709428937981992')
               }
               return;
             }
@@ -94,14 +102,14 @@ module.exports = {
             } else if(podeEnviarMsg) {  
               message.reply(`**${usernameMembers.map(member => member.user.username)[0]}** foi expulso com sucesso!`)
             } else if(podeAddReactions) {
-              message.react('✅')
+              message.react('circlecheck:745763762132484197')
             }
           } else if(nicknameMembers.size !== 0) {
             if (!message.member.hasPermission("KICK_MEMBERS")) {
               if (podeEnviarMsg) {
                 message.reply(`você não pode chutar membros nesse servidor!`);
               } else if (podeAddReactions) {
-                message.react('❌')
+                message.react('slash:745761670340804660')
               }
               return;
             }
@@ -109,7 +117,7 @@ module.exports = {
               if (podeEnviarMsg) {
                 message.reply(`eu não tenho permissão para chutar membros!`);
               } else if (podeAddReactions) {
-                message.react('❌')
+                message.react('slash:745761670340804660')
               }
               return;
             }
@@ -117,7 +125,7 @@ module.exports = {
               if (podeEnviarMsg) {
                 message.reply(`ele é o dono do servidor, não posso fazer isso!`)
               } else if (podeAddReactions) {
-                message.react('❌')
+                message.react('slash:745761670340804660')
               }
               return;
             }
@@ -125,7 +133,7 @@ module.exports = {
               if (podeEnviarMsg) {
                 message.reply(`eu não posso chutar esse membro, ele tem um cargo maior que o meu!`)
               } else if (podeAddReactions) {
-                message.react('❌')
+                message.react('slash:745761670340804660')
               }
               return;
             }
@@ -133,7 +141,7 @@ module.exports = {
               if (podeEnviarMsg) {
                 message.reply(`eu não posso chutar esse membro, ele tem um cargo maior que o seu!`)
               } else if (podeAddReactions) {
-                message.react('❌')
+                message.react('slash:745761670340804660')
               }
               return;
             }
@@ -141,7 +149,7 @@ module.exports = {
               if (podeEnviarMsg) {
                 message.reply(`eu não posso me kickar do servidor, faça isso manualmente ou peça ajuda a outro bot!`);
               } else if (podeAddReactions) {
-                message.react('❌')
+                message.react('alertcircle:745709428937981992')
               }
               return;
             }
@@ -149,7 +157,7 @@ module.exports = {
               if (podeEnviarMsg) {
                 message.reply(`Você não pode se kickar do servidor, isso é apenas questão de segurança!`);
               } else if (podeAddReactions) {
-                message.react('❌')
+                message.react('alertcircle:745709428937981992')
               }
               return;
             }
@@ -159,13 +167,13 @@ module.exports = {
             } else if(podeEnviarMsg) {
               message.reply(`**${nicknameMembers.map(member => member.nickname)[0]}** foi expulso com sucesso!`)
             } else if(podeAddReactions) {
-              message.react('✅')
+              message.react('circlecheck:745763762132484197')
             }
           } else {
             if(podeEnviarMsg) {
               message.reply(`eu não conheço esse membro!`)
             } else if(podeAddReactions) {
-              message.react('❌')
+              message.react('helpcircle:745759636589903922')
             }
           }
           
@@ -177,7 +185,7 @@ module.exports = {
       if (podeEnviarMsg) {
         message.reply(`você não pode chutar membros nesse servidor!`);
       } else if (podeAddReactions) {
-        message.react('❌')
+        message.react('slash:745761670340804660')
       }
       return;
     }
@@ -185,7 +193,7 @@ module.exports = {
       if (podeEnviarMsg) {
         message.reply(`eu não tenho permissão para chutar membros!`);
       } else if (podeAddReactions) {
-        message.react('❌')
+        message.react('slash:745761670340804660')
       }
       return;
     }
@@ -193,7 +201,7 @@ module.exports = {
       if (podeEnviarMsg) {
         message.reply(`ele é o dono do servidor, não posso fazer isso!`)
       } else if (podeAddReactions) {
-        message.react('❌')
+        message.react('slash:745761670340804660')
       }
       return;
     }
@@ -201,7 +209,7 @@ module.exports = {
       if (podeEnviarMsg) {
         message.reply(`eu não posso chutar esse membro, ele tem um cargo maior que o meu!`)
       } else if (podeAddReactions) {
-        message.react('❌')
+        message.react('slash:745761670340804660')
       }
       return;
     }
@@ -209,7 +217,7 @@ module.exports = {
       if (podeEnviarMsg) {
         message.reply(`eu não posso chutar esse membro, ele tem um cargo maior que o seu!`)
       } else if (podeAddReactions) {
-        message.react('❌')
+        message.react('slash:745761670340804660')
       }
       return;
     }
@@ -217,7 +225,7 @@ module.exports = {
       if (podeEnviarMsg) {
         message.reply(`eu não posso me kickar do servidor, faça isso manualmente ou peça ajuda a outro bot!`);
       } else if (podeAddReactions) {
-        message.react('❌')
+        message.react('alertcircle:745709428937981992')
       }
       return;
     }
@@ -225,7 +233,7 @@ module.exports = {
       if (podeEnviarMsg) {
         message.reply(`Você não pode se kickar do servidor, isso é apenas questão de segurança!`);
       } else if (podeAddReactions) {
-        message.react('❌')
+        message.react('alertcircle:745709428937981992')
       }
       return;
     }
@@ -239,7 +247,7 @@ module.exports = {
         message.reply(`**${mencoes.members.map(member => member.user.username)[0]}** foi expulso com sucesso!`)
       }
     } else if(podeAddReactions) {
-      message.react('✅')
+      message.react('circlecheck:745763762132484197')
     }
   }
 }

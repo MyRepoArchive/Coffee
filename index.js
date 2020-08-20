@@ -98,7 +98,6 @@ function pad(number, width) {
     return number.length >= width ? number : new Array(width - number.length + 1).join('0') + number;
 };
 
-
 // Evento da largada do bot
 client.on("ready", () => {
     const nameServers = client.guilds.cache.map(server => server.name);

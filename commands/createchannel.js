@@ -50,7 +50,7 @@ module.exports = {
             if(podeEnviarMsg) {
                 message.reply(`O servidor já possui o número máximo de canais!`)
             } else if(podeAddReactions) {
-                message.react('<:alertcircle:745709428937981992>')
+                message.react('alertcircle:745709428937981992')
             }
             return 
         }
@@ -62,7 +62,7 @@ module.exports = {
             if(podeEnviarMsg) {
                 message.reply(`Tipo de canal desconhecido! Use **"voice"** ou **"text"**!\nSe quiser criar um canal com mais de uma palavra em seu nome, use **"-"** no lugar dos espaços!\n EXEMPLO: **!${comando} nome-com-mais-de-uma-palavra text**`)
             } else if(podeAddReactions) {
-                message.react('<:helpcircle:745759636589903922>')
+                message.react('helpcircle:745759636589903922')
             }
             return
         };
@@ -84,7 +84,7 @@ module.exports = {
             if(podeEnviarMsg) {
                 message.reply('Houve um erro ao executar esse comando! A Equipe já foi informada!')
             } else if(podeAddReactions) {
-                message.react('<:alertcircle:745709428937981992>')
+                message.react('alertcircle:745709428937981992')
             }
             console.log(error);
             if(podeCriarInvite) {
@@ -106,14 +106,14 @@ module.exports = {
                 .setColor(hex.orangered)
                 .addField('<:alertcircle:745709428937981992> ALERTA', 'Já existe um canal de mesmo nome neste servidor!')
                 if(!podeEnviarMsg && podeAddReactions) {
-                    message.react('<:alertcircle:745709428937981992>')
+                    message.react('alertcircle:745709428937981992')
                 }
         }
         if(podeEnviarMsg) {
             message.channel.send(`<#${canais[canais.length-1].id}>`)
             message.channel.send(embed)
         } else if(podeAddReactions) {
-            message.react('<:circlecheck:745763762132484197>')
+            message.react('circlecheck:745763762132484197')
         }
     }
 }

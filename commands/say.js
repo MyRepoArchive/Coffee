@@ -75,7 +75,7 @@ module.exports = {
                   .setTitle(title)
                   .setDescription((description === undefined) ? '\u200B' : description)
                   if(color !== undefined) {
-                    embed.setColor((color.length >= 6 && color.length <= 9) ? color : hex.blue2)
+                    embed.setColor((color.length === 6 && color.length === 7) ? color : hex.blue2)
                   } else {
                     embed.setColor(hex.blue2)
                   }
@@ -107,7 +107,7 @@ module.exports = {
           .setTitle(title)
           .setDescription((description === undefined) ? '\u200B' : description)
           if(color !== undefined) {
-            embed.setColor((color.length >= 6 && color.length <= 9) ? color : hex.blue2)
+            embed.setColor((color.length === 6 && color.length === 7) ? color : hex.blue2)
           } else {
             embed.setColor(hex.blue2)
           }

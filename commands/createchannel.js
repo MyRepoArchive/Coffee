@@ -32,7 +32,7 @@ module.exports = {
             if(podeEnviarMsg) {
                 message.reply(`Você não tem permissão para criar novos canais!`)
             } else if(podeAddReactions) {
-                message.react('⛔')
+                message.react('slash:745761670340804660')
             }
             return 
         }
@@ -41,7 +41,7 @@ module.exports = {
             if(podeEnviarMsg) {
                 message.reply(`Eu infelismente não tenho permissão para manipular canais dentro deste servidor😕`)
             } else if (podeAddReactions) {
-                message.react('⛔')
+                message.react('slash:745761670340804660')
             }
             return
         }
@@ -50,7 +50,7 @@ module.exports = {
             if(podeEnviarMsg) {
                 message.reply(`O servidor já possui o número máximo de canais!`)
             } else if(podeAddReactions) {
-                message.react('❗')
+                message.react('<:alertcircle:745709428937981992>')
             }
             return 
         }
@@ -62,7 +62,7 @@ module.exports = {
             if(podeEnviarMsg) {
                 message.reply(`Tipo de canal desconhecido! Use **"voice"** ou **"text"**!\nSe quiser criar um canal com mais de uma palavra em seu nome, use **"-"** no lugar dos espaços!\n EXEMPLO: **!${comando} nome-com-mais-de-uma-palavra text**`)
             } else if(podeAddReactions) {
-                message.react('❌')
+                message.react('<:helpcircle:745759636589903922>')
             }
             return
         };
@@ -72,19 +72,19 @@ module.exports = {
                 .setColor(hex.orange)
                 .setAuthor(message.author.username, message.author.displayAvatarURL())
                 .setTitle(`Erro ao executar comando **${comando}**`)
-                .setDescription(`Houve um erro ao executar a ação **message.guild.channels.create(args[0], { type: args[1] })**`)
-                .addField(`Servidor:`, `**${message.guild.name}**`)
-                .addField(`Quem executou:`, `**${message.author.tag}\n${message.author.id}**`)
-                .addField(`Permissões:`, `**${message.member.permissions.toArray().join('\n')}**`)
-                .addField(`Dono do servidor:`, `**${message.guild.owner.user.tag}**`)
-                .addField(`Erro:`, error)
+                .setDescription(`<:alertcircle:745709428937981992> Houve um erro ao executar a ação **message.guild.channels.create(args[0], { type: args[1] })**`)
+                .addField(`<:server:745693968595157144> Servidor:`, `**${message.guild.name}**`)
+                .addField(`<:user:745735266228240535> Quem executou:`, `**${message.author.tag}\n${message.author.id}**`)
+                .addField(`<:unlock:745735270569214083> Permissões:`, `**${message.member.permissions.toArray().join('\n')}**`)
+                .addField(`<:tag:745722860789563532> Dono do servidor:`, `**${message.guild.owner.user.tag}**`)
+                .addField(`<:xcircle:745735267448520704> Erro:`, error)
                 .setThumbnail(message.guild.iconURL())
                 .setTimestamp()
                 .setFooter(`${client.user.tag} log sistem`, client.user.displayAvatarURL())
             if(podeEnviarMsg) {
                 message.reply('Houve um erro ao executar esse comando! A Equipe já foi informada!')
             } else if(podeAddReactions) {
-                message.react('❌')
+                message.react('<:alertcircle:745709428937981992>')
             }
             console.log(error);
             if(podeCriarInvite) {
@@ -98,22 +98,22 @@ module.exports = {
         const embed = new Discord.MessageEmbed()
             .setColor(hex.green)
             .setTitle("Novo canal criado")
-            .setDescription(`Foi criado o canal de ID **${canais[canais.length-1].id}**`)
-            .addField('Nome', args[0])
+            .setDescription(`<:messagesquare:745708185490292946> Foi criado o canal de ID **${canais[canais.length-1].id}**`)
+            .addField('<:edit3:745722860362006608> Nome', args[0])
         // Verifica se já existe um canal de mesmo nome para exibir um alerta na criação
         if(message.guild.channels.cache.filter(canal => canal.name === args[0]).filter(canal => canal.type === args[1]).size > 1) {
             embed
                 .setColor(hex.orangered)
                 .addField('ALERTA', 'Já existe um canal de mesmo nome neste servidor!')
                 if(!podeEnviarMsg && podeAddReactions) {
-                    message.react('⚠')
+                    message.react('<:alertcircle:745709428937981992>')
                 }
         }
         if(podeEnviarMsg) {
             message.channel.send(`<#${canais[canais.length-1].id}>`)
             message.channel.send(embed)
         } else if(podeAddReactions) {
-            message.react('✅')
+            message.react('<:circlecheck:745763762132484197>')
         }
     }
 }

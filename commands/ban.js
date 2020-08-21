@@ -37,7 +37,7 @@ module.exports = {
       } else {
         for(let i = 0; i < usernamesDigitados.length; i++) {
           const usernameMembers = await message.guild.members.cache.filter(member => member.user.username.toLowerCase() === usernamesDigitados[i])
-          const nicknameMembers = await message.guild.members.cache.filter(member => (member.nickname === null) ? member.nickname : member.nickname.toLowerCase() === usernamesDigitados[i])
+          const nicknameMembers = await message.guild.members.cache.filter(member => (member.nickname === null || member.nickname === undefined) ? member.nickname : member.nickname.toLowerCase() === usernamesDigitados[i])
           if(usernameMembers.size !== 0) {
             if (!message.member.hasPermission("BAN_MEMBERS")) {
               if (podeEnviarMsg) {
@@ -96,7 +96,7 @@ module.exports = {
               return;
             }
             usernameMembers.map(member => member.ban({reason: motivo, days: (Number(daysMsgDelete) >= 0 && Number(daysMsgDelete) <= 7) ? Number(daysMsgDelete) : 7}))
-            if (podeManageMessages) {
+            if (podeManageMessages && i === usernamesDigitados.length - 1) {
               message.delete();
             } else if(podeEnviarMsg) {  
               message.reply(`**${usernameMembers.map(member => member.user.username)[0]}** foi banido com sucesso!`)
@@ -161,21 +161,20 @@ module.exports = {
               return;
             }
             nicknameMembers.map(member => member.ban({reason: motivo, days: (Number(daysMsgDelete) >= 0 && Number(daysMsgDelete) <= 7) ? Number(daysMsgDelete) : 7}))
-            if (podeManageMessages) {
+            if (podeManageMessages && i === usernamesDigitados.length - 1) {
               message.delete();
             } else if(podeEnviarMsg) {
               message.reply(`**${nicknameMembers.map(member => member.nickname)[0]}** foi banido com sucesso!`)
             } else if(podeAddReactions) {
               message.react('circlecheck:745763762132484197')
             }
-          } else {
+          } else if(i === usernamesDigitados.length - 1) {
             if(podeEnviarMsg) {
               message.reply(`eu não conheço esse membro!`)
             } else if(podeAddReactions) {
               message.react('helpcircle:745759636589903922')
             }
           }
-          
         }
         return;
       }

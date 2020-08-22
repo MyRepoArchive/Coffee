@@ -279,7 +279,7 @@ client.on("message", async message => {
         }
         return;
     }  
-
+    
     try {
         client.commands.get(comando).execute(message, args, comando, client);
     } catch (error) {

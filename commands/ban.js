@@ -20,6 +20,66 @@ module.exports = {
     const podeEnviarMsg = permissoesBot.has("SEND_MESSAGES")
     const podeAddReactions = permissoesBot.has("ADD_REACTIONS")
     const podeManageMessages = permissoesBot.has("MANAGE_MESSAGES")
+    if (!message.member.hasPermission("BAN_MEMBERS")) {
+      if (podeEnviarMsg) {
+        message.reply(`você não pode banir membros nesse servidor!`);
+      } else if (podeAddReactions) {
+        message.react('slash:745761670340804660')
+      }
+      return;
+    }
+    if (!botMembro.hasPermission("BAN_MEMBERS")) {
+      if (podeEnviarMsg) {
+        message.reply(`eu não tenho permissão para banir membros!`);
+      } else if (podeAddReactions) {
+        message.react('slash:745761670340804660')
+      }
+      return;
+    }
+    function verificacoes(members) {
+      let podeIr = false
+      if (members.has(message.guild.ownerID)) {
+        if (podeEnviarMsg) {
+          message.reply(`ele é o dono do servidor, não posso fazer isso!`)
+        } else if (podeAddReactions) {
+          message.react('slash:745761670340804660')
+        }
+        return podeIr = false;
+      }
+      if (members.map(user => user.roles.highest.position >= botMembro.roles.highest.position).indexOf(true) !== -1) {
+        if (podeEnviarMsg) {
+          message.reply(`eu não posso banir esse membro, ele tem um cargo maior que o meu!`)
+        } else if (podeAddReactions) {
+          message.react('slash:745761670340804660')
+        }
+        return podeIr = false;
+      }
+      if (members.map(user => user.roles.highest.position >= message.member.roles.highest.position).indexOf(true) !== -1 && message.author.id !== message.guild.ownerID) {
+        if (podeEnviarMsg) {
+          message.reply(`eu não posso banir esse membro, ele tem um cargo maior que o seu!`)
+        } else if (podeAddReactions) {
+          message.react('slash:745761670340804660')
+        }
+        return podeIr = false;
+      }
+      if (members.has(botMembro)) {
+        if (podeEnviarMsg) {
+          message.reply(`eu não posso me banir do servidor, faça isso manualmente ou peça ajuda a outro bot!`);
+        } else if (podeAddReactions) {
+          message.react('alertcircle:745709428937981992')
+        }
+        return podeIr = false;
+      }
+      if (members.has(message.member)) {
+        if (podeEnviarMsg) {
+          message.reply(`Você não pode se banir do servidor, isso é apenas questão de segurança!`);
+        } else if (podeAddReactions) {
+          message.react('alertcircle:745709428937981992')
+        }
+        return podeIr = false;
+      }
+      return podeIr = true
+    }
     if (mencoes.members.size === 0) {
       if(usernamesDigitados[0] === '') {
         if (podeEnviarMsg) {
@@ -39,62 +99,7 @@ module.exports = {
           const usernameMembers = await message.guild.members.cache.filter(member => member.user.username.toLowerCase() === usernamesDigitados[i])
           const nicknameMembers = await message.guild.members.cache.filter(member => (member.nickname === null || member.nickname === undefined) ? member.nickname : member.nickname.toLowerCase() === usernamesDigitados[i])
           if(usernameMembers.size !== 0) {
-            if (!message.member.hasPermission("BAN_MEMBERS")) {
-              if (podeEnviarMsg) {
-                message.reply(`você não pode banir membros nesse servidor!`);
-              } else if (podeAddReactions) {
-                message.react('slash:745761670340804660')
-              }
-              return;
-            }
-            if (!botMembro.hasPermission("BAN_MEMBERS")) {
-              if (podeEnviarMsg) {
-                message.reply(`eu não tenho permissão para banir membros!`);
-              } else if (podeAddReactions) {
-                message.react('slash:745761670340804660')
-              }
-              return;
-            }
-            if (usernameMembers.has(message.guild.ownerID)) {
-              if (podeEnviarMsg) {
-                message.reply(`ele é o dono do servidor, não posso fazer isso!`)
-              } else if (podeAddReactions) {
-                message.react('slash:745761670340804660')
-              }
-              return;
-            }
-            if (usernameMembers.map(user => user.roles.highest.position >= botMembro.roles.highest.position).indexOf(true) !== -1) {
-              if (podeEnviarMsg) {
-                message.reply(`eu não posso banir esse membro, ele tem um cargo maior que o meu!`)
-              } else if (podeAddReactions) {
-                message.react('slash:745761670340804660')
-              }
-              return;
-            }
-            if (usernameMembers.map(user => user.roles.highest.position >= message.member.roles.highest.position).indexOf(true) !== -1 && message.author.id !== message.guild.ownerID) {
-              if (podeEnviarMsg) {
-                message.reply(`eu não posso banir esse membro, ele tem um cargo maior que o seu!`)
-              } else if (podeAddReactions) {
-                message.react('slash:745761670340804660')
-              }
-              return;
-            }
-            if (usernameMembers.has(botMembro)) {
-              if (podeEnviarMsg) {
-                message.reply(`eu não posso me banir do servidor, faça isso manualmente ou peça ajuda a outro bot!`);
-              } else if (podeAddReactions) {
-                message.react('alertcircle:745709428937981992')
-              }
-              return;
-            }
-            if (usernameMembers.has(message.member)) {
-              if (podeEnviarMsg) {
-                message.reply(`Você não pode se banir do servidor, isso é apenas questão de segurança!`);
-              } else if (podeAddReactions) {
-                message.react('alertcircle:745709428937981992')
-              }
-              return;
-            }
+            if(!verificacoes(usernameMembers))return;
             usernameMembers.map(member => member.ban({reason: motivo, days: (Number(daysMsgDelete) >= 0 && Number(daysMsgDelete) <= 7) ? Number(daysMsgDelete) : 7}))
             if (podeManageMessages && i === usernamesDigitados.length - 1) {
               message.delete();
@@ -104,62 +109,7 @@ module.exports = {
               message.react('circlecheck:745763762132484197')
             }
           } else if(nicknameMembers.size !== 0) {
-            if (!message.member.hasPermission("BAN_MEMBERS")) {
-              if (podeEnviarMsg) {
-                message.reply(`você não pode banir membros nesse servidor!`);
-              } else if (podeAddReactions) {
-                message.react('slash:745761670340804660')
-              }
-              return;
-            }
-            if (!botMembro.hasPermission("BAN_MEMBERS")) {
-              if (podeEnviarMsg) {
-                message.reply(`eu não tenho permissão para banir membros!`);
-              } else if (podeAddReactions) {
-                message.react('slash:745761670340804660')
-              }
-              return;
-            }
-            if (nicknameMembers.has(message.guild.ownerID)) {
-              if (podeEnviarMsg) {
-                message.reply(`ele é o dono do servidor, não posso fazer isso!`)
-              } else if (podeAddReactions) {
-                message.react('slash:745761670340804660')
-              }
-              return;
-            }
-            if (nicknameMembers.map(user => user.roles.highest.position >= botMembro.roles.highest.position).indexOf(true) !== -1) {
-              if (podeEnviarMsg) {
-                message.reply(`eu não posso banir esse membro, ele tem um cargo maior que o meu!`)
-              } else if (podeAddReactions) {
-                message.react('slash:745761670340804660')
-              }
-              return;
-            }
-            if (nicknameMembers.map(user => user.roles.highest.position >= message.member.roles.highest.position).indexOf(true) !== -1 && message.author.id !== message.guild.ownerID) {
-              if (podeEnviarMsg) {
-                message.reply(`eu não posso banir esse membro, ele tem um cargo maior que o seu!`)
-              } else if (podeAddReactions) {
-                message.react('slash:745761670340804660')
-              }
-              return;
-            }
-            if (nicknameMembers.has(botMembro)) {
-              if (podeEnviarMsg) {
-                message.reply(`eu não posso me banir do servidor, faça isso manualmente ou peça ajuda a outro bot!`);
-              } else if (podeAddReactions) {
-                message.react('alertcircle:745709428937981992')
-              }
-              return;
-            }
-            if (nicknameMembers.has(message.member)) {
-              if (podeEnviarMsg) {
-                message.reply(`Você não pode se banir do servidor, isso é apenas questão de segurança!`);
-              } else if (podeAddReactions) {
-                message.react('alertcircle:745709428937981992')
-              }
-              return;
-            }
+            if(!verificacoes(nicknameMembers))return;
             nicknameMembers.map(member => member.ban({reason: motivo, days: (Number(daysMsgDelete) >= 0 && Number(daysMsgDelete) <= 7) ? Number(daysMsgDelete) : 7}))
             if (podeManageMessages && i === usernamesDigitados.length - 1) {
               message.delete();
@@ -179,62 +129,7 @@ module.exports = {
         return;
       }
     }
-    if (!message.member.hasPermission("BAN_MEMBERS")) {
-      if (podeEnviarMsg) {
-        message.reply(`você não pode banir membros nesse servidor!`);
-      } else if (podeAddReactions) {
-        message.react('slash:745761670340804660')
-      }
-      return;
-    }
-    if (!botMembro.hasPermission("BAN_MEMBERS")) {
-      if (podeEnviarMsg) {
-        message.reply(`eu não tenho permissão para banir membros!`);
-      } else if (podeAddReactions) {
-        message.react('slash:745761670340804660')
-      }
-      return;
-    }
-    if (mencoes.members.has(message.guild.ownerID)) {
-      if (podeEnviarMsg) {
-        message.reply(`ele é o dono do servidor, não posso fazer isso!`)
-      } else if (podeAddReactions) {
-        message.react('slash:745761670340804660')
-      }
-      return;
-    }
-    if (mencoes.members.map(user => user.roles.highest.position >= botMembro.roles.highest.position).indexOf(true) !== -1) {
-      if (podeEnviarMsg) {
-        message.reply(`eu não posso banir esse membro, ele tem um cargo maior que o meu!`)
-      } else if (podeAddReactions) {
-        message.react('slash:745761670340804660')
-      }
-      return;
-    }
-    if (mencoes.members.map(user => user.roles.highest.position >= message.member.roles.highest.position).indexOf(true) !== -1 && message.author.id !== message.guild.ownerID) {
-      if (podeEnviarMsg) {
-        message.reply(`eu não posso banir esse membro, ele tem um cargo maior que o seu!`)
-      } else if (podeAddReactions) {
-        message.react('slash:745761670340804660')
-      }
-      return;
-    }
-    if (mencoes.has(client.user)) {
-      if (podeEnviarMsg) {
-        message.reply(`eu não posso me banir do servidor, faça isso manualmente ou peça ajuda a outro bot!`);
-      } else if (podeAddReactions) {
-        message.react('alertcircle:745709428937981992')
-      }
-      return;
-    }
-    if (mencoes.has(message.author)) {
-      if (podeEnviarMsg) {
-        message.reply(`Você não pode se banir do servidor, isso é apenas questão de segurança!`);
-      } else if (podeAddReactions) {
-        message.react('alertcircle:745709428937981992')
-      }
-      return;
-    }
+    if(!verificacoes(mencoes.members))return;
     mencoes.members.map(user => user.ban({reason: motivo, days: (Number(daysMsgDelete) >= 0 && Number(daysMsgDelete) <= 7) ? Number(daysMsgDelete) : 7}))
     if (podeManageMessages) {
       message.delete();

@@ -3,6 +3,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const config = require("./info.json");
 const hex = require('./colors.json');
+const { RSA_PSS_SALTLEN_AUTO } = require('constants');
 const Data = new Date;
 // CORES PARA COLORIR TERMINAL
 const consoleColors = ['\033[0m', '\033[30m', '\033[31m', '\033[32m', '\033[33m', '\033[34m', '\033[35m', '\033[36m', '\033[37m'];
@@ -278,7 +279,7 @@ client.on("message", async message => {
         }
         return;
     }  
-    
+
     try {
         client.commands.get(comando).execute(message, args, comando, client);
     } catch (error) {

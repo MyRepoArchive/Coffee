@@ -10,7 +10,7 @@ module.exports = {
   name5: "repita",
   name6: "repeat",
   type: "Geral",
-  description: `"Faça das suas as minhas palavras"\nComo usar:\n**No mesmo canal:** *${config.prefix}say O que deve ser dito por mim*\n**Em outro canal do servidor:** *${config.prefix}say #outro-canal O que deve ser dito por mim*\n**Usando Embed no mesmo canal:** *${config.prefix}say \`\embed\`\ Título da embed \\ Descrição da embed \\ #f5f5f5*\n**Usando Embed em outro canal:** *${config.prefix}say #outro-canal \`\embed\`\ Título da embed \\ Descrição da embed \\ #808080*\n\n*OBS: Se você for utilizar embed na sua mensagem, coloque o termo **"embed"** entre crases. O título da embed é obrigatório, mas a descrição e a cor não são. Se você ficou confuso do que deve ser colocado no ultimo campo da embed, aquilo deve ser a cor em **hex** que a embed deve assumir. Como você também deve ter percebido, os campos da embed devem ser separador com "**\\**" (barra invertida)!*`,
+  description: `"Faça das suas as minhas palavras"\nComo usar:\n**No mesmo canal:** *${config.prefix}say O que deve ser dito por mim*\n**Em outro canal do servidor:** *${config.prefix}say #outro-canal O que deve ser dito por mim*\n**Usando Embed no mesmo canal:** *${config.prefix}say \`\embed\`\ Título da embed \\ Descrição da embed \\ #f5f5f5*\n**Usando Embed em outro canal:** *${config.prefix}say #outro-canal \`\embed\`\ Título da embed \\ Descrição da embed \\ #808080*\n\n*OBS: Se você for utilizar embed na sua mensagem, coloque o termo **"embed"** entre crases. O título da embed é obrigatório, mas a descrição e a cor não são. Se você ficou confuso do que deve ser colocado no ultimo campo da embed, aquilo deve ser a cor em **hex** que a embed deve assumir. Como você também deve ter percebido, os campos da embed devem ser separados com "**\\**" (barra invertida)!*`,
 
   async execute(message, args, comando, client) {
     const botMembro = message.guild.member(client.user.id)
@@ -75,7 +75,7 @@ module.exports = {
                   .setTitle(title)
                   .setDescription((description === undefined) ? '\u200B' : description)
                   if(color !== undefined) {
-                    embed.setColor((color.length === 6 && color.length === 7) ? color : hex.blue2)
+                    embed.setColor((color.length === 6 || color.length === 7) ? color : hex.blue2)
                   } else {
                     embed.setColor(hex.blue2)
                   }
@@ -107,7 +107,7 @@ module.exports = {
           .setTitle(title)
           .setDescription((description === undefined) ? '\u200B' : description)
           if(color !== undefined) {
-            embed.setColor((color.length === 6 && color.length === 7) ? color : hex.blue2)
+            embed.setColor((color.length === 6 || color.length === 7) ? color : hex.blue2)
           } else {
             embed.setColor(hex.blue2)
           }

@@ -3,7 +3,6 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const config = require("./info.json");
 const hex = require('./colors.json');
-const { RSA_PSS_SALTLEN_AUTO } = require('constants');
 const Data = new Date;
 // CORES PARA COLORIR TERMINAL
 const consoleColors = ['\033[0m', '\033[30m', '\033[31m', '\033[32m', '\033[33m', '\033[34m', '\033[35m', '\033[36m', '\033[37m'];
@@ -41,7 +40,7 @@ for (const file of commandFiles) {
     client.commands.set(command.name24, command);
     client.commands.set(command.name25, command);
 }
-
+// (75) 9 9154-9809
 for (const file of reactCommandFiles) {
     const reactCommand = require(`./reactCommands/${file}`);
     client.reactCommands.set(reactCommand.name, reactCommand);

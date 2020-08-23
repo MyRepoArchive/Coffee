@@ -12,6 +12,7 @@ module.exports = {
   name7: "comouso",
   name8: "mododeusar",
   name9: "mododeuso",
+  name10: "comousar",
   type: "Geral",
   description: `Mostra a descrição de cada comando!\nModo de usar: **${config.prefix}desc kick**`,
 

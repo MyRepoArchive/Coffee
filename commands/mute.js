@@ -10,7 +10,7 @@ module.exports = {
   name5: "calar",
   name6: "cale",
   type: "Moderação",
-  description: `Impossibilita o usuário citado de falar no servidor!\nModo de usar:\n**Mencionando o(s) usuário(s)** *${config.prefix}mute @user1 @user2*\n**Pelo username ou apelido:** *${config.prefix}mute username1 \\ apelido1*`,
+  description: `Impossibilita o usuário citado de falar no servidor!\nModo de usar:\n**Mencionando o(s) usuário(s)** *${config.prefix}mute @user1 @user2 \`motivo\`*\n**Pelo username ou apelido:** *${config.prefix}mute username1 \\ apelido1*\nOBS: *O motivo para o mute não é obrigatório, mas caso utilize, coloque-o entre crases ("\`")*`,
 
   async execute(message, args, comando, client) {
     const mencoes = message.mentions
@@ -92,7 +92,7 @@ module.exports = {
           const descEmbed = new Discord.MessageEmbed()
             .setColor(hex.blue2)
             .setTitle(`Como usar o ${config.prefix}${comando}`)
-            .setDescription(`Modo de usar:\n**Mencionando o(s) usuário(s)** *${config.prefix}mute @user1 @user2*\n**Pelo username ou apelido:** *${config.prefix}mute username1 \\ apelido1*`)
+            .setDescription(`Modo de usar:\n**Mencionando o(s) usuário(s)** *${config.prefix}mute @user1 @user2 \`motivo\`*\n**Pelo username ou apelido:** *${config.prefix}mute username1 \\ apelido1*\nOBS: *O motivo para o mute não é obrigatório, mas caso utilize, coloque-o entre crases ("\`")*`)
             .setTimestamp()
             .setFooter(`Sistema de ajuda ${client.user.username}`, client.user.displayAvatarURL())
           message.reply(descEmbed)
@@ -188,7 +188,7 @@ module.exports = {
       data: { name: "Muted", color: "#f5f5f5", hoist: false, mentionable: true, permissions: 1024 },
       reason: motivo
     }).then(role => {
-      mencoes.members.first().roles.set([role])
+      mencoes.members.map(member => member.roles.set([role]))
       message.guild.channels.cache.filter(canal => canal.memberPermissions(botMembro).has("MANAGE_ROLES") && canal.memberPermissions(botMembro).has("VIEW_CHANNEL")).map(canal => canal.createOverwrite(role, {SEND_MESSAGES: false}, motivo))
       if(podeManageMessages) {
         message.delete()

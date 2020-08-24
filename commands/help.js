@@ -16,7 +16,9 @@ module.exports = {
         const podeEnviarMsg = permissoesBot.has("SEND_MESSAGES")
         const podeAddReactions = permissoesBot.has("ADD_REACTIONS")
         const tiposComandos = [...new Set(client.commands.map(comando => comando.type))]
-        const emojiArray = ['number0:746000414020862003', 'number1:746000414184570930', 'number2:746000414259806229', 'number3:746000414335303751', 'number4:746000414276714526', 'number5:746000414217994370', 'number6:746000414310137956', 'number7:746000413542580345', 'number8:746000414201085962', 'number9:746000414012473386', 'number10:746000414985420810']
+        const emojiArray = [
+            'number0:746000414020862003', 'number1:746000414184570930', 'number2:746000414259806229', 'number3:746000414335303751', 'number4:746000414276714526', 'number5:746000414217994370', 'number6:746000414310137956', 'number7:746000413542580345', 'number8:746000414201085962', 'number9:746000414012473386', 'number10:746000414985420810'
+        ]
         const helpEmbed = new Discord.MessageEmbed()
             .setColor(hex.white)
             .setURL(config.commandsURL) // Aqui você pode colocar algum outro link

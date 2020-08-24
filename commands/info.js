@@ -6,7 +6,7 @@ module.exports = {
   name: "info",
   name2: "botinfo",
   name3: "infobot",
-  type: "Geral",
+  type: "Informativo",
   description: "Exibe para o usuário alguma informações bacanas do bot, como número de comandos, de usuários, de canais, servidores, etc...",
 
   async execute(message, args, comando, client) {

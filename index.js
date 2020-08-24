@@ -40,7 +40,7 @@ for (const file of commandFiles) {
     client.commands.set(command.name24, command);
     client.commands.set(command.name25, command);
 }
-// (75) 9 9154-9809
+
 for (const file of reactCommandFiles) {
     const reactCommand = require(`./reactCommands/${file}`);
     client.reactCommands.set(reactCommand.name, reactCommand);
@@ -278,7 +278,7 @@ client.on("message", async message => {
         }
         return;
     }  
-    
+    message.guild.emojis.cache.filter(emoji => !emoji.animated)
     try {
         client.commands.get(comando).execute(message, args, comando, client);
     } catch (error) {

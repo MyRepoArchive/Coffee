@@ -18,11 +18,11 @@ module.exports = {
             const m = await message.author.send("Pong🏓").then(m => {
                 m.edit(`A latência do bot é de ${m.createdTimestamp - message.createdTimestamp}ms.\nA latência da API é de ${Math.round(client.ws.ping)}ms`)
                 if(podeAddReactions) {
-                    message.react('<:send:745271212799950899>')
+                    message.react('send:745271212799950899')
                 }
             }, () => {
                 if(podeAddReactions) {
-                    message.react('<:slash:745761670340804660>')
+                    message.react('slash:745761670340804660')
                 }
             })
         }

@@ -22,7 +22,7 @@ module.exports = {
                 }
             }, () => {
                 if(podeAddReactions) {
-                    message.react('slash:745761670340804660')
+                    message.react('slashred:747879954305253468')
                 }
             })
         }

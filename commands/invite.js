@@ -29,11 +29,11 @@ module.exports = {
     } else {
       message.author.send(embedInvite).then(msg => {
         if(podeAddReactions) {
-          message.react('circlecheck:745763762132484197')
+          message.react('circlecheckverde:747879943224033481')
         }
       }, () => {
         if(podeAddReactions) {
-          message.react('alertcircle:745709428937981992')
+          message.react('alertcircleamarelo:747879938207514645')
         }
       })
     }

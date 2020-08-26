@@ -22,13 +22,13 @@ module.exports = {
     const mutedRoles = await message.guild.roles.cache.find(role => role.permissions.bitfield === 1024)
     if (!message.member.hasPermission("MANAGE_ROLES") || !message.member.hasPermission("MANAGE_CHANNELS")) {
       if (podeEnviarMsg) { message.reply(`você não pode desmutar membros nesse servidor!`); } else if (podeAddReactions) {
-        message.react('slash:745761670340804660')
+        message.react('slashred:747879954305253468')
       }
       return;
     }
     if (!botMembro.hasPermission("MANAGE_ROLES") || !botMembro.hasPermission("MANAGE_CHANNELS")) {
       if (podeEnviarMsg) { message.reply(`eu não tenho permissão para desmutar membros!`); } else if (podeAddReactions) {
-        message.react('slash:745761670340804660')
+        message.react('slashred:747879954305253468')
       }
       return;
     }
@@ -40,7 +40,7 @@ module.exports = {
         if (podeEnviarMsg) {
           message.reply(`eu não posso desmutar esse membro, ele tem um cargo maior que o meu!`)
         } else if (podeAddReactions) {
-          message.react('slash:745761670340804660')
+          message.react('slashred:747879954305253468')
         }
         return podeIr = false;
       }
@@ -48,7 +48,7 @@ module.exports = {
         if (podeEnviarMsg) {
           message.reply(`eu não posso mutar esse membro, ele tem um cargo maior que o seu!`)
         } else if (podeAddReactions) {
-          message.react('slash:745761670340804660')
+          message.react('slashred:747879954305253468')
         }
         return podeIr = false;
       }
@@ -56,7 +56,7 @@ module.exports = {
         if (podeEnviarMsg) {
           message.reply(`você não pode se desmutar do servidor, isso é apenas questão de segurança!`);
         } else if (podeAddReactions) {
-          message.react('alertcircle:745709428937981992')
+          message.react('alertcircleamarelo:747879938207514645')
         }
         return podeIr = false;
       }
@@ -73,7 +73,7 @@ module.exports = {
             .setFooter(`Sistema de ajuda ${client.user.username}`, client.user.displayAvatarURL())
           message.reply(descEmbed)
         } else if (podeAddReactions) {
-          message.react('helpcircle:745759636589903922')
+          message.react('helpcircleblue:747879943811235841')
         }
         return;
       } else {
@@ -89,7 +89,7 @@ module.exports = {
               } else if(podeEnviarMsg) {
                 message.reply(`**${usernameMembers.map(member => member.user.username)[0]}** foi desmutado com sucesso!`)
               } else if (podeAddReactions) {
-                message.react('circlecheck:745763762132484197')
+                message.react('circlecheckverde:747879943224033481')
               }
               return;
             }
@@ -102,7 +102,7 @@ module.exports = {
               } else if(podeEnviarMsg) {
                 message.reply(`**${nicknameMembers.map(member => member.user.username)[0]}** foi desmutado com sucesso!`)
               } else if (podeAddReactions) {
-                message.react('circlecheck:745763762132484197')
+                message.react('circlecheckverde:747879943224033481')
               }
               return;
             }
@@ -110,7 +110,7 @@ module.exports = {
             if(podeEnviarMsg) {
               message.reply(`eu não conheço esse membro!`)
             } else if(podeAddReactions) {
-              message.react('helpcircle:745759636589903922')
+              message.react('helpcircleblue:747879943811235841')
             }
           }
         }
@@ -125,7 +125,7 @@ module.exports = {
       } else if(podeEnviarMsg) {
         message.reply(`**${mencoes.members.map(member => member.user.username)[0]}** foi desmutado com sucesso!`)
       } else if (podeAddReactions) {
-        message.react('circlecheck:745763762132484197')
+        message.react('circlecheckverde:747879943224033481')
       }
       return;
     }

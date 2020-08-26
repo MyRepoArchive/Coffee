@@ -31,7 +31,7 @@ module.exports = {
           .setFooter(`Sistema de ajuda ${client.user.username}`, client.user.displayAvatarURL())
         message.reply(descEmbed)
       } else if (podeAddReactions) {
-        message.react('helpcircle:745759636589903922')
+        message.react('helpcircleblue:747879943811235841')
       }
       return;
     }
@@ -41,7 +41,7 @@ module.exports = {
         if (podeEnviarMsg) {
           message.reply(`Você não pode marcar everyone/here meu querido!`)
         } else if (podeAddReactions) {
-          message.react('slash:745761670340804660')
+          message.react('slashred:747879954305253468')
         }
         if (podeManageMessages) {
           message.delete()
@@ -61,7 +61,7 @@ module.exports = {
                 if(podeEnviarMsg) {
                   message.reply(`O que eu devo falar?`)
                 } else if(podeAddReactions) {
-                  message.react('helpcircle:745759636589903922')
+                  message.react('helpcircleblue:747879943811235841')
                 }
                 return;
               }
@@ -89,10 +89,10 @@ module.exports = {
             }
             return;
           } else if (podeAddReactions) {
-            message.react('slash:745761670340804660')
+            message.react('slashred:747879954305253468')
           }
         } else if (podeAddReactions) {
-          message.react('slash:745761670340804660')
+          message.react('slashred:747879954305253468')
         }
       }
     }
@@ -114,7 +114,7 @@ module.exports = {
         if (podeEnviarMsg) {
           message.channel.send(embed)
         } else if (podeAddReactions) {
-          message.react('slash:745761670340804660')
+          message.react('slashred:747879954305253468')
           return;
         }
         // Verifica se naquele canal o bot pode deletar mensagens
@@ -128,7 +128,7 @@ module.exports = {
     if (podeEnviarMsg) {
       message.channel.send(message.content.slice(config.prefix.length + comando.length + 1))
     } else if (podeAddReactions) {
-      message.react('slash:745761670340804660')
+      message.react('slashred:747879954305253468')
       return;
     }
     // Verifica se naquele canal o bot pode deletar mensagens

@@ -24,7 +24,7 @@ module.exports = {
       if (podeEnviarMsg) {
         message.reply(`você não pode banir membros nesse servidor!`);
       } else if (podeAddReactions) {
-        message.react('slash:745761670340804660')
+        message.react('slashred:747879954305253468')
       }
       return;
     }
@@ -32,7 +32,7 @@ module.exports = {
       if (podeEnviarMsg) {
         message.reply(`eu não tenho permissão para banir membros!`);
       } else if (podeAddReactions) {
-        message.react('slash:745761670340804660')
+        message.react('slashred:747879954305253468')
       }
       return;
     }
@@ -42,7 +42,7 @@ module.exports = {
         if (podeEnviarMsg) {
           message.reply(`ele é o dono do servidor, não posso fazer isso!`)
         } else if (podeAddReactions) {
-          message.react('slash:745761670340804660')
+          message.react('slashred:747879954305253468')
         }
         return podeIr = false;
       }
@@ -50,7 +50,7 @@ module.exports = {
         if (podeEnviarMsg) {
           message.reply(`eu não posso banir esse membro, ele tem um cargo maior que o meu!`)
         } else if (podeAddReactions) {
-          message.react('slash:745761670340804660')
+          message.react('slashred:747879954305253468')
         }
         return podeIr = false;
       }
@@ -58,7 +58,7 @@ module.exports = {
         if (podeEnviarMsg) {
           message.reply(`eu não posso banir esse membro, ele tem um cargo maior que o seu!`)
         } else if (podeAddReactions) {
-          message.react('slash:745761670340804660')
+          message.react('slashred:747879954305253468')
         }
         return podeIr = false;
       }
@@ -66,7 +66,7 @@ module.exports = {
         if (podeEnviarMsg) {
           message.reply(`eu não posso me banir do servidor, faça isso manualmente ou peça ajuda a outro bot!`);
         } else if (podeAddReactions) {
-          message.react('alertcircle:745709428937981992')
+          message.react('alertcircleamarelo:747879938207514645')
         }
         return podeIr = false;
       }
@@ -74,7 +74,7 @@ module.exports = {
         if (podeEnviarMsg) {
           message.reply(`Você não pode se banir do servidor, isso é apenas questão de segurança!`);
         } else if (podeAddReactions) {
-          message.react('alertcircle:745709428937981992')
+          message.react('alertcircleamarelo:747879938207514645')
         }
         return podeIr = false;
       }
@@ -91,7 +91,7 @@ module.exports = {
             .setFooter(`Sistema de ajuda ${client.user.username}`, client.user.displayAvatarURL())
           message.reply(descEmbed)
         } else if (podeAddReactions) {
-          message.react('helpcircle:745759636589903922')
+          message.react('helpcircleblue:747879943811235841')
         }
         return;
       } else {
@@ -106,7 +106,7 @@ module.exports = {
             } else if(podeEnviarMsg) {  
               message.reply(`**${usernameMembers.map(member => member.user.username)[0]}** foi banido com sucesso!`)
             } else if(podeAddReactions) {
-              message.react('circlecheck:745763762132484197')
+              message.react('circlecheckverde:747879943224033481')
             }
           } else if(nicknameMembers.size !== 0) {
             if(!verificacoes(nicknameMembers))return;
@@ -116,13 +116,13 @@ module.exports = {
             } else if(podeEnviarMsg) {
               message.reply(`**${nicknameMembers.map(member => member.nickname)[0]}** foi banido com sucesso!`)
             } else if(podeAddReactions) {
-              message.react('circlecheck:745763762132484197')
+              message.react('circlecheckverde:747879943224033481')
             }
           } else if(i === usernamesDigitados.length - 1) {
             if(podeEnviarMsg) {
               message.reply(`eu não conheço esse membro!`)
             } else if(podeAddReactions) {
-              message.react('helpcircle:745759636589903922')
+              message.react('helpcircleblue:747879943811235841')
             }
           }
         }
@@ -140,7 +140,7 @@ module.exports = {
         message.reply(`**${mencoes.members.map(member => member.user.username)[0]}** foi expulso com sucesso!`)
       }
     } else if(podeAddReactions) {
-      message.react('circlecheck:745763762132484197')
+      message.react('circlecheckverde:747879943224033481')
     }
   }
 }

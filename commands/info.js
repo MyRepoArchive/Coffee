@@ -22,7 +22,7 @@ module.exports = {
     const embedInfo = new Discord.MessageEmbed()
       .setColor(hex.darkred)
       .setAuthor(message.author.username, message.author.displayAvatarURL())
-      .setTitle(`<:info:745716823424630856> Informações sobre mim`)
+      .setTitle(`<:infoblue:747879943987265607> Informações sobre mim`)
       .addFields(
         { name: `Meu username`, value: client.user.username, inline: true },
         { name: `Meu apelido`, value: (botMembro.nickname === null || botMembro.nickname === undefined) ? 'Não tenho apelido nesse servidor' : botMembro.nickname, inline: true },
@@ -47,7 +47,7 @@ module.exports = {
       if(podeEnviarMsg) {
         message.channel.send(embedInfo)
       } else if(podeAddReactions) {
-        message.react('alertcircle:745709428937981992')
+        message.react('alertcircleamarelo:747879938207514645')
       }
   }
 }

@@ -32,7 +32,7 @@ module.exports = {
           .setFooter(`Sistema de ajuda ${client.user.username}`, client.user.displayAvatarURL())
         message.reply(descEmbed)
       } else if(podeAddReactions) {
-        message.react('helpcircle:745759636589903922')
+        message.react('helpcircleblue:747879943811235841')
       }
       return
     }
@@ -43,7 +43,7 @@ module.exports = {
       if(podeEnviarMsg) {
         message.reply(`o comando ***${args[0]}*** não existe!`)
       } else if (podeAddReactions) {
-        message.react('alertcircle:745709428937981992')
+        message.react('alertcircleamarelo:747879938207514645')
       }
       return
     }
@@ -63,7 +63,7 @@ module.exports = {
         }
       }, () => {
         if(podeAddReactions) {
-          message.react('alertcircle:745709428937981992')
+          message.react('alertcircleamarelo:747879938207514645')
         }
       })
     }

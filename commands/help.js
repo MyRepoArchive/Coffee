@@ -17,7 +17,7 @@ module.exports = {
         const podeAddReactions = permissoesBot.has("ADD_REACTIONS")
         const tiposComandos = [...new Set(client.commands.map(comando => comando.type))]
         const emojiArray = [
-            'number0:746000414020862003', 'number1:746000414184570930', 'number2:746000414259806229', 'number3:746000414335303751', 'number4:746000414276714526', 'number5:746000414217994370', 'number6:746000414310137956', 'number7:746000413542580345', 'number8:746000414201085962', 'number9:746000414012473386', 'number10:746000414985420810'
+            'number0blue:747879954875809952', 'number1blue:747879954464637039', 'number2blue:747879955773390859', 'number3blue:747879956130037770', 'number4blue:747879955907477544', 'number5blue:747879955773259907', 'number6blue:747879956100677665', 'number7blue:747879955618332845', 'number8blue:747879956054540439', 'number9blue:747879956012466336', 'number10blue:7478799559873006020602'
         ]
         const helpEmbed = new Discord.MessageEmbed()
             .setColor(hex.white)
@@ -32,7 +32,7 @@ module.exports = {
                 if(i < emojiArray.length) {
                     helpEmbed.addField(`<:${emojiArray[i]}> | ${tiposComandos[i]}`, `Exemplo: ${config.prefix}${exTiposComandos[0]}`)
                 } else {
-                    helpEmbed.addField(`<:fastforward:745272739463561246> | Mais tipos`, `Exemplo: ${config.prefix}${tiposComandos[i]}`)
+                    helpEmbed.addField(`<:fastforwardblue:747879944192917635> | Mais tipos`, `Exemplo: ${config.prefix}${tiposComandos[i]}`)
                     i = Infinity
                 }
             }
@@ -42,7 +42,7 @@ module.exports = {
                 if(i <= 10) {
                     msg.react(emojiArray[i])
                 } else {
-                    msg.react('fastforward:745272739463561246')
+                    msg.react('fastforwardblue:747879944192917635')
                     i = Infinity
                 }
             }
@@ -51,7 +51,7 @@ module.exports = {
             if(podeEnviarMsg) {
                 message.reply(`Você pode conferir todos os comandos do ${client.user.username} em: ${config.commandsURL}\nOu se preferir, libere o envio de mensagens diretas e execute novamente o comando ${config.prefix}help`)
             } else if(podeAddReactions) {
-                message.react('slash:745761670340804660')
+                message.react('slashred:747879954305253468')
             }
         })
     }

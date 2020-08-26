@@ -3,29 +3,29 @@ const config = require('../info.json');
 const hex = require('../colors.json');
 
 module.exports = {
-  name: 'number0:746000414020862003',
-  name2: 'number1:746000414184570930',
-  name3: 'number2:746000414259806229',
-  name4: 'number3:746000414335303751',
-  name5: 'number4:746000414276714526',
-  name6: 'number5:746000414217994370',
-  name7: 'number6:746000414310137956',
-  name8: 'number7:746000413542580345',
-  name9: 'number8:746000414201085962',
-  name10: 'number9:746000414012473386',
-  name11: 'number10:746000414985420810',
-  name12: 'rewind:745274112691404850',
-  name13: 'fastforward:745272739463561246',
-  name14: 'anchor:745735266802597999',
+  name: 'number0blue:747879954875809952',
+  name2: 'number1blue:747879954464637039',
+  name3: 'number2blue:747879955773390859',
+  name4: 'number3blue:747879956130037770',
+  name5: 'number4blue:747879955907477544',
+  name6: 'number5blue:747879955773259907',
+  name7: 'number6blue:747879956100677665',
+  name8: 'number7blue:747879955618332845',
+  name9: 'number8blue:747879956054540439',
+  name10: 'number9blue:747879956012466336',
+  name11: 'number10blue:7478799559873006020602',
+  name12: 'rewindblue:747879941143527554',
+  name13: 'fastforwardblue:747879944192917635',
+  name14: 'homeblue:747879955844694037',
   description: 'help',
 
   async execute(message, user, client) {
     const tiposComandos = [...new Set(client.commands.map(comando => comando.type))]
-    const emojiArray = ['number0:746000414020862003', 'number1:746000414184570930', 'number2:746000414259806229', 'number3:746000414335303751', 'number4:746000414276714526', 'number5:746000414217994370', 'number6:746000414310137956', 'number7:746000413542580345', 'number8:746000414201085962', 'number9:746000414012473386', 'number10:746000414985420810']
+    const emojiArray = ['number0blue:747879954875809952', 'number1blue:747879954464637039', 'number2blue:747879955773390859', 'number3blue:747879956130037770', 'number4blue:747879955907477544', 'number5blue:747879955773259907', 'number6blue:747879956100677665', 'number7blue:747879955618332845', 'number8blue:747879956054540439', 'number9blue:747879956012466336', 'number10blue:7478799559873006020602']
     if (message.me && message.message.embeds[0] !== undefined && message.message.embeds[0].title === `Central de atendimento ${client.user.username}`) {
       const page = parseInt(message.message.embeds[0].footer.text.slice(message.message.embeds[0].footer.text.split('').lastIndexOf('(') + 1).split('').shift())
 
-      if (message.emoji.identifier === 'fastforward:745272739463561246') {
+      if (message.emoji.identifier === 'fastforwardblue:747879944192917635') {
         const helpEmbed = new Discord.MessageEmbed()
           .setColor(hex.white)
           .setURL(config.commandsURL) // Aqui você pode colocar algum outro link
@@ -39,26 +39,26 @@ module.exports = {
           if (i < emojiArray.length) {
             helpEmbed.addField(`<:${emojiArray[i]}> | ${tiposComandos[i + (page * 11)]}`, `Exemplo: ${config.prefix}${exTiposComandos[0]}`)
           } else {
-            helpEmbed.addField(`<:fastforward:745272739463561246> | Mais tipos`, `Exemplo: ${config.prefix}${tiposComandos[i + (page * 11)]}`)
+            helpEmbed.addField(`<:fastforwardblue:747879944192917635> | Mais tipos`, `Exemplo: ${config.prefix}${tiposComandos[i + (page * 11)]}`)
             i = Infinity
           }
         }
-        helpEmbed.addField(`<:rewind:745274112691404850> | Página anterior`, `Retorne para a página anterior`)
+        helpEmbed.addField(`<:rewindblue:747879941143527554> | Página anterior`, `Retorne para a página anterior`)
         const newMsg = await message.message.edit(helpEmbed)
         await newMsg.reactions.map(reaction => reaction.users.remove(client.user.id))
         for (let i = 0; i < tiposComandos.length - (page * 11); i++) {
           if (i < emojiArray.length) {
             newMsg.react(emojiArray[i])
           } else {
-            newMsg.react('fastforward:745272739463561246')
+            newMsg.react('fastforwardblue:747879944192917635')
             i = Infinity
           }
         }
-        newMsg.react('rewind:745274112691404850')
+        newMsg.react('rewindblue:747879941143527554')
         return;
       }
 
-      if (message.emoji.identifier === 'rewind:745274112691404850') {
+      if (message.emoji.identifier === 'rewindblue:747879941143527554') {
         const helpEmbed = new Discord.MessageEmbed()
           .setColor(hex.white)
           .setURL(config.commandsURL) // Aqui você pode colocar algum outro link
@@ -72,7 +72,7 @@ module.exports = {
           if (i < emojiArray.length) {
             helpEmbed.addField(`<:${emojiArray[i]}> | ${tiposComandos[i + ((page - 2) * 11)]}`, `Exemplo: ${config.prefix}${exTiposComandos[0]}`)
           } else {
-            helpEmbed.addField(`<:fastforward:745272739463561246> | Mais tipos`, `Exemplo: ${config.prefix}${tiposComandos[i + ((page - 2) * 11)]}`)
+            helpEmbed.addField(`<:fastforwardblue:747879944192917635> | Mais tipos`, `Exemplo: ${config.prefix}${tiposComandos[i + ((page - 2) * 11)]}`)
             i = Infinity
           }
         }
@@ -82,12 +82,12 @@ module.exports = {
           if (i < emojiArray.length) {
             newMsg.react(emojiArray[i])
           } else {
-            newMsg.react('fastforward:745272739463561246')
+            newMsg.react('fastforwardblue:747879944192917635')
             i = Infinity
           }
         }
         if (page - 1 !== 1) {
-          newMsg.react('rewind:745274112691404850')
+          newMsg.react('rewindblue:747879941143527554')
         }
         return;
       }
@@ -111,11 +111,11 @@ module.exports = {
         if (i < nameComandos.length) {
           message.message.react(emojiArray[i])
         } else {
-          newMsg.react('fastforward:745272739463561246')
+          newMsg.react('fastforwardblue:747879944192917635')
           i = Infinity
         }
       }
-      message.message.react('anchor:745735266802597999')
+      message.message.react('homeblue:747879955844694037')
     }
 
     if (message.me && message.message.embeds[0] !== undefined && message.message.embeds[0].title.startsWith(`Comandos do tipo`)) {
@@ -124,7 +124,7 @@ module.exports = {
       const comandos = client.commands.filter(command => command.type === tipoComando)
       const nameComandos = [...new Set(comandos.map(comando => comando.name))]
       const descComandos = [...new Set(comandos.map(comando => comando.description))]
-      if (message.emoji.identifier === 'fastforward:745272739463561246') {
+      if (message.emoji.identifier === 'fastforwardblue:747879944192917635') {
         const helpEmbed = new Discord.MessageEmbed()
           .setColor(hex.aqua)
           .setAuthor(user.username, user.displayAvatarURL())
@@ -135,26 +135,26 @@ module.exports = {
           if (i < emojiArray.length) {
             helpEmbed.addField(`<:${emojiArray[i]}> | ${config.prefix}${nameComandos[i + (page * 11)]}`, `${descComandos[i + (page * 11)].split(' ').slice(0, 10).join(' ')}[...]`)
           } else {
-            helpEmbed.addField(`<:fastforward:745272739463561246> | Mais comandos`, `Exemplo: ${config.prefix}${nameComandos[i + (page * 11)]}`)
+            helpEmbed.addField(`<:fastforwardblue:747879944192917635> | Mais comandos`, `Exemplo: ${config.prefix}${nameComandos[i + (page * 11)]}`)
             i = Infinity
           }
         }
-        helpEmbed.addField(`<:rewind:745274112691404850> | Página anterior`, `Retorne para a página anterior`)
+        helpEmbed.addField(`<:rewindblue:747879941143527554> | Página anterior`, `Retorne para a página anterior`)
         const newMsg = await message.message.edit(helpEmbed)
         await newMsg.reactions.map(reaction => reaction.users.remove(client.user.id))
         for (let i = 0; i < nameComandos.length - (page * 11); i++) {
           if (i < emojiArray.length) {
             newMsg.react(emojiArray[i])
           } else {
-            newMsg.react('fastforward:745272739463561246')
+            newMsg.react('fastforwardblue:747879944192917635')
             i = Infinity
           }
         }
-        newMsg.react('rewind:745274112691404850')
+        newMsg.react('rewindblue:747879941143527554')
         return;
       }
 
-      if (message.emoji.identifier === 'rewind:745274112691404850') {
+      if (message.emoji.identifier === 'rewindblue:747879941143527554') {
         const helpEmbed = new Discord.MessageEmbed()
           .setColor(hex.aqua)
           .setAuthor(user.username, user.displayAvatarURL())
@@ -165,7 +165,7 @@ module.exports = {
           if (i < emojiArray.length) {
             helpEmbed.addField(`<:${emojiArray[i]}> | ${config.prefix}${nameComandos[i + ((page - 2) * 11)]}`, `${descComandos[i + ((page - 2) * 11)].split(' ').slice(0, 10).join(' ')}[...]`)
           } else {
-            helpEmbed.addField(`<:fastforward:745272739463561246> | Mais comandos`, `Exemplo: ${config.prefix}${nameComandos[i + ((page - 2) * 11)]}`)
+            helpEmbed.addField(`<:fastforwardblue:747879944192917635> | Mais comandos`, `Exemplo: ${config.prefix}${nameComandos[i + ((page - 2) * 11)]}`)
             i = Infinity
           }
         }
@@ -175,17 +175,17 @@ module.exports = {
           if (i < emojiArray.length) {
             newMsg.react(emojiArray[i])
           } else {
-            newMsg.react('fastforward:745272739463561246')
+            newMsg.react('fastforwardblue:747879944192917635')
             i = Infinity
           }
         }
         if (page - 1 !== 1) {
-          newMsg.react('rewind:745274112691404850')
+          newMsg.react('rewindblue:747879941143527554')
         }
         return;
       }
 
-      if (message.emoji.identifier === 'anchor:745735266802597999') {
+      if (message.emoji.identifier === 'homeblue:747879955844694037') {
         const helpEmbed = new Discord.MessageEmbed()
           .setColor(hex.white)
           .setURL(config.commandsURL) // Aqui você pode colocar algum outro link
@@ -199,7 +199,7 @@ module.exports = {
           if (i < emojiArray.length) {
             helpEmbed.addField(`<:${emojiArray[i]}> | ${tiposComandos[i]}`, `Exemplo: ${config.prefix}${exTiposComandos[0]}`)
           } else {
-            helpEmbed.addField(`<:fastforward:745272739463561246> | Mais tipos`, `Exemplo: ${config.prefix}${tiposComandos[i]}`)
+            helpEmbed.addField(`<:fastforwardblue:747879944192917635> | Mais tipos`, `Exemplo: ${config.prefix}${tiposComandos[i]}`)
             i = Infinity
           }
         }
@@ -210,7 +210,7 @@ module.exports = {
           if(i <= 10) {
               message.message.react(emojiArray[i])
           } else {
-              message.message.react('fastforward:745272739463561246')
+              message.message.react('fastforwardblue:747879944192917635')
               i = Infinity
           }
         }
@@ -227,10 +227,10 @@ module.exports = {
         .setFooter(`Sistema de ajuda ${client.user.username}`)
       await message.message.edit(embed)
       await message.message.reactions.cache.map(reaction => reaction.users.remove(client.user.id))
-      message.message.react('anchor:745735266802597999')
+      message.message.react('homeblue:747879955844694037')
     }
     if (message.me && message.message.embeds[0] !== undefined && message.message.embeds[0].title.startsWith(`Comando **`)) {
-      if(message.emoji.identifier === 'anchor:745735266802597999') {
+      if(message.emoji.identifier === 'homeblue:747879955844694037') {
         const helpEmbed = new Discord.MessageEmbed()
           .setColor(hex.white)
           .setURL(config.commandsURL) // Aqui você pode colocar algum outro link
@@ -244,7 +244,7 @@ module.exports = {
           if (i < emojiArray.length) {
             helpEmbed.addField(`<:${emojiArray[i]}> | ${tiposComandos[i]}`, `Exemplo: ${config.prefix}${exTiposComandos[0]}`)
           } else {
-            helpEmbed.addField(`<:fastforward:745272739463561246> | Mais tipos`, `Exemplo: ${config.prefix}${tiposComandos[i]}`)
+            helpEmbed.addField(`<:fastforwardblue:747879944192917635> | Mais tipos`, `Exemplo: ${config.prefix}${tiposComandos[i]}`)
             i = Infinity
           }
         }
@@ -255,7 +255,7 @@ module.exports = {
           if(i <= 10) {
               message.message.react(emojiArray[i])
           } else {
-              message.message.react('fastforward:745272739463561246')
+              message.message.react('fastforwardblue:747879944192917635')
               i = Infinity
           }
         }

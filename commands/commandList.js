@@ -18,9 +18,9 @@ module.exports = {
     const embed = new Discord.MessageEmbed()
       .setAuthor(message.author.username, message.author.displayAvatarURL())
       .setColor(hex.ivory)
-      .setTitle(`Minha listinha de comandos =)`)
+      .setTitle(`<:terminalblue:747879940749393951> Minha listinha de comandos =)`)
       .setDescription(`\`${comandos.join('`, `')}\``)
-      .addField(`Observação`, `Se você estiver precisando de algo mais detalhado, use **${config.prefix}ajuda**`)
+      .addField(`<:infoblue:747879943987265607> Observação`, `Se você estiver precisando de algo mais detalhado, use **${config.prefix}ajuda**`)
       .setTimestamp()
       .setFooter(client.user.username, client.user.displayAvatarURL())
     if(podeEnviarMsg) {
@@ -28,11 +28,11 @@ module.exports = {
     } else {
       message.author.send(embed).then(() => {
         if(podeAddReactions) {
-          message.react('circlecheck:745763762132484197')
+          message.react('circlecheckverde:747879943224033481')
         }
       }, () => {
         if(podeAddReactions) {
-          message.react('alertcircle:745709428937981992')
+          message.react('alertcircleamarelo:747879938207514645')
         }
       })
     }

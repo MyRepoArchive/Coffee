@@ -49,7 +49,7 @@ module.exports = {
     if(podeEnviarMsg) {
       message.channel.send(embed)
     } else if (podeAddReactions) {
-      message.react('alertcircle:745709428937981992')
+      message.react('alertcircleamarelo:747879938207514645')
     }
   }
 }

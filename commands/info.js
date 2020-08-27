@@ -34,6 +34,7 @@ module.exports = {
         { name: `<:textchannelclaro:748224336770498650> Canais`, value: `**${client.channels.cache.size}**`, inline: true },
         { name: `<:emoji:748334546138955826> Emojis`, value: `**${client.emojis.cache.size}**`, inline: true },
         { name: `<:terminal:745279127195615343> Comandos`, value: `**${comandos.length}**`, inline: true },
+        { name: `<:configuracoesdousuario:748195176836497569> Tecnologias utlizadas`, value: `<:javascript:748195182767374417> JavaScript <:node:748195195748614154> NodeJS` },
         { name: `<:p_:748336334044790814> Meu prefixo`, value: `"\`${config.prefix}\`"`, inline: true },
         { name: `<:support:748337028541710446> Servidor de suporte`, value: `[Clique aqui](https://discord.gg/hNffyc3)`, inline: true },
         { name: `<:sourcecode:748338362569588788> Meu código-fonte`, value: `[Clique aqui](${config.repositorio})`, inline: true },

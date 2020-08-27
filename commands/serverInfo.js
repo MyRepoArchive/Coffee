@@ -34,10 +34,10 @@ module.exports = {
       .setColor(hex.coral)
       .setFooter(`Sistema de informações ${client.user.username}`, client.user.displayAvatarURL())
       .addFields(
-        { name: `ID do server`, value: message.guild.id, inline: true },
-        { name: `Região`, value: message.guild.region.toUpperCase(), inline: true },
-        { name: `Quantidade de canais`, value: `Total: **${guildChannels.size}** | Texto: **${guildTextChannels}** | Voz: **${guildVoiceChannels}** | Notícias: **${guildNewsChannels}** | Categoria: **${guildCategoryChannels}** | Store: **${guildStoreChannels}**`, inline: true },
-        { name: `Quantidade de membros`, value: `Total: **${message.guild.members.cache.size}** | Pessoas: **${guildHumanMembers}** | Bots: **${guildBotMembers}**`, inline: true },
+        { name: `<:cardname:748331507118112778> ID do server`, value: message.guild.id, inline: true },
+        { name: `Região`, value: message.guild.region.slice(0, 1).toUpperCase() + message.guild.region.slice(1), inline: true },
+        { name: `<:messagesquareblue:747879951461777448> Canais`, value: `<:hash:745722860584173682> Total: **${guildChannels.size}**\n<:textchannelclaro:748224336770498650> Texto: **${guildTextChannels}** <:voicechannelclaro:748224336825155614> Voz: **${guildVoiceChannels}** Notícias: **${guildNewsChannels}** Categoria: **${guildCategoryChannels}** Store: **${guildStoreChannels}**`, inline: true },
+        { name: `Membros`, value: `Total: **${message.guild.members.cache.size}** | Pessoas: **${guildHumanMembers}** | Bots: **${guildBotMembers}**`, inline: true },
         { name: `Dono do servidor`, value: `${message.guild.owner.user.tag} | **${message.guild.ownerID}**\n${(message.guild.owner.nickname === null || message.guild.owner.nickname === undefined) ? '' : `Apelido: **${message.guild.owner.nickname}**`}`, inline: true },
         { name: `Criado em`, value: formatDate(message.guild.createdAt), inline: true },
         { name: `Admins`, value: `\`${guildAdmins}\``, inline: true },

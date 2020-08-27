@@ -21,13 +21,13 @@ module.exports = {
     const motivo = message.content.trim().slice((message.content.trim().split('').indexOf('`')+1 === 0) ? message.content.length : message.content.trim().split('').indexOf('`')+1).split('`').shift()
     const mutedRoles = await message.guild.roles.cache.find(role => role.permissions.bitfield === 1024)
     if (!message.member.hasPermission("MANAGE_ROLES") || !message.member.hasPermission("MANAGE_CHANNELS")) {
-      if (podeEnviarMsg) { message.reply(`você não pode desmutar membros nesse servidor!`); } else if (podeAddReactions) {
+      if (podeEnviarMsg) { message.channel.send(`<:slashred:747879954305253468> ${message.author}, você não pode desmutar membros nesse servidor!`); } else if (podeAddReactions) {
         message.react('slashred:747879954305253468')
       }
       return;
     }
     if (!botMembro.hasPermission("MANAGE_ROLES") || !botMembro.hasPermission("MANAGE_CHANNELS")) {
-      if (podeEnviarMsg) { message.reply(`eu não tenho permissão para desmutar membros!`); } else if (podeAddReactions) {
+      if (podeEnviarMsg) { message.channel.send(`<:slashred:747879954305253468> ${message.author}, eu não tenho permissão para desmutar membros!`); } else if (podeAddReactions) {
         message.react('slashred:747879954305253468')
       }
       return;
@@ -38,7 +38,7 @@ module.exports = {
       if(members.map(member => member.hasPermission("ADMINISTRATOR")).indexOf(true) !== -1) return podeIr = false;
       if (members.map(user => user.roles.highest.position >= botMembro.roles.highest.position).indexOf(true) !== -1) {
         if (podeEnviarMsg) {
-          message.reply(`eu não posso desmutar esse membro, ele tem um cargo maior que o meu!`)
+          message.channel.send(`<:slashred:747879954305253468> ${message.author}, eu não posso desmutar esse membro, ele tem um cargo maior que o meu!`)
         } else if (podeAddReactions) {
           message.react('slashred:747879954305253468')
         }
@@ -46,7 +46,7 @@ module.exports = {
       }
       if (members.map(user => user.roles.highest.position >= message.member.roles.highest.position).indexOf(true) !== -1 && message.author.id !== message.guild.ownerID) {
         if (podeEnviarMsg) {
-          message.reply(`eu não posso mutar esse membro, ele tem um cargo maior que o seu!`)
+          message.channel.send(`<:slashred:747879954305253468> ${message.author}, eu não posso mutar esse membro, ele tem um cargo maior que o seu!`)
         } else if (podeAddReactions) {
           message.react('slashred:747879954305253468')
         }
@@ -54,7 +54,7 @@ module.exports = {
       }
       if (members.has(message.member)) {
         if (podeEnviarMsg) {
-          message.reply(`você não pode se desmutar do servidor, isso é apenas questão de segurança!`);
+          message.channel.send(`<:alertcircleamarelo:747879938207514645> ${message.author}, você não pode se desmutar do servidor, isso é apenas questão de segurança!`);
         } else if (podeAddReactions) {
           message.react('alertcircleamarelo:747879938207514645')
         }
@@ -67,7 +67,7 @@ module.exports = {
         if (podeEnviarMsg) {
           const descEmbed = new Discord.MessageEmbed()
             .setColor(hex.blue2)
-            .setTitle(`Como usar o ${config.prefix}${comando}`)
+            .setTitle(`<:textchannelclaro:748224336770498650> Como usar o ${config.prefix}${comando}`)
             .setDescription(`Modo de usar:\n**Mencionando o(s) usuário(s)** *${config.prefix}unmute @user1 @user2*\n**Pelo username ou apelido:** *${config.prefix}unmute username1 \\ apelido1*\nOBS: *O motivo para o unmute não é obrigatório, mas caso utilize, coloque-o entre crases ("\`")*`)
             .setTimestamp()
             .setFooter(`Sistema de ajuda ${client.user.username}`, client.user.displayAvatarURL())
@@ -87,7 +87,7 @@ module.exports = {
               if(podeManageMessages && i === usernamesDigitados.length - 1) {
                 message.delete()
               } else if(podeEnviarMsg) {
-                message.reply(`**${usernameMembers.map(member => member.user.username)[0]}** foi desmutado com sucesso!`)
+                message.channel.send(`**${usernameMembers.map(member => member.user.username)[0]}** foi desmutado com sucesso! <:circlecheckverde:747879943224033481>`)
               } else if (podeAddReactions) {
                 message.react('circlecheckverde:747879943224033481')
               }
@@ -100,7 +100,7 @@ module.exports = {
               if(podeManageMessages && i === usernamesDigitados.length - 1) {
                 message.delete()
               } else if(podeEnviarMsg) {
-                message.reply(`**${nicknameMembers.map(member => member.user.username)[0]}** foi desmutado com sucesso!`)
+                message.channel.send(`**${nicknameMembers.map(member => member.user.username)[0]}** foi desmutado com sucesso! <:circlecheckverde:747879943224033481>`)
               } else if (podeAddReactions) {
                 message.react('circlecheckverde:747879943224033481')
               }
@@ -108,7 +108,7 @@ module.exports = {
             }
           } else if(i === usernamesDigitados.length - 1) {
             if(podeEnviarMsg) {
-              message.reply(`eu não conheço esse membro!`)
+              message.channel.send(`<:helpcircleblue:747879943811235841> ${message.author}, eu não conheço esse membro!`)
             } else if(podeAddReactions) {
               message.react('helpcircleblue:747879943811235841')
             }
@@ -123,7 +123,7 @@ module.exports = {
       if(podeManageMessages) {
         message.delete()
       } else if(podeEnviarMsg) {
-        message.reply(`**${mencoes.members.map(member => member.user.username)[0]}** foi desmutado com sucesso!`)
+        message.channel.send(`**${mencoes.members.map(member => member.user.username)[0]}** foi desmutado com sucesso! <:circlecheckverde:747879943224033481>`)
       } else if (podeAddReactions) {
         message.react('circlecheckverde:747879943224033481')
       }

@@ -26,7 +26,7 @@ module.exports = {
       if(podeEnviarMsg) {
         const descEmbed = new Discord.MessageEmbed()
           .setColor(hex.blue2)
-          .setTitle(`Descrição do comando ${config.prefix}${comando}`)
+          .setTitle(`<:helpcircleblue:747879943811235841> Descrição do comando ${config.prefix}${comando}`)
           .setDescription(`Modo de usar: **${config.prefix}desc kick**\nOBS: *O comando **${config.prefix}desc serve para descrever o comportamento de outros comandos e como usá-los.***`)
           .setTimestamp()
           .setFooter(`Sistema de ajuda ${client.user.username}`, client.user.displayAvatarURL())
@@ -41,7 +41,7 @@ module.exports = {
     }
     if(!client.commands.has(args[0])) {
       if(podeEnviarMsg) {
-        message.reply(`o comando ***${args[0]}*** não existe!`)
+        message.channel.send(`<:alertcircleamarelo:747879938207514645> ${message.author}, o comando ***${args[0]}*** não existe!`)
       } else if (podeAddReactions) {
         message.react('alertcircleamarelo:747879938207514645')
       }
@@ -50,7 +50,7 @@ module.exports = {
     const desc = client.commands.get(args[0]).description
     const embed = new Discord.MessageEmbed()
       .setColor(hex.purple)
-      .setTitle(`Descrição do comando **${args[0]}**`)
+      .setTitle(`<:alertcircleamarelo:747879938207514645> Descrição do comando **${args[0]}**`)
       .setTimestamp()
       .setFooter(`Sistema de descrição de comandos ${client.user.username}`, client.user.displayAvatarURL())
       .setDescription(desc)

@@ -257,7 +257,7 @@ client.on("message", async message => { // Evento acionado quando alguém manda 
         }
         return;
     }  
-    
+   
     try { // Tenta executar o comando do usuário
         client.commands.get(comando).execute(message, args, comando, client);
     } catch (error) { // Caso não consiga executar o comando, loga o erro

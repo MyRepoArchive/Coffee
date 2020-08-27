@@ -16,7 +16,7 @@ module.exports = {
   name11: 'number10blue:7478799559873006020602',
   name12: 'rewindblue:747879941143527554',
   name13: 'fastforwardblue:747879944192917635',
-  name14: 'homeblue:747879955844694037',
+  name14: 'homecircle:748316988471771157',
   description: 'help',
 
   async execute(message, user, client) {
@@ -115,7 +115,7 @@ module.exports = {
           i = Infinity
         }
       }
-      message.message.react('homeblue:747879955844694037')
+      message.message.react('homecircle:748316988471771157')
     }
 
     if (message.me && message.message.embeds[0] !== undefined && message.message.embeds[0].title.startsWith(`Comandos do tipo`)) {
@@ -185,7 +185,7 @@ module.exports = {
         return;
       }
 
-      if (message.emoji.identifier === 'homeblue:747879955844694037') {
+      if (message.emoji.identifier === 'homecircle:748316988471771157') {
         const helpEmbed = new Discord.MessageEmbed()
           .setColor(hex.white)
           .setURL(config.commandsURL) // Aqui você pode colocar algum outro link
@@ -227,10 +227,10 @@ module.exports = {
         .setFooter(`Sistema de ajuda ${client.user.username}`)
       await message.message.edit(embed)
       await message.message.reactions.cache.map(reaction => reaction.users.remove(client.user.id))
-      message.message.react('homeblue:747879955844694037')
+      message.message.react('homecircle:748316988471771157')
     }
     if (message.me && message.message.embeds[0] !== undefined && message.message.embeds[0].title.startsWith(`Comando **`)) {
-      if(message.emoji.identifier === 'homeblue:747879955844694037') {
+      if(message.emoji.identifier === 'homecircle:748316988471771157') {
         const helpEmbed = new Discord.MessageEmbed()
           .setColor(hex.white)
           .setURL(config.commandsURL) // Aqui você pode colocar algum outro link

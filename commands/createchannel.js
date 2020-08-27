@@ -30,7 +30,7 @@ module.exports = {
         // Verifica se o usuário pode fazer essa ação
         if(!message.member.hasPermission("MANAGE_CHANNELS")) {
             if(podeEnviarMsg) {
-                message.reply(`Você não tem permissão para criar novos canais!`)
+                message.channel.send(`<:slashred:747879954305253468> ${message.author}, você não tem permissão para criar novos canais!`)
             } else if(podeAddReactions) {
                 message.react('slashred:747879954305253468')
             }
@@ -39,7 +39,7 @@ module.exports = {
         // Verifica se o bot tem permissão para criar canais dentro do servidor
         if(!message.guild.members.cache.get(client.user.id).hasPermission('MANAGE_CHANNELS')) {
             if(podeEnviarMsg) {
-                message.reply(`Eu infelismente não tenho permissão para manipular canais dentro deste servidor😕`)
+                message.channel.send(`<:slashred:747879954305253468> ${message.author}, eu infelismente não tenho permissão para manipular canais dentro deste servidor😕`)
             } else if (podeAddReactions) {
                 message.react('slashred:747879954305253468')
             }
@@ -48,7 +48,7 @@ module.exports = {
         // Verifica se o servidor já possui o número máximo de canais
         if(message.guild.channels.cache.size >= 500) {
             if(podeEnviarMsg) {
-                message.reply(`O servidor já possui o número máximo de canais!`)
+                message.channel.send(`<:alertcircleamarelo:747879938207514645> ${message.author}, o servidor já possui o número máximo de canais!`)
             } else if(podeAddReactions) {
                 message.react('alertcircleamarelo:747879938207514645')
             }
@@ -60,46 +60,20 @@ module.exports = {
         // Verifica se o segundo argumento do usuário é um tipo válido de canal
         if(args[1] !== 'text' && args[1] !== 'voice') { 
             if(podeEnviarMsg) {
-                message.reply(`Tipo de canal desconhecido! Use **"voice"** ou **"text"**!\nSe quiser criar um canal com mais de uma palavra em seu nome, use **"-"** no lugar dos espaços!\n EXEMPLO: **!${comando} nome-com-mais-de-uma-palavra text**`)
+                message.channel.send(`<:helpcircleblue:747879943811235841> ${message.author}, tipo de canal desconhecido! Use **"voice"** ou **"text"**!\nSe quiser criar um canal com mais de uma palavra em seu nome, use **"-"** no lugar dos espaços!\n EXEMPLO: **!${comando} nome-com-mais-de-uma-palavra text**`)
             } else if(podeAddReactions) {
                 message.react('helpcircleblue:747879943811235841')
             }
             return
         };
 
-        await message.guild.channels.create(args[0], { type: args[1] }).catch(error => {
-            const errorEmbed = new Discord.MessageEmbed()
-                .setColor(hex.orange)
-                .setAuthor(message.author.username, message.author.displayAvatarURL())
-                .setTitle(`Erro ao executar comando **${comando}**`)
-                .setDescription(`<:alertcircleamarelo:747879938207514645> Houve um erro ao executar a ação **message.guild.channels.create(args[0], { type: args[1] })**`)
-                .addField(`<:serverblue:747879939734372392> Servidor:`, `**${message.guild.name}**`)
-                .addField(`<:userblue:747880223214796941> Quem executou:`, `**${message.author.tag}\n${message.author.id}**`)
-                .addField(`<:unlockblue:747879943077101579> Permissões:`, `**${message.member.permissions.toArray().join('\n')}**`)
-                .addField(`<:tagblue:747879941508694036> Dono do servidor:`, `**${message.guild.owner.user.tag}**`)
-                .addField(`<:xcirclered:747879954708037662> Erro:`, error)
-                .setThumbnail(message.guild.iconURL())
-                .setTimestamp()
-                .setFooter(`${client.user.tag} log sistem`, client.user.displayAvatarURL())
-            if(podeEnviarMsg) {
-                message.reply('Houve um erro ao executar esse comando! A Equipe já foi informada!')
-            } else if(podeAddReactions) {
-                message.react('alertcircleamarelo:747879938207514645')
-            }
-            console.log(error);
-            if(podeCriarInvite) {
-                message.channel.createInvite({ maxAge: 0, reason: `Houve um erro ao executar um comando do bot ${client.user.tag} e os administradores precisam ser chamados para averiguar o problema` }).then(invite => {
-                    errorEmbed.setURL(`https://discord.gg/${invite.code}`)
-                })
-            }
-            logErrorExecucaoChannel.send(errorEmbed)
-        })
+        await message.guild.channels.create(args[0], { type: args[1] })
         const canais = await message.guild.channels.cache.filter(channel => channel.name === args[0]).array()
         const embed = new Discord.MessageEmbed()
             .setColor(hex.green)
-            .setTitle("Novo canal criado")
-            .setDescription(`<:messagesquareblue:747879951461777448> Foi criado o canal de ID **${canais[canais.length-1].id}**`)
-            .addField('<:edit3blue:747879944369209344> Nome', args[0])
+            .setTitle("<:circlecheckverde:747879943224033481> Novo canal criado")
+            .setDescription(`${args[1] === 'text' ? '<:textchannelclaro:748224336770498650>' : '<:voicechannelclaro:748224336825155614>'} Foi criado o canal de ID **${canais[canais.length-1].id}**`)
+            .addField('<:edit3blue:747879944369209344> Nome', `${args[1] === 'text' ? '<:textchannelclaro:748224336770498650>' : '<:voicechannelclaro:748224336825155614>'} ${args[0]}`)
         // Verifica se já existe um canal de mesmo nome para exibir um alerta na criação
         if(message.guild.channels.cache.filter(canal => canal.name === args[0]).filter(canal => canal.type === args[1]).size > 1) {
             embed
@@ -110,8 +84,7 @@ module.exports = {
                 }
         }
         if(podeEnviarMsg) {
-            message.channel.send(`<#${canais[canais.length-1].id}>`)
-            message.channel.send(embed)
+            message.channel.send(`<#${canais[canais.length-1].id}>`, embed)
         } else if(podeAddReactions) {
             message.react('circlecheckverde:747879943224033481')
         }

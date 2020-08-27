@@ -23,7 +23,7 @@ module.exports = {
     const podeManageMessages = permissoesBot.has("MANAGE_MESSAGES")
     if (!message.member.hasPermission("KICK_MEMBERS")) {
       if (podeEnviarMsg) {
-        message.reply(`você não pode chutar membros nesse servidor!`);
+        message.channel.send(`<:slashred:747879954305253468> ${message.author}, você não pode chutar membros nesse servidor!`);
       } else if (podeAddReactions) {
         message.react('slashred:747879954305253468')
       }
@@ -31,7 +31,7 @@ module.exports = {
     }
     if (!botMembro.hasPermission("KICK_MEMBERS")) {
       if (podeEnviarMsg) {
-        message.reply(`eu não tenho permissão para chutar membros!`);
+        message.channel.send(`<:slashred:747879954305253468> ${message.author}, eu não tenho permissão para chutar membros!`);
       } else if (podeAddReactions) {
         message.react('slashred:747879954305253468')
       }
@@ -41,7 +41,7 @@ module.exports = {
       let podeIr = false
       if (members.has(message.guild.ownerID)) {
         if (podeEnviarMsg) {
-          message.reply(`ele é o dono do servidor, não posso fazer isso!`)
+          message.channel.send(`<:slashred:747879954305253468> ${message.author}, ele é o dono do servidor, não posso fazer isso!`)
         } else if (podeAddReactions) {
           message.react('slashred:747879954305253468')
         }
@@ -49,7 +49,7 @@ module.exports = {
       }
       if (members.map(user => user.roles.highest.position >= botMembro.roles.highest.position).indexOf(true) !== -1) {
         if (podeEnviarMsg) {
-          message.reply(`eu não posso chutar esse membro, ele tem um cargo maior que o meu!`)
+          message.channel.send(`<:slashred:747879954305253468> ${message.author}, eu não posso chutar esse membro, ele tem um cargo maior que o meu!`)
         } else if (podeAddReactions) {
           message.react('slashred:747879954305253468')
         }
@@ -57,7 +57,7 @@ module.exports = {
       }
       if (members.map(user => user.roles.highest.position >= message.member.roles.highest.position).indexOf(true) !== -1 && message.author.id !== message.guild.ownerID) {
         if (podeEnviarMsg) {
-          message.reply(`eu não posso chutar esse membro, ele tem um cargo maior que o seu!`)
+          message.channel.send(`<:slashred:747879954305253468> ${message.author}, eu não posso chutar esse membro, ele tem um cargo maior que o seu!`)
         } else if (podeAddReactions) {
           message.react('slashred:747879954305253468')
         }
@@ -65,7 +65,7 @@ module.exports = {
       }
       if (members.has(botMembro)) {
         if (podeEnviarMsg) {
-          message.reply(`eu não posso me kickar do servidor, faça isso manualmente ou peça ajuda a outro bot!`);
+          message.channel.send(`<:alertcircleamarelo:747879938207514645> ${message.author}, eu não posso me kickar do servidor, faça isso manualmente ou peça ajuda a outro bot!`);
         } else if (podeAddReactions) {
           message.react('alertcircleamarelo:747879938207514645')
         }
@@ -73,7 +73,7 @@ module.exports = {
       }
       if (members.has(message.member)) {
         if (podeEnviarMsg) {
-          message.reply(`você não pode se kickar do servidor, isso é apenas questão de segurança!`);
+          message.channel.send(`<:alertcircleamarelo:747879938207514645> ${message.author}, você não pode se kickar do servidor, isso é apenas questão de segurança!`);
         } else if (podeAddReactions) {
           message.react('alertcircleamarelo:747879938207514645')
         }
@@ -86,7 +86,7 @@ module.exports = {
         if (podeEnviarMsg) {
           const descEmbed = new Discord.MessageEmbed()
             .setColor(hex.blue2)
-            .setTitle(`Como usar o ${config.prefix}${comando}`)
+            .setTitle(`<:chute:748292333791084565> Como usar o ${config.prefix}${comando}`)
             .setDescription(`Modo de usar:\n**Mencionando o(s) usuário(s):** *${config.prefix}kick @user1 @user2 \`\motivo da expulsão\`\*\n**Pelo username ou apelido:** *${config.prefix}kick username1 \\ apelido1 \`\motivo da expulsão\`\*\n\nOBS: *O motivo da expulsão não é obrigatório, mas se for utilizá-lo, coloque-o entre "\`\" (crases) e após os usuários a serem expulsos!*`)
             .setTimestamp()
             .setFooter(`Sistema de ajuda ${client.user.username}`, client.user.displayAvatarURL())
@@ -105,7 +105,7 @@ module.exports = {
             if (podeManageMessages && i === usernamesDigitados.length - 1) {
               message.delete();
             } else if(podeEnviarMsg) {  
-              message.reply(`**${usernameMembers.map(member => member.user.username)[0]}** foi expulso com sucesso!`)
+              message.channel.send(`**${usernameMembers.map(member => member.user.username)[0]}** foi expulso com sucesso! <:circlecheckverde:747879943224033481>`)
             } else if(podeAddReactions) {
               message.react('circlecheckverde:747879943224033481')
             }
@@ -115,13 +115,13 @@ module.exports = {
             if (podeManageMessages && i === usernamesDigitados.length - 1) {
               message.delete();
             } else if(podeEnviarMsg) {
-              message.reply(`**${nicknameMembers.map(member => member.nickname)[0]}** foi expulso com sucesso!`)
+              message.channel.send(`**${nicknameMembers.map(member => member.nickname)[0]}** foi expulso com sucesso! <:circlecheckverde:747879943224033481>`)
             } else if(podeAddReactions) {
               message.react('circlecheckverde:747879943224033481')
             }
           } else if(i === usernamesDigitados.length - 1) {
             if(podeEnviarMsg) {
-              message.reply(`eu não conheço esse membro!`)
+              message.channel.send(`<:helpcircleblue:747879943811235841> ${message.author}, eu não conheço esse membro!`)
             } else if(podeAddReactions) {
               message.react('helpcircleblue:747879943811235841')
             }
@@ -136,9 +136,9 @@ module.exports = {
       message.delete();
     } else if(podeEnviarMsg) {
       if(mencoes.members.size > 1) {
-        message.reply(`**${mencoes.members.map(member => member.user.username).join(', ')}** foram expulsos com sucesso!`)
+        message.channel.send(`**${mencoes.members.map(member => member.user.username).join(', ')}** foram expulsos com sucesso! <:circlecheckverde:747879943224033481>`)
       } else {
-        message.reply(`**${mencoes.members.map(member => member.user.username)[0]}** foi expulso com sucesso!`)
+        message.channel.send(`**${mencoes.members.map(member => member.user.username)[0]}** foi expulso com sucesso! <:circlecheckverde:747879943224033481>`)
       }
     } else if(podeAddReactions) {
       message.react('circlecheckverde:747879943224033481')

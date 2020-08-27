@@ -22,7 +22,7 @@ module.exports = {
     const podeManageMessages = permissoesBot.has("MANAGE_MESSAGES")
     if (!message.member.hasPermission("BAN_MEMBERS")) {
       if (podeEnviarMsg) {
-        message.reply(`você não pode banir membros nesse servidor!`);
+        message.channel.send(`<:slashred:747879954305253468> ${message.author}, você não pode banir membros nesse servidor!`);
       } else if (podeAddReactions) {
         message.react('slashred:747879954305253468')
       }
@@ -40,7 +40,7 @@ module.exports = {
       let podeIr = false
       if (members.has(message.guild.ownerID)) {
         if (podeEnviarMsg) {
-          message.reply(`ele é o dono do servidor, não posso fazer isso!`)
+          message.channel.send(`<:slashred:747879954305253468> ${message.author}, ele é o dono do servidor, não posso fazer isso!`)
         } else if (podeAddReactions) {
           message.react('slashred:747879954305253468')
         }
@@ -48,7 +48,7 @@ module.exports = {
       }
       if (members.map(user => user.roles.highest.position >= botMembro.roles.highest.position).indexOf(true) !== -1) {
         if (podeEnviarMsg) {
-          message.reply(`eu não posso banir esse membro, ele tem um cargo maior que o meu!`)
+          message.channel.send(`<:slashred:747879954305253468> ${message.author}, eu não posso banir esse membro, ele tem um cargo maior que o meu!`)
         } else if (podeAddReactions) {
           message.react('slashred:747879954305253468')
         }
@@ -56,7 +56,7 @@ module.exports = {
       }
       if (members.map(user => user.roles.highest.position >= message.member.roles.highest.position).indexOf(true) !== -1 && message.author.id !== message.guild.ownerID) {
         if (podeEnviarMsg) {
-          message.reply(`eu não posso banir esse membro, ele tem um cargo maior que o seu!`)
+          message.channel.send(`<:slashred:747879954305253468> ${message.author}, eu não posso banir esse membro, ele tem um cargo maior que o seu!`)
         } else if (podeAddReactions) {
           message.react('slashred:747879954305253468')
         }
@@ -64,7 +64,7 @@ module.exports = {
       }
       if (members.has(botMembro)) {
         if (podeEnviarMsg) {
-          message.reply(`eu não posso me banir do servidor, faça isso manualmente ou peça ajuda a outro bot!`);
+          message.channel.send(`<:alertcircleamarelo:747879938207514645> ${message.author}, eu não posso me banir do servidor, faça isso manualmente ou peça ajuda a outro bot!`);
         } else if (podeAddReactions) {
           message.react('alertcircleamarelo:747879938207514645')
         }
@@ -72,7 +72,7 @@ module.exports = {
       }
       if (members.has(message.member)) {
         if (podeEnviarMsg) {
-          message.reply(`Você não pode se banir do servidor, isso é apenas questão de segurança!`);
+          message.channel.send(`<:alertcircleamarelo:747879938207514645> ${message.author}, você não pode se banir do servidor, isso é apenas questão de segurança!`);
         } else if (podeAddReactions) {
           message.react('alertcircleamarelo:747879938207514645')
         }
@@ -85,7 +85,7 @@ module.exports = {
         if (podeEnviarMsg) {
           const descEmbed = new Discord.MessageEmbed()
             .setColor(hex.blue2)
-            .setTitle(`Como usar o ${config.prefix}${comando}`)
+            .setTitle(`<:chute:748292333791084565> Como usar o ${config.prefix}${comando}`)
             .setDescription(`Modo de usar:\n**Mencionando o(s) usuário(s)** *${config.prefix}ban @user1 @user2 \`motivo do banimento\`\  \`5\`*\n**Pelo username ou apelido:** *${config.prefix}ban username1 \\ apelido1 \`motivo do banimento\`  \`3\`*\n\nOBS: *Nem o motivo do banimento nem a quantidade de dias para deletar mensagens são obrigatórios, mas se for utilizá-los, coloque-os entre "\`" (crases) e após os usuários a serem banidos, na sequência (motivo, dias)!*\n*Para colocar a quantidade de dias para deletar mensagens você deve colocar um motivo (obrigatoriamente)!*`)
             .setTimestamp()
             .setFooter(`Sistema de ajuda ${client.user.username}`, client.user.displayAvatarURL())
@@ -104,7 +104,7 @@ module.exports = {
             if (podeManageMessages && i === usernamesDigitados.length - 1) {
               message.delete();
             } else if(podeEnviarMsg) {  
-              message.reply(`**${usernameMembers.map(member => member.user.username)[0]}** foi banido com sucesso!`)
+              message.channel.send(`**${usernameMembers.map(member => member.user.username)[0]}** foi banido com sucesso! <:circlecheckverde:747879943224033481>`)
             } else if(podeAddReactions) {
               message.react('circlecheckverde:747879943224033481')
             }
@@ -114,13 +114,13 @@ module.exports = {
             if (podeManageMessages && i === usernamesDigitados.length - 1) {
               message.delete();
             } else if(podeEnviarMsg) {
-              message.reply(`**${nicknameMembers.map(member => member.nickname)[0]}** foi banido com sucesso!`)
+              message.channel.send(`**${nicknameMembers.map(member => member.nickname)[0]}** foi banido com sucesso! <:circlecheckverde:747879943224033481>`)
             } else if(podeAddReactions) {
               message.react('circlecheckverde:747879943224033481')
             }
           } else if(i === usernamesDigitados.length - 1) {
             if(podeEnviarMsg) {
-              message.reply(`eu não conheço esse membro!`)
+              message.reply(`<:helpcircleblue:747879943811235841> eu não conheço esse membro!`)
             } else if(podeAddReactions) {
               message.react('helpcircleblue:747879943811235841')
             }
@@ -135,9 +135,9 @@ module.exports = {
       message.delete();
     } else if(podeEnviarMsg) {
       if(mencoes.members.size > 1) {
-        message.reply(`**${mencoes.members.map(member => member.user.username).join(', ')}** foram banidos com sucesso!`)
+        message.reply(`**${mencoes.members.map(member => member.user.username).join(', ')}** foram banidos com sucesso! <:circlecheckverde:747879943224033481>`)
       } else {
-        message.reply(`**${mencoes.members.map(member => member.user.username)[0]}** foi expulso com sucesso!`)
+        message.reply(`**${mencoes.members.map(member => member.user.username)[0]}** foi expulso com sucesso! <:circlecheckverde:747879943224033481>`)
       }
     } else if(podeAddReactions) {
       message.react('circlecheckverde:747879943224033481')

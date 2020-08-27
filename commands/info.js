@@ -24,22 +24,22 @@ module.exports = {
       .setAuthor(message.author.username, message.author.displayAvatarURL())
       .setTitle(`<:infoblue:747879943987265607> Informações sobre mim`)
       .addFields(
-        { name: `Meu username`, value: client.user.username, inline: true },
-        { name: `Meu apelido`, value: (botMembro.nickname === null || botMembro.nickname === undefined) ? 'Não tenho apelido nesse servidor' : botMembro.nickname, inline: true },
-        { name: `Discriminator`, value: client.user.discriminator, inline: true },
-        { name: `Tag`, value: client.user.tag, inline: true },
-        { name: `Servidores`, value: `**${client.guilds.cache.size}**`, inline: true },
-        { name: `Usuários`, value: `**${client.users.cache.size}**`, inline: true },
-        { name: `Canais`, value: `**${client.channels.cache.size}**`, inline: true },
-        { name: `Emojis`, value: `**${client.emojis.cache.size}**`, inline: true },
-        { name: `Comandos`, value: `**${comandos.length}**`, inline: true },
-        { name: `Meu prefixo`, value: `"\`${config.prefix}\`"`, inline: true },
-        { name: `Servidor de suporte`, value: `[Clique aqui](https://discord.gg/hNffyc3)`, inline: true },
-        { name: `Meu código-fonte`, value: `[Clique aqui](${config.repositorio})`, inline: true },
-        { name: `Me adicione em seu servidor`, value: `[Clique aqui](https://discordapp.com/oauth2/authorize?=&client_id=${client.user.id}&scope=bot)`, inline: true },
-        { name: `Fui criado em`, value: `${pad(client.user.createdAt.getDate(), 2)}/${pad(client.user.createdAt.getMonth()+1, 2)}/${client.user.createdAt.getFullYear()} às ${pad(client.user.createdAt.getHours(), 2)}:${pad(client.user.createdAt.getMinutes(), 2)}:${pad(client.user.createdAt.getSeconds(), 2)}`, inline: true },
-        { name: `Entrei aqui em`, value: `${pad(botMembro.joinedAt.getDate(), 2)}/${pad(botMembro.joinedAt.getMonth()+1, 2)}/${botMembro.joinedAt.getFullYear()} às ${pad(botMembro.joinedAt.getHours(), 2)}:${pad(botMembro.joinedAt.getMinutes(), 2)}:${pad(botMembro.joinedAt.getSeconds(), 2)}`, inline: true },
-        { name: `Os mestres que criaram os meus emojis`, value: `[Píxel Buddha](https://www.flaticon.com/authors/pixel-buddha)\n[Cole Bemis](https://www.iconfinder.com/colebemis)`, inline: true },
+        { name: `<:edit3blue:747879944369209344> Meu username`, value: client.user.username, inline: true },
+        { name: `<:nick:748331507315245086> Meu apelido`, value: (botMembro.nickname === null || botMembro.nickname === undefined) ? 'Não tenho apelido nesse servidor' : botMembro.nickname, inline: true },
+        { name: `<:cardname:748331507118112778> ID`, value: client.user.id, inline: true },
+        { name: `<:taghashfill:748332391164018849> Discriminator`, value: client.user.discriminator, inline: true },
+        { name: `<:tagfill:748332391084589066> Tag`, value: client.user.tag, inline: true },
+        { name: `<:server2:748333276443181168> Servidores`, value: `**${client.guilds.cache.size}**`, inline: true },
+        { name: `<:listademembros:748195187284770898> Usuários`, value: `**${client.users.cache.size}**`, inline: true },
+        { name: `<:textchannelclaro:748224336770498650> Canais`, value: `**${client.channels.cache.size}**`, inline: true },
+        { name: `<:emoji:748334546138955826> Emojis`, value: `**${client.emojis.cache.size}**`, inline: true },
+        { name: `<:terminal:745279127195615343> Comandos`, value: `**${comandos.length}**`, inline: true },
+        { name: `<:p_:748336334044790814> Meu prefixo`, value: `"\`${config.prefix}\`"`, inline: true },
+        { name: `<:support:748337028541710446> Servidor de suporte`, value: `[Clique aqui](https://discord.gg/hNffyc3)`, inline: true },
+        { name: `<:sourcecode:748338362569588788> Meu código-fonte`, value: `[Clique aqui](${config.repositorio})`, inline: true },
+        { name: `<:adduser:748343262305058826> Me adicione em seu servidor`, value: `[Clique aqui](https://discordapp.com/oauth2/authorize?=&client_id=${client.user.id}&scope=bot)`, inline: true },
+        { name: `<:calendar:748344326408634379> Fui criado em`, value: `${pad(client.user.createdAt.getDate(), 2)}/${pad(client.user.createdAt.getMonth()+1, 2)}/${client.user.createdAt.getFullYear()} às ${pad(client.user.createdAt.getHours(), 2)}:${pad(client.user.createdAt.getMinutes(), 2)}:${pad(client.user.createdAt.getSeconds(), 2)}`, inline: true },
+        { name: `<:calendar:748344326408634379> Entrei aqui em`, value: `${pad(botMembro.joinedAt.getDate(), 2)}/${pad(botMembro.joinedAt.getMonth()+1, 2)}/${botMembro.joinedAt.getFullYear()} às ${pad(botMembro.joinedAt.getHours(), 2)}:${pad(botMembro.joinedAt.getMinutes(), 2)}:${pad(botMembro.joinedAt.getSeconds(), 2)}`, inline: true },
       )
       .setTimestamp()
       .setThumbnail(client.user.displayAvatarURL())

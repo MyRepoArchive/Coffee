@@ -37,9 +37,9 @@ module.exports = {
       }
       return;
     }
-    function verificacoes(members) {
+    function verificacoes(member) {
       let podeIr = false
-      if (members.has(message.guild.ownerID)) {
+      if (member.user.id === message.guild.ownerID) {
         if (podeEnviarMsg) {
           message.channel.send(`<:slashred:747879954305253468> ${message.author}, ele é o dono do servidor, não posso fazer isso!`)
         } else if (podeAddReactions) {
@@ -47,7 +47,7 @@ module.exports = {
         }
         return podeIr = false;
       }
-      if (members.map(user => user.roles.highest.position >= botMembro.roles.highest.position).indexOf(true) !== -1) {
+      if (member.roles.highest.position >= botMembro.roles.highest.position) {
         if (podeEnviarMsg) {
           message.channel.send(`<:slashred:747879954305253468> ${message.author}, eu não posso chutar esse membro, ele tem um cargo maior que o meu!`)
         } else if (podeAddReactions) {
@@ -55,7 +55,7 @@ module.exports = {
         }
         return podeIr = false;
       }
-      if (members.map(user => user.roles.highest.position >= message.member.roles.highest.position).indexOf(true) !== -1 && message.author.id !== message.guild.ownerID) {
+      if (member.roles.highest.position >= message.member.roles.highest.position && message.author.id !== message.guild.ownerID) {
         if (podeEnviarMsg) {
           message.channel.send(`<:slashred:747879954305253468> ${message.author}, eu não posso chutar esse membro, ele tem um cargo maior que o seu!`)
         } else if (podeAddReactions) {
@@ -63,7 +63,7 @@ module.exports = {
         }
         return podeIr = false;
       }
-      if (members.has(botMembro)) {
+      if (member.user.id === client.user.id) {
         if (podeEnviarMsg) {
           message.channel.send(`<:alertcircleamarelo:747879938207514645> ${message.author}, eu não posso me kickar do servidor, faça isso manualmente ou peça ajuda a outro bot!`);
         } else if (podeAddReactions) {
@@ -71,7 +71,7 @@ module.exports = {
         }
         return podeIr = false;
       }
-      if (members.has(message.member)) {
+      if (member === message.member) {
         if (podeEnviarMsg) {
           message.channel.send(`<:alertcircleamarelo:747879938207514645> ${message.author}, você não pode se kickar do servidor, isso é apenas questão de segurança!`);
         } else if (podeAddReactions) {
@@ -97,25 +97,25 @@ module.exports = {
         return;
       } else {
         for(let i = 0; i < usernamesDigitados.length; i++) {
-          const usernameMembers = await message.guild.members.cache.filter(member => member.user.username.toLowerCase() === usernamesDigitados[i])
-          const nicknameMembers = await message.guild.members.cache.filter(member => (member.nickname === null || member.nickname === undefined) ? member.nickname : member.nickname.toLowerCase() === usernamesDigitados[i])
-          if(usernameMembers.size !== 0) {
-            if(!verificacoes(usernameMembers))return;
-            usernameMembers.map(member => member.kick(motivo))
+          const usernameMember = await message.guild.members.cache.find(member => member.user.username.toLowerCase() === usernamesDigitados[i])
+          const nicknameMember = await message.guild.members.cache.find(member => (member.nickname === null || member.nickname === undefined) ? member.nickname : member.nickname.toLowerCase() === usernamesDigitados[i])
+          if(usernameMember) {
+            if(!verificacoes(usernameMember))return;
+            usernameMember.kick(motivo)
             if (podeManageMessages && i === usernamesDigitados.length - 1) {
               message.delete();
             } else if(podeEnviarMsg) {  
-              message.channel.send(`**${usernameMembers.map(member => member.user.username)[0]}** foi expulso com sucesso! <:circlecheckverde:747879943224033481>`)
+              message.channel.send(`**${usernameMember.user.username}** foi expulso com sucesso! <:circlecheckverde:747879943224033481>`)
             } else if(podeAddReactions) {
               message.react('circlecheckverde:747879943224033481')
             }
-          } else if(nicknameMembers.size !== 0) {
-            if(!verificacoes(nicknameMembers))return;
-            nicknameMembers.map(member => member.kick(motivo))
+          } else if(nicknameMember) {
+            if(!verificacoes(nicknameMember))return;
+            nicknameMember.kick(motivo)
             if (podeManageMessages && i === usernamesDigitados.length - 1) {
               message.delete();
             } else if(podeEnviarMsg) {
-              message.channel.send(`**${nicknameMembers.map(member => member.nickname)[0]}** foi expulso com sucesso! <:circlecheckverde:747879943224033481>`)
+              message.channel.send(`**${nicknameMember.nickname}** foi expulso com sucesso! <:circlecheckverde:747879943224033481>`)
             } else if(podeAddReactions) {
               message.react('circlecheckverde:747879943224033481')
             }
@@ -130,18 +130,16 @@ module.exports = {
         return;
       }
     }
-    if(!verificacoes(mencoes.members))return;
-    mencoes.members.map(user => user.kick(motivo))
-    if (podeManageMessages) {
-      message.delete();
-    } else if(podeEnviarMsg) {
-      if(mencoes.members.size > 1) {
-        message.channel.send(`**${mencoes.members.map(member => member.user.username).join(', ')}** foram expulsos com sucesso! <:circlecheckverde:747879943224033481>`)
-      } else {
-        message.channel.send(`**${mencoes.members.map(member => member.user.username)[0]}** foi expulso com sucesso! <:circlecheckverde:747879943224033481>`)
+    for(let i = 0; i < mencoes.members.size; i++) {
+      if(!verificacoes(mencoes.members.map(x => x)[i]))return;
+      mencoes.members.map(x => x)[i].kick(motivo)
+      if (podeManageMessages) {
+        message.delete();
+      } else if(podeEnviarMsg) {
+          message.channel.send(`**${mencoes.members.map(x => x)[i].user.username}** foi expulso com sucesso! <:circlecheckverde:747879943224033481>`)
+      } else if(podeAddReactions) {
+        message.react('circlecheckverde:747879943224033481')
       }
-    } else if(podeAddReactions) {
-      message.react('circlecheckverde:747879943224033481')
     }
   }
 }

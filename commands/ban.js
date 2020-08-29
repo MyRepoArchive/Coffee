@@ -30,7 +30,7 @@ module.exports = {
     }
     if (!botMembro.hasPermission("BAN_MEMBERS")) {
       if (podeEnviarMsg) {
-        message.reply(`eu não tenho permissão para banir membros!`);
+        message.channel.send(`<:slashred:747879954305253468> ${message.author}, eu não tenho permissão para banir membros!`);
       } else if (podeAddReactions) {
         message.react('slashred:747879954305253468')
       }

@@ -82,7 +82,7 @@ function changeActivity() { // Função que muda o que o bot exibe no "Activity"
                 break;
             case 3:
                 const Hora = new Date
-                client.user.setActivity(`Hora ${(Hora.getUTCHours() < 3) ? Hora.getUTCHours()+21 : Hora.getUTCHours()-3}:${Hora.getUTCMinutes()}`, { type: "STREAMING", url: "https://github.com/joaoscoelho/Coffe" });
+                client.user.setActivity(`Hora ${pad((Hora.getUTCHours() < 3) ? Hora.getUTCHours()+21 : Hora.getUTCHours()-3, 2)}:${pad(Hora.getUTCMinutes(), 2)}`, { type: "STREAMING", url: "https://github.com/joaoscoelho/Coffe" });
                 activityId = 0;
                 break;
             default:

@@ -50,7 +50,7 @@ module.exports = {
     const desc = client.commands.get(args[0]).description
     const embed = new Discord.MessageEmbed()
       .setColor(hex.purple)
-      .setTitle(`<:alertcircleamarelo:747879938207514645> Descrição do comando **${args[0]}**`)
+      .setTitle(`<:helpcircleblue:747879943811235841> Descrição do comando **${args[0]}**`)
       .setTimestamp()
       .setFooter(`Sistema de descrição de comandos ${client.user.username}`, client.user.displayAvatarURL())
       .setDescription(desc)

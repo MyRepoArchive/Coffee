@@ -234,7 +234,6 @@ client.on("message", async message => { // Evento acionado quando alguém manda 
     const comando = args.shift().toLowerCase(); // A primeira palavra do args minúscula
     const firstWord = message.content.trim().split(/ +/g).shift().toLowerCase(); // A primeira palavra da mensagem
     const logErrorChannel = client.channels.cache.get(config.logErro); // Canal para log dos erros
-
     if (message.author.bot) return; // Verifica se o autor é um bot, se for, retorna
     if (message.channel.type === 'dm') return; // Verifica se a mensagem foi enviada na dm, se for, retorna
     const botMembro = message.guild.member(client.user.id) // O membro do bot no servidor em que foi enviado a mensagem
@@ -249,6 +248,9 @@ client.on("message", async message => { // Evento acionado quando alguém manda 
         }
         return;
     }
+    if (!isNaN(Number(message.content.slice(0, 1)))) {
+        require('./commands/calculator.js').calc(message)
+    }
     if (!message.content.startsWith(config.prefix)) return; // Se a mensagem não iniciar com o prefixo do bot, retorna
     if (!client.commands.has(comando)) { // Se o comando digitado pelo usuário não for compatível com nenhum comando do bot, ele responde
         if(podeEnviarMsg && podeManageMessages) { // Verifica se pode enviar mensagens e pode deleta-las
@@ -257,7 +259,7 @@ client.on("message", async message => { // Evento acionado quando alguém manda 
         }
         return;
     }  
-    
+
     try { // Tenta executar o comando do usuário
         client.commands.get(comando).execute(message, args, comando, client);
     } catch (error) { // Caso não consiga executar o comando, loga o erro

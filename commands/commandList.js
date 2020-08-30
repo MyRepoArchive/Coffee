@@ -18,9 +18,9 @@ module.exports = {
     const embed = new Discord.MessageEmbed()
       .setAuthor(message.author.username, message.author.displayAvatarURL())
       .setColor(hex.ivory)
-      .setTitle(`<:terminalblue:747879940749393951> Minha listinha de comandos =)`)
+      .setTitle(`<:terminalblue:747879940749393951> Minha listinha de comandos (${comandos.length})`)
       .setDescription(`\`${comandos.join('`, `')}\``)
-      .addField(`<:infoblue:747879943987265607> Observação`, `Se você estiver precisando de algo mais detalhado, use **${config.prefix}ajuda**`)
+      .addField(`<:infoblue:747879943987265607> Observação`, `Se você estiver precisando de algo mais detalhado, use **${config.prefix}desc nomeDoComando** ou **${config.prefix}ajuda**`)
       .setTimestamp()
       .setFooter(client.user.username, client.user.displayAvatarURL())
     if(podeEnviarMsg) {

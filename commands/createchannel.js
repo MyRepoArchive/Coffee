@@ -11,17 +11,17 @@ module.exports = {
     name5: "novocanal",
     name6: "gerarcanal",
     name7: "generatechannel",
+    // Tipo do comando
     type: "Gerenciamento",
+    // Descrição do comando
     description: `Comando que cria um novo canal no servidor em que foi executado!\nModo de usar: **${config.prefix}createChannel nome-do-canal voice**\n\n*OBS: Se você quiser alterar o tipo do canal mas quiser manter o nome padrão que ele gera, use **\`\auto\`\** (entre crases) no lugar do nome do canal.*`,
     // Execução do comando
     async execute(message, args, comando, client) {
-        const botMembro = message.guild.member(client.user.id)
-        const permissoesBot = message.channel.memberPermissions(botMembro)
+        const botMembro = message.guild.member(client.user.id) // O membro que representa o bot dentro do servidor em que foi usado o comando
+        const permissoesBot = message.channel.memberPermissions(botMembro) // Todos as permissões do bot naquele canal
         const podeEnviarMsg = permissoesBot.has("SEND_MESSAGES")
         const podeAddReactions = permissoesBot.has("ADD_REACTIONS")
-        const podeCriarInvite = permissoesBot.has("CREATE_INSTANT_INVITE");
         const usernameFormatado = message.author.username.split(/ +/g).join('-')
-        const logErrorExecucaoChannel = client.channels.cache.get(config.logErroExecucao);
         // Verifica se o usuário definiu o nome e o tipo do canal, logo após passa seus argumentos para minúsculas
         if(args[0] === undefined || args[0] === '`auto`' ) {args[0] = `new-channel-by-${usernameFormatado}`}
         if(args[1] === undefined) {args[1] = 'text'}

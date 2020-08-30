@@ -133,7 +133,7 @@ module.exports = {
     for(let i = 0; i < mencoes.members.size; i++) {
       if(!verificacoes(mencoes.members.map(x => x)[i]))return;
       mencoes.members.map(x => x)[i].kick(motivo)
-      if (podeManageMessages) {
+      if (podeManageMessages && i === mencoes.members.size - 1) {
         message.delete();
       } else if(podeEnviarMsg) {
           message.channel.send(`**${mencoes.members.map(x => x)[i].user.username}** foi expulso com sucesso! <:circlecheckverde:747879943224033481>`)

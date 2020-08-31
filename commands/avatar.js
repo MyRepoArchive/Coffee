@@ -27,7 +27,7 @@ module.exports = {
     if(podeEnviarMsg) {
       if(mencoes.size === 0) {
         if(usernamesDigitados[0] === '') {
-          embed.setImage(message.author.displayAvatarURL({size: 1024, dinamic: true}))
+          embed.setImage(message.author.displayAvatarURL({size: 1024, dynamic: true}))
           embed.setTitle(`Avatar de ${message.author.username}`)
           message.channel.send(embed)
         } else {
@@ -36,11 +36,11 @@ module.exports = {
             const nicknameMembers = await message.guild.members.cache.filter(member => (member.nickname === null || member.nickname === undefined) ? member.nickname : member.nickname.toLowerCase() === usernamesDigitados[i])
             if(usernameMembers.size !== 0) {
               embed.setTitle(`Avatar de ${usernameMembers.map(member => member.user.username)[0]}`)
-              embed.setImage(usernameMembers.map(member => member.user.displayAvatarURL({size: 1024, dinamic: true}))[0])
+              embed.setImage(usernameMembers.map(member => member.user.displayAvatarURL({size: 1024, dynamic: true}))[0])
               message.channel.send(embed)
             } else if(nicknameMembers.size !== 0) {
               embed.setTitle(`Avatar de ${nicknameMembers.map(member => member.user.username)[0]}`)
-              embed.setImage(nicknameMembers.map(member => member.user.displayAvatarURL({size: 1024, dinamic: true}))[0])
+              embed.setImage(nicknameMembers.map(member => member.user.displayAvatarURL({size: 1024, dynamic: true}))[0])
               message.channel.send(embed)
             } else if(i === usernamesDigitados.length - 1) {
               message.reply(`eu não conheço esse membro!`)
@@ -49,7 +49,7 @@ module.exports = {
         }
       } else {
         embed.setTitle(`Avatar de ${mencoes.first().user.username}`)
-        embed.setImage(mencoes.first().user.displayAvatarURL({size: 1024, dinamic: true}))
+        embed.setImage(mencoes.first().user.displayAvatarURL({size: 1024, dynamic: true}))
         message.channel.send(embed)
       }
     } else if(podeAddReactions) {

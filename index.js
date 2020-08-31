@@ -248,7 +248,7 @@ client.on("message", async message => { // Evento acionado quando alguém manda 
         }
         return;
     }
-    if (!isNaN(Number(message.content.slice(0, 1)))) {
+    if (!isNaN(Number(message.content.slice(0, 1))) || message.content.startsWith('-')) {
         require('./commands/calculator.js').calc(message)
     }
     if (!message.content.startsWith(config.prefix)) return; // Se a mensagem não iniciar com o prefixo do bot, retorna
@@ -259,7 +259,6 @@ client.on("message", async message => { // Evento acionado quando alguém manda 
         }
         return;
     }  
-
     try { // Tenta executar o comando do usuário
         client.commands.get(comando).execute(message, args, comando, client);
     } catch (error) { // Caso não consiga executar o comando, loga o erro

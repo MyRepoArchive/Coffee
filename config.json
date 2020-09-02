@@ -9,5 +9,7 @@
     "commandsURL": "URL de um site ou do repositório do seu bot que contenha seus comandos",
     "repositorio": "Link para acessar o repositório do seu bot (pode usar: https://github.com/joaoscoelho/Coffe)",
     "mysqlUser": "Seu user MySQL",
-    "mysqlPassword": "Sua senha MySql"
+    "mysqlPassword": "Sua senha MySql",
+    "mysqlHost": "Seu host do servidor mysql (localhost por padrão)",
+    "mysqlDatabase": "Nome do seu banco de dados"
 }

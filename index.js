@@ -6,18 +6,21 @@ const hex = require('./colors.json'); // Requerimento de um json de cores para f
 const Data = new Date; // Salva o momento em que o bot foi iniciado
 const mysql = require('mysql'); // Conexão com o MySQL
 const connection = mysql.createConnection({ // Cria conexão com o banco de dados
-    host: 'localhost',
+    host: config.mysqlHost,
     user: config.mysqlUser,
     password: config.mysqlPassword,
-    database: "coffee",
-    port: 3308
+    database: config.mysqlDatabase,
 });
 connection.connect(err => { // Conecta com o banco de dados
     if (err) {
         console.error('Erro na conexão: ' + err.stack)
+        connection.connect()
         return;
     }
 });
+setInterval(() => {
+    connection.query('SELECT 1')
+}, 20000);
 // CORES PARA COLORIR TERMINAL
 const consoleColors = ['\033[0m', '\033[30m', '\033[31m', '\033[32m', '\033[33m', '\033[34m', '\033[35m', '\033[36m', '\033[37m'];
 // 0 = reset; 1 = black; 2 = red; 3 = green; 4 = yellow; 5 = roxo; 6 = magenta; 7 = cyan; 8 = white;

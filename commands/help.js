@@ -10,7 +10,7 @@ module.exports = {
     type: "Geral",
     description: "Comando usado quando o usuário necessita de ajuda ou precisa saber os comandos do bot",
 
-    async execute(message, args, comando, client) {
+    async execute(message, args, comando, client, prefix) {
         const botMembro = message.guild.member(client.user.id)
         const permissoesBot = message.channel.memberPermissions(botMembro)
         const podeEnviarMsg = permissoesBot.has("SEND_MESSAGES")
@@ -30,9 +30,9 @@ module.exports = {
             for(let i = 0; i < tiposComandos.length; i++) {
                 const exTiposComandos = [...new Set(client.commands.filter(comando => comando.type === tiposComandos[i]).map(comando => comando.name))]
                 if(i < emojiArray.length) {
-                    helpEmbed.addField(`<:${emojiArray[i]}> | ${tiposComandos[i]}`, `Exemplo: ${config.prefix}${exTiposComandos[0]}`)
+                    helpEmbed.addField(`<:${emojiArray[i]}> | ${tiposComandos[i]}`, `Exemplo: ${prefix}${exTiposComandos[0]}`)
                 } else {
-                    helpEmbed.addField(`<:fastforwardblue:747879944192917635> | Mais tipos`, `Exemplo: ${config.prefix}${tiposComandos[i]}`)
+                    helpEmbed.addField(`<:fastforwardblue:747879944192917635> | Mais tipos`, `Exemplo: ${prefix}${tiposComandos[i]}`)
                     i = Infinity
                 }
             }
@@ -49,7 +49,7 @@ module.exports = {
             message.react('send:745271212799950899')
         }, (error) => {
             if(podeEnviarMsg) {
-                message.reply(`Você pode conferir todos os comandos do ${client.user.username} em: ${config.commandsURL}\nOu se preferir, libere o envio de mensagens diretas e execute novamente o comando ${config.prefix}help`)
+                message.reply(`Você pode conferir todos os comandos do ${client.user.username} em: ${config.commandsURL}\nOu se preferir, libere o envio de mensagens diretas e execute novamente o comando ${prefix}help`)
             } else if(podeAddReactions) {
                 message.react('slashred:747879954305253468')
             }

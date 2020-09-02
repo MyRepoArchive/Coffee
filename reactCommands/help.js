@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const config = require('../info.json');
 const hex = require('../colors.json');
+const prefix = 
 
 module.exports = {
   name: 'number0blue:747879954875809952',

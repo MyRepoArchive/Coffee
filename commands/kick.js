@@ -12,9 +12,9 @@ module.exports = {
   type: "Moderação",
   description: `Expulsa o(s) usuário(s) mencionado(s) do servidor!\nModo de usar:\nMencionando o(s) usuário(s) *${config.prefix}kick @user1 @user2 \`\motivo da expulsão\`\*\nPelo username ou apelido:\n*${config.prefix}kick username1 \\ apelido1 \`\motivo da expulsão\`\*\n\nOBS: *O motivo da expulsão não é obrigatório, mas se for utilizá-lo, coloque-o entre "\`\" (crases) e após os usuários a serem expulsos!*`,
 
-  async execute(message, args, comando, client) {
+  async execute(message, args, comando, client, prefix) {
     const mencoes = message.mentions
-    const usernamesDigitados = message.content.trim().slice(config.prefix.length + comando.length).split("\\").map(username => username.trim().toLowerCase())
+    const usernamesDigitados = message.content.trim().slice(prefix.length + comando.length).split("\\").map(username => username.trim().toLowerCase())
     const motivo = message.content.trim().slice((message.content.trim().split('').indexOf('`')+1 === 0) ? message.content.length : message.content.trim().split('').indexOf('`')+1).split('`').shift()
     const botMembro = message.guild.member(client.user.id)
     const permissoesBot = message.channel.memberPermissions(botMembro)
@@ -86,8 +86,8 @@ module.exports = {
         if (podeEnviarMsg) {
           const descEmbed = new Discord.MessageEmbed()
             .setColor(hex.blue2)
-            .setTitle(`<:chute:748292333791084565> Como usar o ${config.prefix}${comando}`)
-            .setDescription(`Modo de usar:\n**Mencionando o(s) usuário(s):** *${config.prefix}kick @user1 @user2 \`\motivo da expulsão\`\*\n**Pelo username ou apelido:** *${config.prefix}kick username1 \\ apelido1 \`\motivo da expulsão\`\*\n\nOBS: *O motivo da expulsão não é obrigatório, mas se for utilizá-lo, coloque-o entre "\`\" (crases) e após os usuários a serem expulsos!*`)
+            .setTitle(`<:chute:748292333791084565> Como usar o ${prefix}${comando}`)
+            .setDescription(`Modo de usar:\n**Mencionando o(s) usuário(s):** *${prefix}kick @user1 @user2 \`\motivo da expulsão\`\*\n**Pelo username ou apelido:** *${prefix}kick username1 \\ apelido1 \`\motivo da expulsão\`\*\n\nOBS: *O motivo da expulsão não é obrigatório, mas se for utilizá-lo, coloque-o entre "\`\" (crases) e após os usuários a serem expulsos!*`)
             .setTimestamp()
             .setFooter(`Sistema de ajuda ${client.user.username}`, client.user.displayAvatarURL())
           message.reply(descEmbed)

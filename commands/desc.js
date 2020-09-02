@@ -16,7 +16,7 @@ module.exports = {
   type: "Geral",
   description: `Mostra a descrição de cada comando!\nModo de usar: **${config.prefix}desc kick**`,
 
-  async execute(message, args, comando, client) {
+  async execute(message, args, comando, client, prefix) {
     const botMembro = message.guild.member(client.user.id)
     const permissoesBot = message.channel.memberPermissions(botMembro)
     const podeEnviarMsg = permissoesBot.has("SEND_MESSAGES")
@@ -26,8 +26,8 @@ module.exports = {
       if(podeEnviarMsg) {
         const descEmbed = new Discord.MessageEmbed()
           .setColor(hex.blue2)
-          .setTitle(`<:helpcircleblue:747879943811235841> Descrição do comando ${config.prefix}${comando}`)
-          .setDescription(`Modo de usar: **${config.prefix}desc kick**\nOBS: *O comando **${config.prefix}desc serve para descrever o comportamento de outros comandos e como usá-los.***`)
+          .setTitle(`<:helpcircleblue:747879943811235841> Descrição do comando ${prefix}${comando}`)
+          .setDescription(`Modo de usar: **${prefix}desc kick**\nOBS: *O comando **${prefix}desc serve para descrever o comportamento de outros comandos e como usá-los.***`)
           .setTimestamp()
           .setFooter(`Sistema de ajuda ${client.user.username}`, client.user.displayAvatarURL())
         message.reply(descEmbed)
@@ -36,8 +36,8 @@ module.exports = {
       }
       return
     }
-    if(args[0].startsWith(config.prefix)) {
-      args[0] = args[0].slice(config.prefix.length)
+    if(args[0].startsWith(prefix)) {
+      args[0] = args[0].slice(prefix.length)
     }
     if(!client.commands.has(args[0])) {
       if(podeEnviarMsg) {

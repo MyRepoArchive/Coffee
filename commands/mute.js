@@ -12,9 +12,9 @@ module.exports = {
   type: "Moderação",
   description: `Impossibilita o usuário citado de falar no servidor!\nModo de usar:\n**Mencionando o(s) usuário(s)** *${config.prefix}mute @user1 @user2 \`motivo\`*\n**Pelo username ou apelido:** *${config.prefix}mute username1 \\ apelido1*\nOBS: *O motivo para o mute não é obrigatório, mas caso utilize, coloque-o entre crases ("\`")*`,
 
-  async execute(message, args, comando, client) {
+  async execute(message, args, comando, client, prefix) {
     const mencoes = message.mentions
-    const usernamesDigitados = message.content.trim().slice(config.prefix.length + comando.length).split("\\").map(username => username.trim().toLowerCase())
+    const usernamesDigitados = message.content.trim().slice(prefix.length + comando.length).split("\\").map(username => username.trim().toLowerCase())
     const botMembro = message.guild.member(client.user.id)
     const permissoesBot = message.channel.memberPermissions(botMembro)
     const podeEnviarMsg = permissoesBot.has("SEND_MESSAGES")
@@ -91,8 +91,8 @@ module.exports = {
         if (podeEnviarMsg) {
           const descEmbed = new Discord.MessageEmbed()
             .setColor(hex.blue2)
-            .setTitle(`Como usar o ${config.prefix}${comando}`)
-            .setDescription(`Modo de usar:\n**Mencionando o(s) usuário(s)** *${config.prefix}mute @user1 @user2 \`motivo\`*\n**Pelo username ou apelido:** *${config.prefix}mute username1 \\ apelido1*\nOBS: *O motivo para o mute não é obrigatório, mas caso utilize, coloque-o entre crases ("\`")*`)
+            .setTitle(`Como usar o ${prefix}${comando}`)
+            .setDescription(`Modo de usar:\n**Mencionando o(s) usuário(s)** *${prefix}mute @user1 @user2 \`motivo\`*\n**Pelo username ou apelido:** *${prefix}mute username1 \\ apelido1*\nOBS: *O motivo para o mute não é obrigatório, mas caso utilize, coloque-o entre crases ("\`")*`)
             .setTimestamp()
             .setFooter(`Sistema de ajuda ${client.user.username}`, client.user.displayAvatarURL())
           message.reply(descEmbed)

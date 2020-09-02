@@ -8,9 +8,9 @@ module.exports = {
   type: "Moderação",
   description: `Bane o(s) usuário(s) mencionado(s) do servidor!\nModo de usar:\nMencionando o(s) usuário(s): *${config.prefix}ban @user1 @user2 \`motivo do banimento\`\  \`5\`*\nPelo username ou apelido: *${config.prefix}ban username1 \\ apelido1 \`motivo do banimento\`  \`3\`*\n\nOBS: *Nem o motivo do banimento nem a quantidade de dias para deletar mensagens são obrigatórios, mas se for utilizá-los, coloque-os entre "\`" (crases) e após os usuários a serem banidos, na sequência (motivo, dias)!*\n*Para colocar a quantidade de dias para deletar mensagens você deve colocar um motivo (obrigatoriamente)!*`,
 
-  async execute(message, args, comando, client) {
+  async execute(message, args, comando, client, prefix) {
     const mencoes = message.mentions
-    const usernamesDigitados = message.content.trim().slice(config.prefix.length + comando.length).split("\\").map(username => username.trim().toLowerCase())
+    const usernamesDigitados = message.content.trim().slice(prefix.length + comando.length).split("\\").map(username => username.trim().toLowerCase())
     const banOptions = message.content.trim().slice((message.content.trim().split('').indexOf('`')+1 === 0) ? message.content.length : message.content.trim().split('').indexOf('`')+1).split('`')
     const motivo = banOptions.shift()
     banOptions.shift()
@@ -85,8 +85,8 @@ module.exports = {
         if (podeEnviarMsg) {
           const descEmbed = new Discord.MessageEmbed()
             .setColor(hex.blue2)
-            .setTitle(`<:chute:748292333791084565> Como usar o ${config.prefix}${comando}`)
-            .setDescription(`Modo de usar:\n**Mencionando o(s) usuário(s)** *${config.prefix}ban @user1 @user2 \`motivo do banimento\`\  \`5\`*\n**Pelo username ou apelido:** *${config.prefix}ban username1 \\ apelido1 \`motivo do banimento\`  \`3\`*\n\nOBS: *Nem o motivo do banimento nem a quantidade de dias para deletar mensagens são obrigatórios, mas se for utilizá-los, coloque-os entre "\`" (crases) e após os usuários a serem banidos, na sequência (motivo, dias)!*\n*Para colocar a quantidade de dias para deletar mensagens você deve colocar um motivo (obrigatoriamente)!*`)
+            .setTitle(`<:chute:748292333791084565> Como usar o ${prefix}${comando}`)
+            .setDescription(`Modo de usar:\n**Mencionando o(s) usuário(s)** *${prefix}ban @user1 @user2 \`motivo do banimento\`\  \`5\`*\n**Pelo username ou apelido:** *${prefix}ban username1 \\ apelido1 \`motivo do banimento\`  \`3\`*\n\nOBS: *Nem o motivo do banimento nem a quantidade de dias para deletar mensagens são obrigatórios, mas se for utilizá-los, coloque-os entre "\`" (crases) e após os usuários a serem banidos, na sequência (motivo, dias)!*\n*Para colocar a quantidade de dias para deletar mensagens você deve colocar um motivo (obrigatoriamente)!*`)
             .setTimestamp()
             .setFooter(`Sistema de ajuda ${client.user.username}`, client.user.displayAvatarURL())
           message.reply(descEmbed)

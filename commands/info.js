@@ -9,7 +9,7 @@ module.exports = { // Exporta o conteúdo do arquivo para outro arquivo
   type: "Informativo", // Tipo do comando para aparecer no HELP
   description: "Exibe para o usuário alguma informações bacanas do bot, como número de comandos, de usuários, de canais, servidores, etc...", // Descrição do comando para aparecer no HELP
 
-  async execute(message, args, comando, client) { // Função que executa o código quando é chamada
+  async execute(message, args, comando, client, prefix) { // Função que executa o código quando é chamada
     const botMembro = message.guild.member(client.user.id)
     const permissoesBot = message.channel.memberPermissions(botMembro)
     const podeEnviarMsg = permissoesBot.has("SEND_MESSAGES")
@@ -35,7 +35,7 @@ module.exports = { // Exporta o conteúdo do arquivo para outro arquivo
         { name: `<:emoji:748334546138955826> Emojis`, value: `**${client.emojis.cache.size}**`, inline: true },
         { name: `<:terminal:745279127195615343> Comandos`, value: `**${comandos.length}**`, inline: true },
         { name: `<:configuracoesdousuario:748195176836497569> Tecnologias utlizadas`, value: `<:javascript:748195182767374417> JavaScript <:node:748195195748614154> NodeJS`, inline: true },
-        { name: `<:p_:748336334044790814> Meu prefixo`, value: `"\`${config.prefix}\`"`, inline: true },
+        { name: `<:p_:748336334044790814> Meu prefixo`, value: `"\`${prefix}\`"`, inline: true },
         { name: `<:support:748337028541710446> Servidor de suporte`, value: `[Clique aqui](https://discord.gg/hNffyc3)`, inline: true },
         { name: `<:sourcecode:748338362569588788> Meu código-fonte`, value: `[Clique aqui](${config.repositorio})`, inline: true },
         { name: `<:convidarpessoas:748959007573540956> Me adicione em seu servidor`, value: `[Clique aqui](https://discordapp.com/oauth2/authorize?=&client_id=${client.user.id}&scope=bot)`, inline: true },

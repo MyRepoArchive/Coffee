@@ -9,7 +9,7 @@ module.exports = {
   type: "Informativo",
   description: `Exibe em uma Embed uma lista com o nome prímário de todos os comandos do bot!`,
 
-  async execute(message, args, comando, client) {
+  async execute(message, args, comando, client, prefix) {
     const botMembro = message.guild.member(client.user.id)
     const permissoesBot = message.channel.memberPermissions(botMembro)
     const podeEnviarMsg = permissoesBot.has("SEND_MESSAGES")
@@ -20,7 +20,7 @@ module.exports = {
       .setColor(hex.ivory)
       .setTitle(`<:terminalblue:747879940749393951> Minha listinha de comandos (${comandos.length})`)
       .setDescription(`\`${comandos.join('`, `')}\``)
-      .addField(`<:infoblue:747879943987265607> Observação`, `Se você estiver precisando de algo mais detalhado, use **${config.prefix}desc nomeDoComando** ou **${config.prefix}ajuda**`)
+      .addField(`<:infoblue:747879943987265607> Observação`, `Se você estiver precisando de algo mais detalhado, use **${prefix}desc nomeDoComando** ou **${prefix}ajuda**`)
       .setTimestamp()
       .setFooter(client.user.username, client.user.displayAvatarURL())
     if(podeEnviarMsg) {

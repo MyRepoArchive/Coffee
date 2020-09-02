@@ -22,7 +22,7 @@ module.exports = {
   type: "Gerenciamento",
   description: `Você pode utilizar esse comando para deletar um canal de algum servidor que você tenha a devida permissão.\nModo de usar:\nMencionando o canal: *${config.prefix}deletechannel #nome-do-canal-1 #nome-do-canal-2*\nDitando o ID do canal: *${config.prefix}deletechannel id_do_canal_1 id_do_canal_2*`,
 
-  async execute(message, args, comando, client) {
+  async execute(message, args, comando, client, prefix) {
     const mencoes = message.mentions.channels
     const botMembro = message.guild.member(client.user.id) // O membro do bot no servidor em que foi enviado a mensagem
     const permissoesBot = message.channel.memberPermissions(botMembro) // As permissões que o bot tem no canal em que foi enviada a mensagem
@@ -33,8 +33,8 @@ module.exports = {
         if (podeEnviarMsg) {
           const descEmbed = new Discord.MessageEmbed()
             .setColor(hex.blue2)
-            .setTitle(`<:textchannelblockedclaro:748224336690806856> Como usar o ${config.prefix}${comando}`)
-            .setDescription(`Modo de usar:\nMencionando o canal: *${config.prefix}deletechannel #nome-do-canal-1 #nome-do-canal-2*\nDitando o ID do canal: *${config.prefix}deletechannel id_do_canal_1 id_do_canal_2*`)
+            .setTitle(`<:textchannelblockedclaro:748224336690806856> Como usar o ${prefix}${comando}`)
+            .setDescription(`Modo de usar:\nMencionando o canal: *${prefix}deletechannel #nome-do-canal-1 #nome-do-canal-2*\nDitando o ID do canal: *${prefix}deletechannel id_do_canal_1 id_do_canal_2*`)
             .setTimestamp()
             .setFooter(`Sistema de ajuda ${client.user.username}`, client.user.displayAvatarURL())
           message.reply(descEmbed)

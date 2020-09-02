@@ -4,6 +4,20 @@ const client = new Discord.Client(); // Criação do Client (bot)
 const config = require("./info.json"); // Requerimento do arquivo config, que tem diversas informações pertinentes para o funcionamento do bot
 const hex = require('./colors.json'); // Requerimento de um json de cores para facilitar na criação de embeds 
 const Data = new Date; // Salva o momento em que o bot foi iniciado
+const mysql = require('mysql'); // Conexão com o MySQL
+const connection = mysql.createConnection({ // Cria conexão com o banco de dados
+    host: 'localhost',
+    user: config.mysqlUser,
+    password: config.mysqlPassword,
+    database: "coffee",
+    port: 3308
+});
+connection.connect(err => { // Conecta com o banco de dados
+    if (err) {
+        console.error('Erro na conexão: ' + err.stack)
+        return;
+    }
+});
 // CORES PARA COLORIR TERMINAL
 const consoleColors = ['\033[0m', '\033[30m', '\033[31m', '\033[32m', '\033[33m', '\033[34m', '\033[35m', '\033[36m', '\033[37m'];
 // 0 = reset; 1 = black; 2 = red; 3 = green; 4 = yellow; 5 = roxo; 6 = magenta; 7 = cyan; 8 = white;
@@ -82,7 +96,7 @@ function changeActivity() { // Função que muda o que o bot exibe no "Activity"
                 break;
             case 3:
                 const Hora = new Date
-                client.user.setActivity(`Hora ${pad((Hora.getUTCHours() < 3) ? Hora.getUTCHours()+21 : Hora.getUTCHours()-3, 2)}:${pad(Hora.getUTCMinutes(), 2)}`, { type: "STREAMING", url: "https://github.com/joaoscoelho/Coffe" });
+                client.user.setActivity(`Hora ${pad((Hora.getUTCHours() < 3) ? Hora.getUTCHours() + 21 : Hora.getUTCHours() - 3, 2)}:${pad(Hora.getUTCMinutes(), 2)}`, { type: "STREAMING", url: "https://github.com/joaoscoelho/Coffe" });
                 activityId = 0;
                 break;
             default:
@@ -107,7 +121,7 @@ client.on("ready", () => { // Evento da largada do bot
     if (('' + qtdServers).length > lengthMax) { lengthMax = ('' + qtdServers).length };
     if (('' + qtdUsers).length > lengthMax) { lengthMax = ('' + qtdUsers).length };
     if (lengthMax < 3) { lengthMax = 3 };
-    
+
     function mostrarServersBlock() { // Função que mostra o nome de todos os servidores até que eles ocupem 900 caracteres de tamanho
         let result = ''
         let i = 0
@@ -180,13 +194,17 @@ client.on("guildCreate", guild => { // Evento acionado quando o bot entra em um 
     const logEmbed = new Discord.MessageEmbed()
         .setColor(hex.babyblue)
         .setTitle('<:loginblue:747879951511978095><:serverblue:747879939734372392> Entrei em um novo servidor')
-        .setThumbnail(guild.iconURL({dynamic: true}))
+        .setThumbnail(guild.iconURL({ dynamic: true }))
         .addField('<:infoblue:747879943987265607> Informações', `Nome: **${guild.name}** \`${guild.id}\`\nDescrição: ${(guild.description == null) ? '**Sem descrição**' : `**"${guild.description}"**`}\nPopulação: **${pad(guild.memberCount, 2)}**\nCanais: **${pad(guildChannelCount, 2)}**\nOwner: **${guild.owner.user.tag}** \`${guild.ownerID}\`\nAdmins: **${guildAdmins}**`)
         .addField('<:togglerightverde:747879943068713101> Status', `População: **${pad(qtdUsers, lengthMax)}**\nCanais: **${pad(qtdChannels, lengthMax)}**\nServidores: **${pad(qtdServers, lengthMax)}**`)
         .setTimestamp()
         .setFooter(`Sistema de logs ${client.user.username}`, client.user.displayAvatarURL())
     logChannel.send(logEmbed)
     changeActivity();
+
+    connection.query(`insert into servers (serverid) values ('${guild.id}');`, err => {
+        if (err) console.log(err.stack)
+    })
 });
 
 client.on("guildDelete", guild => { // Evento acionado quando o bot sai de algum servidor
@@ -220,7 +238,7 @@ client.on("guildDelete", guild => { // Evento acionado quando o bot sai de algum
     const logEmbed = new Discord.MessageEmbed()
         .setColor(hex.darkred)
         .setTitle('<:serverblue:747879939734372392><:logoutblue:747879951579086969> Saí de um servidor')
-        .setThumbnail(guild.iconURL({dynamic: true}))
+        .setThumbnail(guild.iconURL({ dynamic: true }))
         .addField('<:infoblue:747879943987265607> Informações', `Nome: **${guild.name}** \`${guild.id}\`\nDescrição: ${(guild.description == null) ? '**Sem descrição**' : `**"${guild.description}"**`}\nPopulação: **${pad(guild.memberCount, 2)}**\nOwner: **${guildOwnerTag}** \`${guild.owner.id}\`\nAdmins: **${guildAdmins}**`)
         .addField('<:togglerightverde:747879943068713101> Status', `População: **${pad(qtdUsers, lengthMax)}**\nCanais: **${pad(qtdChannels, lengthMax)}**\nServidores: **${pad(qtdServers, lengthMax)}**`)
         .setTimestamp()
@@ -230,12 +248,13 @@ client.on("guildDelete", guild => { // Evento acionado quando o bot sai de algum
 });
 
 client.on("message", async message => { // Evento acionado quando alguém manda alguma mensagem no chat
-    const args = message.content.slice(config.prefix.length).trim().split(/ +/g); // Um array com cada palavra digitada pelo usuário
+    if (message.author.bot) return; // Verifica se o autor é um bot, se for, retorna
+    if (message.channel.type === 'dm') return; // Verifica se a mensagem foi enviada na dm, se for, retorna
+    const prefix = await require('./utils/prefix.js').getPrefix(connection, message)
+    const args = message.content.slice(prefix.length).trim().split(/ +/g); // Um array com cada palavra digitada pelo usuário
     const comando = args.shift().toLowerCase(); // A primeira palavra do args minúscula
     const firstWord = message.content.trim().split(/ +/g).shift().toLowerCase(); // A primeira palavra da mensagem
     const logErrorChannel = client.channels.cache.get(config.logErro); // Canal para log dos erros
-    if (message.author.bot) return; // Verifica se o autor é um bot, se for, retorna
-    if (message.channel.type === 'dm') return; // Verifica se a mensagem foi enviada na dm, se for, retorna
     const botMembro = message.guild.member(client.user.id) // O membro do bot no servidor em que foi enviado a mensagem
     const permissoesBot = message.channel.memberPermissions(botMembro) // As permissões que o bot tem no canal em que foi enviada a mensagem
     const podeEnviarMsg = permissoesBot.has("SEND_MESSAGES") // Um boolean se o bot pode enviar mensagens naquele canal
@@ -243,24 +262,25 @@ client.on("message", async message => { // Evento acionado quando alguém manda 
     const podeCriarInvite = permissoesBot.has("CREATE_INSTANT_INVITE");
     const podeManageMessages = permissoesBot.has("MANAGE_MESSAGES");
     if (firstWord === `<@${client.user.id}>`) { // Se a primeira palavra da mensagem for uma menção ao bot, ele responde
-        if(podeEnviarMsg) { // Verifica se o bot pode mandar mensagem
-            message.reply(`Alguém me chamou??🤗 Se estiver precisando de ajuda, use **${config.prefix}ajuda**`) 
+        if (podeEnviarMsg) { // Verifica se o bot pode mandar mensagem
+            message.reply(`Alguém me chamou??🤗 Se estiver precisando de ajuda, use **${prefix}ajuda**`)
         }
         return;
     }
     if (!isNaN(Number(message.content.slice(0, 1))) || message.content.startsWith('-')) { // Se o primeiro caractere da mensagem for um número ou um sinal de menor, ele chama a função de calculo
         require('./commands/calculator.js').calc(message, client)
     }
-    if (!message.content.startsWith(config.prefix)) return; // Se a mensagem não iniciar com o prefixo do bot, retorna
+    if (!message.content.startsWith(prefix)) return; // Se a mensagem não iniciar com o prefixo do bot, retorna
     if (!client.commands.has(comando)) { // Se o comando digitado pelo usuário não for compatível com nenhum comando do bot, ele responde
-        if(podeEnviarMsg && podeManageMessages) { // Verifica se pode enviar mensagens e pode deleta-las
-            const resp = await message.channel.send(`<:terminalblue:747879940749393951> Eu não conheço esse comando, use **${config.prefix}ajuda** para saber todos os meus comandos!`);
-            resp.delete({timeout: 5000}) // Após 5 segundos desde o envio da mensagem acima, ele  a deleta
+        if (podeEnviarMsg && podeManageMessages) { // Verifica se pode enviar mensagens e pode deleta-las
+            const resp = await message.channel.send(`<:terminalblue:747879940749393951> Eu não conheço esse comando, use **${prefix}ajuda** para saber todos os meus comandos!`);
+            resp.delete({ timeout: 5000 }) // Após 5 segundos desde o envio da mensagem acima, ele  a deleta
         }
         return;
-    }  
+    }
+    
     try { // Tenta executar o comando do usuário
-        client.commands.get(comando).execute(message, args, comando, client);
+        client.commands.get(comando).execute(message, args, comando, client, prefix, connection);
     } catch (error) { // Caso não consiga executar o comando, loga o erro
         const errorEmbed = new Discord.MessageEmbed()
             .setColor(hex.orangered)
@@ -272,7 +292,7 @@ client.on("message", async message => { // Evento acionado quando alguém manda 
             .addField(`<:unlockblue:747879943077101579> Permissões`, `\`${message.member.permissions.toArray().join('`, `')}\``)
             .addField(`<:tagblue:747879941508694036> Dono do servidor`, `**${message.guild.owner.user.tag}** \`${message.guild.ownerID}\``)
             .addField(`<:xcirclered:747879954708037662> Erro`, error)
-            .setThumbnail(message.guild.iconURL({dynamic: true}))
+            .setThumbnail(message.guild.iconURL({ dynamic: true }))
             .setTimestamp()
             .setFooter(`Sistema de logs ${client.user.username}`, client.user.displayAvatarURL())
         if (podeEnviarMsg) { // Verifica se pode enviar mensagens no canal
@@ -314,7 +334,7 @@ client.on("messageReactionAdd", async (message, user) => { // Evento acionado qu
             console.log(error);
             logErrorChannel.send(errorEmbed)
         }
-    } else if(client.reactCommands.has(message.emoji.identifier)) { // Verifica se o bot tem algum comando que responda com o identifier do emoji
+    } else if (client.reactCommands.has(message.emoji.identifier)) { // Verifica se o bot tem algum comando que responda com o identifier do emoji
         try { // Tenta executar...
             client.reactCommands.get(message.emoji.identifier).execute(message, user, client)
         } catch (error) { // Loga o erro caso não consiga

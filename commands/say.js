@@ -12,7 +12,7 @@ module.exports = {
   type: "Geral",
   description: `"Faça das suas as minhas palavras"\nComo usar:\n**No mesmo canal:** *${config.prefix}say O que deve ser dito por mim*\n**Em outro canal do servidor:** *${config.prefix}say #outro-canal O que deve ser dito por mim*\n**Usando Embed no mesmo canal:** *${config.prefix}say \`\embed\`\ Título da embed \\ Descrição da embed \\ #f5f5f5*\n**Usando Embed em outro canal:** *${config.prefix}say #outro-canal \`\embed\`\ Título da embed \\ Descrição da embed \\ #808080*\n\n*OBS: Se você for utilizar embed na sua mensagem, coloque o termo **"embed"** entre crases. O título da embed é obrigatório, mas a descrição e a cor não são. Se você ficou confuso do que deve ser colocado no ultimo campo da embed, aquilo deve ser a cor em **hex** que a embed deve assumir. Como você também deve ter percebido, os campos da embed devem ser separados com "**\\**" (barra invertida)!*`,
 
-  async execute(message, args, comando, client) {
+  async execute(message, args, comando, client, prefix) {
     const botMembro = message.guild.member(client.user.id)
     const permissoesBot = message.channel.memberPermissions(botMembro)
     const podeEnviarMsg = permissoesBot.has("SEND_MESSAGES")
@@ -25,8 +25,8 @@ module.exports = {
       if (podeEnviarMsg) {
         const descEmbed = new Discord.MessageEmbed()
           .setColor(hex.blue2)
-          .setTitle(`Como usar o comando ${config.prefix}${comando}`)
-          .setDescription(`Como usar:\n**No mesmo canal:** *${config.prefix}say O que deve ser dito por mim*\n**Em outro canal do servidor:** *${config.prefix}say #outro-canal O que deve ser dito por mim*\n**Usando Embed no mesmo canal:** *${config.prefix}say \`\embed\`\ Título da embed \\ Descrição da embed \\ #f5f5f5*\n**Usando Embed em outro canal:** *${config.prefix}say #outro-canal \`\embed\`\ Título da embed \\ Descrição da embed \\ #808080*\n\n*OBS: Se você for utilizar embed na sua mensagem, coloque o termo **"embed"** entre crases. O título da embed é obrigatório, mas a descrição e a cor não são. Se você ficou confuso do que deve ser colocado no ultimo campo da embed, aquilo deve ser a cor em **hex** que a embed deve assumir. Como você também deve ter percebido, os campos da embed devem ser separador com "**\\**" (barra invertida)!*`)
+          .setTitle(`Como usar o comando ${prefix}${comando}`)
+          .setDescription(`Como usar:\n**No mesmo canal:** *${prefix}say O que deve ser dito por mim*\n**Em outro canal do servidor:** *${prefix}say #outro-canal O que deve ser dito por mim*\n**Usando Embed no mesmo canal:** *${prefix}say \`\embed\`\ Título da embed \\ Descrição da embed \\ #f5f5f5*\n**Usando Embed em outro canal:** *${prefix}say #outro-canal \`\embed\`\ Título da embed \\ Descrição da embed \\ #808080*\n\n*OBS: Se você for utilizar embed na sua mensagem, coloque o termo **"embed"** entre crases. O título da embed é obrigatório, mas a descrição e a cor não são. Se você ficou confuso do que deve ser colocado no ultimo campo da embed, aquilo deve ser a cor em **hex** que a embed deve assumir. Como você também deve ter percebido, os campos da embed devem ser separador com "**\\**" (barra invertida)!*`)
           .setTimestamp()
           .setFooter(`Sistema de ajuda ${client.user.username}`, client.user.displayAvatarURL())
         message.reply(descEmbed)
@@ -56,7 +56,7 @@ module.exports = {
           if (canaisServer.get(canaisServerId[i]).memberPermissions(message.member).has("SEND_MESSAGES")) {
             if(args[1] !== "`embed`") {
               if(args[1] !== undefined) {
-                canaisServer.get(canaisServerId[i]).send(message.content.slice(config.prefix.length + comando.length + 5 + canaisServerId[i].length))
+                canaisServer.get(canaisServerId[i]).send(message.content.slice(prefix.length + comando.length + 5 + canaisServerId[i].length))
               } else {
                 if(podeEnviarMsg) {
                   message.reply(`O que eu devo falar?`)
@@ -66,7 +66,7 @@ module.exports = {
                 return;
               }
             } else {
-              const embedFields = message.content.trim().slice(config.prefix.length + comando.length + 12 + canaisServerId[i].length).split("\\").map(f => f.trim())
+              const embedFields = message.content.trim().slice(prefix.length + comando.length + 12 + canaisServerId[i].length).split("\\").map(f => f.trim())
               const title = embedFields[0]
               const description = embedFields[1]
               const color = embedFields[2]
@@ -81,7 +81,7 @@ module.exports = {
                   }
                 canaisServer.get(canaisServerId[i]).send(embed)
               } else {
-                canaisServer.get(canaisServerId[i]).send(message.content.slice(config.prefix.length + comando.length + 5 + canaisServerId[i].length))
+                canaisServer.get(canaisServerId[i]).send(message.content.slice(prefix.length + comando.length + 5 + canaisServerId[i].length))
               }
             }
             if (podeManageMessages) {
@@ -98,7 +98,7 @@ module.exports = {
     }
     // Verifica se o usuário quer sua mensagem em uma embed
     if (args[0] === "`embed`") {
-      const embedFields = message.content.trim().slice(config.prefix.length + comando.length + 9).split("\\").map(f => f.trim())
+      const embedFields = message.content.trim().slice(prefix.length + comando.length + 9).split("\\").map(f => f.trim())
       const title = embedFields[0]
       const description = embedFields[1]
       const color = embedFields[2]
@@ -126,7 +126,7 @@ module.exports = {
     }
     // Verifica se o bot pode enviar mensagem naquele canal, se não poder, verificar se pode adicionar reações, em seguida retorna.
     if (podeEnviarMsg) {
-      message.channel.send(message.content.slice(config.prefix.length + comando.length + 1))
+      message.channel.send(message.content.slice(prefix.length + comando.length + 1))
     } else if (podeAddReactions) {
       message.react('slashred:747879954305253468')
       return;

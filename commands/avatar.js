@@ -12,13 +12,13 @@ module.exports = {
   type: "Diversão",
   description: `Mostra para o usuário o avatar dele ou de outro membro do servidor\nModo de usar:\nMostrando o próprio avatar: *${config.prefix}avatar*\nMostrando o avatar de outro membro do servidor: *${config.prefix}avatar @membro*\nou: *${config.prefix}avatar usernameDoMembro*`,
 
-  async execute(message, args, comando, client) {
+  async execute(message, args, comando, client, prefix) {
     const mencoes = message.mentions.members
     const botMembro = message.guild.member(client.user.id)
     const permissoesBot = message.channel.memberPermissions(botMembro)
     const podeEnviarMsg = permissoesBot.has("SEND_MESSAGES")
     const podeAddReactions = permissoesBot.has("ADD_REACTIONS")
-    const usernamesDigitados = message.content.trim().slice(config.prefix.length + comando.length).split("\\").map(username => username.trim().toLowerCase())
+    const usernamesDigitados = message.content.trim().slice(prefix.length + comando.length).split("\\").map(username => username.trim().toLowerCase())
     const embed = new Discord.MessageEmbed()
       .setColor(hex.lemonchiffon)
       .setAuthor(message.author.username, message.author.displayAvatarURL())

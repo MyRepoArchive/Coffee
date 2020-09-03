@@ -10,7 +10,7 @@ const connection = mysql.createConnection({ // Cria conexão com o banco de dado
     host: config.mysqlHost,
     user: config.mysqlUser,
     password: config.mysqlPassword,
-    port: 3308
+    port: config.mysqlPort
 });
 connection.connect(err => { // Conecta com o banco de dados
     if (err) {
@@ -265,6 +265,7 @@ client.on("message", async message => { // Evento acionado quando alguém manda 
     const podeAddReactions = permissoesBot.has("ADD_REACTIONS")
     const podeCriarInvite = permissoesBot.has("CREATE_INSTANT_INVITE");
     const podeManageMessages = permissoesBot.has("MANAGE_MESSAGES");
+    const errorAlert = require('./utils/errorAlert.js')
     if (firstWord === `<@${client.user.id}>`) { // Se a primeira palavra da mensagem for uma menção ao bot, ele responde
         if (podeEnviarMsg) { // Verifica se o bot pode mandar mensagem
             message.reply(`Alguém me chamou??🤗 Se estiver precisando de ajuda, use **${prefix}ajuda**`)
@@ -282,7 +283,7 @@ client.on("message", async message => { // Evento acionado quando alguém manda 
         }
         return;
     }
-
+    if(client.commands.get(comando).type === 'Economia') return errorAlert.run(message, client, `<:xcirclered:747879954708037662> Os comandos de **Economia** estão em produção no momento e não estão disponíveis para uso, toda a equipe de desenvolvimento do ${client.user.username} pede desculpas pelo ocorrido!`, 'xcirclered:747879954708037662');
     try { // Tenta executar o comando do usuário
         client.commands.get(comando).execute(message, args, comando, client, prefix, connection);
     } catch (error) { // Caso não consiga executar o comando, loga o erro

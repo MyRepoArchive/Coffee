@@ -6,10 +6,11 @@ const hex = require('./colors.json'); // Requerimento de um json de cores para f
 const Data = new Date; // Salva o momento em que o bot foi iniciado
 const mysql = require('mysql'); // Conexão com o MySQL
 const connection = mysql.createConnection({ // Cria conexão com o banco de dados
+    database: config.mysqlDatabase,
     host: config.mysqlHost,
     user: config.mysqlUser,
     password: config.mysqlPassword,
-    database: config.mysqlDatabase,
+    port: 3308
 });
 connection.connect(err => { // Conecta com o banco de dados
     if (err) {
@@ -281,7 +282,7 @@ client.on("message", async message => { // Evento acionado quando alguém manda 
         }
         return;
     }
-    
+
     try { // Tenta executar o comando do usuário
         client.commands.get(comando).execute(message, args, comando, client, prefix, connection);
     } catch (error) { // Caso não consiga executar o comando, loga o erro

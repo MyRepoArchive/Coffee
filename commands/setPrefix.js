@@ -21,7 +21,7 @@ module.exports = {
     const podeAddReactions = permissoesBot.has("ADD_REACTIONS")
     let newPrefix = args.join(' '); // Transforma os argumentos do usuários em uma string novamente e salva numa variavl
     if(newPrefix === '\\') newPrefix = '\\\\' // Repassa o valor de contrabarra para duas contrabarra, para evitar erro no comando sql
-    if(!message.member.permissions.has("ADMINISTRATOR") || message.author.id !== config.owner) { // Verifica se quem executou o comando é um administrador na guild ou é o dono do bot
+    if(!message.member.permissions.has("ADMINISTRATOR") && message.author.id !== config.owner) { // Verifica se quem executou o comando é um administrador na guild ou é o dono do bot
       if(podeEnviarMsg) {
         message.channel.send(`<:slashred:747879954305253468> Você não pode mudar meu prefixo neste servidor!`)
       } else if(podeAddReactions) {

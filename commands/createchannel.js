@@ -70,7 +70,7 @@ module.exports = {
         await message.guild.channels.create(args[0], { type: args[1] })
         const canais = await message.guild.channels.cache.filter(channel => channel.name === args[0]).array()
         const embed = new Discord.MessageEmbed()
-            .setColor(hex.green)
+            .setColor(hex.green2)
             .setTitle("<:circlecheckverde:747879943224033481> Novo canal criado")
             .setDescription(`${args[1] === 'text' ? '<:textchannelclaro:748224336770498650>' : '<:voicechannelclaro:748224336825155614>'} Foi criado o canal de ID **${canais[canais.length-1].id}**`)
             .addField('<:edit3blue:747879944369209344> Nome', `${args[1] === 'text' ? '<:textchannelclaro:748224336770498650>' : '<:voicechannelclaro:748224336825155614>'} ${args[0]}`)

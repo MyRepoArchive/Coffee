@@ -17,7 +17,7 @@ module.exports = {
     const comandos = [...new Set(client.commands.map(comando => comando.name))]
     const embed = new Discord.MessageEmbed()
       .setAuthor(message.author.username, message.author.displayAvatarURL())
-      .setColor(hex.ivory)
+      .setColor(hex.gray21)
       .setTitle(`<:terminalblue:747879940749393951> Minha listinha de comandos (${comandos.length})`)
       .setDescription(`\`${comandos.join('`, `')}\``)
       .addField(`<:infoblue:747879943987265607> Observação`, `Se você estiver precisando de algo mais detalhado, use **${prefix}desc nomeDoComando** ou **${prefix}ajuda**`)

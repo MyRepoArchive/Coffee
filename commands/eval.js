@@ -39,7 +39,7 @@ module.exports = {
       evalEmbed.setColor(hex.gray)
       evalEmbed.addFields(
         { name: '<:login:745708185611927553> Input', value: `\`\`\`${evalContent}\`\`\`` },
-        { name: '<:logout:745708185540886688> Output', value:  `\`\`\`${eval(evalContent)}\`\`\``}
+        { name: '<:logout:745708185540886688> Output', value:  `\`\`\`${`${eval(evalContent)}`.slice(0, 1000)}\`\`\``}
       )
     } catch (err) {
       evalEmbed.setColor(hex.orangered)

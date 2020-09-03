@@ -20,7 +20,7 @@ module.exports = {
     const podeAddReactions = permissoesBot.has("ADD_REACTIONS")
     const usernamesDigitados = message.content.trim().slice(prefix.length + comando.length).split("\\").map(username => username.trim().toLowerCase())
     const embed = new Discord.MessageEmbed()
-      .setColor(hex.lemonchiffon)
+      .setColor(message.member.displayHexColor)
       .setAuthor(message.author.username, message.author.displayAvatarURL())
       .setTimestamp()
       .setFooter(client.user.username, client.user.displayAvatarURL())
@@ -35,10 +35,12 @@ module.exports = {
             const usernameMembers = await message.guild.members.cache.filter(member => member.user.username.toLowerCase() === usernamesDigitados[i])
             const nicknameMembers = await message.guild.members.cache.filter(member => (member.nickname === null || member.nickname === undefined) ? member.nickname : member.nickname.toLowerCase() === usernamesDigitados[i])
             if(usernameMembers.size !== 0) {
+              embed.setColor(usernameMembers.map(m => m.displayHexColor)[0])
               embed.setTitle(`Avatar de ${usernameMembers.map(member => member.user.username)[0]}`)
               embed.setImage(usernameMembers.map(member => member.user.displayAvatarURL({size: 1024, dynamic: true}))[0])
               message.channel.send(embed)
             } else if(nicknameMembers.size !== 0) {
+              embed.setColor(nicknameMembers.map(m => m.displayHexColor)[0])
               embed.setTitle(`Avatar de ${nicknameMembers.map(member => member.user.username)[0]}`)
               embed.setImage(nicknameMembers.map(member => member.user.displayAvatarURL({size: 1024, dynamic: true}))[0])
               message.channel.send(embed)
@@ -50,6 +52,7 @@ module.exports = {
       } else {
         embed.setTitle(`Avatar de ${mencoes.first().user.username}`)
         embed.setImage(mencoes.first().user.displayAvatarURL({size: 1024, dynamic: true}))
+        embed.setColor(mencoes.first().displayHexColor)
         message.channel.send(embed)
       }
     } else if(podeAddReactions) {

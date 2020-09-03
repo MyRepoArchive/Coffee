@@ -96,7 +96,7 @@ module.exports = {
       const nameComandos = [...new Set(comandos.map(comando => comando.name))]
       const descComandos = [...new Set(comandos.map(comando => comando.description))]
       const embed = new Discord.MessageEmbed()
-        .setColor(hex.aqua)
+        .setColor(hex.lightstategray)
         .setAuthor(user.username, user.displayAvatarURL())
         .setTitle(`Comandos do tipo **${tiposComandos[emojiArray.indexOf(message.emoji.identifier) + (page * 11 - 11)]}**`)
         .setTimestamp()
@@ -127,7 +127,7 @@ module.exports = {
       const descComandos = [...new Set(comandos.map(comando => comando.description))]
       if (message.emoji.identifier === 'fastforwardblue:747879944192917635') {
         const helpEmbed = new Discord.MessageEmbed()
-          .setColor(hex.aqua)
+          .setColor(hex.lightstategray)
           .setAuthor(user.username, user.displayAvatarURL())
           .setTitle(message.message.embeds[0].title)
           .setTimestamp()
@@ -157,7 +157,7 @@ module.exports = {
 
       if (message.emoji.identifier === 'rewindblue:747879941143527554') {
         const helpEmbed = new Discord.MessageEmbed()
-          .setColor(hex.aqua)
+          .setColor(hex.lightstategray)
           .setAuthor(user.username, user.displayAvatarURL())
           .setTitle(message.message.embeds[0].title)
           .setTimestamp()

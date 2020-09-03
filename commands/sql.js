@@ -27,7 +27,7 @@ module.exports = {
         return;
       }
       sqlEmbed.setColor(hex.gray)
-      sqlEmbed.setDescription(`\`\`\`${JSON.stringify(result)}\`\`\``)
+      sqlEmbed.setDescription(`\`\`\`${JSON.stringify(result).slice(0, 2020)}\`\`\``)
       errorAlert.run(message, client, sqlEmbed, 'alertcircleamarelo:747879938207514645')
     })
   }

@@ -35,7 +35,7 @@ client.on("ready", () => { client.events.get('ready').execute(client, intervalAc
 
 client.on("guildCreate", guild => { client.events.get('guildCreate').execute(client, guild, intervalActivity, Data, connection) }); // Evento acionado quando o bot entra em um novo servidor
 
-client.on("guildDelete", guild => { client.events.get('guildDelete').execute(client, guild, intervalActivity, Data, connection) }); // Evento acionado quando o bot sai de algum servidor
+client.on("guildDelete", guild => { client.events.get('guildDelete').execute(client, guild, intervalActivity, Data, connection); }); // Evento acionado quando o bot sai de algum servidor
 
 client.on("message", async message => { client.events.get('message').execute(client, message, connection) }); // Evento acionado quando alguém manda alguma mensagem no chat
 

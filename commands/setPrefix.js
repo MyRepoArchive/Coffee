@@ -20,7 +20,6 @@ module.exports = {
     const podeEnviarMsg = permissoesBot.has("SEND_MESSAGES") // Um boolean se o bot pode enviar mensagens naquele canal
     const podeAddReactions = permissoesBot.has("ADD_REACTIONS")
     let newPrefix = args.join(' '); // Transforma os argumentos do usuários em uma string novamente e salva numa variavl
-    if(newPrefix === '\\') newPrefix = '\\\\' // Repassa o valor de contrabarra para duas contrabarra, para evitar erro no comando sql
     if(!message.member.permissions.has("ADMINISTRATOR") && message.author.id !== config.owner) { // Verifica se quem executou o comando é um administrador na guild ou é o dono do bot
       if(podeEnviarMsg) {
         message.channel.send(`<:slashred:747879954305253468> Você não pode mudar meu prefixo neste servidor!`)
@@ -45,7 +44,7 @@ module.exports = {
       }
       return;
     }
-    connection.query(`UPDATE servers SET prefix = '${newPrefix}' WHERE (serverid = '${message.guild.id}');`) // Executa a query do mysql passando o novo prefixo para o servidor onde o idserver for compatível com o id da guilda em que foi utilizado o comando
+    connection.query('UPDATE servers SET prefix = ? WHERE serverid = ?;', [newPrefix, message.guild.id]) // Executa a query do mysql passando o novo prefixo para o servidor onde o idserver for compatível com o id da guilda em que foi utilizado o comando
     if(podeEnviarMsg) {
       message.channel.send(`<:circlecheckverde:747879943224033481> Prefixo alterado de \`${prefix}\` para \`${args.join(' ')}\` com sucesso!`)
     } else if(podeAddReactions) {

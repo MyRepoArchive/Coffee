@@ -25,24 +25,12 @@ module.exports = { // Exporta o conteúdo do arquivo para outro arquivo
       .setTitle(`<:infoblue:747879943987265607> Informações sobre mim`)
       .setDescription(`<:edit3blue:747879944369209344> Username: **${client.user.username}**\n<:nick:748331507315245086> Apelido: **${(botMembro.nickname === null || botMembro.nickname === undefined) ? 'Não tenho apelido nesse servidor' : botMembro.nickname}**\n<:cardname:748331507118112778> ID: **${client.user.id}**\n<:tagfill:748332391084589066> Tag: **${client.user.tag}**`)
       .addFields( // Corpo da embed com o conteúdo importante
-        /* { name: `<:edit3blue:747879944369209344> Meu username`, value: client.user.username, inline: true },
-        { name: `<:nick:748331507315245086> Meu apelido`, value: (botMembro.nickname === null || botMembro.nickname === undefined) ? 'Não tenho apelido nesse servidor' : botMembro.nickname, inline: true },
-        { name: `<:cardname:748331507118112778> ID`, value: client.user.id, inline: true },
-        { name: `<:taghashfill:748332391164018849> Discriminator`, value: client.user.discriminator, inline: true },
-        { name: `<:tagfill:748332391084589066> Tag`, value: client.user.tag, inline: true }, */
         { name: `<:ddiscord:751096767704989847> Estatísticas Discord`, value: `<:server2:748333276443181168> Servidores(**${client.guilds.cache.size}**)  <:listademembros:748195187284770898> Usuários(**${client.users.cache.size}**)  <:textchannelclaro:748224336770498650> Canais(**${client.channels.cache.size}**)  <:emoji:748334546138955826> Emojis(**${client.emojis.cache.size}**)`, inline: true },
         { name: `<:mensagensfixadas:748195183174353086> Interação`, value: `<:terminal:745279127195615343> Comandos(**${comandos.length}**)  <:p_:748336334044790814> Prefixo: "\`${prefix}\`"`, inline: true },
-        /* { name: `<:textchannelclaro:748224336770498650> Canais`, value: `**${client.channels.cache.size}**`, inline: true },
-        { name: `<:emoji:748334546138955826> Emojis`, value: `**${client.emojis.cache.size}**`, inline: true },
-        { name: `<:terminal:745279127195615343> Comandos`, value: `**${comandos.length}**`, inline: true }, */
         { name: `<:configuracoesdousuario:748195176836497569> Tecnologias utlizadas`, value: `<:javascript:748195182767374417> **JavaScript**  <:node:748195195748614154> **NodeJS**  <:mysql:748195192124735660> **MySQL**`, inline: true },
-        /* { name: `<:p_:748336334044790814> Meu prefixo`, value: `"\`${prefix}\`"`, inline: true }, */
         { name: `<:anchor:745735266802597999> Links`, value: `<:support:748337028541710446> [Servidor-de-suporte](https://discord.gg/hNffyc3)  <:sourcecode:748338362569588788> [Código-fonte](${config.repositorio})  <:convidarpessoas:748959007573540956> [Me-adicione](https://discordapp.com/oauth2/authorize?=&client_id=${client.user.id}&scope=bot)`, inline: true },
-        /* { name: `<:sourcecode:748338362569588788> Meu código-fonte`, value: `[Clique aqui](${config.repositorio})`, inline: true },
-        { name: `<:convidarpessoas:748959007573540956> Me adicione em seu servidor`, value: `[Clique aqui](https://discordapp.com/oauth2/authorize?=&client_id=${client.user.id}&scope=bot)`, inline: true }, */
         { name: `<:calendar:748344326408634379> Datas`, value: `<:calendar:748344326408634379> Criação: **${pad(client.user.createdAt.getDate(), 2)}/${pad(client.user.createdAt.getMonth()+1, 2)}/${client.user.createdAt.getFullYear()} às ${pad(client.user.createdAt.getHours(), 2)}:${pad(client.user.createdAt.getMinutes(), 2)}:${pad(client.user.createdAt.getSeconds(), 2)}**\n<:calendar:748344326408634379> Entrei aqui: **${pad(botMembro.joinedAt.getDate(), 2)}/${pad(botMembro.joinedAt.getMonth()+1, 2)}/${botMembro.joinedAt.getFullYear()} às ${pad(botMembro.joinedAt.getHours(), 2)}:${pad(botMembro.joinedAt.getMinutes(), 2)}:${pad(botMembro.joinedAt.getSeconds(), 2)}**`, inline: true },
-        { name: '<:activity:745653942763126804> Estatísticas', value: `<:clock:745654651969601588> Ping(**${Math.round(client.ws.ping)}ms**)  <:togglerigthverde:747879943068713101> Uptime: **${parseInt(client.uptime/3600000)}h e ${parseInt(client.uptime%3600000/60000)}min**)` }
-        /* { name: `<:calendar:748344326408634379> Entrei aqui em`, value: `${pad(botMembro.joinedAt.getDate(), 2)}/${pad(botMembro.joinedAt.getMonth()+1, 2)}/${botMembro.joinedAt.getFullYear()} às ${pad(botMembro.joinedAt.getHours(), 2)}:${pad(botMembro.joinedAt.getMinutes(), 2)}:${pad(botMembro.joinedAt.getSeconds(), 2)}`, inline: true }, */
+        { name: '<:activity:745653942763126804> Estatísticas', value: `<:clock:745654651969601588> Ping(**${Math.round(client.ws.ping)}ms**)  <:togglerigthverde:747879943068713101> Uptime: **${parseInt(client.uptime/3600000)}h e ${parseInt(client.uptime%3600000/60000)}min**` }
       )
       .setTimestamp()
       .setThumbnail(client.user.displayAvatarURL())

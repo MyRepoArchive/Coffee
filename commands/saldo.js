@@ -20,11 +20,11 @@ module.exports = {
     if (podeAddReactions) await message.react('a:carregando:750817054596137000') // Reagi na mensagem com um emoji de loading
     let mentioned = message.mentions.users.first() // Pega o primeiro usuario mencionado, caso haja algum!
     if (!mentioned) {
-      mentioned = message.guild.members.cache.find(member => member.user.username === args.slice(1).join(' '))
+      mentioned = message.guild.members.cache.find(member => member.user.username === args.slice(0).join(' '))
       if (!mentioned) {
-        mentioned = message.guild.members.cache.find(member => member.nickname === args.slice(1).join(' '))
+        mentioned = message.guild.members.cache.find(member => member.nickname === args.slice(0).join(' '))
         if (!mentioned) {
-          mentioned = message.guild.members.cache.get(args[1])
+          mentioned = message.guild.members.cache.get(args[0])
         }
       }
     }

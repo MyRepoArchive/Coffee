@@ -28,14 +28,15 @@ module.exports = {
 
   async calc(message, client) { // Código executado quando o usuario usa a calculadora em si
     const podeEnviarMsg = message.channel.memberPermissions(message.guild.member(client.user.id)).has("SEND_MESSAGES") // Boolean para verificar se o bot pode enviar mensagens naquele canal
-    const notIsNumber = message.content.split(/\d+/g).join('').split(/[/*+%-]/).join('').split(' ') // Pega o conteúdo da mensagem e divide todas as parte que forem números, depois, tudo o que for sinal, por fim divide todos os espaços e joga tudo isso que não for núnero, sinal ou espaço e joga em um array
+    const notIsNumber = message.content.split(/\d+/g).join('').split(/[/*.()+%-]/).join('').split(' ') // Pega o conteúdo da mensagem e divide todas as parte que forem números, depois, tudo o que for sinal, por fim divide todos os espaços e joga tudo isso que não for núnero, sinal ou espaço e joga em um array
     while(notIsNumber.indexOf('') >= 0) { notIsNumber.splice(notIsNumber.indexOf(''), 1) } // retira os '' do array acima
     const numbers = message.content.split(/\D+/g) // Coloca em um array todos os números do conteúdo da mensagem
-    const sinais = message.content.split(/[^/*+%-]/) // Coloca em um array todos os sinais "/", "*", "%", "+", e "-" que tiverem no conteúdo da mensagem
+    const sinais = message.content.split(/[^/*+.()%-]/) // Coloca em um array todos os sinais "/", "*", "%", "+", e "-" que tiverem no conteúdo da mensagem
     while(numbers.indexOf('') >= 0) { numbers.splice(numbers.indexOf(''), 1) } // Tira os '' do array de numeros
     while(sinais.indexOf('') >= 0) { sinais.splice(sinais.indexOf(''), 1) } // Tira os '' do array de sinais
     if(sinais.length === 0 || numbers.length === 0 || notIsNumber.length !== 0)return; // Verifica se a mensagem não tem sinais, ou números e se na mensagem há algo que não seja número, caso a resposta para alguma dessas verificações seja positiva, ele não prossegue.
     if(message.content.startsWith('-') && numbers.length === 1)return; // Verifica se o número inicial é negativo e se há apenas ele na mensage, caso sim, retorna
+    if(message.content.startsWith('(') && numbers.length === 1)return;
     let result; // Starta a variável result
     try { // Tenta realizar um eval() do conteúdo da mensagem, caso aconteca algum erro, ele retorna
       result = await eval(message.content)

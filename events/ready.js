@@ -4,6 +4,7 @@ const config = require('../info.json')
 const pad = require('../utils/pad.js')
 const consoleColors = ['\033[0m', '\033[30m', '\033[31m', '\033[32m', '\033[33m', '\033[34m', '\033[35m', '\033[36m', '\033[37m'];
 const changeActivity = require('../utils/changeActivity.js')
+const fs = require('fs')
 
 module.exports = {
   name: "ready",
@@ -56,5 +57,18 @@ module.exports = {
         .setFooter(`Sistema de logs ${client.user.username}`, client.user.displayAvatarURL())
     logChannel.send(logEmbed)
     changeActivity.run(intervalActivity, client, Data) // Chama a função de mudar o activity do bot
+    const nameEmojis = client.emojis.cache.map(emoji => emoji.name)
+    const arrayEmojis = client.emojis.cache.map(emoji => emoji.identifier)
+    let json = ''
+    for(let i = 0; i < nameEmojis.length; i++) {
+        if(i !== nameEmojis.length-1) {
+            json += `  "${nameEmojis[i]}": "${arrayEmojis[i]}",\n`
+        } else {
+            json += `  "${nameEmojis[i]}": "${arrayEmojis[i]}"`
+        }
+    }
+    fs.writeFile('./emojis.json', `{\n${json}\n}`, err => {
+        if(err) throw err
+    })
   }
 }

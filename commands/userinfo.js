@@ -57,7 +57,7 @@ module.exports = {
       .setDescription(`<:${emojis.edit3blue}> Username: **${mentioned.user.username}**\n<:${emojis.nick}> Apelido: **${mentioned.nickname === null || mentioned.nickname === undefined ? 'Não possui apelido nesse servidor!' : mentioned.nickname}**\n<:${emojis.cardname}> ID: **${mentioned.id}**\n<:${emojis.tagfill}> Tag: **${mentioned.user.tag}**\n<:${statusEmoji[mentioned.user.presence.status]}> Status: **${status[mentioned.user.presence.status]}**`)
       .addFields(
         { name: `<:${emojis.cargos}> Cargos`, value: cargos },
-        { name: `<:${emojis.datecalendar}> Datas`, value: `<:${emojis.dateconfirmcalendar}> Entrou em: **${entrou}**\n<:${emojis.datenewcalendar}> Conta criada em: ${contaCriada}` },
+        { name: `<:${emojis.datecalendar}> Datas`, value: `<:${emojis.dateconfirmcalendar}> Entrou em: **${entrou}**\n<:${emojis.datenewcalendar}> Conta criada em: **${contaCriada}**` },
         { name: `<:${emojis.hostingmigrationdatacenter}> Servidores em comum`, value: serversEmComum }
       )
       .setThumbnail(mentioned.user.displayAvatarURL({ dynamic: true }))

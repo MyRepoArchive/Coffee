@@ -54,7 +54,8 @@ module.exports = { // Exporta conteúdo para o arquivo que o chama
       "Japan": ":flag_jp:",
       "India": ":united_nations:"
     }
-    const formatDate = require('../utils/formatDate.js')
+    const { formatDate } = require('../utils/formatDate.js')
+    const criadoEm = await formatDate(message.guild.createdAt)
     const embed = new Discord.MessageEmbed()
       .setAuthor(message.guild.name, message.guild.iconURL())
       .setColor(hex.coral)
@@ -67,7 +68,7 @@ module.exports = { // Exporta conteúdo para o arquivo que o chama
         { name: `<:messagesquareblue:747879951461777448> Canais`, value: `<:hash:745722860584173682> Total: **${guildChannels.size}**\n<:textchannelclaro:748224336770498650> Texto: **${guildTextChannels}**  <:voicechannelclaro:748224336825155614> Voz: **${guildVoiceChannels}**  <:newschannelclaro:748952970871177357> Notícias: **${guildNewsChannels}**  <:categoriaclaro:748956436779892746> Categoria: **${guildCategoryChannels}**  <:storechannelclaro:748952971097800795> Store: **${guildStoreChannels}**` },
         { name: `<:listademembros:748195187284770898> Membros`, value: `<:hash:745722860584173682> Total: **${message.guild.members.cache.size}**\n<:pessoa:748959007892439130> Pessoas: **${guildHumanMembers}**\n<:disponivel:748195170775990354> Online: **${guildOnlineMembers}**  <:ausente:748197530285899878> Ausente **${guildIdleMembers}**  <:naoperturbe:748195171090563245> Não perturbe: **${guildDndMembers}**  <:offline:748195187959791636> Offline: **${guildOfflineMembers}**  <:transmitindo:748195189939765269> Transmitindo: **${guildStreamingMembers}**\n<:botnoverifield:748195170889236610> Bots: **${guildBotMembers}**\n<:disponivel:748195170775990354> Online: **${guildOnlineBots}**  <:ausente:748197530285899878> Ausente **${guildIdleBots}**  <:naoperturbe:748195171090563245> Não perturbe: **${guildDndBots}**  <:offline:748195187959791636> Offline: **${guildOfflineBots}**  <:transmitindo:748195189939765269> Transmitindo: **${guildStreamingBots}**` },
         { name: `<:ownercoroa:748195170788311273> Dono do servidor`, value: `${message.guild.owner.user.tag} \`${message.guild.ownerID}\`\n${(message.guild.owner.nickname === null || message.guild.owner.nickname === undefined) ? '' : `Apelido: **${message.guild.owner.nickname}**`}`, inline: true },
-        { name: `<:calendar:748344326408634379> Criado em`, value: `${formatDate.formatDate(message.guild.createdAt)} (${parseInt((Date.now()-message.guild.createdTimestamp)/31536000000)} anos, ${parseInt(((Date.now()-message.guild.createdTimestamp)%31536000000)/2628000000)} meses e ${parseInt((((Date.now()-message.guild.createdTimestamp)%31536000000)%2628000000)/86400000)} dias)`, inline: true },
+        { name: `<:calendar:748344326408634379> Criado em`, value: `${criadoEm} (${parseInt((Date.now()-message.guild.createdTimestamp)/31536000000)} anos, ${parseInt(((Date.now()-message.guild.createdTimestamp)%31536000000)/2628000000)} meses e ${parseInt((((Date.now()-message.guild.createdTimestamp)%31536000000)%2628000000)/86400000)} dias)`, inline: true },
         { name: `<:configuracoesdousuario:748195176836497569> Admins`, value: `**${guildAdmins}**`, inline: true },
         { name: `<:boosterlv7:748214264497700969> Impulsos`, value: `**${message.guild.premiumSubscriptionCount}**`, inline: true },
         { name: `<:cargos:748987539364249621> Cargos`, value: `**${guildRolesCount}**`, inline: true },

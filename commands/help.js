@@ -1,6 +1,7 @@
 const Discord = require('discord.js') // Lib
 const hex = require('../colors.json') // Json das cores
 const config = require('../info.json')
+const emojis = require('../emojis.json');
 
 module.exports = {
     name: "ajuda",
@@ -15,9 +16,9 @@ module.exports = {
         const permissoesBot = message.channel.memberPermissions(botMembro)
         const podeEnviarMsg = permissoesBot.has("SEND_MESSAGES")
         const podeAddReactions = permissoesBot.has("ADD_REACTIONS")
-        const tiposComandos = [...new Set(client.commands.map(comando => comando.type))]
+        const tiposComandos = [...new Set(client.commands.filter(comando => comando.type !== 'Dev commands').map(comando => comando.type))]
         const emojiArray = [
-            'number0blue:747879954875809952', 'number1blue:747879954464637039', 'number2blue:747879955773390859', 'number3blue:747879956130037770', 'number4blue:747879955907477544', 'number5blue:747879955773259907', 'number6blue:747879956100677665', 'number7blue:747879955618332845', 'number8blue:747879956054540439', 'number9blue:747879956012466336', 'number10blue:7478799559873006020602'
+            emojis.number0blue, emojis.number1blue, emojis.number2blue, emojis.number3blue, emojis.number4blue, emojis.number5blue, emojis.number6blue, emojis.number7blue, emojis.number8blue, emojis.number9blue, emojis.number10blue
         ]
         const helpEmbed = new Discord.MessageEmbed()
             .setColor(hex.white)
@@ -32,7 +33,7 @@ module.exports = {
                 if(i < emojiArray.length) {
                     helpEmbed.addField(`<:${emojiArray[i]}> | ${tiposComandos[i]}`, `Exemplo: ${prefix}${exTiposComandos[0]}`)
                 } else {
-                    helpEmbed.addField(`<:fastforwardblue:747879944192917635> | Mais tipos`, `Exemplo: ${prefix}${tiposComandos[i]}`)
+                    helpEmbed.addField(`<:${emojis.fastforwardblue}> | Mais tipos`, `Exemplo: ${prefix}${tiposComandos[i]}`)
                     i = Infinity
                 }
             }
@@ -42,16 +43,16 @@ module.exports = {
                 if(i <= 10) {
                     msg.react(emojiArray[i])
                 } else {
-                    msg.react('fastforwardblue:747879944192917635')
+                    msg.react(emojis.fastforwardblue)
                     i = Infinity
                 }
             }
-            message.react('send:745271212799950899')
+            message.react(emojis.send)
         }, (error) => {
             if(podeEnviarMsg) {
-                message.reply(`Você pode conferir todos os comandos do ${client.user.username} em: ${config.commandsURL}\nOu se preferir, libere o envio de mensagens diretas e execute novamente o comando ${prefix}help`)
+                message.reply(`Você pode conferir todos os comandos do ${client.user.username} em: ${config.commandsURL} ou usando ${prefix}commandList\nOu se preferir, libere o envio de mensagens diretas e execute novamente o comando ${prefix}help`)
             } else if(podeAddReactions) {
-                message.react('slashred:747879954305253468')
+                message.react(emojis.slashred)
             }
         })
     }

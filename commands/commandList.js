@@ -1,6 +1,7 @@
 const Discord = require('discord.js')
 const hex = require('../colors.json')
 const config = require('../info.json')
+const emojis = require('../emojis.json');
 
 module.exports = {
   name: "commandlist",
@@ -14,13 +15,13 @@ module.exports = {
     const permissoesBot = message.channel.memberPermissions(botMembro)
     const podeEnviarMsg = permissoesBot.has("SEND_MESSAGES")
     const podeAddReactions = permissoesBot.has("ADD_REACTIONS")
-    const comandos = [...new Set(client.commands.map(comando => comando.name))]
+    const comandos = [...new Set(client.commands.filter(comando => comando.type !== 'Dev commands').map(comando => comando.name))]
     const embed = new Discord.MessageEmbed()
       .setAuthor(message.author.username, message.author.displayAvatarURL())
       .setColor(hex.gray21)
-      .setTitle(`<:terminalblue:747879940749393951> Minha listinha de comandos (${comandos.length})`)
+      .setTitle(`<:${emojis.terminalblue}> Minha listinha de comandos (${comandos.length})`)
       .setDescription(`\`${comandos.join('`, `')}\``)
-      .addField(`<:infoblue:747879943987265607> Observação`, `Se você estiver precisando de algo mais detalhado, use **${prefix}desc nomeDoComando** ou **${prefix}ajuda**`)
+      .addField(`<:${emojis.infoblue}> Observação`, `Se você estiver precisando de algo mais detalhado, use **${prefix}desc nomeDoComando** ou **${prefix}ajuda**`)
       .setTimestamp()
       .setFooter(client.user.username, client.user.displayAvatarURL())
     if(podeEnviarMsg) {
@@ -28,11 +29,11 @@ module.exports = {
     } else {
       message.author.send(embed).then(() => {
         if(podeAddReactions) {
-          message.react('circlecheckverde:747879943224033481')
+          message.react(emojis.circlecheckverde)
         }
       }, () => {
         if(podeAddReactions) {
-          message.react('alertcircleamarelo:747879938207514645')
+          message.react(emojis.alertcircleamarelo)
         }
       })
     }

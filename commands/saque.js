@@ -28,7 +28,7 @@ module.exports = {
     }
     const saqueMoney = Number(args[0]) // Guarda na variável o valor a ser depositado
     if(saqueMoney > authorBankMoney) {  // Verifica se o author do deposito está tentando efetuar um pagamento maior do que ele possui.
-      errorAlert.run(message, client, `<:alertcircleamarelo:747879938207514645> Você não possui **<:ccoin:750776561753522276>CCoins** o suficiente para realizar esse depósito!`, 'alertcircleamarelo:747879938207514645')
+      errorAlert.run(message, client, `<:alertcircleamarelo:747879938207514645> Você não possui **<:ccoin:750776561753522276>CCoins** o suficiente para realizar esse saque!`, 'alertcircleamarelo:747879938207514645')
       if(podeAddReactions) message.reactions.cache.find(react => react.users.cache.get(client.user.id).id === client.user.id).users.remove(client.user.id);
       return;
     }

@@ -17,8 +17,6 @@ module.exports = { // Exporta o conteúdo do arquivo para outro arquivo
     const errorAlert = require('../utils/errorAlert.js')
     const comandos = [...new Set(client.commands.map(comando => comando.name))] // Array com todos os nomes dos comandos do bot
     const cpu = await osu.cpu.usage()
-    const memory = (await osu.mem.used()).usedMemMb
-    const totMemory = (await osu.mem.used()).totalMemMb
     const pad = require('../utils/pad.js')
     const criacao = await formatDate.formatDate(client.user.createdAt)
     const entrou = await formatDate.formatDate(botMembro.joinedAt)
@@ -33,7 +31,7 @@ module.exports = { // Exporta o conteúdo do arquivo para outro arquivo
         { name: `<:${emojis.configuracoesdousuario}> Tecnologias utlizadas`, value: `<:${emojis.javascript}> **JavaScript**  <:${emojis.node}> **NodeJS**  <:${emojis.mysql}> **MySQL**`, inline: true },
         { name: `<:${emojis.hostinghyperlink}> Links`, value: `<:${emojis.hostingsupport}> [Servidor-de-suporte](https://discord.gg/hNffyc3)  <:${emojis.sourcecode}> [Código-fonte](${config.repositorio})  <:${emojis.convidarpessoas}> [Me-adicione](https://discordapp.com/oauth2/authorize?=&client_id=${client.user.id}&scope=bot)`, inline: true },
         { name: `<:${emojis.datecalendar}> Datas`, value: `<:${emojis.datenewcalendar}> Criação: **${criacao}** (${parseInt((Date.now()-client.user.createdTimestamp)/31536000000)} anos, ${parseInt(((Date.now()-client.user.createdTimestamp)%31536000000)/2628000000)} meses e ${parseInt((((Date.now()-client.user.createdTimestamp)%31536000000)%2628000000)/86400000)} dias)\n<:${emojis.datenewcalendar}> Entrei aqui: **${entrou}** (${parseInt((Date.now()-botMembro.joinedTimestamp)/31536000000)} anos, ${parseInt(((Date.now()-botMembro.joinedTimestamp)%31536000000)/2628000000)} meses e ${parseInt((((Date.now()-botMembro.joinedTimestamp)%31536000000)%2628000000)/86400000)} dias)`, inline: true },
-        { name: `<:${emojis.hostinganalitic}> Estatísticas`, value: `<:${emojis.hostingfastnotebook}> Ping(**${Math.round(client.ws.ping)}ms**)  <:${emojis.dateampulheta}> Uptime: **${parseInt(client.uptime/3600000)}h e ${parseInt(client.uptime%3600000/60000)}min**  <:${emojis.eletricityraio}> Uso de CPU(**${cpu}%**)  <:${emojis.eletricitycoins}> Memória utilizada(**${memory}Gb/${totMemory}Gb**)` }
+        { name: `<:${emojis.hostinganalitic}> Estatísticas`, value: `<:${emojis.hostingfastnotebook}> Ping(**${Math.round(client.ws.ping)}ms**)  <:${emojis.dateampulheta}> Uptime: **${parseInt(client.uptime/3600000)}h e ${parseInt(client.uptime%3600000/60000)}min**  <:${emojis.eletricityraio}> Uso de CPU(**${cpu}%**)  <:${emojis.eletricitycoins}> Memória utilizada(**${parseInt(process.memoryUsage().rss/1024/1024)}Mb**)` }
       )
       .setTimestamp()
       .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))

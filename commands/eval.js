@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const hex = require('../colors.json');
 const config = require('../info.json');
+const emojis = require('../emojis.json');
 
 module.exports = {
   name: "eval",
@@ -50,7 +51,17 @@ module.exports = {
     }
     
     if(podeEnviarMsg) {
-      message.channel.send(evalEmbed)
+      const msg = await message.channel.send(evalEmbed)
+      if(podeAddReactions) {
+        msg.react(emojis.medialock)
+        const filter = (react, user) => react.emoji.identifier === emojis.medialock && user.id === config.owner
+        const collector = msg.createReactionCollector(filter, { time: 600000 })
+        collector.on('collect', (react, user) => {
+          msg.edit(`<:${emojis.medialock}> Este eval foi trancado!`, { embed: null })
+          const reaction = msg.reactions.cache.find(react => react.emoji.identifier === emojis.medialock)
+          if(reaction) reaction.users.remove(client.user.id)
+        })
+      }
     } else if(podeAddReactions) {
       message.react('alertcircleamarelo:747879938207514645')
     }

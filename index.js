@@ -7,6 +7,7 @@ const Data = new Date; // Salva o momento em que o bot foi iniciado
 let intervalActivity = null; // Starta a variável
 const changeActivity = require('./utils/changeActivity') // Chama o arquivo que muda o presence do bot
 const pad = require('./utils/pad.js') // Chama o arquivo que faz a função de pad
+const { createCanvas, loadImage } = require('canvas');
 const mysql = require('mysql'); // Conexão com o MySQL
 const connection = mysql.createConnection({ // Cria conexão com o banco de dados
     database: config.mysqlDatabase,

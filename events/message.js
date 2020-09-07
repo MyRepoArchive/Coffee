@@ -12,6 +12,8 @@ module.exports = {
   async execute(client, message, connection) {
     if (message.author.bot) return; // Verifica se o autor é um bot, se for, retorna
     if (message.channel.type === 'dm') return; // Verifica se a mensagem foi enviada na dm, se for, retorna
+    const content = [...new Set(message.content.toLowerCase().split(''))]
+    if(content.includes(' ') && content.length > 3) require('../utils/addScore.js').addScore(message, connection, message.author)
     const prefix = await require('../utils/prefix.js').getPrefix(connection, message)
     const args = message.content.slice(prefix.length).trim().split(/ +/g); // Um array com cada palavra digitada pelo usuário
     const comando = args.shift().toLowerCase(); // A primeira palavra do args minúscula
@@ -28,7 +30,6 @@ module.exports = {
       if (podeEnviarMsg) { // Verifica se o bot pode mandar mensagem
         message.reply(`Alguém me chamou??🤗 Se estiver precisando de ajuda, use **${prefix}ajuda**`)
       }
-      return;
     }
     if (!isNaN(Number(message.content.slice(0, 1))) || message.content.startsWith('-') || message.content.startsWith('(')) { // Se o primeiro caractere da mensagem for um número ou um sinal de menor, ele chama a função de calculo
       require('../commands/calculator.js').calc(message, client)

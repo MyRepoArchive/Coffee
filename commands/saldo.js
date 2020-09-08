@@ -43,7 +43,7 @@ module.exports = {
       .setDescription(`**<:ccoin:750776561753522276>${money}**`)
       .addField(`Este é o valor que você possui no banco`, `**<:ccoinbank:750809655885693019>${bankMoney}**`)
       .setFooter(`Sistema de Economia ${client.user.username}`, client.user.displayAvatarURL())
-    if (mentioned && message.author.id === config.owner) {
+    if (mentioned && message.author.id === config.owner && !mentioned.bot) {
       const mentionedMoney = await require('../utils/getMoney.js').getMoney(connection, mentioned) // Puxa do banco de dados o money do author da mensagem
       if (mentionedMoney === undefined) return this.execute(message, args, comando, client, prefix, connection) // Caso o valor do money do author seja indefinido, chama novamente a função execute()
       const bankMentionedMoney = await require('../utils/getMoney.js').getBankMoney(connection, mentioned) // Puxa do banco de dados o bankmoney do author da mensagem

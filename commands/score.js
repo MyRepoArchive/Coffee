@@ -27,23 +27,28 @@ module.exports = {
     const score = pad(await require('../utils/getScore.js').getScore(connection, message, member), 3)
     const level = pad(await require('../utils/getScore.js').getLevel(connection, message, member), 2);
     const globalLevel = pad(await require('../utils/getScore.js').getGlobalLevel(connection, member, message), 2)
+    const position = await require('../utils/getScore.js').getUserPosition(connection, member, message)
     let scoreImg;
-    await loadImage('./image/profile-v3.png').then(async image => {
+    await loadImage('./image/profile-v4-1.png').then(async image => {
       const perfil = await loadImage(member.user.displayAvatarURL({ size: 1024, format: 'png' }))
-      ctx.drawImage(perfil, 75, 75, 250, 250)
+      ctx.drawImage(perfil, 75, 130, 210, 210)
       ctx.drawImage(image, 0, 0, 1024, 400)
     
-      ctx.font = '20px "Arvo"'
+      ctx.font = '40px "Arvo"'
       ctx.textAlign = 'right'
       ctx.fillStyle = '#eef2f9'
-      ctx.fillText(score+9000000, 618, 165, 270)
+      ctx.fillText(score, 619, 172, 276)
+      ctx.textAlign = 'left'
+      ctx.fillText(pad((2**level)*10, 3), 655, 172, 286)
+      ctx.font = '80px "Arvo"'
+      ctx.fillText(level, 381, 322, 120)
+      ctx.fillText(globalLevel, 579, 322, 120)
+      ctx.font = '130px "Arvo"'
+      ctx.fillText(position+'º', 785, 310, 143)
+      ctx.font = '900 30px "Arvo"'
+      ctx.textAlign = 'center'
       ctx.fillStyle = '#eef2f9'
-      ctx.font = '15px "Arvo"'
-      ctx.fillText(level, 250, 152)
-      ctx.fillText(globalLevel, 400, 152)
-      ctx.font = '900 25px Arial'
-      ctx.fillStyle = '#eef2f9'
-      ctx.fillText(member.user.tag.length > 20 ? member.user.tag.slice(0, 20)+'...' : member.user.tag, 344, 105)
+      ctx.fillText(member.user.tag, 512, 95, 856)
     
       scoreImg = new Discord.MessageAttachment(canvas.toBuffer(), 'score.png')
     })

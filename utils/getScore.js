@@ -84,5 +84,31 @@ module.exports = {
       throw err;
     });
     return globalLevel
+  },
+  async getUserPosition(connection, member, message) {
+    const consulta = () => {
+      return new Promise((resolve, reject) => {
+        connection.query(`SELECT userid FROM score_per_server where serverid = '${message.guild.id}' order by level desc, score desc`, async (err, result) => {
+          if (err) {
+            return reject(err);
+          }
+          if(result[0] === undefined) {
+            await require('./addScore.js').addScore(message, connection, member.user)
+            this.getUserPosition(connection, member, message)
+            return;
+          }
+          result = result.map(result => result.userid)
+          return resolve(result);
+        })
+      })
+    }
+    let position = 0;
+    await consulta().then(result => {
+      if(result[0] === undefined)return;
+      position = result.indexOf(member.user.id)+1
+    }).catch(err => {
+      throw err;
+    });
+    return position
   }
 }

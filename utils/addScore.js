@@ -11,10 +11,10 @@ module.exports = {
         connection.query(`select level from score_per_server where userid = '${user.id}' and serverid = '${message.guild.id}'`, async (err, result) => {
           if(err) throw err
           const level = result[0].level
-          if(score+1 === (2**level)*10) {
+          if(score+5 >= (2**level)*10) {
             connection.query(`update score_per_server set score = '0', level = '${level+1}' where userid = '${user.id}' and serverid = '${message.guild.id}'`)
           } else {
-            connection.query(`update score_per_server set score = '${score+1}' where userid = '${user.id}' and serverid = '${message.guild.id}'`)
+            connection.query(`update score_per_server set score = '${score+5}' where userid = '${user.id}' and serverid = '${message.guild.id}'`)
           }
         })
       }

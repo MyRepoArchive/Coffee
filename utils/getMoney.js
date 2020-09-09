@@ -50,5 +50,32 @@ module.exports = {
       throw err;
     });
     return res
+  },
+  async getServerMoney(connection, user, guild) {
+    const consulta = () => {
+      return new Promise((resolve, reject) => {
+        connection.query(`SELECT money FROM score_per_server where userid = '${user.id}' and serverid = '${guild.id}'`, (err, result) => {
+          if (err) {
+            return reject(err);
+          }
+          if(result[0] === undefined) {
+            console.log('')
+            connection.query(`insert into score_per_server (userid, serverid) values ('${user.id}', '${guild.id}')`, async err => {
+              if (err) return console.log(err.stack)
+              result = await this.getServerMoney(connection, user, guild);
+            })
+          }
+          return resolve(result);
+        })
+      })
+    }
+    let res;
+    await consulta().then(result => {
+      if(result[0] === undefined)return;
+      res = result[0].money
+    }).catch(err => {
+      throw err;
+    });
+    return res
   }
 }

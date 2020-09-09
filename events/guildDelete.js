@@ -40,7 +40,7 @@ module.exports = {
         .setColor(hex.gray21)
         .setTitle('<:serverblue:747879939734372392><:logoutblue:747879951579086969> Saí de um servidor')
         .setThumbnail(guild.iconURL({ dynamic: true }))
-        .addField('<:infoblue:747879943987265607> Informações', `Nome: **${guild.name}** \`${guild.id}\`\nDescrição: ${(guild.description == null) ? '**Sem descrição**' : `**"${guild.description}"**`}\nPopulação: **${pad.pad(guild.memberCount, 2)}**\nOwner: **${guildOwnerTag}** \`${guild.owner.id}\`\nAdmins: **${guildAdmins}**`)
+        .addField('<:infoblue:747879943987265607> Informações', `Nome: **${guild.name}** \`${guild.id}\`\nDescrição: ${(guild.description == null) ? '**Sem descrição**' : `**"${guild.description}"**`}\nPopulação: **${pad.pad(guild.memberCount, 2)}**\nOwner: **${guild.owner.tag}** \`${guild.owner.id}\`\nAdmins: **${guildAdmins}**`)
         .addField('<:togglerightverde:747879943068713101> Status', `População: **${pad.pad(qtdUsers, lengthMax)}**\nCanais: **${pad.pad(qtdChannels, lengthMax)}**\nServidores: **${pad.pad(qtdServers, lengthMax)}**`)
         .setTimestamp()
         .setFooter(`Sistema de logs ${client.user.username}`, client.user.displayAvatarURL())

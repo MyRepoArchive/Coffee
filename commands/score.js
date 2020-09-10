@@ -26,7 +26,7 @@ module.exports = {
     if(podeAddReactions) await message.react(emojis.carregando)
     const getScore = await require('../utils/getScore.js').getScore(connection, message, member)
     if(getScore === 'erro') {
-      run(message, client, `<:${emojis.dateclock}> Você ainda não tem pontuação no servidor, aguarde 1 minuto e tente novamente`)
+      run(message, client, `<:${emojis.dateclock}> ${member.displayName} ainda não tem pontuação no servidor!`, emojis.xcirclered)
       if(podeAddReactions) message.reactions.cache.find(react => react.emoji.identifier === emojis.carregando).users.remove(client.user.id)
       return 
     }

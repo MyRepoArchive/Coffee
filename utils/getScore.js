@@ -4,58 +4,52 @@ module.exports = {
       return new Promise((resolve, reject) => {
         connection.query(`SELECT score, userid, serverid FROM score_per_server order by score desc`, async (err, result) => {
           if (err) return reject(err);
-          if(result[0] === undefined) {
-            await require('./addScore.js').addScore(message, connection, member.user)
-            this.getScore(connection, message, member)
-            return;
+          if(result[0] === undefined || !result.find(x => x.userid === member.id && x.serverid === message.guild.id)) {
+            return reject('erro')
           }
-          const scoreInServer = result.find(x => x.userid === member.id && x.serverid === message.guild.id).score
-          const globalScore = eval(result.filter(x => x.userid === member.id).map(x => x.score += x.score).join('+'))
+          const res = {}
+          res.scoreInServer = result.find(x => x.userid === member.id && x.serverid === message.guild.id).score
+          res.globalScore = eval(result.filter(x => x.userid === member.id).map(x => x.score).join('+'))
           function getLevel() {
             let lv = 0;
-            for(let i = (2**lv)*10; i <= scoreInServer; i = (2**lv)*10) {
+            for(let i = (2**lv)*10; i <= res.scoreInServer; i = (2**lv)*10) {
               lv++
             }
             return lv
           }
-          const level = getLevel()
+          res.level = getLevel()
           function getGlobalLevel() {
             let gl = 0;
-            for(let i = (2**gl)*10; i <= globalScore; i = (2**gl)*10) {
+            for(let i = (2**gl)*10; i <= res.globalScore; i = (2**gl)*10) {
               gl++
             }
             return gl
           }
-          const globalLevel = getGlobalLevel()
-          const positionInServer = result.filter(x => x.serverid === message.guild.id).map(x => x.userid).indexOf(member.id)+1
+          res.globalLevel = getGlobalLevel()
+          res.positionInServer = result.filter(x => x.serverid === message.guild.id).map(x => x.userid).indexOf(member.id)+1
           function getGlobalPosition() {
             const scoresUsers = []
             const users = [...new Set(result.map(x => x.userid))]
             for(let i = 0; i < users.length; i++) {
               scoresUsers.push(eval(result.filter(x => x.userid === users[i] && x.userid !== member.id).map(y => y.score).join('+')))
             }
-            console.log(scoresUsers)
+            return scoresUsers.indexOf(undefined)+1
           }
-          getGlobalPosition()
-          const globalPosition = result.map(x => result.find(y => y.userid === x.userid).score)
-          console.log(result.filter(x => x.serverid === message.guild.id).map(x => [x.userid, x.score]), scoreInServer, globalScore, level, globalLevel, positionInServer, globalPosition)
-          return resolve(result);
+          res.globalPosition = getGlobalPosition()
+          return resolve(res);
         })
       })
     }
-    let score;
-    await consulta().then(result => {
-      if(result[0] === undefined)return;
-      for(let i = 0; i < result.length; i++) {
-
-      }
-      score = result[0].score
+    let result;
+    await consulta().then(res => {
+      if(!res)return;
+      result = res
     }).catch(err => {
-      throw err;
+      result = err
     });
-    return res
+    return result
   },
-  async getLevel(connection, message, member) {
+  /* async getLevel(connection, message, member) {
     const consulta = () => {
       return new Promise((resolve, reject) => {
         connection.query(`SELECT level FROM score_per_server where userid = '${member.id}' and serverid = '${message.guild.id}'`, async (err, result) => {
@@ -141,5 +135,5 @@ module.exports = {
       throw err;
     });
     return position
-  }
+  } */
 }

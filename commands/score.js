@@ -24,10 +24,16 @@ module.exports = {
     if(member.user.bot)return run(message, client, `<:${emojis.xcirclered}> Bots não recebem pontos, logo não possuem um score nem level!`, emojis.xcirclered)
     const podeAddReactions = message.channel.memberPermissions(message.guild.me).has("ADD_REACTIONS")
     if(podeAddReactions) await message.react(emojis.carregando)
-    const score = pad(await require('../utils/getScore.js').getScore(connection, message, member), 3)
-    const level = pad(await require('../utils/getScore.js').getLevel(connection, message, member), 2);
-    const globalLevel = pad(await require('../utils/getScore.js').getGlobalLevel(connection, member, message), 2)
-    const position = await require('../utils/getScore.js').getUserPosition(connection, member, message)
+    const getScore = await require('../utils/getScore.js').getScore(connection, message, member)
+    if(getScore === 'erro') {
+      run(message, client, `<:${emojis.dateclock}> Você ainda não tem pontuação no servidor, aguarde 1 minuto e tente novamente`)
+      if(podeAddReactions) message.reactions.cache.find(react => react.emoji.identifier === emojis.carregando).users.remove(client.user.id)
+      return 
+    }
+    const score = pad(getScore.scoreInServer, 3)
+    const level = pad(getScore.level, 2);
+    const globalLevel = pad(getScore.globalLevel, 2)
+    const position = getScore.positionInServer
     let scoreImg;
     await loadImage('./image/profile-v4-1.png').then(async image => {
       const perfil = await loadImage(member.user.displayAvatarURL({ size: 1024, format: 'png' }))

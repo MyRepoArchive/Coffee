@@ -23,7 +23,7 @@ connection.connect(err => { // Conecta com o banco de dados
         return;
     }
 });
-setInterval(() => { connection.query('SELECT 1') }, 20000); // De 20 em 20 segundos, chama uma query do banco de dados, para o servidor não fechar conexão
+/* setInterval(() => { connection.query('SELECT 1') }, 20000); // De 20 em 20 segundos, chama uma query do banco de dados, para o servidor não fechar conexão */
 // CORES PARA COLORIR TERMINAL
 const consoleColors = ['\033[0m', '\033[30m', '\033[31m', '\033[32m', '\033[33m', '\033[34m', '\033[35m', '\033[36m', '\033[37m'];
 // 0 = reset; 1 = black; 2 = red; 3 = green; 4 = yellow; 5 = roxo; 6 = magenta; 7 = cyan; 8 = white;

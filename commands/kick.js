@@ -1,6 +1,7 @@
 const config = require('../info.json')
 const Discord = require('discord.js')
 const hex = require('../colors.json')
+const emojis = require('../emojis.json')
 
 module.exports = {
   name: "kick",
@@ -10,136 +11,71 @@ module.exports = {
   name5: "expulse",
   name6: "expulsar",
   type: "Moderação",
-  description: `Expulsa o(s) usuário(s) mencionado(s) do servidor!\nModo de usar:\nMencionando o(s) usuário(s) *${config.prefix}kick @user1 @user2 \`\motivo da expulsão\`\*\nPelo username ou apelido:\n*${config.prefix}kick username1 \\ apelido1 \`\motivo da expulsão\`\*\n\nOBS: *O motivo da expulsão não é obrigatório, mas se for utilizá-lo, coloque-o entre "\`\" (crases) e após os usuários a serem expulsos!*`,
+  description: `Expulsa o usuário mencionado do servidor!\nModo de usar:\n**Mencionando o usuário:** *${config.prefix}kick @member*\n**Pelo username ou apelido:** *${config.prefix}kick username*`,
 
   async execute(message, args, comando, client, prefix) {
-    const mencoes = message.mentions
-    const usernamesDigitados = message.content.trim().slice(prefix.length + comando.length).split("\\").map(username => username.trim().toLowerCase())
-    const motivo = message.content.trim().slice((message.content.trim().split('').indexOf('`')+1 === 0) ? message.content.length : message.content.trim().split('').indexOf('`')+1).split('`').shift()
+    const { run } = require('../utils/errorAlert.js')
+    const membro = message.mentions.members.first() || message.guild.members.cache.find(member => member.user.username.toLowerCase() === args.join(' ').toLowerCase()) || message.guild.members.cache.find(member => member.displayName.toLowerCase() === args.join(' ').toLowerCase()) || message.guild.members.cache.get(args[0])
+    if (!membro) {
+      const descEmbed = new Discord.MessageEmbed()
+        .setColor(hex.blue2)
+        .setTitle(`<:${emojis.chute}> Como usar o ${prefix}${comando}`)
+        .setDescription(`Modo de usar:\n**Mencionando o usuário:** *${config.prefix}kick @member*\n**Pelo username ou apelido:** *${config.prefix}kick username*`)
+        .setTimestamp()
+        .setFooter(`Sistema de ajuda ${client.user.username}`, client.user.displayAvatarURL())
+      return run(message, client, descEmbed, emojis.alertcircleamarelo)
+    }
     const botMembro = message.guild.member(client.user.id)
     const permissoesBot = message.channel.memberPermissions(botMembro)
     const podeEnviarMsg = permissoesBot.has("SEND_MESSAGES")
     const podeAddReactions = permissoesBot.has("ADD_REACTIONS")
     const podeManageMessages = permissoesBot.has("MANAGE_MESSAGES")
-    if (!message.member.hasPermission("KICK_MEMBERS")) {
-      if (podeEnviarMsg) {
-        message.channel.send(`<:slashred:747879954305253468> ${message.author}, você não pode chutar membros nesse servidor!`);
-      } else if (podeAddReactions) {
-        message.react('slashred:747879954305253468')
-      }
-      return;
-    }
-    if (!botMembro.hasPermission("KICK_MEMBERS")) {
-      if (podeEnviarMsg) {
-        message.channel.send(`<:slashred:747879954305253468> ${message.author}, eu não tenho permissão para chutar membros!`);
-      } else if (podeAddReactions) {
-        message.react('slashred:747879954305253468')
-      }
-      return;
-    }
-    function verificacoes(member) {
-      let podeIr = false
-      if (member.user.id === message.guild.ownerID) {
-        if (podeEnviarMsg) {
-          message.channel.send(`<:slashred:747879954305253468> ${message.author}, ele é o dono do servidor, não posso fazer isso!`)
-        } else if (podeAddReactions) {
-          message.react('slashred:747879954305253468')
+
+    if (!message.member.hasPermission("KICK_MEMBERS")) return run(message, client, `<:${emojis.slashred}> ${message.author}, você não pode chutar membros nesse servidor!`, emojis.slashred) // Verifica se o usuário possui permissão para banir membros
+    if (!botMembro.hasPermission("KICK_MEMBERS")) return run(message, client, `<:${emojis.slashred}> ${message.author}, eu não tenho permissão para chutar membros!`, emojis.slashred) // Verifica se o bot tem permissão para banir membros
+    if (membro.user.id === message.guild.ownerID) return run(message, client, `<:${emojis.slashred}> ${message.author}, ele é o dono do servidor, não posso fazer isso!`, emojis.slashred) // Verifica se o user citado é o dono do servidor
+    if (membro.roles.highest.position >= botMembro.roles.highest.position) return run(message, client, `<:${emojis.slashred}> ${message.author}, eu não posso chutar esse membro, ele tem um cargo maior que o meu!`, emojis.slashred) // Verifica se o user citado tem um cargo maior que o do bot
+    if (membro.roles.highest.position >= message.member.roles.highest.position && message.author.id !== message.guild.ownerID) return run(message, client, `<:${emojis.slashred}> ${message.author}, eu não posso chutar esse membro, ele tem um cargo maior que o seu!`, emojis.slashred) // Verifica se o user citado tem um cargo maior que o do membro 
+    if (membro.user.id === client.user.id) return run(message, client, `<:${emojis.slashred}> ${message.author}, eu não posso me chutar do servidor, faça isso manualmente ou peça ajuda a outro bot!`, emojis.alertcircleamarelo) // Verifica se o user citado é o bot
+    if (membro === message.member) return run(message, client, `<:${emojis.slashred}> ${message.author}, você não pode se chutar do servidor, isso é apenas questão de segurança!`, emojis.alertcircleamarelo) // Verifica se o user citado é o próprio member
+    
+    if (podeEnviarMsg && podeAddReactions) {
+      const embedMotivo = new Discord.MessageEmbed()
+        .setColor(hex.orangered)
+        .setTitle(`<:${emojis.helpcircleblue}> Deseja adiciona um motivo à expulsão?`)
+      const embedConlusao = new Discord.MessageEmbed()
+        .setColor(hex.lightstategray)
+        .setTitle(`<:${emojis.circlecheckverde}> **${membro.user.tag}** foi expulso com sucesso!`)
+      const embedNegacao = new Discord.MessageEmbed()
+        .setColor(hex.lightstategray)
+        .setTitle(`<:${emojis.xcirclered}> Expulsão cancelada!`)
+      const msgMotivo = await message.channel.send(embedMotivo)
+      await msgMotivo.react(emojis.xcirclered)
+      await msgMotivo.react(emojis.circlecheckverde)
+      const filterMotivoReactions = (reaction, user) => reaction.me && user.id === message.author.id
+      const collectorReactionMotivo = msgMotivo.createReactionCollector(filterMotivoReactions, { max: 1, time: 10000 })
+      collectorReactionMotivo.on('collect', (reaction, user) => {
+        if (user.id !== message.author.id || !reaction.me) return;
+        if (reaction.emoji.identifier === emojis.xcirclered) {
+          await membro.kick()
+          msgMotivo.edit(embedConclusao)
+        } else if(reaction.emoji.identifier === emojis.circlecheckverde){
+          const embed = new Discord.MessageEmbed()
+            .setTitle(`Digite abaixo o motivo da expulsão!`)
+            .setColor(hex.orangered)
+          msgMotivo.edit(embed)
+          const filter = msg => msg.author.id === message.author.id
+          const collector = message.channel.createMessageCollector(filter, { time: 20000, max: 1 })
+          collector.on('collect', msg => {
+            await membro.kick(msg.content)
+            msgMotivo.edit(embedConclusao)
+          })
         }
-        return podeIr = false;
-      }
-      if (member.roles.highest.position >= botMembro.roles.highest.position) {
-        if (podeEnviarMsg) {
-          message.channel.send(`<:slashred:747879954305253468> ${message.author}, eu não posso chutar esse membro, ele tem um cargo maior que o meu!`)
-        } else if (podeAddReactions) {
-          message.react('slashred:747879954305253468')
-        }
-        return podeIr = false;
-      }
-      if (member.roles.highest.position >= message.member.roles.highest.position && message.author.id !== message.guild.ownerID) {
-        if (podeEnviarMsg) {
-          message.channel.send(`<:slashred:747879954305253468> ${message.author}, eu não posso chutar esse membro, ele tem um cargo maior que o seu!`)
-        } else if (podeAddReactions) {
-          message.react('slashred:747879954305253468')
-        }
-        return podeIr = false;
-      }
-      if (member.user.id === client.user.id) {
-        if (podeEnviarMsg) {
-          message.channel.send(`<:alertcircleamarelo:747879938207514645> ${message.author}, eu não posso me kickar do servidor, faça isso manualmente ou peça ajuda a outro bot!`);
-        } else if (podeAddReactions) {
-          message.react('alertcircleamarelo:747879938207514645')
-        }
-        return podeIr = false;
-      }
-      if (member === message.member) {
-        if (podeEnviarMsg) {
-          message.channel.send(`<:alertcircleamarelo:747879938207514645> ${message.author}, você não pode se kickar do servidor, isso é apenas questão de segurança!`);
-        } else if (podeAddReactions) {
-          message.react('alertcircleamarelo:747879938207514645')
-        }
-        return podeIr = false;
-      }
-      return podeIr = true;
-    }
-    if (mencoes.members.size === 0) {
-      if(usernamesDigitados[0] === '') {
-        if (podeEnviarMsg) {
-          const descEmbed = new Discord.MessageEmbed()
-            .setColor(hex.blue2)
-            .setTitle(`<:chute:748292333791084565> Como usar o ${prefix}${comando}`)
-            .setDescription(`Modo de usar:\n**Mencionando o(s) usuário(s):** *${prefix}kick @user1 @user2 \`\motivo da expulsão\`\*\n**Pelo username ou apelido:** *${prefix}kick username1 \\ apelido1 \`\motivo da expulsão\`\*\n\nOBS: *O motivo da expulsão não é obrigatório, mas se for utilizá-lo, coloque-o entre "\`\" (crases) e após os usuários a serem expulsos!*`)
-            .setTimestamp()
-            .setFooter(`Sistema de ajuda ${client.user.username}`, client.user.displayAvatarURL())
-          message.reply(descEmbed)
-        } else if (podeAddReactions) {
-          message.react('helpcircleblue:747879943811235841')
-        }
-        return;
-      } else {
-        for(let i = 0; i < usernamesDigitados.length; i++) {
-          const usernameMember = await message.guild.members.cache.find(member => member.user.username.toLowerCase() === usernamesDigitados[i])
-          const nicknameMember = await message.guild.members.cache.find(member => (member.nickname === null || member.nickname === undefined) ? member.nickname : member.nickname.toLowerCase() === usernamesDigitados[i])
-          if(usernameMember) {
-            if(!verificacoes(usernameMember))return;
-            usernameMember.kick(motivo)
-            if (podeManageMessages && i === usernamesDigitados.length - 1) {
-              message.delete();
-            } else if(podeEnviarMsg) {  
-              message.channel.send(`**${usernameMember.user.username}** foi expulso com sucesso! <:circlecheckverde:747879943224033481>`)
-            } else if(podeAddReactions) {
-              message.react('circlecheckverde:747879943224033481')
-            }
-          } else if(nicknameMember) {
-            if(!verificacoes(nicknameMember))return;
-            nicknameMember.kick(motivo)
-            if (podeManageMessages && i === usernamesDigitados.length - 1) {
-              message.delete();
-            } else if(podeEnviarMsg) {
-              message.channel.send(`**${nicknameMember.nickname}** foi expulso com sucesso! <:circlecheckverde:747879943224033481>`)
-            } else if(podeAddReactions) {
-              message.react('circlecheckverde:747879943224033481')
-            }
-          } else if(i === usernamesDigitados.length - 1) {
-            if(podeEnviarMsg) {
-              message.channel.send(`<:helpcircleblue:747879943811235841> ${message.author}, eu não conheço esse membro!`)
-            } else if(podeAddReactions) {
-              message.react('helpcircleblue:747879943811235841')
-            }
-          }
-        }
-        return;
-      }
-    }
-    for(let i = 0; i < mencoes.members.size; i++) {
-      if(!verificacoes(mencoes.members.map(x => x)[i]))return;
-      mencoes.members.map(x => x)[i].kick(motivo)
-      if (podeManageMessages && i === mencoes.members.size - 1) {
-        message.delete();
-      } else if(podeEnviarMsg) {
-          message.channel.send(`**${mencoes.members.map(x => x)[i].user.username}** foi expulso com sucesso! <:circlecheckverde:747879943224033481>`)
-      } else if(podeAddReactions) {
-        message.react('circlecheckverde:747879943224033481')
-      }
+      })
+    } else {
+      await membro.ban()
+      run(message, client, `<:${emojis.circlecheckverde}> **${membro.user.tag}** foi expulso com sucesso!`, emojis.circlecheckverde)
+      if (podeManageMessages) message.delete()
     }
   }
 }

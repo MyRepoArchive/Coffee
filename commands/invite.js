@@ -30,11 +30,11 @@ module.exports = {
     } else {
       message.author.send(embedInvite).then(msg => {
         if(podeAddReactions) {
-          message.react('circlecheckverde:747879943224033481')
+          message.react(emojis.circlecheckverde)
         }
       }, () => {
         if(podeAddReactions) {
-          message.react('alertcircleamarelo:747879938207514645')
+          message.react(emojis.alertcircleamarelo)
         }
       })
     }

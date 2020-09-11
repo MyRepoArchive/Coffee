@@ -11,7 +11,7 @@ module.exports = {
   name5: "balanco",
   name6: "balanço",
   type: "Economia",
-  description: "Veja quantos **<:ccoin:750776561753522276>CCoins** você tem disponível!",
+  description: `Veja quantos **<:${emojis.ccoin}>CCoins** você tem disponível!`,
 
   async execute(message, args, comando, client, prefix, connection) {
     const botMembro = message.guild.member(client.user.id) // O membro do bot no servidor em que foi enviado a mensagem

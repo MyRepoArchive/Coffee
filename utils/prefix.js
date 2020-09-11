@@ -1,4 +1,15 @@
+
+
 module.exports = {
+  prefixs: {},
+  async getCachePrefix(connection, message) {
+    if(this.prefixs[message.guild.id]) {
+      return this.prefixs[message.guild.id]
+    } else {
+      this.prefixs[message.guild.id] = await this.getPrefix(connection, message)
+      return this.prefixs[message.guild.id]
+    }
+  },
   async getPrefix(connection, message) {
     const consulta = () => {
       return new Promise((resolve, reject) => {
@@ -6,10 +17,12 @@ module.exports = {
           if (err) {
             return reject(err);
           }
+          console.log('request')
           if(result[0] === undefined) {
             connection.query(`insert into servers (serverid) values ('${message.guild.id}');`, err => {
               if (err) return console.log(err.stack)
               this.getPrefix(connection, message);
+              console.log('request')
             })
             return;
           }

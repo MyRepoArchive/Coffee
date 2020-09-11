@@ -19,46 +19,20 @@ module.exports = {
     const podeEnviarMsg = permissoesBot.has("SEND_MESSAGES") // Um boolean se o bot pode enviar mensagens naquele canal
     const podeAddReactions = permissoesBot.has("ADD_REACTIONS")
     if (podeAddReactions) await message.react('a:carregando:750817054596137000') // Reagi na mensagem com um emoji de loading
-    let mentioned = message.mentions.users.first() // Pega o primeiro usuario mencionado, caso haja algum!
-    if (!mentioned) {
-      mentioned = message.guild.members.cache.find(member => member.user.username === args.slice(0).join(' '))
-      if (!mentioned) {
-        mentioned = message.guild.members.cache.find(member => member.nickname === args.slice(0).join(' '))
-        if (!mentioned) {
-          mentioned = message.guild.members.cache.get(args[0])
-        }
-      }
-    }
+    let mentioned = message.mentions.users.first() || message.guild.members.cache.find(member => member.user.username === args.slice(0).join(' ')) || message.guild.members.cache.find(member => member.nickname === args.slice(0).join(' ')) || message.guild.members.cache.get(args[0]) // Pega o primeiro usuario mencionado, caso haja algum!
     if(mentioned !== undefined) {
       if (mentioned.user !== undefined) mentioned = mentioned.user // Se o mentioned retornar um membro, ele passa mentioned para user novamente
     }
-    const money = await require('../utils/getMoney.js').getMoney(connection, message.author) // Puxa do banco de dados o money do author da mensagem
-    if (money === undefined) return this.execute(message, args, comando, client, prefix, connection) // Caso o valor do money do author seja indefinido, chama novamente a função execute()
-    const bankMoney = await require('../utils/getMoney.js').getBankMoney(connection, message.author) // Puxa do banco de dados o bankmoney do author da mensagem
-    if (bankMoney === undefined) return this.execute(message, args, comando, client, prefix, connection) // Caso o valor do money do author seja indefinido, chama novamente a função execute()
-    const serverMoney = await require('../utils/getMoney.js').getServerMoney(connection, message.author, message.guild)
-    if(serverMoney === undefined) return this.execute(message, args, comando, client, prefix, connection)
-    const moneyEmbed = new Discord.MessageEmbed()
-      .setAuthor(message.author.username, message.author.displayAvatarURL())
-      .setColor(hex.gold)
-      .setThumbnail(message.author.displayAvatarURL({ dynamic: true }))
-      .setTitle(`Este é o valor que você possui no servidor`)
-      .setDescription(`**<:${emojis.linecoinbitcoin}>${serverMoney}**`)
-      .addField(`Este é o valor que você possui em mãos`, `**<:ccoin:750776561753522276>${money}**`)
-      .addField(`Este é o valor que você possui no banco`, `**<:ccoinbank:750809655885693019>${bankMoney}**`)
-      .setFooter(`Sistema de Economia ${client.user.username}`, client.user.displayAvatarURL())
     if (mentioned && message.author.id === config.owner && !mentioned.bot) {
-      const mentionedMoney = await require('../utils/getMoney.js').getMoney(connection, mentioned) // Puxa do banco de dados o money do author da mensagem
-      if (mentionedMoney === undefined) return this.execute(message, args, comando, client, prefix, connection) // Caso o valor do money do author seja indefinido, chama novamente a função execute()
-      const bankMentionedMoney = await require('../utils/getMoney.js').getBankMoney(connection, mentioned) // Puxa do banco de dados o bankmoney do author da mensagem
-      if (bankMentionedMoney === undefined) return this.execute(message, args, comando, client, prefix, connection) // Caso o valor do money do author seja indefinido, chama novamente a função execute()
+      const getMentionedMoney = await require('../utils/getMoney.js').getMoney(connection, mentioned)
+      const mentionedMoney = getMentionedMoney.money // Puxa do banco de dados o money do author da mensagem
+      const bankMentionedMoney = getMentionedMoney.bankmoney // Puxa do banco de dados o bankmoney do author da mensagem
       const serverMentionedMoney = await require('../utils/getMoney.js').getServerMoney(connection, mentioned, message.guild)
-      if(serverMentionedMoney === undefined) return this.execute(message, args, comando, client, prefix, connection)
       const moneyMentionedEmbed = new Discord.MessageEmbed()
         .setAuthor(mentioned.username, mentioned.displayAvatarURL())
         .setColor(hex.gold)
         .setThumbnail(mentioned.displayAvatarURL({ dynamic: true }))
-        .setTitle(`Este é o valor que ${mentioned.username} possui em mãos`)
+        .setTitle(`Este é o valor que ${mentioned.username} possui no servidor`)
         .setDescription(`**<:${emojis.linecoinbitcoin}>${serverMentionedMoney}**`)
         .addField(`Este é o valor que ${mentioned.username} possui em mãos`, `**<:ccoin:750776561753522276>${mentionedMoney}**`)
         .addField(`Este é o valor que ${mentioned.username} possui no banco`, `**<:ccoinbank:750809655885693019>${bankMentionedMoney}**`)
@@ -79,6 +53,19 @@ module.exports = {
       message.reactions.cache.find(react => react.users.cache.get(client.user.id).id === client.user.id).users.remove(client.user.id) // Remove o emoji de carregando
       return;
     }
+    const getMoney = await require('../utils/getMoney.js').getMoney(connection, message.author)
+    const money = getMoney.money // Puxa do banco de dados o money do author da mensagem
+    const bankMoney = getMoney.bankmoney // Puxa do banco de dados o bankmoney do author da mensagem
+    const serverMoney = await require('../utils/getMoney.js').getServerMoney(connection, message.author, message.guild)
+    const moneyEmbed = new Discord.MessageEmbed()
+      .setAuthor(message.author.username, message.author.displayAvatarURL())
+      .setColor(hex.gold)
+      .setThumbnail(message.author.displayAvatarURL({ dynamic: true }))
+      .setTitle(`Este é o valor que você possui no servidor`)
+      .setDescription(`**<:${emojis.linecoinbitcoin}>${serverMoney}**`)
+      .addField(`Este é o valor que você possui em mãos`, `**<:ccoin:750776561753522276>${money}**`)
+      .addField(`Este é o valor que você possui no banco`, `**<:ccoinbank:750809655885693019>${bankMoney}**`)
+      .setFooter(`Sistema de Economia ${client.user.username}`, client.user.displayAvatarURL())
     if (podeEnviarMsg) {
       message.channel.send(moneyEmbed)
     } else {

@@ -13,7 +13,7 @@ module.exports = {
     if (message.author.bot) return; // Verifica se o autor é um bot, se for, retorna
     if (message.channel.type === 'dm') return; // Verifica se a mensagem foi enviada na dm, se for, retorna
     const content = [...new Set(message.content.toLowerCase().split(''))]
-    const prefix = await require('../utils/prefix.js').getPrefix(connection, message)
+    const prefix = await require('../utils/prefix.js').getCachePrefix(connection, message)
     if(content.length > 3 || message.content.startsWith(prefix)) require('../utils/addScore.js').addScore(message, connection, message.author)
     const args = message.content.slice(prefix.length).trim().split(/ +/g); // Um array com cada palavra digitada pelo usuário
     const comando = args.shift().toLowerCase(); // A primeira palavra do args minúscula

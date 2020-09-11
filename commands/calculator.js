@@ -34,7 +34,7 @@ module.exports = {
     const sinais = message.content.split(/[^/*+.()%-]/) // Coloca em um array todos os sinais "/", "*", "%", "+", e "-" que tiverem no conteúdo da mensagem
     while(numbers.indexOf('') >= 0) { numbers.splice(numbers.indexOf(''), 1) } // Tira os '' do array de numeros
     while(sinais.indexOf('') >= 0) { sinais.splice(sinais.indexOf(''), 1) } // Tira os '' do array de sinais
-    const importantSinais = message.content.split(/[^/*+-]/) // Vê se na mensagem há algum sinal importante e coloca num array
+    const importantSinais = message.content.split(/[^/*+%-]/) // Vê se na mensagem há algum sinal importante e coloca num array
     while(importantSinais.indexOf('') >= 0) { importantSinais.splice(importantSinais.indexOf(''), 1) } 
     if(importantSinais.length === 0)return; // Se não houver sinais importantes, retorna
     if(importantSinais.length === 1 && importantSinais[0] === '-' && numbers.length === 2 && message.content.includes('.'))return; // Se houver apenas o '-' de sinal importante e a quantidade de números for igual a dois e conter um '.' na mensagem, retorna; (isso server para evitar que ele responda coisas do tipo '-1.1')

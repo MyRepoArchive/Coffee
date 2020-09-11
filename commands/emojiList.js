@@ -41,7 +41,7 @@ module.exports = {
     const collector = msg.createReactionCollector(filter, { time: 300000 })
     collector.on('collect', (reaction, user) => {
       const page = Number(reaction.message.embeds[0].title.split('(')[1].split('/')[0])
-      if(user.id === client.user.id)return;
+      if(user.id === client.user.id || user.id !== message.author.id)return;
       if(!reaction.me)return;
       if(reaction.emoji.identifier === emojis.fastforward) {
         if(emojisArray.slice(2000/maior*page, 2000/maior*(page+1)).join('> <:').length === 0)return;

@@ -52,7 +52,7 @@ module.exports = {
             if(podeEnviarMsg) {
                 message.reply(`Você pode conferir todos os comandos do ${client.user.username} em: ${config.commandsURL} ou usando ${prefix}commandList\nOu se preferir, libere o envio de mensagens diretas e execute novamente o comando ${prefix}help`)
             } else if(podeAddReactions) {
-                message.react(emojis.slashred)
+                message.react(emojis.xcirclered)
             }
         })
     }

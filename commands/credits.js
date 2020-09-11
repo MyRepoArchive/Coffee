@@ -15,7 +15,7 @@ module.exports = {
   description: `Veja de onde que foram tirados todos os emojis que eu uso!`,
 
   async execute(message, args, comando, client, prefix, connection) {
-    const errorAlert = require('../utils/errorAlert.js')
+    const { run } = require('../utils/errorAlert.js')
     const iconsets = '[sport-achievment-badges](https://www.iconfinder.com/iconsets/sport-achievment-badges)\n[web-and-media-1](https://www.iconfinder.com/iconsets/web-and-media-1)\n[business-and-office-50](https://www.iconfinder.com/iconsets/business-and-office-50)\n[award-flat-3](https://www.iconfinder.com/iconsets/award-flat-3)\n[feather](https://www.iconfinder.com/iconsets/feather)\n[whcompare-isometric-web-hosting-servers](https://www.iconfinder.com/iconsets/whcompare-isometric-web-hosting-servers)\n[free-simple-line-mix](https://www.iconfinder.com/iconsets/free-simple-line-mix)\n[letters-and-numbers-1](https://www.iconfinder.com/iconsets/letters-and-numbers-1)\n[date-and-time-fill-outline](https://www.iconfinder.com/iconsets/date-and-time-fill-outline)\n'
     const iconfinder = '[firebase_google_icon](https://www.iconfinder.com/icons/1175544/firebase_google_icon/)\n[calculator](https://www.iconfinder.com/search/?q=calculator&price=free&preview_size=128)'
     const iconIcons = '[arquivo-tipo-mongo](https://icon-icons.com/pt/icone/arquivo-tipo-mongo/130383)\n[javascript](https://icon-icons.com/pt/icone/javascript/130900)\n[arquivo-tipo-html](https://icon-icons.com/pt/icone/arquivo-tipo-html/130541)\n[business-card-id-id](https://icon-icons.com/icon/business-card-id-id/)\n[ação-chutar-bota-sapato](https://icon-icons.com/pt/icone/a%C3%A7%C3%A3o-chutar-bota-sapato/54220)'
@@ -25,12 +25,13 @@ module.exports = {
     const creditEmbed = new Discord.MessageEmbed()
       .setColor(hex.blue2)
       .setAuthor(message.author.username, message.author.displayAvatarURL())
-      .setTitle('Iconfinder')
-      .setDescription('**Iconsets**\n'+iconsets+'**Iconfinder**\n'+iconfinder)
+      .setTitle('Perfil')
+      .setDescription('[avatar_coffee_cup_zorro_icon](https://www.iconfinder.com/icons/4043245/avatar_coffee_cup_zorro_icon)')
+      .addField('Iconfinder', '**Iconsets**\n'+iconsets+'**Iconfinder**\n'+iconfinder)
       .addField('Icon-icons', iconIcons)
       .addField('Outros', credits)
       .addField('\u200b', credits2)
       .setFooter(`Sistema de créditos ${client.user.username}`, client.user.displayAvatarURL())
-    errorAlert.run(message, client, creditEmbed, emojis.alertcircleamarelo)
+    run(message, client, creditEmbed, emojis.alertcircleamarelo)
   }
 }

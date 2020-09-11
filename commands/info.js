@@ -14,7 +14,7 @@ module.exports = { // Exporta o conteúdo do arquivo para outro arquivo
 
   async execute(message, args, comando, client, prefix) { // Função que executa o código quando é chamada
     const botMembro = message.guild.member(client.user.id)
-    const errorAlert = require('../utils/errorAlert.js')
+    const { run } = require('../utils/errorAlert.js')
     const comandos = [...new Set(client.commands.map(comando => comando.name))] // Array com todos os nomes dos comandos do bot
     const cpu = await osu.cpu.usage()
     const pad = require('../utils/pad.js')
@@ -36,6 +36,6 @@ module.exports = { // Exporta o conteúdo do arquivo para outro arquivo
       .setTimestamp()
       .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
       .setFooter(`Sistema de informações ${client.user.username}`, client.user.displayAvatarURL())
-      errorAlert.run(message, client, embedInfo, emojis.alertcircleamarelo)
+      run(message, client, embedInfo, emojis.alertcircleamarelo)
   }
 }

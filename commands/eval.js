@@ -11,6 +11,7 @@ module.exports = {
   description: "Eval!",
 
   async execute(message, args, comando, client, prefix, connection) {
+    const { run } = require('../utils/errorAlert.js')
     const botMembro = message.guild.member(client.user.id) // O membro do bot no servidor em que foi enviado a mensagem
     const permissoesBot = message.channel.memberPermissions(botMembro) // As permissões que o bot tem no canal em que foi enviada a mensagem
     const podeEnviarMsg = permissoesBot.has("SEND_MESSAGES") // Um boolean se o bot pode enviar mensagens naquele canal
@@ -20,22 +21,8 @@ module.exports = {
       .setAuthor(message.author.username, message.author.displayAvatarURL())
       .setTimestamp()
       .setFooter(`Sistema de ajuda em desenvolvimento ${client.user.username}`, client.user.displayAvatarURL())
-    if(message.author.id !== config.owner) {
-      if(podeEnviarMsg) {
-        message.channel.send('<:slashred:747879954305253468> Você não pode usar esse tipo de comando!')
-      } else if (podeAddReactions) {
-        message.react('slashred:747879954305253468')
-      }
-      return;
-    }
-    if(!evalContent) {
-      if(podeEnviarMsg) {
-        message.channel.send(`<:alertcircleamarelo:747879938207514645> Insira um valor válido!`)
-      } else if(podeAddReactions) {
-        message.react('alertcircleamarelo:747879938207514645')
-      }
-      return;
-    }
+    if(message.author.id !== config.owner) return run(message, client, `<:${emojis.slashred}> Você não pode usar esse tipo de comando!`, emojis.slashred)
+    if(!evalContent) return run(message, client, `<:${emojis.alertcircleamarelo}> Insira um valor válido!`, emojis.alertcircleamarelo)
     try {
       evalEmbed.setColor(hex.gray)
       evalEmbed.addFields(
@@ -62,8 +49,6 @@ module.exports = {
           if(reaction) reaction.users.remove(client.user.id)
         })
       }
-    } else if(podeAddReactions) {
-      message.react('alertcircleamarelo:747879938207514645')
-    }
+    } else if(podeAddReactions) message.react(emojis.alertcircleamarelo)
   }
 }

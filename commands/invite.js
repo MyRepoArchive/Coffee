@@ -1,6 +1,7 @@
 const Discord = require('discord.js')
 const config = require('../info.json')
 const hex = require('../colors.json')
+const emojis = require('../emojis.json')
 
 module.exports = {
   name: "invite",

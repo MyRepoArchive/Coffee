@@ -14,8 +14,7 @@ module.exports = {
           if (err) throw err
           if (!result[0]) {
             await connection.query(`insert into score_per_server (userid, serverid) values ('${message.author.id}', '${message.guild.id}')`)
-            await this.daily(message, connection)
-            return;
+            result[0] = { money: 0 }
           }
           const money = result[0].money
           connection.query(`select daily_timestamp, consecutive_days, emprego from users where iduser = '${message.author.id}'`, async (err, result) => {
@@ -23,8 +22,7 @@ module.exports = {
             if (err) throw err
             if (!result[0]) {
               await connection.query(`insert into users (iduser) values ('${message.author.id}')`)
-              await this.daily(message, connection)
-              return;
+              result[0] = { daily_timestamp: 0, consecutive_days: 0, emprego: 0 }
             }
             const dailyTimestamp = result[0].daily_timestamp
             const diasConsecutivos = result[0].consecutive_days

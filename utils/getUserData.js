@@ -6,13 +6,17 @@ module.exports = {
           if (err) {
             return reject(err);
           }
-          return resolve(result);
+          connection.query(`select serverid, money, score from score_per_server where userid = '${user.id}'`, (err, resultSPS) => {
+            if (err) throw err
+            result.push(resultSPS)
+            return resolve(result);
+          })
         })
       })
     }
-    let res;
+    let res = '';
     await consulta().then(result => {
-      res = result[0]
+      res = result
     }).catch(err => {
       throw err;
     });

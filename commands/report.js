@@ -1,6 +1,7 @@
 const Discord = require('discord.js')
 const hex = require('../colors.json')
 const config = require('../info.json')
+const emojis = require('../emojis.json')
 
 module.exports = {
   name: "report",
@@ -23,11 +24,11 @@ module.exports = {
       .setFooter(`Sistema de reports ${client.user.username}`, client.user.displayAvatarURL())
     await reportChannel.send(reportEmbed) // Envia o report no canal específico de reports
     if(podeAddReactions) { // Verifica se pode adicionar reações no canal
-      message.react('circlecheckverde:747879943224033481').then(() => {
-        message.react('send:745271212799950899')
+      message.react(emojis.circlecheckverde).then(() => {
+        message.react(emojis.send)
       })
     } else if(podeEnviarMsg) { // Se não poder, verifica se pode enviar mensagens no canal
-      message.channel.send(`<:circlecheckverde:747879943224033481> Pronto ${message.author}, seu report foi enviado com sucesso!`)
+      message.channel.send(`<:${emojis.circlecheckverde}> Pronto ${message.author}, seu report foi enviado com sucesso!`)
     }
   }
 }

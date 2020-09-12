@@ -16,11 +16,19 @@ module.exports = {
   name5: "level",
   type: "Geral",
   description: "Veja seus pontos e em qual level você está!",
+  cooldown: {},
 
   async execute(message, args, comando, client, prefix, connection) {
+    if(!this.cooldown[message.author.id]) this.cooldown[message.author.id] = { vezes: 1, timestamp: message.createdTimestamp }
     const { run } = require('../utils/errorAlert.js')
     const { pad } = require('../utils/pad.js')
-    const member = message.mentions.members.first() || message.guild.members.cache.find(member => member.user.username === args.join(' ')) || message.guild.members.cache.find(member => member.nickname === args.join(' ')) || message.guild.members.cache.get(args[0]) || message.member
+    if(this.cooldown[message.author.id].vezes > 1 && Date.now() - this.cooldown[message.author.id].timestamp < 10000) {
+      return run(message, client, `<:${emojis.datecronometro}> Aguarde ${parseInt((10000-parseInt(Date.now() - this.cooldown[message.author.id].timestamp))/1000)} segundos para usar este comando novamente!`, emojis.datecronometro)
+    } else if(this.cooldown[message.author.id].vezes > 1 && Date.now() - this.cooldown[message.author.id].timestamp >= 10000){
+      this.cooldown[message.author.id].vezes = 1
+    }
+    this.cooldown[message.author.id] = { vezes: this.cooldown[message.author.id].vezes + 1, timestamp: message.createdTimestamp }
+    const member = message.mentions.members.first() || message.guild.members.cache.find(member => member.user.username.toLowerCase() === args.join(' ').toLowerCase()) || message.guild.members.cache.find(member => member.displayName.toLowerCase() === args.join(' ').toLowerCase()) || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(member => args.length === 0 ? member.id === message.member.id : member.user.tag.toLowerCase().includes(args.join(' ').toLowerCase())) || message.guild.members.cache.find(member => args.length === 0 ? member.id === message.member.id : member.displayName.toLowerCase().includes(args.join(' ').toLowerCase())) || message.member
     if(member.user.bot)return run(message, client, `<:${emojis.xcirclered}> Bots não recebem pontos, logo não possuem um score nem level!`, emojis.xcirclered)
     const podeAddReactions = message.channel.memberPermissions(message.guild.me).has("ADD_REACTIONS")
     if(podeAddReactions) await message.react(emojis.carregando)

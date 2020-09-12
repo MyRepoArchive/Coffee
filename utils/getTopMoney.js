@@ -7,10 +7,8 @@ module.exports = {
             return reject(err);
           }
           if(result[0] === undefined) {
-            connection.query(`insert into users (iduser) values ('${user.id}');`, async err => {
-              if (err) return console.log(err.stack)
-              result = await this.getMoney(connection, user);
-            })
+            connection.query(`insert into users (iduser) values ('${user.id}');`)
+            result[0] = { iduser: user.id, bankmoney: 0 }
           }
           return resolve(result);
         })

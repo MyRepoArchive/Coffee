@@ -43,7 +43,7 @@ module.exports = {
       const embedMotivo = new Discord.MessageEmbed()
         .setColor(hex.orangered)
         .setTitle(`<:${emojis.helpcircleblue}> Deseja adiciona um motivo à expulsão?`)
-      const embedConlusao = new Discord.MessageEmbed()
+      const embedConclusao = new Discord.MessageEmbed()
         .setColor(hex.lightstategray)
         .setTitle(`<:${emojis.circlecheckverde}> **${membro.user.tag}** foi expulso com sucesso!`)
       const embedNegacao = new Discord.MessageEmbed()
@@ -54,7 +54,7 @@ module.exports = {
       await msgMotivo.react(emojis.circlecheckverde)
       const filterMotivoReactions = (reaction, user) => reaction.me && user.id === message.author.id
       const collectorReactionMotivo = msgMotivo.createReactionCollector(filterMotivoReactions, { max: 1, time: 10000 })
-      collectorReactionMotivo.on('collect', (reaction, user) => {
+      collectorReactionMotivo.on('collect', async (reaction, user) => {
         if (user.id !== message.author.id || !reaction.me) return;
         if (reaction.emoji.identifier === emojis.xcirclered) {
           await membro.kick()
@@ -66,9 +66,12 @@ module.exports = {
           msgMotivo.edit(embed)
           const filter = msg => msg.author.id === message.author.id
           const collector = message.channel.createMessageCollector(filter, { time: 20000, max: 1 })
-          collector.on('collect', msg => {
+          collector.on('collect', async msg => {
             await membro.kick(msg.content)
             msgMotivo.edit(embedConclusao)
+          })
+          collector.on('end', end => {
+            msgMotivo.edit(embedNegacao)
           })
         }
       })

@@ -15,19 +15,7 @@ module.exports = {
 
   async execute(message, args, comando, client, prefix, connection) {
     const { run } = require('../utils/errorAlert.js')
-    let mentioned = message.mentions.members.first()
-    if(!mentioned) {
-      mentioned = message.guild.members.cache.find(member => member.user.username === args.join(' '))
-      if(!mentioned) {
-        mentioned = message.guild.members.cache.find(member => member.nickname === args.join(' '))
-        if(!mentioned) {
-          mentioned = message.guild.members.cache.get(args[0])
-          if(!mentioned) {
-            mentioned = message.member
-          }
-        }
-      }
-    }
+    let mentioned = message.mentions.members.first() || message.guild.members.cache.find(member => member.user.username.toLowerCase() === args.join(' ').toLowerCase()) || message.guild.members.cache.find(member => member.displayName.toLowerCase() === args.join(' ').toLowerCase()) || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(member => args.length === 0 ? member === message.member : member.user.username.toLowerCase().includes(args.join(' ').toLowerCase())) || message.guild.members.cache.find(member => args.length === 0 ? member === message.member : member.displayName.toLowerCase().includes(args.join(' ').toLowerCase())) || message.guild.members.cache.get(args[0]) || message.member
     const statusEmoji = {
       online: emojis.disponivel,
       idle: emojis.ausente,

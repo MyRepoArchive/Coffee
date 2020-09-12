@@ -12,7 +12,7 @@ module.exports = {
   description: "Realize uma query MySQL diretamente do discord!",
 
   async execute(message, args, comando, client, prefix, connection) {
-    const errorAlert = require('../utils/errorAlert.js')
+    const { run } = require('../utils/errorAlert.js') // Chama o arquivo que executa uma função de alerta!
     const podeEnviarMsg = message.channel.memberPermissions(message.guild.me).has("SEND_MESSAGES")
     const podeAddReactions = message.channel.memberPermissions(message.guild.me).has("ADD_REACTIONS")
     const sql = args.join(' ')
@@ -20,8 +20,8 @@ module.exports = {
       .setAuthor(message.author.username, message.author.displayAvatarURL())
       .setTimestamp()
       .setFooter(`Sistema de ajuda em desenvolvimento ${client.user.username}`, client.user.displayAvatarURL())
-    if (message.author.id !== config.owner) return errorAlert.run(message, client, `<:slashred:747879954305253468> Você não pode usar esse tipo de comando!`, 'slashred:747879954305253468')
-    if (!sql) return errorAlert.run(message, client, `<:alertcircleamarelo:747879938207514645> Insira um valor válido!`, 'alertcircleamarelo:747879938207514645')
+    if (message.author.id !== config.owner) return run(message, client, `<:${emojis.slashred}> Você não pode usar esse tipo de comando!`, emojis.slashred)
+    if (!sql) return run(message, client, `<:${emojis.alertcircleamarelo}> Insira um valor válido!`, emojis.alertcircleamarelo)
     connection.query(sql, async (err, result) => {
       if (err) {
         sqlEmbed.setColor(hex.orangered)

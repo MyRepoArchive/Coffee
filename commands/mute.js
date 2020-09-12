@@ -12,9 +12,17 @@ module.exports = {
   name6: "cale",
   type: "Moderação",
   description: `Impossibilita o usuário citado de falar no servidor!\nModo de usar:\n**Mencionando o usuário** *${config.prefix}mute @user*\n**Pelo username ou apelido:** *${config.prefix}mute username*`,
+  cooldown: {},
 
   async execute(message, args, comando, client, prefix) {
+    if(!this.cooldown[message.author.id]) this.cooldown[message.author.id] = { vezes: 1, timestamp: message.createdTimestamp }
     const { run } = require('../utils/errorAlert.js')
+    if(this.cooldown[message.author.id].vezes > 1 && Date.now() - this.cooldown[message.author.id].timestamp < 10000) {
+      return run(message, client, `<:${emojis.datecronometro}> Aguarde ${parseInt((10000-parseInt(Date.now() - this.cooldown[message.author.id].timestamp))/1000)} segundos para usar este comando novamente!`, emojis.datecronometro)
+    } else if(this.cooldown[message.author.id].vezes > 1 && Date.now() - this.cooldown[message.author.id].timestamp >= 10000){
+      this.cooldown[message.author.id].vezes = 1
+    }
+    this.cooldown[message.author.id] = { vezes: this.cooldown[message.author.id].vezes + 1, timestamp: message.createdTimestamp }
     const membro = message.mentions.members.first() || message.guild.members.cache.find(member => member.user.username.toLowerCase() === args.join(' ').toLowerCase()) || message.guild.members.cache.find(member => member.displayName.toLowerCase() === args.join(' ').toLowerCase()) || message.guild.members.cache.get(args[0])
     if (!membro) {
       const descEmbed = new Discord.MessageEmbed()

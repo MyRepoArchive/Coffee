@@ -31,9 +31,7 @@ module.exports = {
         message.reply(`Alguém me chamou??🤗 Se estiver precisando de ajuda, use **${prefix}ajuda**`)
       }
     }
-    if (!isNaN(Number(message.content.slice(0, 1))) || message.content.startsWith('-') || message.content.startsWith('(')) { // Se o primeiro caractere da mensagem for um número ou um sinal de menor, ele chama a função de calculo
-      require('../commands/calculator.js').calc(message, client)
-    }
+    require('../commands/calculator.js').calc(message, client, connection)
     if (!message.content.startsWith(prefix)) return; // Se a mensagem não iniciar com o prefixo do bot, retorna
     if (!client.commands.has(comando)) { // Se o comando digitado pelo usuário não for compatível com nenhum comando do bot, ele responde
       if (podeEnviarMsg && podeManageMessages) { // Verifica se pode enviar mensagens e pode deleta-las

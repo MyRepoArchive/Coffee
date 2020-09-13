@@ -11,7 +11,7 @@ module.exports = {
   name5: "balanco",
   name6: "balanço",
   type: "Economia",
-  description: `Veja quantos **<:${emojis.ccoin}>CCoins** você tem disponível!`,
+  description: `Veja quantos **<:${emojis.linebitcoinmoney}>CCoins** você tem disponível!`,
   cooldown: {},
 
   async execute(message, args, comando, client, prefix, connection) {
@@ -43,8 +43,8 @@ module.exports = {
         .setThumbnail(mentioned.displayAvatarURL({ dynamic: true }))
         .setTitle(`Este é o valor que ${mentioned.username} possui no servidor`)
         .setDescription(`**<:${emojis.linecoinbitcoin}>${serverMentionedMoney}**`)
-        .addField(`Este é o valor que ${mentioned.username} possui em mãos`, `**<:${emojis.ccoin}>${mentionedMoney}**`)
-        .addField(`Este é o valor que ${mentioned.username} possui no banco`, `**<:${emojis.ccoinbank}>${bankMentionedMoney}**`)
+        .addField(`Este é o valor que ${mentioned.username} possui em mãos`, `**<:${emojis.linebitcoinmoney}>${mentionedMoney}**`)
+        .addField(`Este é o valor que ${mentioned.username} possui no banco`, `**<:${emojis.linebitcoinmoney}>${bankMentionedMoney}**`)
         .setFooter(`Sistema de Economia ${client.user.username}`, client.user.displayAvatarURL())
       if (podeEnviarMsg) {
         message.channel.send(moneyMentionedEmbed)
@@ -72,8 +72,8 @@ module.exports = {
       .setThumbnail(message.author.displayAvatarURL({ dynamic: true }))
       .setTitle(`Este é o valor que você possui no servidor`)
       .setDescription(`**<:${emojis.linecoinbitcoin}>${serverMoney}**`)
-      .addField(`Este é o valor que você possui em mãos`, `**<:${emojis.ccoin}>${money}**`)
-      .addField(`Este é o valor que você possui no banco`, `**<:${emojis.ccoinbank}>${bankMoney}**`)
+      .addField(`Este é o valor que você possui em mãos`, `**<:${emojis.linebitcoinmoney}>${money}**`)
+      .addField(`Este é o valor que você possui no banco`, `**<:${emojis.linebitcoinmoney}>${bankMoney}**`)
       .setFooter(`Sistema de Economia ${client.user.username}`, client.user.displayAvatarURL())
     if (podeEnviarMsg) {
       message.channel.send(moneyEmbed)

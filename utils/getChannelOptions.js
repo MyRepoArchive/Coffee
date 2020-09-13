@@ -23,7 +23,6 @@ module.exports = {
     const consulta = () => {
       return new Promise((resolve, reject) => {
         connection.query(`SELECT calc, channelid FROM channels where serverid = '${guild.id}'`, (err, result) => {
-          console.log('request')
           if (err) return reject(err);
           const canalDaMessage = result.find(result => result.channelid === channel.id)
           const idsChannels = result.map(result => result.channelid)
@@ -41,7 +40,6 @@ module.exports = {
             res.calcCanais[precisaInsertInto[i]] = 1
           }
           if (precisaInsertInto.length > 0) {
-            console.log('insert')
             let insertSql = '';
             for (let i = 0; i < precisaInsertInto.length; i++) {
               i === precisaInsertInto.length - 1 ? insertSql += `('${precisaInsertInto[i]}', '${guild.id}')` : insertSql += `('${precisaInsertInto[i]}', '${guild.id}'), `

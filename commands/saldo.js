@@ -10,8 +10,9 @@ module.exports = {
   name4: "ccoins",
   name5: "balanco",
   name6: "balanço",
+  name7: "balance",
   type: "Economia",
-  description: `Veja quantos **<:${emojis.linebitcoinmoney}>CCoins** você tem disponível!`,
+  description: `Veja quantos **<:${emojis.linecoinbitcoin}>CCoins** você tem disponível!`,
   cooldown: {},
 
   async execute(message, args, comando, client, prefix, connection) {
@@ -34,7 +35,6 @@ module.exports = {
     }
     if (mentioned && message.author.id === config.owner && !mentioned.bot) {
       const getMentionedMoney = await require('../utils/getMoney.js').getMoney(connection, mentioned)
-      const mentionedMoney = getMentionedMoney.money // Puxa do banco de dados o money do author da mensagem
       const bankMentionedMoney = getMentionedMoney.bankmoney // Puxa do banco de dados o bankmoney do author da mensagem
       const serverMentionedMoney = await require('../utils/getMoney.js').getServerMoney(connection, mentioned, message.guild)
       const moneyMentionedEmbed = new Discord.MessageEmbed()
@@ -43,7 +43,6 @@ module.exports = {
         .setThumbnail(mentioned.displayAvatarURL({ dynamic: true }))
         .setTitle(`Este é o valor que ${mentioned.username} possui no servidor`)
         .setDescription(`**<:${emojis.linecoinbitcoin}>${serverMentionedMoney}**`)
-        .addField(`Este é o valor que ${mentioned.username} possui em mãos`, `**<:${emojis.linebitcoinmoney}>${mentionedMoney}**`)
         .addField(`Este é o valor que ${mentioned.username} possui no banco`, `**<:${emojis.linebitcoinmoney}>${bankMentionedMoney}**`)
         .setFooter(`Sistema de Economia ${client.user.username}`, client.user.displayAvatarURL())
       if (podeEnviarMsg) {
@@ -63,7 +62,6 @@ module.exports = {
       return;
     }
     const getMoney = await require('../utils/getMoney.js').getMoney(connection, message.author)
-    const money = getMoney.money // Puxa do banco de dados o money do author da mensagem
     const bankMoney = getMoney.bankmoney // Puxa do banco de dados o bankmoney do author da mensagem
     const serverMoney = await require('../utils/getMoney.js').getServerMoney(connection, message.author, message.guild)
     const moneyEmbed = new Discord.MessageEmbed()
@@ -72,7 +70,6 @@ module.exports = {
       .setThumbnail(message.author.displayAvatarURL({ dynamic: true }))
       .setTitle(`Este é o valor que você possui no servidor`)
       .setDescription(`**<:${emojis.linecoinbitcoin}>${serverMoney}**`)
-      .addField(`Este é o valor que você possui em mãos`, `**<:${emojis.linebitcoinmoney}>${money}**`)
       .addField(`Este é o valor que você possui no banco`, `**<:${emojis.linebitcoinmoney}>${bankMoney}**`)
       .setFooter(`Sistema de Economia ${client.user.username}`, client.user.displayAvatarURL())
     if (podeEnviarMsg) {

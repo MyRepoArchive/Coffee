@@ -10,7 +10,7 @@ module.exports = {
   name4: "pornobanco",
   name5: "putinbank",
   type: "Economia",
-  description: `Deposite seus **<:${emojis.linebitcoinmoney}>CCoins** no banco para poder aparecer no rank dos riquinhos  ou transferir quantias maiores para seus amigos (ou agiotas)! Com o dinheiro no banco você também pode comprar itens globais que valem para todos os servidores...\nModo de usar: *${config.prefix}deposit \`<valor>\`*`,
+  description: `Deposite seus **<:${emojis.linecoinbitcoin}>CCoins** no banco para poder aparecer no rank dos riquinhos  ou transferir quantias maiores para seus amigos (ou agiotas)! Com o dinheiro no banco você também pode comprar itens globais que valem para todos os servidores...\nModo de usar: *${config.prefix}deposit \`<valor>\`*`,
   cooldown: {},
 
   async execute(message, args, comando, client, prefix, connection) {
@@ -24,7 +24,7 @@ module.exports = {
     this.cooldown[message.author.id] = { vezes: this.cooldown[message.author.id].vezes + 1, timestamp: message.createdTimestamp }
 
     const podeAddReactions = message.channel.memberPermissions(message.guild.member(client.user.id)).has("ADD_REACTIONS")
-    if(args.length === 0) return run(message, client, `Deposite seus **<:${emojis.linebitcoinmoney}>CCoins** no banco para poder aparecer no rank dos riquinhos  ou transferir quantias maiores para seus amigos (ou agiotas)! Com o dinheiro no banco você também pode comprar itens globais que valem para todos os servidores...\nModo de usar: *${config.prefix}deposit \`<valor>\`*`, emojis.helpcircleblue) // Se o usuário não digitar argumento nenhum na frente do comando, ele envia uma mensagem de como usar
+    if(args.length === 0) return run(message, client, `Deposite seus **<:${emojis.linecoinbitcoin}>CCoins** no banco para poder aparecer no rank dos riquinhos  ou transferir quantias maiores para seus amigos (ou agiotas)! Com o dinheiro no banco você também pode comprar itens globais que valem para todos os servidores...\nModo de usar: *${config.prefix}deposit \`<valor>\`*`, emojis.helpcircleblue) // Se o usuário não digitar argumento nenhum na frente do comando, ele envia uma mensagem de como usar
     if(podeAddReactions) await message.react(emojis.carregando) // Reagi na mensagem com um emoji de loading
     const getMoney = await require('../utils/getMoney.js').getMoney(connection, message.author)
     const authorMoney = await require('../utils/getMoney.js').getServerMoney(connection, message.author, message.guild)
@@ -36,7 +36,7 @@ module.exports = {
     }
     const depositMoney = Number(args[0]) // Guarda na variável o valor a ser depositado
     if(depositMoney > authorMoney) {  // Verifica se o author do deposito está tentando efetuar um pagamento maior do que ele possui.
-      run(message, client, `<:${emojis.alertcircleamarelo}> Você não possui **<:${emojis.linebitcoinmoney}>CCoins** o suficiente para realizar esse depósito!`, emojis.alertcircleamarelo)
+      run(message, client, `<:${emojis.alertcircleamarelo}> Você não possui **<:${emojis.linecoinbitcoin}>CCoins** o suficiente para realizar esse depósito!`, emojis.alertcircleamarelo)
       if(podeAddReactions) message.reactions.cache.find(react => react.users.cache.get(client.user.id).id === client.user.id).users.remove(client.user.id);
       return;
     }

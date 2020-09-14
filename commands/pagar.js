@@ -21,15 +21,15 @@ module.exports = {
     }
     this.cooldown[message.author.id] = { vezes: this.cooldown[message.author.id].vezes + 1, timestamp: message.createdTimestamp }
     const podeAddReactions = message.channel.memberPermissions(message.guild.member(client.user.id)).has("ADD_REACTIONS")
-    if(args.length === 0) return run(message, client, `<:${emojis.linebankcard}> Pague **<:${emojis.linebitcoinmoney}>CCoins** para outra pessoa!\nModo de usar: *${prefix}pagar \`<valor>\` @user*`, emojis.helpcircleblue) // Se o usuário não digitar argumento nenhum na frente do comando, ele envia uma mensagem de como usar
+    if(args.length === 0) return run(message, client, `<:${emojis.linebankcard}> Pague **<:${emojis.linecoinbitcoin}>CCoins** para outra pessoa!\nModo de usar: *${prefix}pagar \`<valor>\` @user*`, emojis.helpcircleblue) // Se o usuário não digitar argumento nenhum na frente do comando, ele envia uma mensagem de como usar
     let mentioned = message.mentions.users.first() || message.guild.members.cache.find(member => member.user.username.toLowerCase() === args.slice(1).join(' ').toLowerCase()) || message.guild.members.cache.find(member => member.displayName.toLowerCase() === args.slice(1).join(' ').toLowerCase()) || message.guild.members.cache.get(args[1])  // Pega o primeiro usuario mencionado, caso haja algum!
     if(!mentioned)return run(message, client, `<:${emojis.alertcircleamarelo}> Mencione o usuário a quem deseja pagar!`, emojis.alertcircleamarelo) // Se não houver menções retorna uma mensagem de alerta
     if(mentioned.user !== undefined) mentioned = mentioned.user // Se o mentioned retornar um membro, ele passa mentioned para user novamente
     if(mentioned === message.author) return run(message, client, `<:${emojis.alertcircleamarelo}> Você não pode pagar a si mesmo!`, emojis.helpcircleblue); // Se o mencionado for o próprio autor da mensagem, retorna um alerta
-    if(mentioned.bot) return run(message, client, `<:${emojis.alertcircleamarelo}> Infelizmente bots não podem receber **<:${emojis.linebitcoinmoney}>CCoins**!`, emojis.alertcircleamarelo) // Verifica se a pessoa mencionada é um bot, pois bots não podem receber CCoins
+    if(mentioned.bot) return run(message, client, `<:${emojis.alertcircleamarelo}> Infelizmente bots não podem receber **<:${emojis.linecoinbitcoin}>CCoins**!`, emojis.alertcircleamarelo) // Verifica se a pessoa mencionada é um bot, pois bots não podem receber CCoins
     if(podeAddReactions) await message.react(emojis.carregando) // Reagi na mensagem com um emoji de loading
-    const authorMoney = await require('../utils/getMoney.js').getServerMoney(connection, message.author)
-    const mentionedMoney = await require('../utils/getMoney.js').getServerMoney(connection, mentioned)
+    const authorMoney = await require('../utils/getMoney.js').getServerMoney(connection, message.author, message.guild)
+    const mentionedMoney = await require('../utils/getMoney.js').getServerMoney(connection, mentioned, message.guild)
     if(isNaN(Number(args[0])) || Number(args[0]) <= 0) {// Se o primeiro argumento após o comando não poder ser lido como um número, ou ele é negativo, ou nulo, retorna uma mensagem de alerta
       if(podeAddReactions) message.reactions.cache.find(react => react.users.cache.get(client.user.id).id === client.user.id).users.remove(client.user.id); 
       run(message, client, `<:${emojis.alertcircleamarelo}> Digite um valor válido para o pagamento!`, emojis.alertcircleamarelo); 
@@ -37,21 +37,16 @@ module.exports = {
     }
     const transferMoney = Number(args[0]) // Guarda na variável o valor a ser transferido se um user para o outro
     if(transferMoney > authorMoney) {  // Verifica se o author do pagamento está tentando efetuar um pagamento maior do que ele possui.
-      run(message, client, `<:${emojis.alertcircleamarelo}> Você não possui **<:${emojis.linebitcoinmoney}>CCoins** o suficiente para realizar esse pagamento!`, emojis.alertcircleamarelo)
+      run(message, client, `<:${emojis.alertcircleamarelo}> Você não possui **<:${emojis.linecoinbitcoin}>CCoins** o suficiente para realizar esse pagamento!`, emojis.alertcircleamarelo)
       if(podeAddReactions) message.reactions.cache.find(react => react.users.cache.get(client.user.id).id === client.user.id).users.remove(client.user.id);
       return;
     }
     if(transferMoney > 1000) { // Verifica se o valor a ser pago é maior do que o limite de pagamento
-      run(message, client, `<:${emojis.alertcircleamarelo}> O limite para pagamentos mão a mão é de **<:${emojis.linebitcoinmoney}>1000**, para transferir valores maiores use *${prefix}transferir \`<valor>\` @user*`, emojis.alertcircleamarelo)
+      run(message, client, `<:${emojis.alertcircleamarelo}> O limite para pagamentos mão a mão é de **<:${emojis.linecoinbitcoin}>1000**, para transferir valores maiores use *${prefix}transferir \`<valor>\` @user*`, emojis.alertcircleamarelo)
       if(podeAddReactions) message.reactions.cache.find(react => react.users.cache.get(client.user.id).id === client.user.id).users.remove(client.user.id);
       return;
     }
-    if(mentionedMoney + transferMoney > 50000) {
-      run(message, client, `<:${emojis.alertcircleamarelo}> O usuário para o qual você deseja pagar já possui **<:${emojis.linebitcoinmoney}>CCoins** demais em mãos e só pode receber mais **<:${emojis.linebitcoinmoney}>${50000-mentionedMoney}**, para transferir valores maiores use *${prefix}transferir \`<valor>\` @user*`, emojis.alertcircleamarelo)
-      if(podeAddReactions) message.reactions.cache.find(react => react.users.cache.get(client.user.id).id === client.user.id).users.remove(client.user.id);
-      return;
-    }
-    connection.query(`update users set money = case iduser when ${message.author.id} then '${authorMoney-transferMoney}' when ${mentioned.id} then '${mentionedMoney+transferMoney}' end where iduser in (${message.author.id}, ${mentioned.id})`); // Retira dinheiro do author e adiciona no mencionado
+    connection.query(`update score_per_server set money = case userid when ${message.author.id} then '${authorMoney-transferMoney}' when ${mentioned.id} then '${mentionedMoney+transferMoney}' end where userid in (${message.author.id}, ${mentioned.id}) and serverid = '${message.guild.id}'`); // Retira dinheiro do author e adiciona no mencionado
     run(message, client, `<:${emojis.circlecheckverde}> Pagamento realizado com sucesso!`, emojis.circlecheckverde) // Mensagem de confirmação de pagamento
     if(podeAddReactions) message.reactions.cache.find(react => react.users.cache.get(client.user.id).id === client.user.id).users.remove(client.user.id) // Remove o emoji de carregando
   }

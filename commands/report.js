@@ -10,6 +10,8 @@ module.exports = {
   description: `Se você encontrou algum bug ou coisa que você acredita que não esteja funcionando como deveria, basta usar o comando para que os devenvolvedores fiquem a par do problema e o resolva.\nComo usar: ${config.prefix}report seu report vai aqui`,
 
   async execute(message, args, comando, client) {
+    const { run } = require('../utils/errorAlert.js')
+    if(args.length === 0)return run(message, client, `<:${emojis.alertcircleamarelo}> Coloque algum conteúdo quando for fazer seu report!`, emojis.alertcircleamarelo)
     const reportContent = args.join(' ')
     const reportChannel = client.channels.cache.get(config.report)
     const botMembro = message.guild.member(client.user.id) // O membro do bot no servidor em que foi enviado a mensagem

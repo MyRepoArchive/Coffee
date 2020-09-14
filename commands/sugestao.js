@@ -10,6 +10,8 @@ module.exports = {
   description: `Se você gostaria de ver alguma nova funcionalidade no bot que ainda não tenha, ou qualquer tipo de feature, basta usar o comando para que os devenvolvedores fiquem a par da sugestão e possa prontamente atender aos seus pedidos.\nComo usar: ${config.prefix}sugerir sua sugestão vai aqui`,
 
   async execute(message, args, comando, client) {
+    const { run } = require('../utils/errorAlert.js')
+    if(args.length === 0)return run(message, client, `<:${emojis.alertcircleamarelo}> Coloque algum conteúdo quando for fazer sua sugestão!`, emojis.alertcircleamarelo)
     const sugestContent = args.join(' ')
     const sugestChannel = client.channels.cache.get(config.sugestoes)
     const botMembro = message.guild.member(client.user.id) // O membro do bot no servidor em que foi enviado a mensagem

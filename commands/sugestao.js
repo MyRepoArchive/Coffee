@@ -5,7 +5,7 @@ const emojis = require('../emojis.json')
 
 module.exports = {
   name: "sugerir",
-  name2: "sugestao",
+  aliases: ["sugestao"],
   type: "Contato com os desenvolvedores",
   description: `Se você gostaria de ver alguma nova funcionalidade no bot que ainda não tenha, ou qualquer tipo de feature, basta usar o comando para que os devenvolvedores fiquem a par da sugestão e possa prontamente atender aos seus pedidos.\nComo usar: ${config.prefix}sugerir sua sugestão vai aqui`,
 

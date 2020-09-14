@@ -5,8 +5,7 @@ const emojis = require('../emojis.json');
 
 module.exports = {
   name: "uptime",
-  name2: "tempoativo",
-  name3: "activitytime",
+  aliases: ["tempoativo", "activitytime"],
   type: "Informativo",
   description: `Mostra a quanto tempo o bot está ativo!`,
 

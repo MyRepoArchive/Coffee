@@ -5,15 +5,7 @@ const emojis = require('../emojis.json')
 
 module.exports = {
   name: "desc",
-  name2: "descreva",
-  name3: "describe",
-  name4: "guia",
-  name5: "howtouse",
-  name6: "comousa",
-  name7: "comouso",
-  name8: "mododeusar",
-  name9: "mododeuso",
-  name10: "comousar",
+  aliases: ["descreva", "describe", "guia", "howtouse", "comousa", "comouso", "mododeusar", "mododeuso", "comousar"],
   type: "Geral",
   description: `Mostra a descrição de cada comando!\nModo de usar: **${config.prefix}desc kick**`,
 

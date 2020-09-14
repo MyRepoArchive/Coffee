@@ -5,19 +5,7 @@ const emojis = require('../emojis.json');
 
 module.exports = {
   name: emojis.number0blue,
-  name2: emojis.number1blue,
-  name3: emojis.number2blue,
-  name4: emojis.number3blue,
-  name5: emojis.number4blue,
-  name6: emojis.number5blue,
-  name7: emojis.number6blue,
-  name8: emojis.number7blue,
-  name9: emojis.number8blue,
-  name10: emojis.number9blue,
-  name11: emojis.number10blue,
-  name12: emojis.rewindblue,
-  name13: emojis.fastforwardblue,
-  name14: emojis.homecircle,
+  aliases: [emojis.number1blue, emojis.number2blue, emojis.number3blue, emojis.number4blue, emojis.number5blue, emojis.number6blue, emojis.number7blue, emojis.number8blue, emojis.number9blue, emojis.number10blue, emojis.rewindblue, emojis.fastforwardblue, emojis.homecircle],
   description: 'help',
 
   async execute(message, user, client) {

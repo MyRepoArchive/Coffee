@@ -5,13 +5,7 @@ const emojis = require('../emojis.json');
 
 module.exports = {
   name: "rank",
-  name2: "scorerank",
-  name3: "rankscore",
-  name4: "rankpontos",
-  name5: "pontosranks",
-  name6: "ranks",
-  name7: "toprank",
-  name8: "rankpontuacao",
+  aliases: ["scorerank", "rankscore", "rankpontos", "pontosranks", "ranks", "toprank", "rankpontuacao"],
   type: "Geral",
   description: `Veja quais são os users com mais pontuação no servidor!`,
   cooldown: {},

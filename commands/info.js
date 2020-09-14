@@ -7,8 +7,7 @@ const formatDate = require('../utils/formatDate');
 
 module.exports = { // Exporta o conteúdo do arquivo para outro arquivo
   name: "info",
-  name2: "botinfo",
-  name3: "infobot",
+  aliases: ["botinfo", "infobot"],
   type: "Informativo", // Tipo do comando para aparecer no HELP
   description: "Exibe para o usuário alguma informações bacanas do bot, como número de comandos, de usuários, de canais, servidores, etc...", // Descrição do comando para aparecer no HELP
 

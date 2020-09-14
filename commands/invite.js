@@ -5,7 +5,7 @@ const emojis = require('../emojis.json')
 
 module.exports = {
   name: "invite",
-  name2: "convite",
+  aliases: ["convite"],
   type: "Geral",
   description: `Meu link de convite para me adicionar em algum outro servidor`,
 

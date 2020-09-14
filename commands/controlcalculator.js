@@ -6,9 +6,7 @@ const { channelsCache } = require('../utils/getChannelOptions')
 
 module.exports = {
   name: "controlcalculator",
-  name2: "controlcalc",
-  name3: "configcalculator",
-  name4: "configcalc",
+  aliases: ["controlcalc", "configcalculator", "configcalc"],
   type: "Configurações",
   description: `Com esse comando você pode escolher em qual(is) canal(is) o comando **calculator** deve funcionar, já que é um comando sem prefixo e pode em alguns casos atrapalhar uma conversa ou responder algo para o qual não foi chamado!`,
   cooldown: {},

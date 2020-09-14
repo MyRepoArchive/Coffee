@@ -6,12 +6,7 @@ const emojis = require('../emojis.json');
 module.exports = {
     // Maneiras que podem ser chamado o comando
     name: "createchannel",
-    name2: "criarcanal",
-    name3: "newchannel",
-    name4: "criacanal",
-    name5: "novocanal",
-    name6: "gerarcanal",
-    name7: "generatechannel",
+    aliases: ["criarcanal", "newchannel", "criacanal", "novocanal", "gerarcanal", "generatechannel"],
     // Tipo do comando
     type: "Gerenciamento",
     // Descrição do comando

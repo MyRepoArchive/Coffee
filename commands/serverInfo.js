@@ -6,10 +6,7 @@ const emojis = require('../emojis.json')
 module.exports = { // Exporta conteúdo para o arquivo que o chama
   // Nomes possíveis de chamar o comando
   name: "serverinfo",
-  name2: "infoserver",
-  name3: "guildinfo",
-  name4: "infoguild",
-  name5: "serveri",
+  aliases: ["infoserver","guildinfo", "infoguild", "serveri"],
   type: "Informativo", // Tipo do comando
   description: "Mostra algumas informações sobre o servidor em que foi utilizado o comando", // Descrição do comando
 

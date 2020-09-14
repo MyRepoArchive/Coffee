@@ -5,9 +5,7 @@ const emojis = require('../emojis.json')
 
 module.exports = {
   name: "unmute",
-  name2: "desmutar",
-  name3: "dessilenciar",
-  name4: "dessilencie",
+  aliases: ["desmutar", "dessilenciar", "dessilencie"],
   type: "Moderação",
   description: `Possibilita o usuário citado de falar no servidor novamente!\nModo de usar:\n**Mencionando o usuário** *${config.prefix}unmute @user*\n**Pelo username ou apelido:** *${config.prefix}unmute username*`,
 

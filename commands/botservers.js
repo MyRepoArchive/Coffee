@@ -5,7 +5,7 @@ const emojis = require('../emojis.json');
 
 module.exports = {
   name: "botservers",
-  name2: "serversbot",
+  aliases: ["serversbot"],
   type: "Informativo",
   description: "Mostra a quantidade de servidores em que o bot está",
 

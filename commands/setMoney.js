@@ -5,10 +5,7 @@ const emojis = require('../emojis.json');
 
 module.exports = {
   name: "set",
-  name2: "setaruser",
-  name3: "setuser",
-  name4: "setinuser",
-  name5: "setar",
+  aliases: ["setaruser", "setuser", "setinuser", "setar"],
   type: "Dev commands",
   description: "Seta um valor específico de money para algum usuário",
 

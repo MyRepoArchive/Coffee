@@ -5,12 +5,9 @@ const emojis = require('../emojis.json');
 
 module.exports = {
     name: "ajuda",
-    name2: "help",
-    name3: "comandos",
-    name4: "commands",
+    aliases: ["help", "comandos", "commands"],
     type: "Geral",
     description: "Comando usado quando o usuário necessita de ajuda ou precisa saber os comandos do bot",
-
     async execute(message, args, comando, client, prefix) {
         const botMembro = message.guild.member(client.user.id)
         const permissoesBot = message.channel.memberPermissions(botMembro)

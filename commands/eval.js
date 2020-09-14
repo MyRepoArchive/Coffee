@@ -5,8 +5,7 @@ const emojis = require('../emojis.json');
 
 module.exports = {
   name: "eval",
-  name2: "ev",
-  name3: "e",
+  aliases: ["ev", "e"],
   type: "Dev commands",
   description: "Eval!",
 

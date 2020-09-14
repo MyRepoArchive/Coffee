@@ -5,8 +5,7 @@ const emojis = require('../emojis.json');
 
 module.exports = {
   name: "emojilist",
-  name2: "listadeemojis",
-  name3: "listemojis",
+  aliases: ["listadeemojis", "listemojis"],
   type: "Geral",
   description: `Mostra todos os emojis que o bot tem acesso!`,
 

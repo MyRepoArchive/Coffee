@@ -5,12 +5,7 @@ const emojis = require('../emojis.json');
 
 module.exports = {
   name: "saldo",
-  name2: "money",
-  name3: "dinheiro",
-  name4: "ccoins",
-  name5: "balanco",
-  name6: "balanço",
-  name7: "balance",
+  aliases: ["money", "dinheiro", "ccoins", "balanco", "balanço", "balance"],
   type: "Economia",
   description: `Veja quantos **<:${emojis.linecoinbitcoin}>CCoins** você tem disponível!`,
   cooldown: {},

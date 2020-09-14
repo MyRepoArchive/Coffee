@@ -5,10 +5,7 @@ const emojis = require('../emojis.json');
 
 module.exports = {
   name: "deposit",
-  name2: "depositar",
-  name3: "porembanco",
-  name4: "pornobanco",
-  name5: "putinbank",
+  aliases: ["depositar", "porembanco", "pornobanco", "putinbank"],
   type: "Economia",
   description: `Deposite seus **<:${emojis.linecoinbitcoin}>CCoins** no banco para poder aparecer no rank dos riquinhos  ou transferir quantias maiores para seus amigos (ou agiotas)! Com o dinheiro no banco você também pode comprar itens globais que valem para todos os servidores...\nModo de usar: *${config.prefix}deposit \`<valor>\`*`,
   cooldown: {},

@@ -5,11 +5,7 @@ const emojis = require('../emojis.json')
 
 module.exports = {
   name: "kick",
-  name2: "chutar",
-  name3: "chute",
-  name4: "kickar",
-  name5: "expulse",
-  name6: "expulsar",
+  aliases: ["chutar", "chute", "kickar", "expulse", "expulsar"],
   type: "Moderação",
   description: `Expulsa o usuário mencionado do servidor!\nModo de usar:\n**Mencionando o usuário:** *${config.prefix}kick @member*\n**Pelo username ou apelido:** *${config.prefix}kick username*`,
 

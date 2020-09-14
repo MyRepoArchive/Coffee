@@ -5,13 +5,7 @@ const emojis = require('../emojis.json')
 
 module.exports = {
   name: "setprefix",
-  name2: "setarprefixo",
-  name3: "alterarprefix",
-  name4: "alterarprefixo",
-  name5: "alterprefix",
-  name6: "alterprefixo",
-  name7: "changeprefix",
-  name8: "changeprefixo",
+  aliases: ["setarprefixo", "alterarprefix", "alterarprefixo", "alterprefix", "alterprefixo", "changeprefix", "changeprefixo"],
   type: "Configurações",
   description: `Mude o meu prefixo em algum servidor que você tenha permissão de **administrador** (por padrão meu prefixo é ${config.prefix} )\nOBS: *Meu prefixo deve ter até 3 caracteres!*`,
   cooldown: {},
@@ -36,6 +30,6 @@ module.exports = {
     if(newPrefix.length > 3) return run(message, client, `<:${emojis.alertcircleamarelo}> Meu prefixo deve ter até 3 caracteres!`, emojis.alertcircleamarelo)
     connection.query('UPDATE servers SET prefix = ? WHERE serverid = ?;', [newPrefix, message.guild.id]) // Executa a query do mysql passando o novo prefixo para o servidor onde o idserver for compatível com o id da guilda em que foi utilizado o comando
     prefixs[message.guild.id] = newPrefix
-    run(messsage, client, `<:${emojis.circlecheckverde}> Prefixo alterado de \`${prefix}\` para \`${args.join(' ')}\` com sucesso!`, emojis.circlecheckverde)
+    run(message, client, `<:${emojis.circlecheckverde}> Prefixo alterado de \`${prefix}\` para \`${args.join(' ')}\` com sucesso!`, emojis.circlecheckverde)
   }
 }

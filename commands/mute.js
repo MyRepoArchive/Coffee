@@ -5,11 +5,7 @@ const emojis = require('../emojis.json')
 
 module.exports = {
   name: "mute",
-  name2: "mutar",
-  name3: "silenciar",
-  name4: "silencie",
-  name5: "calar",
-  name6: "cale",
+  aliases: ["mutar", "silenciar", "silencie", "calar", "cale"],
   type: "Moderação",
   description: `Impossibilita o usuário citado de falar no servidor!\nModo de usar:\n**Mencionando o usuário** *${config.prefix}mute @user*\n**Pelo username ou apelido:** *${config.prefix}mute username*`,
   cooldown: {},

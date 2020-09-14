@@ -5,8 +5,7 @@ const emojis = require('../emojis.json');
 
 module.exports = {
   name: "unban",
-  name2: "desban",
-  name3: "desbanir",
+  aliases: ["desban", "desbanir"],
   type: "Moderação",
   description: `Você pode desbanir aquele usuário que foi anteriormente banido com esse comando.\nModo de usar: *${config.prefix}unban \`username\`*\nou: *${config.prefix}unban \`userID\`*`,
 

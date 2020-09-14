@@ -33,16 +33,17 @@ module.exports = {
     }
     require('../commands/calculator.js').calc(message, client, connection)
     if (!message.content.startsWith(prefix)) return; // Se a mensagem não iniciar com o prefixo do bot, retorna
-    if (!client.commands.has(comando)) { // Se o comando digitado pelo usuário não for compatível com nenhum comando do bot, ele responde
+    const cmd = client.commands.get(comando) || client.commands.find(x => x.aliases.includes(comando))
+    if (!cmd) { // Se o comando digitado pelo usuário não for compatível com nenhum comando do bot, ele responde
       if (podeEnviarMsg && podeManageMessages) { // Verifica se pode enviar mensagens e pode deleta-las
         const resp = await message.channel.send(`<:${emojis.terminalblue}> Eu não conheço esse comando, use **${prefix}ajuda** para saber todos os meus comandos!`);
         resp.delete({ timeout: 5000 }) // Após 5 segundos desde o envio da mensagem acima, ele  a deleta
       }
       return;
     }
-    /* if (client.commands.get(comando).type === 'Economia') return errorAlert.run(message, client, `<:xcirclered:747879954708037662> Os comandos de **Economia** estão em produção no momento e não estão disponíveis para uso, toda a equipe de desenvolvimento do ${client.user.username} pede desculpas pelo ocorrido!`, 'xcirclered:747879954708037662'); */
+    
     try { // Tenta executar o comando do usuário
-      client.commands.get(comando).execute(message, args, comando, client, prefix, connection);
+      cmd.execute(message, args, comando, client, prefix, connection);
     } catch (error) { // Caso não consiga executar o comando, loga o erro
       const errorEmbed = new Discord.MessageEmbed()
         .setColor(hex.orangered)

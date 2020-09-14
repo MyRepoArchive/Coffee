@@ -5,16 +5,7 @@ const emojis = require('../emojis.json');
 
 module.exports = {
   name: "moneyrank",
-  name2: "bankrank",
-  name3: "rankdinheiro",
-  name4: "rankccoins",
-  name5: "ccoinsranks",
-  name6: "mrank",
-  name7: "topmoney",
-  name8: "rankccoin",
-  name9: "ccoinrank",
-  name10: "dinheirorank",
-  name11: "rankmoney",
+  aliases: ["bankrank", "rankdinheiro", "rankccoins", "ccoinsranks", "mrank", "topmoney", "rankccoin", "ccoinrank", "dinheirorank", "rankmoney"],
   type: "Economia",
   description: `Veja quem está no topo do poder em **<:${emojis.linecoinbitcoin}>CCoins**!`,
   cooldown: {},

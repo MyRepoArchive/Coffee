@@ -6,11 +6,7 @@ const emojis = require('../emojis.json');
 
 module.exports = { // O que vai ser exportado
   name: "avatar",
-  name2: "mostraravatar",
-  name3: "fotodeperfil",
-  name4: "imagemdeperfil",
-  name5: "imagedeperfil",
-  name6: "displayavatar",
+  aliases: ["mostraravatar", "fotodeperfil", "imagemdeperfil", "imagedeperfil", "displayavatar"],
   type: "Informativo",
   description: `Mostra para o usuário o avatar dele ou de outro membro do servidor\nModo de usar:\nMostrando o próprio avatar: *${config.prefix}avatar*\nMostrando o avatar de outro membro do servidor: *${config.prefix}avatar @membro*\nou: *${config.prefix}avatar usernameDoMembro*`,
 

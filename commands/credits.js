@@ -5,12 +5,7 @@ const emojis = require('../emojis.json');
 
 module.exports = {
   name: "credits",
-  name2: "creditos",
-  name3: "emojiscredits",
-  name4: "creditemojis",
-  name5: "emojicredits",
-  name6: "creditsemojis",
-  name7: "criadoresemojis",
+  aliases: ["creditos", "emojiscredits", "creditemojis",  "emojicredits", "creditsemojis", "criadoresemojis"],
   type: "Informativo",
   description: `Veja de onde que foram tirados todos os emojis que eu uso!`,
 

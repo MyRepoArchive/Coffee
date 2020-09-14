@@ -5,9 +5,7 @@ const emojis = require('../emojis.json');
 
 module.exports = {
   name: "viewmydata",
-  name2: "vermeusdados",
-  name3: "mydata",
-  name4: "meusdados",
+  aliases: ["vermeusdados", "mydata", "meusdados"],
   type: "Geral",
   description: `Veja na sua DM todos os dados que você tem registrados em nosso banco de dados!`,
   cooldown: {},

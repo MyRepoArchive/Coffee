@@ -5,7 +5,7 @@ const emojis = require('../emojis.json')
 
 module.exports = {
   name: "report",
-  name2: "reportar",
+  aliases: ["reportar"],
   type: "Contato com os desenvolvedores",
   description: `Se você encontrou algum bug ou coisa que você acredita que não esteja funcionando como deveria, basta usar o comando para que os devenvolvedores fiquem a par do problema e o resolva.\nComo usar: ${config.prefix}report seu report vai aqui`,
 

@@ -5,8 +5,7 @@ const emojis = require('../emojis.json')
 
 module.exports = {
   name: "transferir",
-  name2: "transferência",
-  name3: "transfer",
+  aliases: ["transferência", "transfer"],
   type: "Economia",
   description: `Transfira **<:${emojis.linecoinbitcoin}>CCoins** da sua conta bancária para outras contas bancárias, sem limitações de quantidade.\nModo de usar: *${config.prefix}transferir \`<valor>\` @user*`,
   cooldown: {},

@@ -5,7 +5,7 @@ const emojis = require('../emojis.json')
 
 module.exports = {
   name: "ban",
-  name2: "banir",
+  aliases: ["banir"],
   type: "Moderação",
   description: `Bane o usuário mencionado do servidor!\nModo de usar:\n**Mencionando o usuário:** *${config.prefix}ban @member*\n**Pelo username ou apelido:** *${config.prefix}ban username*`,
 

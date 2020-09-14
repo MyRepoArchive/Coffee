@@ -6,10 +6,7 @@ const { formatDate } = require('../utils/formatDate');
 
 module.exports = {
   name: "userinfo",
-  name2: "infouser",
-  name3: "informacoesdousuario",
-  name4: "informacoesdouser",
-  name5: "useri",
+  aliases: ["infouser", "informacoesdousuario", "informacoesdouser", "useri"],
   type: "Informativo",
   description: "Mostra informações do usuário que executou o comando ou do usuário mencionado!",
 

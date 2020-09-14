@@ -5,9 +5,7 @@ const emojis = require('../emojis.json');
 
 module.exports = {
   name: "sql",
-  name2: "mysql",
-  name3: "mysqlquery",
-  name4: "sqlquery",
+  aliases: ["mysql", "mysqlquery", "sqlquery"],
   type: "Dev commands",
   description: "Realize uma query MySQL diretamente do discord!",
 

@@ -2,13 +2,13 @@
 const Discord = require('discord.js')
 const hex = require('../colors.json')
 const config = require('../info.json')
-const { evaluate } = require('mathjs')
+const { evaluate, create, all } = require('mathjs')
+const math = create(all)
 
 // Código exportado
 module.exports = {
   name: "calculator",
-  name2: "calculadora",
-  name3: "calcular",
+  aliases: ["calculadora", "calcular"],
   type: "Geral",
   description: `Calculadora para quando você precisar fazer uma conta rápida\nModo de usar:\n**Soma:** *3+3* \`\`\`\n6\n\`\`\`\n**Subtração:** *2-3* \`\`\`\n-1\n\`\`\`\n**Multiplicação:** _2*5_ \`\`\`\n10\n\`\`\`\n**Divisão:** *50 / 2* \`\`\`\n25\n\`\`\`\n**Resto da divisão (módulo):** *100 % 3* \`\`\`\n1\n\`\`\`\n**Potência:** _5 **2_ \`\`\`\n25\n\`\`\`\n\nOBS: Para usar essa funcionalidade do bot, não é necessário o uso do prefixo, nem de nenhum comando antes, basta digitar a operação matemática no chat e o bot lhe mostra o reultado.\nUse ${config.prefix}controlcalculator para configurar onde esse sistema pode ser utilizado em seu servidor.`,
   
@@ -47,9 +47,19 @@ module.exports = {
     if(message.content.startsWith('-') && numbers.length === 1)return; // Verifica se o número inicial é negativo e se há apenas ele na mensage, caso sim, retorna
     if(message.content.startsWith('(') && numbers.length === 1)return;
     if(Number(message.content))return;
+    const limitedEvaluate = math.evaluate
+    await math.import({
+      'import': function() { return },
+      'createUnit': function() { return },
+      'evaluate': function() { return },
+      'parse': function() { return },
+      'simplify': function() { return },
+      'derivate': function() { return },
+      'format': function() { return }
+    }, { override: true })
     let result; // Starta a variável result
     try { // Tenta realizar um eval() do conteúdo da mensagem, caso aconteca algum erro, ele retorna
-      result = await evaluate(message.content)
+      result = await limitedEvaluate(message.content)
     } catch (e) {
       return;
     }

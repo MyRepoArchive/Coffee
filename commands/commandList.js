@@ -5,8 +5,7 @@ const emojis = require('../emojis.json');
 
 module.exports = {
   name: "commandlist",
-  name2: "listacomandos",
-  name3: "listadecomandos",
+  aliases: ["listacomandos", "listadecomandos"],
   type: "Informativo",
   description: `Exibe em uma Embed uma lista com o nome prímário de todos os comandos do bot!`,
 

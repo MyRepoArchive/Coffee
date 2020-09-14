@@ -5,8 +5,7 @@ const emojis = require('../emojis.json')
 
 module.exports = {
   name: "pagar",
-  name2: "pague",
-  name3: "pay",
+  aliases: ["pague", "pay"],
   type: "Economia",
   description: `Pague **<:${emojis.linecoinbitcoin}>CCoins** para outra pessoa!\nModo de usar: *${config.prefix}pagar \`<valor>\` @user*`,
   cooldown: {},

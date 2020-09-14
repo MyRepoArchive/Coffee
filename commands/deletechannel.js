@@ -5,21 +5,7 @@ const emojis = require('../emojis.json')
 
 module.exports = {
   name: "deletechannel",
-  name2: "deletarcanal",
-  name3: "deletecanal",
-  name4: "excluircanal",
-  name5: "excluacanal",
-  name6: "excluirchannel",
-  name7: "apagarcanal",
-  name8: "apaguecanal",
-  name9: "deletechannels",
-  name10: "deletarcanais",
-  name11: "deletecanais",
-  name12: "excluircanais",
-  name13: "excluacanais",
-  name14: "excluirchannels",
-  name15: "apagarcanais",
-  name16: "apaguecanais",
+  aliases: ["deletarcanal", "deletecanal", "excluircanal", "excluacanal", "excluirchannel", "apagarcanal", "apaguecanal", "deletechannels", "deletarcanais", "deletecanais", "excluircanais", "excluacanais", "excluirchannels", "apagarcanais", "apaguecanais"], 
   type: "Gerenciamento",
   description: `Você pode utilizar esse comando para deletar um canal de algum servidor que você tenha a devida permissão.\nModo de usar:\nMencionando o canal: *${config.prefix}deletechannel #nome-do-canal-1 #nome-do-canal-2*\nDitando o ID do canal: *${config.prefix}deletechannel id_do_canal_1 id_do_canal_2*`,
 

@@ -10,10 +10,7 @@ const fs = require('fs')
 
 module.exports = {
   name: "score",
-  name2: "pontuation",
-  name3: "pontuação",
-  name4: "pontos",
-  name5: "level",
+  aliases: ["pontuation", "pontuação", "pontos", "level"],
   type: "Geral",
   description: "Veja seus pontos e em qual level você está!",
   cooldown: {},

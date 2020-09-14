@@ -2,10 +2,7 @@ const emojis = require('../emojis.json')
 
 module.exports = {
     name: 'ping',
-    name2: "latencia",
-    name3: "latência",
-    name4: "lag",
-    name5: "latency",
+    aliases: ["latencia", "latência", "lag", "latency"],
     type: 'Geral',
     description: 'O ping é utilizado para saber se eu estou na ativa e saber quanto tempo eu demoro para responder minhas solicitações.',
     async execute(message, args, comando, client) {

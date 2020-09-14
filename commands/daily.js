@@ -5,9 +5,7 @@ const emojis = require('../emojis.json');
 
 module.exports = {
   name: "daily",
-  name2: "moneydaily",
-  name3: "work",
-  name4: "trabalhar",
+  aliases: ["moneydaily", "work", "trabalhar"],
   type: "Economia",
   description: `Receba todos os dias seu dinheirinho, de acordo com o seu emprego atual!`,
   cooldown: {},

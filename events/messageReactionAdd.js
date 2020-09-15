@@ -21,7 +21,7 @@ module.exports = {
             .setThumbnail(user.displayAvatarURL())
             .setTimestamp()
             .setFooter(`Sistema de logs ${client.user.username}`, client.user.displayAvatarURL())
-        const cmd = client.reactCommands.has(message.emoji.name) || client.reactCommands.find(x => x.aliases === message.emoji.name) || client.reactCommands.has(message.emoji.identifier) || client.reactCommands.find(x => x.aliases === message.emoji.identifier)
+        const cmd = client.reactCommands.get(message.emoji.name) || client.reactCommands.find(x => x.aliases.includes(message.emoji.name)) || client.reactCommands.get(message.emoji.identifier) || client.reactCommands.find(x => x.aliases.includes(message.emoji.identifier))
         if (cmd) { // Verifica se o bot tiver um comando que responda com o nome do emoji
             try { // Tenta executar o comando
                 cmd.execute(message, user, client)

@@ -48,10 +48,9 @@ module.exports = {
     if(message.content.startsWith('(') && numbers.length === 1)return;
     if(Number(message.content))return;
     const limitedEvaluate = math.evaluate
-    await math.import({
+    math.import({
       'import': function() { return },
       'createUnit': function() { return },
-      'evaluate': function() { return },
       'parse': function() { return },
       'simplify': function() { return },
       'derivate': function() { return },

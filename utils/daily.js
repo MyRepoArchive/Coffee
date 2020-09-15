@@ -35,6 +35,7 @@ module.exports = {
               if (message.createdTimestamp - dailyTimestamp < (86400000 * 2)) {
                 if (diasConsecutivos + 1 === parseInt(5 * (parseInt(multiplicador) + 0.5))) {
                   res.diasConsecutivos = 0
+                  res.novoEmprego = true
                   connection.query(`update users set emprego = '${emprego + 1}', consecutive_days = '0', daily_timestamp = '${message.createdTimestamp}' where iduser = '${message.author.id}'`)
                 } else {
                   res.diasConsecutivos = diasConsecutivos + 1

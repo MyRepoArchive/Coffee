@@ -19,9 +19,9 @@ module.exports = {
     if(!this.cooldown[message.author.id]) this.cooldown[message.author.id] = { vezes: 1, timestamp: message.createdTimestamp }
     const { run } = require('../utils/errorAlert.js')
     const { pad } = require('../utils/pad.js')
-    if(this.cooldown[message.author.id].vezes > 1 && Date.now() - this.cooldown[message.author.id].timestamp < 10000) {
-      return run(message, client, `<:${emojis.datecronometro}> Aguarde ${parseInt((10000-parseInt(Date.now() - this.cooldown[message.author.id].timestamp))/1000)} segundos para usar este comando novamente!`, emojis.datecronometro)
-    } else if(this.cooldown[message.author.id].vezes > 1 && Date.now() - this.cooldown[message.author.id].timestamp >= 10000){
+    if(this.cooldown[message.author.id].vezes > 1 && Date.now() - this.cooldown[message.author.id].timestamp < 20000) {
+      return run(message, client, `<:${emojis.datecronometro}> Aguarde ${parseInt((20000-parseInt(Date.now() - this.cooldown[message.author.id].timestamp))/1000)} segundos para usar este comando novamente!`, emojis.datecronometro)
+    } else if(this.cooldown[message.author.id].vezes > 1 && Date.now() - this.cooldown[message.author.id].timestamp >= 20000){
       this.cooldown[message.author.id].vezes = 1
     }
     this.cooldown[message.author.id] = { vezes: this.cooldown[message.author.id].vezes + 1, timestamp: message.createdTimestamp }
@@ -30,6 +30,7 @@ module.exports = {
     const podeAddReactions = message.channel.memberPermissions(message.guild.me).has("ADD_REACTIONS")
     if(podeAddReactions) await message.react(emojis.carregando)
     const getScore = await require('../utils/getScore.js').getScore(connection, message, member)
+    const getScoreStyle = await require('../utils/getScoreStyle.js').getScoreStyle(connection, member.user, message.guild)
     if(getScore === 'erro') {
       run(message, client, `<:${emojis.dateclock}> ${member.displayName} ainda não tem pontuação no servidor!`, emojis.xcirclered)
       if(podeAddReactions) message.reactions.cache.find(react => react.emoji.identifier === emojis.carregando).users.remove(client.user.id)
@@ -40,7 +41,7 @@ module.exports = {
     const globalLevel = pad(getScore.globalLevel, 2)
     const position = getScore.positionInServer
     let scoreImg;
-    await loadImage('./image/profile-v4-1.png').then(async image => {
+    await loadImage(`./image/profile-v4-${getScoreStyle.image_id}.png`).then(async image => {
       const perfil = await loadImage(member.user.displayAvatarURL({ size: 1024, format: 'png' }))
       ctx.drawImage(perfil, 75, 130, 210, 210)
       ctx.drawImage(image, 0, 0, 1024, 400)

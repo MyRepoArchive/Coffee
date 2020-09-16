@@ -30,17 +30,19 @@ module.exports = {
     for (let i = 0; i < chaves.length; i++) {
       formatedData += `"${chaves[i]}": '${valores[i]}'\n`
     }
-    formatedData += `\n\nSEUS DADOS POR SERVIDOR\n\n`
-    for (let i = 0; i < dados[1].length; i++) {
-      formatedData += `"${dados[1][i].serverid}" = {\n`
-      const sChaves = Object.keys(dados[1][i])
-      const sValues = Object.values(dados[1][i])
-      for (let c = 1; c < sChaves.length; c++) {
-        formatedData += `  "${sChaves[c]}": '${sValues[c]}'\n`
+    if (dados[1]) {
+      formatedData += `\n\nSEUS DADOS POR SERVIDOR\n\n`
+      for (let i = 0; i < dados[1].length; i++) {
+        formatedData += `"${dados[1][i].serverid}" = {\n`
+        const sChaves = Object.keys(dados[1][i])
+        const sValues = Object.values(dados[1][i])
+        for (let c = 1; c < sChaves.length; c++) {
+          formatedData += `  "${sChaves[c]}": '${sValues[c]}'\n`
+        }
+        formatedData += `},\n`
       }
-      formatedData += `},\n`
     }
-    if(formatedData.length > 2000) formatedData = formatedData.slice(0, 1800)+'... é amigo, parece que isso aqui ficou grande demais, para ver seus dados completos acesse '+config.repositorio
+    if (formatedData.length > 2000) formatedData = formatedData.slice(0, 1800) + '... é amigo, parece que isso aqui ficou grande demais, para ver seus dados completos acesse ' + config.repositorio
     message.author.send(`\`\`\`${formatedData}\`\`\``).then(() => {
       if (podeAddReactions) message.react(emojis.send)
     }, () => {

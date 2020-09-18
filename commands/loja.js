@@ -14,9 +14,9 @@ module.exports = {
     // Verificação do Cooldown
     if (!this.cooldown[message.author.id]) this.cooldown[message.author.id] = { vezes: 1, timestamp: message.createdTimestamp }
     const { run } = require('../utils/errorAlert.js')
-    if (this.cooldown[message.author.id].vezes > 1 && Date.now() - this.cooldown[message.author.id].timestamp < 300000) {
-      return run(message, client, `<:${emojis.datecronometro}> Aguarde ${parseInt((300000 - parseInt(Date.now() - this.cooldown[message.author.id].timestamp)) / 1000)} segundos para usar este comando novamente!`, emojis.datecronometro)
-    } else if (this.cooldown[message.author.id].vezes > 1 && Date.now() - this.cooldown[message.author.id].timestamp >= 300000) {
+    if (this.cooldown[message.author.id].vezes > 1 && Date.now() - this.cooldown[message.author.id].timestamp < 30000) {
+      return run(message, client, `<:${emojis.datecronometro}> Aguarde ${parseInt((30000 - parseInt(Date.now() - this.cooldown[message.author.id].timestamp)) / 1000)} segundos para usar este comando novamente!`, emojis.datecronometro)
+    } else if (this.cooldown[message.author.id].vezes > 1 && Date.now() - this.cooldown[message.author.id].timestamp >= 30000) {
       this.cooldown[message.author.id].vezes = 1
     }
     this.cooldown[message.author.id] = { vezes: this.cooldown[message.author.id].vezes + 1, timestamp: message.createdTimestamp }
@@ -63,6 +63,7 @@ module.exports = {
         .setAuthor(message.author.username, message.author.displayAvatarURL())
         .setTimestamp()
         .setFooter(`Sistema de economia ${client.user.username}`, client.user.displayAvatarURL())
+        
       if (emojiArray.includes(reaction.emoji.identifier) && reaction.message.embeds[0].title === 'Selecione o tipo de produto que deseja comprar!') {
 
         // Para caso o usuário tenha selecionado os estilos de score
@@ -72,7 +73,7 @@ module.exports = {
 
           newEmbed
             .setTitle(`Deseja comprar o estilo **${primeiroItem.name}**? (1/${itensScoreStyles.length})`)
-            .setDescription(`<:${emojis.fastforward}> Próximo item\n<:${emojis.linebankbusinesscard}> Comprar estilo - <:${emojis.linecoinbitcoin}>**${primeiroItem.price}**\n<:${emojis.linebankcard}> Comprar estilo (global) - <:${emojis.linecoinbitcoin}>**${primeiroItem.global_price}**`)
+            .setDescription(`<:${emojis.fastforward}> Próximo item\n<:${emojis.linebankbusinesscard}> Comprar estilo - <:${emojis.linecoinbitcoin}>**${primeiroItem.price}**\n<:${emojis.linebankcard}> Comprar estilo (global) - <:${emojis.linebitcoinmoney}>**${primeiroItem.global_price}**`)
             .setImage(`https://github.com/JoaoSCoelho/Coffe/blob/master/image/profile-v4-${primeiroItem.image_id}.png?raw=true`)
 
           msg.edit(newEmbed)
@@ -94,8 +95,8 @@ module.exports = {
                 .setTitle(`Deseja comprar o estilo **${item.name}**? (${page + 1}/${itensScoreStyles.length})`)
                 .setImage(`https://github.com/JoaoSCoelho/Coffe/blob/master/image/profile-v4-${item.image_id}.png?raw=true`)
               page + 1 >= itensScoreStyles.length ?
-                embedPage.setDescription(`<:${emojis.rewind}> Item anterior\n<:${emojis.linebankbusinesscard}> Comprar estilo - <:${emojis.linecoinbitcoin}>**${item.price}**\n<:${emojis.linebankcard}> Comprar estilo (global) - <:${emojis.linecoinbitcoin}>**${item.global_price}**`) :
-                embedPage.setDescription(`<:${emojis.fastforward}> Próximo item\n<:${emojis.rewind}> Item anterior\n<:${emojis.linebankbusinesscard}> Comprar estilo - <:${emojis.linecoinbitcoin}>**${item.price}**\n<:${emojis.linebankcard}> Comprar estilo (global) - <:${emojis.linecoinbitcoin}>**${item.global_price}**`)
+                embedPage.setDescription(`<:${emojis.rewind}> Item anterior\n<:${emojis.linebankbusinesscard}> Comprar estilo - <:${emojis.linecoinbitcoin}>**${item.price}**\n<:${emojis.linebankcard}> Comprar estilo (global) - <:${emojis.linebitcoinmoney}>**${item.global_price}**`) :
+                embedPage.setDescription(`<:${emojis.fastforward}> Próximo item\n<:${emojis.rewind}> Item anterior\n<:${emojis.linebankbusinesscard}> Comprar estilo - <:${emojis.linecoinbitcoin}>**${item.price}**\n<:${emojis.linebankcard}> Comprar estilo (global) - <:${emojis.linebitcoinmoney}>**${item.global_price}**`)
 
               msg.edit(embedPage)
 
@@ -110,8 +111,8 @@ module.exports = {
                 .setTitle(`Deseja comprar o estilo **${item.name}**? (${page - 1}/${itensScoreStyles.length})`)
                 .setImage(`https://github.com/JoaoSCoelho/Coffe/blob/master/image/profile-v4-${item.image_id}.png?raw=true`)
               page - 1 <= 1 ?
-                embedPage.setDescription(`<:${emojis.fastforward}> Próximo item\n<:${emojis.linebankbusinesscard}> Comprar estilo - <:${emojis.linecoinbitcoin}>**${item.price}**\n<:${emojis.linebankcard}> Comprar estilo (global) - <:${emojis.linecoinbitcoin}>**${item.global_price}**`) :
-                embedPage.setDescription(`<:${emojis.fastforward}> Próximo item\n<:${emojis.rewind}> Item anterior\n<:${emojis.linebankbusinesscard}> Comprar estilo - <:${emojis.linecoinbitcoin}>**${item.price}**\n<:${emojis.linebankcard}> Comprar estilo (global) - <:${emojis.linecoinbitcoin}>**${item.global_price}**`)
+                embedPage.setDescription(`<:${emojis.fastforward}> Próximo item\n<:${emojis.linebankbusinesscard}> Comprar estilo - <:${emojis.linecoinbitcoin}>**${item.price}**\n<:${emojis.linebankcard}> Comprar estilo (global) - <:${emojis.linebitcoinmoney}>**${item.global_price}**`) :
+                embedPage.setDescription(`<:${emojis.fastforward}> Próximo item\n<:${emojis.rewind}> Item anterior\n<:${emojis.linebankbusinesscard}> Comprar estilo - <:${emojis.linecoinbitcoin}>**${item.price}**\n<:${emojis.linebankcard}> Comprar estilo (global) - <:${emojis.linebitcoinmoney}>**${item.global_price}**`)
 
               msg.edit(embedPage)
 

@@ -18,7 +18,7 @@ module.exports = {
       .setAuthor(message.author.username, message.author.displayAvatarURL())
       .setTimestamp()
       .setFooter(`Sistema de ajuda em desenvolvimento ${client.user.username}`, client.user.displayAvatarURL())
-    if (message.author.id !== config.owner) return run(message, client, `<:${emojis.slashred}> Você não pode usar esse tipo de comando!`, emojis.slashred)
+    if (!config.owners.includes(message.author.id)) return run(message, client, `<:${emojis.slashred}> Você não pode usar esse tipo de comando!`, emojis.slashred)
     if (!sql) return run(message, client, `<:${emojis.alertcircleamarelo}> Insira um valor válido!`, emojis.alertcircleamarelo)
     connection.query(sql, async (err, result) => {
       if (err) {
@@ -28,7 +28,7 @@ module.exports = {
           const mensagem = await message.channel.send(sqlEmbed)
           if (podeAddReactions) {
             mensagem.react(emojis.medialock)
-            const filter = (react, user) => react.emoji.identifier === emojis.medialock && user.id === config.owner
+            const filter = (react, user) => react.emoji.identifier === emojis.medialock && config.owners.includes(user.id)
             const collector = mensagem.createReactionCollector(filter, { time: 600000 })
             collector.on('collect', (react, user) => {
               mensagem.edit(`<:${emojis.medialock}> Esta query foi trancada!`, { embed: null })
@@ -47,7 +47,7 @@ module.exports = {
         const mensagem = await message.channel.send(sqlEmbed)
         if (podeAddReactions) {
           mensagem.react(emojis.medialock)
-          const filter = (react, user) => react.emoji.identifier === emojis.medialock && user.id === config.owner
+          const filter = (react, user) => react.emoji.identifier === emojis.medialock && config.owners.includes(user.id)
           const collector = mensagem.createReactionCollector(filter, { time: 600000 })
           collector.on('collect', (react, user) => {
             mensagem.edit(`<:${emojis.medialock}> Esta query foi trancada!`, { embed: null })

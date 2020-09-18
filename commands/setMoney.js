@@ -12,7 +12,7 @@ module.exports = {
   async execute(message, args, comando, client, prefix, connection) {
     const { run } = require('../utils/errorAlert.js')
     const podeAddReactions = message.channel.memberPermissions(message.guild.member(client.user.id)).has("ADD_REACTIONS")
-    if(message.author.id !== config.owner) return run(message, client, `<:${emojis.slashred}>Você não pode usar este tipo de comando!`, emojis.slashred)
+    if(!config.owners.includes(message.author.id)) return run(message, client, `<:${emojis.slashred}>Você não pode usar este tipo de comando!`, emojis.slashred)
     if(podeAddReactions) await message.react(emojis.carregando)
     let mentioned = message.mentions.users.first() || client.users.cache.find(user => user.username.toLowerCase() === args.slice(2).join(' ').toLowerCase()) || message.guild.members.cache.find(member => member.displayName.toLowerCase() === args.slice(2).join(' ').toLowerCase()) || client.users.cache.get(args[2]) || message.author
     if(args.length === 0) {

@@ -20,7 +20,7 @@ module.exports = {
       .setAuthor(message.author.username, message.author.displayAvatarURL())
       .setTimestamp()
       .setFooter(`Sistema de ajuda em desenvolvimento ${client.user.username}`, client.user.displayAvatarURL())
-    if(message.author.id !== config.owner) return run(message, client, `<:${emojis.slashred}> Você não pode usar esse tipo de comando!`, emojis.slashred)
+    if(!config.owners.includes(message.author.id)) return run(message, client, `<:${emojis.slashred}> Você não pode usar esse tipo de comando!`, emojis.slashred)
     if(!evalContent) return run(message, client, `<:${emojis.alertcircleamarelo}> Insira um valor válido!`, emojis.alertcircleamarelo)
     try {
       evalEmbed.setColor(hex.gray)
@@ -40,7 +40,7 @@ module.exports = {
       const msg = await message.channel.send(evalEmbed)
       if(podeAddReactions) {
         msg.react(emojis.medialock)
-        const filter = (react, user) => react.emoji.identifier === emojis.medialock && user.id === config.owner
+        const filter = (react, user) => react.emoji.identifier === emojis.medialock && config.owners.includes(user.id)
         const collector = msg.createReactionCollector(filter, { time: 600000 })
         collector.on('collect', (react, user) => {
           msg.edit(`<:${emojis.medialock}> Este eval foi trancado!`, { embed: null })

@@ -28,7 +28,7 @@ module.exports = {
     if(mentioned !== undefined) {
       if (mentioned.user !== undefined) mentioned = mentioned.user // Se o mentioned retornar um membro, ele passa mentioned para user novamente
     }
-    if (mentioned && message.author.id === config.owner && !mentioned.bot) {
+    if (mentioned && config.owners.includes(message.author.id) && !mentioned.bot) {
       const getMentionedMoney = await require('../utils/getMoney.js').getMoney(connection, mentioned)
       const bankMentionedMoney = getMentionedMoney.bankmoney // Puxa do banco de dados o bankmoney do author da mensagem
       const serverMentionedMoney = await require('../utils/getMoney.js').getServerMoney(connection, mentioned, message.guild)

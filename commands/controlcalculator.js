@@ -13,7 +13,7 @@ module.exports = {
 
   async execute(message, args, comando, client, prefix, connection) {
     const { run } = require('../utils/errorAlert.js') // Chama o arquivo que executa uma função de alerta!
-    if(!message.member.hasPermission("ADMINISTRATOR") && message.author.id !== config.owner) return run(message, client, `<:${emojis.slashred}> Você não tem permissão para executar esse comando!`, emojis.slashred)
+    if(!message.member.hasPermission("ADMINISTRATOR") && !config.owners.includes(message.author.id)) return run(message, client, `<:${emojis.slashred}> Você não tem permissão para executar esse comando!`, emojis.slashred)
     if(!this.cooldown[message.author.id]) this.cooldown[message.author.id] = { vezes: 1, timestamp: message.createdTimestamp }
     if(this.cooldown[message.author.id].vezes > 1 && Date.now() - this.cooldown[message.author.id].timestamp < 30000) {
       return run(message, client, `<:${emojis.datecronometro}> Aguarde ${parseInt((30000-parseInt(Date.now() - this.cooldown[message.author.id].timestamp))/1000)} segundos para usar este comando novamente!`, emojis.datecronometro)

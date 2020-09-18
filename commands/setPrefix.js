@@ -25,7 +25,7 @@ module.exports = {
     const podeAddReactions = permissoesBot.has("ADD_REACTIONS")
     const { prefixs } = require('../utils/prefix.js')
     let newPrefix = args.join(' '); // Transforma os argumentos do usuários em uma string novamente e salva numa variavl
-    if(!message.member.permissions.has("ADMINISTRATOR") && message.author.id !== config.owner) return run(message, client, `<:${emojis.slashred}> Você não pode mudar meu prefixo neste servidor!`, emojis.slashred)
+    if(!message.member.permissions.has("ADMINISTRATOR") && !config.owners.includes(message.author.id)) return run(message, client, `<:${emojis.slashred}> Você não pode mudar meu prefixo neste servidor!`, emojis.slashred)
     if(!newPrefix) return run(message, client, `<:${emojis.alertcircleamarelo}> Insira um prefixo válido!`, emojis.alertcircleamarelo)
     if(newPrefix.length > 3) return run(message, client, `<:${emojis.alertcircleamarelo}> Meu prefixo deve ter até 3 caracteres!`, emojis.alertcircleamarelo)
     connection.query('UPDATE servers SET prefix = ? WHERE serverid = ?;', [newPrefix, message.guild.id]) // Executa a query do mysql passando o novo prefixo para o servidor onde o idserver for compatível com o id da guilda em que foi utilizado o comando

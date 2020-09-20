@@ -62,7 +62,7 @@ module.exports = {
       return;
     }
     if(typeof(result) != "number")return; // Se o resultado do eval não for um número, retorna
-    if(result === Infinity) result = 'Não é possível determinar'
+    if(result === Infinity || result === -Infinity || result === NaN) result = 'Não é possível determinar'
     if(podeEnviarMsg) message.channel.send(`\`\`\`${result}\`\`\``) // Se poder enviar mensagens naquele canal, ele envia o resultado do eval
   },
 

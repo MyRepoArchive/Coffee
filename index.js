@@ -40,6 +40,8 @@ client.on("guildDelete", guild => { client.events.get('guildDelete').execute(cli
 
 client.on("message", async message => { client.events.get('message').execute(client, message, connection) }); // Evento acionado quando alguém manda alguma mensagem no chat
 
+client.on("guildMemberAdd", async member => { client.events.get('guildMemberAdd').execute(client, member, connection); })
+
 client.on("messageReactionAdd", async (message, user) => { client.events.get('messageReactionAdd').execute(client, message, user, connection) }); // Evento acionado quando algum usuário adiciona uma reação em uma mensagem
 
 client.on("error", error => { client.events.get('error').execute(client) }); // Evento acionado quando o bot se depara com algum erro

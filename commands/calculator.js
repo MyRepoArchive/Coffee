@@ -3,6 +3,7 @@ const Discord = require('discord.js')
 const hex = require('../colors.json')
 const config = require('../info.json')
 const { evaluate, create, all } = require('mathjs')
+const { levenshteinDistance } = require('../utils/levenshteinDistance.js')
 const math = create(all)
 
 // Código exportado
@@ -41,8 +42,6 @@ module.exports = {
     while(sinais.indexOf('') >= 0) { sinais.splice(sinais.indexOf(''), 1) } // Tira os '' do array de sinais
     const importantSinais = message.content.split(/[^/*+%-]/) // Vê se na mensagem há algum sinal importante e coloca num array
     while(importantSinais.indexOf('') >= 0) { importantSinais.splice(importantSinais.indexOf(''), 1) } 
-    /* if(importantSinais.length === 0)return; // Se não houver sinais importantes, retorna
-    if(importantSinais.length === 1 && importantSinais[0] === '-' && numbers.length === 2 && message.content.includes('.'))return; */ // Se houver apenas o '-' de sinal importante e a quantidade de números for igual a dois e conter um '.' na mensagem, retorna; (isso server para evitar que ele responda coisas do tipo '-1.1')
     /* if(sinais.length === 0 || numbers.length === 0 || notIsNumber.length !== 0)return; */ // Verifica se a mensagem não tem sinais, ou números e se na mensagem há algo que não seja número, caso a resposta para alguma dessas verificações seja positiva, ele não prossegue.
     if(message.content.startsWith('-') && numbers.length === 1)return; // Verifica se o número inicial é negativo e se há apenas ele na mensage, caso sim, retorna
     if(message.content.startsWith('(') && numbers.length === 1)return;
@@ -65,5 +64,17 @@ module.exports = {
     if(typeof(result) != "number")return; // Se o resultado do eval não for um número, retorna
     if(result === Infinity) result = 'Não é possível determinar'
     if(podeEnviarMsg) message.channel.send(`\`\`\`${result}\`\`\``) // Se poder enviar mensagens naquele canal, ele envia o resultado do eval
+  },
+
+  async semelhancaStrings(message, client, connection) {
+    const getCalcConfig = await require('../utils/getChannelOptions.js').getCacheCalc(connection, message.channel, message.guild)
+    if(!getCalcConfig.canalAtual)return
+    if(!message.channel.memberPermissions(message.guild.me).has("SEND_MESSAGES"))return;
+    const string1 = message.content.split('~=')[0].trim()
+    const string2 = message.content.split('~=')[1].trim()
+    const semelhanca = levenshteinDistance(string1, string2)
+    if(semelhanca >= 100)return message.channel.send(`\`\`\`1% de semelhança\`\`\``);
+    const nivelSemelhanca = 100-semelhanca
+    message.channel.send(`\`\`\`${nivelSemelhanca}% de semelhança\`\`\``)
   }
 }

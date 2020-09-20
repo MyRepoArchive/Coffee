@@ -2,6 +2,7 @@ const Discord = require('discord.js')
 const hex = require('../colors.json')
 const config = require('../info.json')
 const emojis = require('../emojis.json')
+const { verificaSemelhanca } = require('../utils/verificaSemelhanca')
 
 module.exports = {
   name: "desc",
@@ -11,6 +12,13 @@ module.exports = {
 
   async execute(message, args, comando, client, prefix) {
     const { run } = require('../utils/errorAlert.js')
+
+    const array = client.commands.map(x => x.aliases.concat([x.name]))
+    let concated = []
+    for (let i = 0; i < array.length; i++) {
+      concated = concated.concat(array[i].concat(array[i + 1]))
+    }
+
     const botMembro = message.guild.member(client.user.id)
     const permissoesBot = message.channel.memberPermissions(botMembro)
     const podeEnviarMsg = permissoesBot.has("SEND_MESSAGES")
@@ -25,7 +33,7 @@ module.exports = {
     if (args.length === 0) return run(message, client, descEmbed, emojis.alertcircleamarelo)
     if (args[0].startsWith(prefix)) args[0] = args[0].slice(prefix.length)
     
-    if (!client.commands.has(args[0])) return run(message, client, `<:${emojis.alertcircleamarelo}> ${message.author}, o comando ***${args[0]}*** não existe!`, emojis.alertcircleamarelo)
+    if (!client.commands.has(args[0])) return run(message, client, `<:${emojis.alertcircleamarelo}> ${message.author}, o comando ***${args[0]}*** não existe!\nTalvez você esteja querendo saber do comando **${verificaSemelhanca(args[0], concated)}**`, emojis.alertcircleamarelo)
     const desc = client.commands.get(args[0]).description
     const embed = new Discord.MessageEmbed()
       .setColor(hex.gray)

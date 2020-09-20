@@ -6,10 +6,17 @@ module.exports = {
           if (err) {
             return reject(err);
           }
-          connection.query(`select serverid, money, score from score_per_server where userid = '${user.id}'`, (err, resultSPS) => {
+          connection.query(`select serverid, money, score_style_em_uso, score from score_per_server where userid = '${user.id}'`, (err, resultSPS) => {
             if (err) throw err
             result.push(resultSPS)
-            return resolve(result);
+            connection.query(`select serverid, productid, momento_compra from compras_locais where userid = '${user.id}'`, (err, resultCL) => {
+              result.push(resultCL)
+              
+              connection.query(`select productid, momento_compra from compras_globais where userid = '${user.id}'`, (err, resultCG) => {
+                result.push(resultCG)
+                return resolve(result);
+              })
+            })
           })
         })
       })

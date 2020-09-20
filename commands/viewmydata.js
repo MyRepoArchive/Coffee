@@ -30,6 +30,48 @@ module.exports = {
     for (let i = 0; i < chaves.length; i++) {
       formatedData += `"${chaves[i]}": '${valores[i]}'\n`
     }
+    if(dados[2] || dados[3]) {
+      formatedData += `\n\nSUAS COMPRAS\n\n`
+      if(dados[2]) {
+
+        formatedData += `LOCAIS\n`
+
+        for(let i = 0; i < dados[2].length; i++) {
+
+          formatedData += `"${dados[2][i].serverid}" = {\n`
+
+          const clChaves = Object.keys(dados[2][i])
+          const clValues = Object.values(dados[2][i])
+
+          for(let c = 1; c < clChaves.length; c++) {
+            formatedData += `  "${clChaves[c]}": '${clValues[c]}'\n`
+          }
+
+          formatedData += `},\n`
+
+        }
+
+      }
+
+      if(dados[3]) {
+        formatedData += `\nGLOBAIS\n`
+
+        for(let i = 0; i < dados[3].length; i++) {
+
+          formatedData += `{\n`
+
+          const cgChaves = Object.keys(dados[3][i])
+          const cgValues = Object.values(dados[3][i])
+
+          for(let c = 0; c < cgChaves.length; c++) {
+            formatedData += `  "${cgChaves[c]}": '${cgValues[c]}'\n`
+          }
+
+          formatedData += `},\n`
+
+        }
+      }
+    }
     if (dados[1]) {
       formatedData += `\n\nSEUS DADOS POR SERVIDOR\n\n`
       for (let i = 0; i < dados[1].length; i++) {

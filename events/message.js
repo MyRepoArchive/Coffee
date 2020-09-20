@@ -5,16 +5,24 @@ const pad = require('../utils/pad.js')
 const consoleColors = ['\033[0m', '\033[30m', '\033[31m', '\033[32m', '\033[33m', '\033[34m', '\033[35m', '\033[36m', '\033[37m'];
 const changeActivity = require('../utils/changeActivity.js')
 const emojis = require('../emojis.json');
+const { verificaSemelhanca } = require('../utils/verificaSemelhanca.js')
 
 module.exports = {
   name: "message",
 
   async execute(client, message, connection) {
+    const array = client.commands.map(x => x.aliases.concat([x.name]))
+    let concated = []
+    for (let i = 0; i < array.length; i++) {
+      concated = concated.concat(array[i].concat(array[i + 1]))
+    }
+
     if (message.author.bot) return; // Verifica se o autor é um bot, se for, retorna
     if (message.channel.type === 'dm') return; // Verifica se a mensagem foi enviada na dm, se for, retorna
     const content = [...new Set(message.content.toLowerCase().split(''))]
     const prefix = await require('../utils/prefix.js').getCachePrefix(connection, message)
-    if(content.length > 3 || message.content.startsWith(prefix)) require('../utils/addScore.js').addScore(message, connection, message.author)
+    if (content.length > 3 || message.content.startsWith(prefix)) require('../utils/addScore.js').addScore(message, connection, message.author)
+    if(message.content.includes('~=') && message.content.trim().length > 4) require('../commands/calculator.js').semelhancaStrings(message, client, connection)
     const args = message.content.slice(prefix.length).trim().split(/ +/g); // Um array com cada palavra digitada pelo usuário
     const comando = args.shift().toLowerCase(); // A primeira palavra do args minúscula
     const firstWord = message.content.trim().split(/ +/g).shift().toLowerCase(); // A primeira palavra da mensagem
@@ -35,13 +43,13 @@ module.exports = {
     if (!message.content.startsWith(prefix)) return; // Se a mensagem não iniciar com o prefixo do bot, retorna
     const cmd = client.commands.get(comando) || client.commands.find(x => x.aliases.includes(comando))
     if (!cmd) { // Se o comando digitado pelo usuário não for compatível com nenhum comando do bot, ele responde
-      if (podeEnviarMsg && podeManageMessages) { // Verifica se pode enviar mensagens e pode deleta-las
-        const resp = await message.channel.send(`<:${emojis.terminalblue}> Eu não conheço esse comando, use **${prefix}ajuda** para saber todos os meus comandos!`);
+      if (podeEnviarMsg) { // Verifica se pode enviar mensagens e pode deleta-las
+        const resp = await message.channel.send(`<:${emojis.terminalblue}> Eu não conheço esse comando, use **${prefix}ajuda** para saber todos os meus comandos!\n${!verificaSemelhanca(comando, concated) ? '' : `Você quis dizer: **${prefix}${verificaSemelhanca(comando, concated)}**?`}`);
         resp.delete({ timeout: 5000 }) // Após 5 segundos desde o envio da mensagem acima, ele  a deleta
       }
       return;
     }
-    
+
     try { // Tenta executar o comando do usuário
       cmd.execute(message, args, comando, client, prefix, connection);
     } catch (error) { // Caso não consiga executar o comando, loga o erro

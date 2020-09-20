@@ -28,7 +28,7 @@ module.exports = {
         if(!message.member.hasPermission("MANAGE_CHANNELS")) return run(message, client, `<:${emojis.slashred}> ${message.author}, você não tem permissão para criar novos canais!`, emojis.slashred) 
             
         // Verifica se o bot tem permissão para criar canais dentro do servidor
-        if(!message.guild.members.cache.get(client.user.id).hasPermission('MANAGE_CHANNELS')) return run(message, client, `<:${emojis.slashred}> ${message.author}, eu infelismente não tenho permissão para manipular canais dentro deste servidor😕`, emojis.slashred)
+        if(!message.guild.members.cache.get(client.user.id).hasPermission('MANAGE_CHANNELS')) return run(message, client, `<:${emojis.slashred}> ${message.author}, eu infelizmente não tenho permissão para manipular canais dentro deste servidor😕`, emojis.slashred)
         // Verifica se o servidor já possui o número máximo de canais
         if(message.guild.channels.cache.size >= 500)  return run(message, client, `<:${emojis.alertcircleamarelo}> ${message.author}, o servidor já possui o número máximo de canais!`, emojis.alertcircleamarelo) 
 

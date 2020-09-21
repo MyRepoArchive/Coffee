@@ -10,38 +10,35 @@ module.exports = {
   name: 'guildMemberAdd',
 
   async execute(client, member, connection) {
-    connection.query(`select welcome_channel, welcome_color_embed, welcome_title_embed, welcome_thumbnail_embed, welcome_description_embed, welcome_footer_embed from servers where serverid = '${member.guild.id}'`, (err, result) => {
-      if(err) throw err;
-      
-      if(result[0].welcome_channel !== null) {
 
-        const embedPropertyes = {
-          color: result[0].welcome_color_embed === null ? 'RANDOM' : result[0].welcome_color_embed,
-          title: result[0].welcome_title_embed === null ? `<:${emojis.login}> Seja bem vindo ${member.displayName}! Nós do(a) ${member.guild.name} somos gratos pela sua aparição por aqui!` : result[0].welcome_title_embed.replace('${name}', member.displayName).replace('${server}', member.guild.name).replace('${tag}', member.user.tag).replace('${id}', member.id).replace('${memberCount}', member.guild.memberCount).replace('${username}', member.user.username).replace('${status}', member.user.status),
-          thumbnail: result[0].welcome_thumbnail_embed === null ? member.user.displayAvatarURL() : result[0].welcome_thumbnail_embed,
-          description: result[0].welcome_description_embed === null ? `<:${emojis.cardname}>Username: ${member.user.username}\n<:${emojis.nick}>ID: ${member.id}\n<:${emojis.convidarpessoasclaro}> Membro de número: ${member.guild.memberCount}` : result[0].welcome_description_embed.replace('${name}', member.displayName).replace('${server}', member.guild.name).replace('${tag}', member.user.tag).replace('${id}', member.id).replace('${memberCount}', member.guild.memberCount).replace('${username}', member.user.username).replace('${status}', member.user.status),
-          footer: result[0].welcome_footer_embed === null ? `Sistema de boas vindas ${client.user.username}` : result[0].welcome_footer_embed.replace('${name}', member.displayName).replace('${server}', member.guild.name).replace('${tag}', member.user.tag).replace('${id}', member.id).replace('${memberCount}', member.guild.memberCount).replace('${username}', member.user.username).replace('${status}', member.user.status),
-        }
-  
-        const welcomeEmbed = new  Discord.MessageEmbed()
-          .setColor(embedPropertyes.color)
-          .setTitle(embedPropertyes.title)
-          .setThumbnail(embedPropertyes.thumbnail)
-          .setDescription(embedPropertyes.description)
-          .setFooter(embedPropertyes.footer, client.user.displayAvatarURL())
-  
-        const channel = member.guild.channels.cache.get(result[0].welcome_channel)
+    const welcome = await require('../utils/getWelcomeChannel.js').getCacheWelcomeChannel(client, member, connection)
 
-        if(!channel) return;
+    if(welcome.welcome_channel !== null) {
 
-        const podeEnviarMsg = channel.memberPermissions(channel.guild.me).has("SEND_MESSAGES")
-
-        if(!podeEnviarMsg) return;
-
-        channel.send(welcomeEmbed)
+      const embedPropertyes = {
+        color: welcome.welcome_color_embed === null ? 'RANDOM' : welcome.welcome_color_embed,
+        title: welcome.welcome_title_embed === null ? `<:${emojis.login}> Seja bem vindo ${member.displayName}! Nós do(a) ${member.guild.name} somos gratos pela sua aparição por aqui!` : welcome.welcome_title_embed.replace('${name}', member.displayName).replace('${server}', member.guild.name).replace('${tag}', member.user.tag).replace('${id}', member.id).replace('${memberCount}', member.guild.memberCount).replace('${username}', member.user.username).replace('${status}', member.user.presence.status),
+        thumbnail: welcome.welcome_thumbnail_embed === null ? member.user.displayAvatarURL() : welcome.welcome_thumbnail_embed,
+        description: welcome.welcome_description_embed === null ? `<:${emojis.cardname}>Username: ${member.user.username}\n<:${emojis.nick}>ID: ${member.id}\n<:${emojis.convidarpessoasclaro}> Membro de número: ${member.guild.memberCount}` : welcome.welcome_description_embed.replace('${name}', member.displayName).replace('${server}', member.guild.name).replace('${tag}', member.user.tag).replace('${id}', member.id).replace('${memberCount}', member.guild.memberCount).replace('${username}', member.user.username).replace('${status}', member.user.presence.status),
+        footer: welcome.welcome_footer_embed === null ? `Sistema de boas vindas ${client.user.username}` : welcome.welcome_footer_embed.replace('${name}', member.displayName).replace('${server}', member.guild.name).replace('${tag}', member.user.tag).replace('${id}', member.id).replace('${memberCount}', member.guild.memberCount).replace('${username}', member.user.username).replace('${status}', member.user.presence.status),
       }
 
-      
-    })
+      const welcomeEmbed = new  Discord.MessageEmbed()
+        .setColor(embedPropertyes.color)
+        .setTitle(embedPropertyes.title)
+        .setThumbnail(embedPropertyes.thumbnail)
+        .setDescription(embedPropertyes.description)
+        .setFooter(embedPropertyes.footer, client.user.displayAvatarURL())
+
+      const channel = member.guild.channels.cache.get(welcome.welcome_channel)
+
+      if(!channel) return;
+
+      const podeEnviarMsg = channel.memberPermissions(channel.guild.me).has("SEND_MESSAGES")
+
+      if(!podeEnviarMsg) return;
+
+      channel.send(welcomeEmbed)
+    }
   }
 }

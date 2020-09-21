@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const hex = require('../colors.json');
 const config = require('../info.json');
 const emojis = require('../emojis.json');
+const { welcomeChannels } = require('../utils/getWelcomeChannel');
 
 module.exports = {
   name: "setwelcome",
@@ -27,7 +28,8 @@ module.exports = {
     if(canal.type !== 'text') return run(message, client, `<:${emojis.xcirclered}> Você deve citar um canal de texto como canal de bem vindos!`)
 
     connection.query(`update servers set welcome_channel = '${canal.id}' where serverid = '${message.guild.id}'`)
-    
+    if(welcomeChannels[message.guild.id]) welcomeChannels[message.guild.id].welcome_channel = canal.id
+
     run(message, client, `<:${emojis.circlecheckverde}> Foi setado o canal ${canal} como canal de bem vindos!`)
   }
 }

@@ -19,7 +19,6 @@ module.exports = {
             connection.query(`insert into servers (serverid) values ('${message.guild.id}');`, err => {
               if (err) return console.log(err.stack)
               this.getPrefix(connection, message);
-              console.log('request')
             })
             return;
           }

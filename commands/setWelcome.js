@@ -25,11 +25,11 @@ module.exports = {
 
     const canal = message.mentions.channels.first() || message.guild.channels.cache.get(args[0]) || message.guild.channels.cache.find(channel => channel.name.toLowerCase() === args.join(' ').toLowerCase()) || message.guild.channels.cache.find(channel => channel.name.toLowerCase().includes(args.join(' ').toLowerCase())) || message.channel
     
-    if(canal.type !== 'text') return run(message, client, `<:${emojis.xcirclered}> Você deve citar um canal de texto como canal de bem vindos!`)
+    if(canal.type !== 'text') return run(message, client, `<:${emojis.xcirclered}> Você deve citar um canal de texto como canal de bem vindos!`, emojis.xcirclered)
 
     connection.query(`update servers set welcome_channel = '${canal.id}' where serverid = '${message.guild.id}'`)
     if(welcomeChannels[message.guild.id]) welcomeChannels[message.guild.id].welcome_channel = canal.id
 
-    run(message, client, `<:${emojis.circlecheckverde}> Foi setado o canal ${canal} como canal de bem vindos!`)
+    run(message, client, `<:${emojis.circlecheckverde}> Foi setado o canal ${canal} como canal de bem vindos!`, emojis.circlecheckverde)
   }
 }

@@ -38,12 +38,12 @@ module.exports = {
 
         for(let i = 0; i < dados[2].length; i++) {
 
-          formatedData += `"${dados[2][i].serverid}" = {\n`
+          formatedData += `{\n`
 
           const clChaves = Object.keys(dados[2][i])
           const clValues = Object.values(dados[2][i])
 
-          for(let c = 1; c < clChaves.length; c++) {
+          for(let c = 0; c < clChaves.length; c++) {
             formatedData += `  "${clChaves[c]}": '${clValues[c]}'\n`
           }
 
@@ -75,10 +75,10 @@ module.exports = {
     if (dados[1]) {
       formatedData += `\n\nSEUS DADOS POR SERVIDOR\n\n`
       for (let i = 0; i < dados[1].length; i++) {
-        formatedData += `"${dados[1][i].serverid}" = {\n`
+        formatedData += `{\n`
         const sChaves = Object.keys(dados[1][i])
         const sValues = Object.values(dados[1][i])
-        for (let c = 1; c < sChaves.length; c++) {
+        for (let c = 0; c < sChaves.length; c++) {
           formatedData += `  "${sChaves[c]}": '${sValues[c]}'\n`
         }
         formatedData += `},\n`

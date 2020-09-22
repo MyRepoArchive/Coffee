@@ -24,7 +24,7 @@ module.exports = {
     const embed = new Discord.MessageEmbed()
       .setAuthor(message.author.username, message.author.displayAvatarURL())
       .setColor(hex.goldenrod)
-      .setTitle(`Esses são os users mais ricos de **<:${emojis.linecoinbitcoin}>CCoins**!`)
+      .setTitle(`Esses são os users mais ricos de **<:${emojis.linebitcoinmoney}>CCoins**!`)
       .setFooter(`Sistema de rankeamento ${client.user.username}`, client.user.displayAvatarURL())
     if(podeAddReactions) await message.react(emojis.carregando) // Reagi na mensagem com um emoji de loading
     const rank = await require('../utils/getTopMoney.js').run(connection, message.author)
@@ -32,7 +32,7 @@ module.exports = {
     for(let i = 0; i < rank.length && i < 10; i++) {
       let user = client.users.cache.get(rank[i][0])
       if(!user) user = await client.users.fetch(rank[i][0])
-      embed.addField(`<:${rankEmoji[i]}>\`${i+1}º\` **${user.username}**`, `\`|||\`        **<:${emojis.linecoinbitcoin}>${rank[i][1]}**`)
+      embed.addField(`<:${rankEmoji[i]}>\`${i+1}º\` **${user.username}**`, `\`|||\`        **<:${emojis.linebitcoinmoney}>${rank[i][1]}**`)
     }
     run(message, client, embed, emojis.alertcircleamarelo)
     if(podeAddReactions) message.reactions.cache.find(react => react.users.cache.get(client.user.id).id === client.user.id).users.remove(client.user.id) // Remove o emoji de carregando

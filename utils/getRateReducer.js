@@ -18,7 +18,8 @@ module.exports = {
           }
           connection.query(`select reducao_taxa from score_per_server where userid = '${user.id}' and serverid = '${guild.id}'`, (err, resultSPS) => {
             if(err) throw err;
-            return resolve(result[0].reducao_taxa + resultSPS[0].reducao_taxa);
+            const res = result[0].reducao_taxa + resultSPS[0].reducao_taxa
+            return resolve(res);
           })
         })
       })

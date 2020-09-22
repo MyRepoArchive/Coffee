@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const hex = require('../colors.json');
 const config = require('../info.json');
 const emojis = require('../emojis.json');
+const { rateReduces } = require('../utils/getRateReducer');
 
 module.exports = {
   name: "loja",
@@ -267,6 +268,10 @@ module.exports = {
                   connection.query(`insert into compras_locais (userid, serverid, productid, momento_compra) values ('${message.author.id}', '${message.guild.id}', '${redutor.id}', '${Date.now()}')`)
                   connection.query(`update score_per_server set money = '${authorMoney - redutor.price}', reducao_taxa = '${reducaoTaxaAtual + redutor.reducao_taxa}' where userid = '${message.author.id}' and serverid = '${message.guild.id}'`)
 
+                  if(rateReduces[message.guild.id+'-'+message.author.id] !== undefined) {
+                    rateReduces[message.guild.id+'-'+message.author.id] + redutor.reducao_taxa >= 20 ? rateReduces[message.guild.id+'-'+message.author.id] = 20 : rateReduces[message.guild.id+'-'+message.author.id] += redutor.reducao_taxa
+                  }
+                
                   msg.edit(sucessBuyEmbed)
 
                 })
@@ -285,6 +290,11 @@ module.exports = {
 
                   connection.query(`insert into compras_globais (userid, productid, momento_compra) values ('${message.author.id}', '${redutor.id}', '${message.createdTimestamp}')`)
                   connection.query(`update users set bankmoney = '${authorBankMoney - redutor.global_price}', reducao_taxa = '${reducaoTaxaAtual + redutor.reducao_taxa}' where iduser = '${message.author.id}'`)
+                  
+                  const keysRateReduces = Object.keys(rateReduces).filter(key => key.split('-')[1] === message.author.id)
+                  for(let i = 0; i < keysRateReduces.length; i++) {
+                    rateReduces[keysRateReduces[i]] + redutor.reducao_taxa >= 20 ? rateReduces[keysRateReduces[i]] = 20 : rateReduces[keysRateReduces[i]] += redutor.reducao_taxa
+                  }
 
                   msg.edit(sucessBuyEmbed)
 

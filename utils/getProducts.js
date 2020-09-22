@@ -2,7 +2,7 @@ module.exports = {
   async getProducts(connection) {
     const consulta = () => {
       return new Promise((resolve, reject) => {
-        connection.query(`SELECT id, name, description, price, type, image_id, global_price FROM products`, (err, result) => {
+        connection.query(`SELECT id, name, description, price, type, image_id, global_price, validade, reducao_taxa FROM products`, (err, result) => {
           if (err) {
             return reject(err);
           }

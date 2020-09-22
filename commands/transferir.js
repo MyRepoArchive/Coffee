@@ -32,6 +32,8 @@ module.exports = {
     const getMentionedMoney = await require('../utils/getMoney.js').getMoney(connection, mentioned)
     const authorBankMoney = getMoney.bankmoney // Puxa do banco de dados o money do author da mensagem
     const mentionedBankMoney = getMentionedMoney.bankmoney // Puxa do banco o money do user mencionado
+    const getRateReducer = await require('../utils/getRateReducer.js').getCacheRateReducer(connection, message.author, message.guild)
+    const rateReducer = getRateReducer/100
     if(isNaN(Number(args[0])) || Number(args[0]) <= 0) {// Se o primeiro argumento após o comando não poder ser lido como um número, ou ele é negativo, ou nulo, retorna uma mensagem de alerta
       if(podeAddReactions) message.reactions.cache.find(react => react.users.cache.get(client.user.id).id === client.user.id).users.remove(client.user.id); 
       run(message, client, `<:${emojis.alertcircleamarelo}> Digite um valor válido para a transferência!`, emojis.alertcircleamarelo); 
@@ -43,8 +45,8 @@ module.exports = {
       if(podeAddReactions) message.reactions.cache.find(react => react.users.cache.get(client.user.id).id === client.user.id).users.remove(client.user.id);
       return;
     }
-    connection.query(`update users set bankmoney = case iduser when ${message.author.id} then '${authorBankMoney-transferMoney}' when ${mentioned.id} then '${mentionedBankMoney+(transferMoney*0.8)}' end where iduser in (${message.author.id}, ${mentioned.id})`); // Retira dinheiro do author
-    run(message, client, `<:${emojis.circlecheckverde}> Transferência concluída com sucesso! \`${100-100*0.8}% de taxa\``, emojis.circlecheckverde) // Mensagem de confirmação de pagamento
+    connection.query(`update users set bankmoney = case iduser when ${message.author.id} then '${authorBankMoney-transferMoney}' when ${mentioned.id} then '${mentionedBankMoney+(transferMoney*(0.8+rateReducer))}' end where iduser in (${message.author.id}, ${mentioned.id})`); // Retira dinheiro do author
+    run(message, client, `<:${emojis.circlecheckverde}> Transferência concluída com sucesso! \`${20-rateReducer*100}% de taxa\``, emojis.circlecheckverde) // Mensagem de confirmação de pagamento
     if(podeAddReactions) message.reactions.cache.find(react => react.users.cache.get(client.user.id).id === client.user.id).users.remove(client.user.id) // Remove o emoji de carregando
   }
 }

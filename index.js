@@ -23,6 +23,7 @@ connection.connect(err => { // Conecta com o banco de dados
         return;
     }
 });
+require('./utils/verificadorDeValidade.js').intervaloVerificacao(connection, client)
 /* setInterval(() => { connection.query('SELECT 1') }, 20000); // De 20 em 20 segundos, chama uma query do banco de dados, para o servidor não fechar conexão */
 // CORES PARA COLORIR TERMINAL
 const consoleColors = ['\033[0m', '\033[30m', '\033[31m', '\033[32m', '\033[33m', '\033[34m', '\033[35m', '\033[36m', '\033[37m'];

@@ -6,7 +6,7 @@ const emojis = require('../emojis.json');
 module.exports = {
   name: "inventory",
   aliases: ["inventário", "inventario", "myitens", "myitems", "meusitems", "meusitens", "meusprodutos", "myproducts", "inv"],
-  type: "economia",
+  type: "Economia",
   description: `Veja todos os itens que você possui`,
   cooldown: {},
 

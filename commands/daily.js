@@ -24,7 +24,7 @@ module.exports = {
     const embed = new Discord.MessageEmbed()
       .setColor(hex.gray)
       .setTitle(`<:${emojis.lineproject}> Emprego: **${dailyRes.nameEmprego}**`)
-      .addField(`Você recebeu: <:${emojis.linecoinbitcoin}>**${dailyRes.recebido}**`, `Seus ganhos são entre: **<:${emojis.linecoinbitcoin}>${dailyRes.ganhoMin}** e **<:${emojis.linecoinbitcoin}>${dailyRes.ganhoMax}**\n\nVocê está trabalhando a **${dailyRes.diasConsecutivos}** dias consecutivos, trabalhe por **${dailyRes.diasParaUpar}** dias consecutivos para conseguir um novo emprego\n${dailyRes.novoEmprego ? `**Parabéns, você conseguiu um novo emprego  e a partir de amanhã ganhará mais <:${emojis.linecoinbitcoin}>CCoins!**` : ''}`)
+      .addField(`Você recebeu: <:${emojis.linecoinbitcoin}>**${dailyRes.recebido}**`, `Seus ganhos são entre: **<:${emojis.linecoinbitcoin}>${dailyRes.ganhoMin}** e **<:${emojis.linecoinbitcoin}>${dailyRes.ganhoMax}**\n\nVocê está trabalhando a **${dailyRes.diasConsecutivos}** dias consecutivos, trabalhe por **${dailyRes.diasParaUpar}** dias consecutivos para conseguir um novo emprego\n${dailyRes.novoEmprego ? `**Parabéns, você conseguiu um novo emprego  e a partir de amanhã ganhará mais <:${emojis.linecoinbitcoin}>CCoins!**\n` : ''}${dailyRes.reducaoEmprego ? `**Infelizmente você ficou mais de ${dailyRes.diasParaUpar*2} dias sem trabalhar e teve seu emprego rebaixado!**` : ''}`)
       .setFooter(`Sistema de economia ${client.user.username}`, client.user.displayAvatarURL())
       .setTimestamp()
     run(message, client, embed, emojis.alertcircleamarelo)

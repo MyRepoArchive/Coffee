@@ -3,7 +3,8 @@ const empregos = [
   ['Jovem aprendiz', 0.6],
   ['Estagiário', 1],
   ['Ajudante de pedreiro', 1.2],
-  ['Pedreiro', 1.5]
+  ['Pedreiro', 1.5],
+  ['']
 ]
 
 module.exports = {
@@ -42,8 +43,13 @@ module.exports = {
                   connection.query(`update users set consecutive_days = '${diasConsecutivos + 1}', daily_timestamp = '${message.createdTimestamp}' where iduser = '${message.author.id}'`)
                 }
               } else {
+                if (message.createdTimestamp - dailyTimestamp > res.diasParaUpar*2) {
+                  res.reducaoEmprego = true
+                  connection.query(`update users set emprego = '${emprego - 1}', consecutive_days = '0', daily_timestamp = '${message.createdTimestamp}' where iduser = '${message.author.id}'`)
+                } else {
+                  connection.query(`update users set daily_timestamp = '${message.createdTimestamp}', consecutive_days = '0' where iduser = '${message.author.id}'`)
+                }
                 res.diasConsecutivos = 0
-                connection.query(`update users set daily_timestamp = '${message.createdTimestamp}', consecutive_days = '0' where iduser = '${message.author.id}'`)
               }
               const randomMoney = Math.round(Math.random() * (100 * multiplicador - 100 * multiplicadorAnterior) + 100 * multiplicadorAnterior)
               res.ganhoMin = 100 * multiplicadorAnterior

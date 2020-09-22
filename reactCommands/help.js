@@ -15,6 +15,7 @@ module.exports = {
       const page = parseInt(message.message.embeds[0].footer.text.slice(message.message.embeds[0].footer.text.split('').lastIndexOf('(') + 1).split('').shift())
 
       if (message.emoji.identifier === emojis.fastforwardblue) {
+        if(page+1 > (tiposComandos.length % 11 > 0) ? parseInt(tiposComandos.length / 11) + 1 : parseInt(tiposComandos.length / 11)) return;
         const helpEmbed = new Discord.MessageEmbed()
           .setColor(hex.white)
           .setURL(config.commandsURL) // Aqui você pode colocar algum outro link
@@ -35,7 +36,7 @@ module.exports = {
         helpEmbed.addField(`<:${emojis.rewindblue}> | Página anterior`, `Retorne para a página anterior`)
         const newMsg = await message.message.edit(helpEmbed)
         /* await newMsg.reactions.map(reaction => reaction.users.remove(client.user.id)) */
-        const reaction = newMsg.reactions.find(react => react.emoji.identifier === emojis.fastforwardblue)
+        const reaction = newMsg.reactions.cache.find(react => react.emoji.identifier === emojis.fastforwardblue)
         if(reaction) reaction.users.remove(client.user.id)
         for (let i = 0; i < tiposComandos.length - (page * 11); i++) {
           if (i < emojiArray.length) {
@@ -50,6 +51,7 @@ module.exports = {
       }
 
       if (message.emoji.identifier === emojis.rewindblue) {
+        if(page-1 < 1) return;
         const helpEmbed = new Discord.MessageEmbed()
           .setColor(hex.white)
           .setURL(config.commandsURL) // Aqui você pode colocar algum outro link
@@ -69,7 +71,7 @@ module.exports = {
         }
         const newMsg = await message.message.edit(helpEmbed)
         /* await newMsg.reactions.map(reaction => reaction.users.remove(client.user.id)) */
-        const reaction = newMsg.reactions.find(react => react.emoji.identifier === emojis.fastforwardblue)
+        const reaction = newMsg.reactions.cache.find(react => react.emoji.identifier === emojis.fastforwardblue)
         if(reaction) reaction.users.remove(client.user.id)
         for (let i = 0; i < tiposComandos.length - ((page - 2) * 11); i++) {
           if (i < emojiArray.length) {
@@ -80,7 +82,7 @@ module.exports = {
           }
         }
         if (page - 1 === 1) {
-          newMsg.reactions.find(react => react.emoji.identifier === emojis.rewindblue).users.remove(client.user.id)
+          newMsg.reactions.cache.find(react => react.emoji.identifier === emojis.rewindblue).users.remove(client.user.id)
         }
         return;
       }
@@ -97,6 +99,8 @@ module.exports = {
       for (let i = 0; i < nameComandos.length; i++) {
         if (i < emojiArray.length) {
           embed.addField(`<:${emojiArray[i]}> | ${config.prefix}${nameComandos[i]}`, `${descComandos[i].split(' ').slice(0, 10).join(' ')}[...]`)
+        } else {
+          embed.addField(`<:${emojis.fastforwardblue}> | Mais comandos`, `EX: ${config.prefix}${nameComandos[i]}`)
         }
       }
       message.message.edit(embed)
@@ -104,10 +108,10 @@ module.exports = {
       const reaction = message.message.reactions.cache.find(react => react.emoji.identifier === emojis.fastforwardblue)
       if(reaction) reaction.users.remove(client.user.id)
       for (let i = 0; i < nameComandos.length; i++) {
-        if (i < nameComandos.length) {
+        if (i < emojiArray.length) {
           message.message.react(emojiArray[i])
         } else {
-          newMsg.react(emojis.fastforwardblue)
+          message.message.react(emojis.fastforwardblue)
           i = Infinity
         }
       }
@@ -120,7 +124,9 @@ module.exports = {
       const comandos = client.commands.filter(command => command.type === tipoComando)
       const nameComandos = [...new Set(comandos.map(comando => comando.name))]
       const descComandos = [...new Set(comandos.map(comando => comando.description))]
+
       if (message.emoji.identifier === emojis.fastforwardblue) {
+        if(page+1 > ((nameComandos.length % 11 > 0) ? parseInt(nameComandos.length / 11) + 1 : parseInt(nameComandos.length / 11))) return;
         const helpEmbed = new Discord.MessageEmbed()
           .setColor(hex.lightstategray)
           .setAuthor(user.username, user.displayAvatarURL())
@@ -138,7 +144,7 @@ module.exports = {
         helpEmbed.addField(`<:${emojis.rewindblue}> | Página anterior`, `Retorne para a página anterior`)
         const newMsg = await message.message.edit(helpEmbed)
         /* await newMsg.reactions.map(reaction => reaction.users.remove(client.user.id)) */
-        const reaction = newMsg.reactions.find(react => react.emoji.identifier === emojis.fastforwardblue)
+        const reaction = newMsg.reactions.cache.find(react => react.emoji.identifier === emojis.fastforwardblue)
         if(reaction) reaction.users.remove(client.user.id)
         for (let i = 0; i < nameComandos.length - (page * 11); i++) {
           if (i < emojiArray.length) {
@@ -153,12 +159,13 @@ module.exports = {
       }
 
       if (message.emoji.identifier === emojis.rewindblue) {
+        if(page-1 < 1) return;
         const helpEmbed = new Discord.MessageEmbed()
           .setColor(hex.lightstategray)
           .setAuthor(user.username, user.displayAvatarURL())
           .setTitle(message.message.embeds[0].title)
           .setTimestamp()
-          .setFooter(`Sistema de ajuda ${client.user.username} (${page - 1}/${(nameComandos.length % 11 > 0) ? parseInt(nameComandos.length / 11) + 1 : parseInt(nameComandos.length / 11)})`)
+          .setFooter(`Sistema de ajuda ${client.user.username} [${page - 1}/${(nameComandos.length % 11 > 0) ? parseInt(nameComandos.length / 11) + 1 : parseInt(nameComandos.length / 11)}]`)
         for (let i = 0; i < nameComandos.length - ((page - 2) * 11); i++) {
           if (i < emojiArray.length) {
             helpEmbed.addField(`<:${emojiArray[i]}> | ${config.prefix}${nameComandos[i + ((page - 2) * 11)]}`, `${descComandos[i + ((page - 2) * 11)].split(' ').slice(0, 10).join(' ')}[...]`)
@@ -169,7 +176,7 @@ module.exports = {
         }
         const newMsg = await message.message.edit(helpEmbed)
         /* await newMsg.reactions.map(reaction => reaction.users.remove(client.user.id)) */
-        const reaction = newMsg.reactions.find(react => react.emoji.identifier === emojis.fastforwardblue)
+        const reaction = newMsg.reactions.cache.find(react => react.emoji.identifier === emojis.fastforwardblue)
         if(reaction) reaction.users.remove(client.user.id)
         for (let i = 0; i < nameComandos.length - ((page - 2) * 11); i++) {
           if (i < emojiArray.length) {
@@ -180,7 +187,7 @@ module.exports = {
           }
         }
         if (page - 1 === 1) {
-          newMsg.reactions.find(react => react.emoji.identifier === emojis.rewindblue).users.remove(client.user.id)
+          newMsg.reactions.cache.find(react => react.emoji.identifier === emojis.rewindblue).users.remove(client.user.id)
         }
         return;
       }

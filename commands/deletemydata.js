@@ -30,19 +30,12 @@ module.exports = {
     const collector = message.channel.createMessageCollector(msg => msg.author.id === message.author.id, { max: 1, time: 60000 })
     collector.on('collect', async msg => {
       if(msg.content === `Eu quero deletar todos os meus dados no bot ${client.user.username}.`) {
-        connection.query(`select * from users where iduser = '${message.author.id}'`, (err, result) => {
-          if(err) throw err;
-          if(result[0] === undefined) return;
-          connection.query(`delete from users where iduser = '${message.author.id}'`)
-        })
+        
+        connection.query(`delete from users where iduser = '${message.author.id}'`)
         connection.query(`delete from compras_locais where userid = '${message.author.id}'`)
         connection.query(`delete from compras_globais where userid = '${message.author.id}'`)
-        connection.query(`select * from score_per_server where userid = '${message.author.id}'`, (err, result) => {
-          if(err) throw err;
-          if(result[0] === undefined) return;
-          connection.query(`delete from score_per_server where userid = '${message.author.id}'`)
-        })
-
+        connection.query(`delete from score_per_server where userid = '${message.author.id}'`)
+        
         return run(message, client, `<:${emojis.circlecheckverde}> ${message.author}, todos os seus dados foram deletados!`)
       } else {
         run(message, client, `<:${emojis.xcirclered}> ${message.author}, seus dados não foram deletados, tente novamente daqui a dez minutos caso ainda queira!`, emojis.xcirclered)

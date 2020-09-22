@@ -17,6 +17,14 @@ module.exports = {
         const emojiArray = [
             emojis.number0blue, emojis.number1blue, emojis.number2blue, emojis.number3blue, emojis.number4blue, emojis.number5blue, emojis.number6blue, emojis.number7blue, emojis.number8blue, emojis.number9blue, emojis.number10blue
         ]
+        if (tiposComandos.map(x => x.toLowerCase()).includes(args.join(' ').toLowerCase())) {
+            const tipoComando = tiposComandos.find(x => x.toLowerCase() === args.join(' ').toLowerCase())
+            const comandosDoTipo = client.commands.filter(comando => comando.type === tipoComando).map(comando => comando.name)
+            if(podeEnviarMsg) {
+                message.channel.send(`\`\`\`${comandosDoTipo.join(', ')}\`\`\``)
+                return;
+            }
+        }
         const helpEmbed = new Discord.MessageEmbed()
             .setColor(hex.white)
             .setURL(config.commandsURL) // Aqui você pode colocar algum outro link

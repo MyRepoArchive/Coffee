@@ -4,7 +4,7 @@ const empregos = [
   ['Estagiário', 1],
   ['Ajudante de pedreiro', 1.2],
   ['Pedreiro', 1.5],
-  ['']
+  ['Padeiro', 1.9]
 ]
 
 module.exports = {
@@ -43,7 +43,7 @@ module.exports = {
                   connection.query(`update users set consecutive_days = '${diasConsecutivos + 1}', daily_timestamp = '${message.createdTimestamp}' where iduser = '${message.author.id}'`)
                 }
               } else {
-                if (message.createdTimestamp - dailyTimestamp > res.diasParaUpar*2) {
+                if (message.createdTimestamp - dailyTimestamp > res.diasParaUpar*2 && emprego > 0) {
                   res.reducaoEmprego = true
                   connection.query(`update users set emprego = '${emprego - 1}', consecutive_days = '0', daily_timestamp = '${message.createdTimestamp}' where iduser = '${message.author.id}'`)
                 } else {

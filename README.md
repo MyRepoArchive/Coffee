@@ -23,8 +23,7 @@ const config = require("./config.json");
 #### Links
 [Como usar](#Como-usar) |
 [Criando bot no Discord](#Criando-bot-no-discord) |
-[Emojis personalizados](#Emojis-personalizados) | 
-[Comandos do bot](#Comandos-do-bot)
+[Emojis personalizados](#Emojis-personalizados)
 
 ### Como usar?
 Para rodar o bot na sua máquina, primeiramente você deve ter instalado o **NodeJS**, e ter [criado um bot na área de desenvolvedor do Discord](#Criando-bot-no-discord).
@@ -94,8 +93,7 @@ const config = require("./config.json");
 #### Links
 [How to use](#How-to-use) |
 [Creating bot on Discord](#Creating-bot-on-discord) |
-[Custom Emojis](#Custom-emojis) |
-[Bot commands](#Bot-commands)
+[Custom Emojis](#Custom-emojis)
 
 ### How to use?
 To run the bot on your machine, you must first have installed **NodeJS**, and [created a bot in the Discord developer area](#Creating-bot-on-discord).
@@ -142,169 +140,5 @@ You need to create an application on discord so that the code has nowhere to "ru
 For you to be able to use normally, add on some server that your bot is, all these images, in the discord emoji area, then you will change all occurrences of the personalized emojis that my instance uses, to the personalized emojis of yours instance.
 If you use *Visual Studio Code* as a code editor, there is a magnifying glass in the upper left corner, below the file tab, that allows you to change all occurrences of any phrase or word in your entire project, by another phrase or word.
 
-### Bot commands
 
-* Fun
-     * avatar
-        
-        Shows the user the avatar of him or another member of the server
-        
-        How to use:
-        
-        Showing his own avatar: *_avatar*
-        
-        Showing the avatar of another server member: *_avatar @member*
-        
-        or: *_avatar usernameOfMember*
-
-* Moderation
-    * unmute
-        
-        Enables the mentioned user to speak on the server again!
-        
-        How to use:
-        
-        __Mentioning the user(s)__ *_unmute @user1 @user2*
-        
-        **By username or nickname:** *_unmute username1 \ nickname1*
-        
-        NOTE: *The reason for the unmute is not mandatory, but if you use it, put it between back quotes ("`")*
-
-    * ban
-        
-        Ban the mentioned user(s) from the server!
-        
-        How to use:
-        
-        Mentioning the user(s): *_ban @user1 @user2 \ \`reason for the ban\` \`5\`*
-        
-        By username or nickname: *_ban username1 \ nickname1 \`reason for the ban\` \`3\`*
-        
-        NOTE: *Neither the reason for the ban nor the number of days to delete messages are mandatory, but if you are going to use them, put them between "`" (back quotes) and after the users to be banned, in sequence (reason, days)!*
-        
-        *To put the number of days to delete messages you must put a reason (mandatory)!*
-
-    * kick
-
-        Kicks the mentioned user(s) off the server!
-        
-        How to use:
-        
-        Mentioning the user(s): *_kick @user1 @user2 \`reason for expulsion\`*
-        
-        By username or nickname: *_kick username1 \ nickname1 \`reason for expulsion\`*
-        
-        NOTE: *The reason for the expulsion is not mandatory, but if you are going to use it, put it between "`"(backslashes) and after the users to be expelled!*
-
-    * mute
-
-        It is impossible for the mentioned user to speak on the server!
-        
-        How to use:
-        
-        __Mentioning the user(s)__ *_mute @user1 @user2 \`reason\`*
-        
-        __By username or nickname:__ *_mute username1 \ nickname1*
-        
-        NOTE: *The reason for the mute is not mandatory, but if you use it, put it between back quotes ("`")*
-
-* General
-    * calculator
-
-        Calculator for when you need to make a quick account 
-        
-        How to use:
-        
-        __Sum:__ *3 + 3* ```6```
-        
-        __Subtraction:__ *2-3* ```-1```
-        
-        __Multiplication:__ _2 * 5_ ```10```
-        
-        __Division:__ *50/2* ```25```
-        
-        __Rest of division (module):__ *100 % 3* ```1```
-
-        __Power:__ _5 **2_ ```25```
-        
-        NOTE: To use this bot functionality, it is not necessary to use the prefix, nor any command before, just type the mathematical operation in the chat and the bot shows you the result.
-
-    * desc
-
-        Shows the description of each command!
-        
-        How to use: **_desc kick**
-
-    * help
-
-        Command used when the user needs help or needs to know bot commands
-
-    * invite
-
-        My invitation link to add me on some other server
-
-    * ping
-
-        Ping is used to find out if I am active and to know how long it takes me to answer my requests.
-
-    * say
-
-        "Make mine my words"
-        
-        How to use:
-        
-        __On the same channel:__ *_say What should be said by me*
-        
-        __On another server channel:__ *_say #another-channel What should I say*
-        
-        __Using Embed on the same channel:__ *_say \`embed\` embed title \ embed description \ #f5f5f5*
-        
-        __Using Embed on another channel:__ *_say #other-channel \`embed\` embed title \ embed description \ #808080*
-        
-        NOTE: *If you are going to use embed in your message, put the term **"embed"** between back quotes. The embed title is mandatory, but the description and color are not. If you were confused about what should be placed in the last field of the embed, that should be the color in **hex** that the embed should assume. As you may have also noticed, the embed fields must be separated with "**\\**" (backslash)!*
-
-* Informative
-    * commandlist
-
-        Displays a list with the primary name of all bot commands in an Embed!
-
-    * info
-
-        Displays to the user some nice information about the bot, such as number of commands, users, channels, servers, etc...
-
-    * serverinfo
-
-        Shows some information about the server where the command was used
-
-* Management
-    * createchannel
-
-        Command that creates a new channel on the server on which it was executed!
-        
-        How to use: **_createChannel channel-name voice**
-        
-        NOTE: *If you want to change the channel type but want to keep the default name it generates, use **\`auto\`** (between back quotes) in place of the channel name.*
-
-    * deletechannel
-
-        You can use this command to delete a channel from any server for which you have permission.
-        
-        How to use:
-        
-        Mentioning the channel: *_deletechannel #channel-name-1 #channel-name-2*
-        
-        Dictating the channel ID: *_deletechannel channel_id_1 channel_id_2*
-
-* Contact with developers
-     * report
-
-         If you found a bug or something that you believe is not working as it should, just use the command so that developers are aware of the problem and solve it.
-        
-         How to use: *_report your report goes here*
-
-     * sugerir
-
-         If you would like to see some new functionality in the bot that you do not have yet, or any type of feature, just use the command so that developers are aware of the suggestion and can promptly fulfill your requests.
-        
-         How to use: *_sugerir your suggestion goes here*
 [...]INCOMPLETE RADME

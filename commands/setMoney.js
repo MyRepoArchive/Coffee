@@ -20,6 +20,7 @@ module.exports = {
       if(podeAddReactions) message.reactions.cache.find(react => react.users.cache.get(client.user.id).id === client.user.id).users.remove(client.user.id) // Remove o emoji de carregando
       return;
     }
+    
     const coluna = args[0].toLowerCase()
     const valor = args[1]
     if(!valor) {

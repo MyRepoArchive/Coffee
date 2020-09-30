@@ -187,7 +187,7 @@ module.exports = {
 
           newEmbed
             .setTitle(`Deseja comprar o redutor **${primeiroItem.name}**? (1/${itensRateReduces.length})`)
-            .setDescription(`<:${emojis.fastforward}> Próximo redutor\n<:${emojis.linebankbusinesscard}> Comprar redutor - <:${emojis.linecoinbitcoin}>**${primeiroItem.price}**\n<:${emojis.linebankcard}> Comprar resutor (global) - <:${emojis.linebitcoinmoney}>**${primeiroItem.global_price}**\n\n**${primeiroItem.description}**`)
+            .setDescription(`<:${emojis.fastforward}> Próximo redutor\n<:${emojis.linebankbusinesscard}> Comprar redutor - <:${emojis.linecoinbitcoin}>**${primeiroItem.price}**\n<:${emojis.linebankcard}> Comprar redutor (global) - <:${emojis.linebitcoinmoney}>**${primeiroItem.global_price}**\n\n**${primeiroItem.description}**`)
             .setThumbnail(`https://github.com/JoaoSCoelho/Coffe/blob/master/image/emojis/business-money.png?raw=true`)
             
 

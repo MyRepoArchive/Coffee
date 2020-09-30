@@ -31,7 +31,7 @@ module.exports = {
   async calc(message, client, connection) { // Código executado quando o usuario usa a calculadora em si
     const getCalcConfig = await require('../utils/getChannelOptions.js').getCacheCalc(connection, message.channel, message.guild)
     if(!getCalcConfig.canalAtual)return
-    message.content = message.content.toLowerCase().replace('**', '^').replace('×', '*').replace('÷', '/').replace('π', 'pi')
+    message.content = message.content.toLowerCase().replace('**', '^').replace('×', '*').replace('÷', '/').replace('π', 'pi').replace(':', '/')
     const podeEnviarMsg = message.channel.memberPermissions(message.guild.member(client.user.id)).has("SEND_MESSAGES") // Boolean para verificar se o bot pode enviar mensagens naquele canal
     const notIsNumber = message.content.split(/\d+/g).join('').split(/[/*.()+%-]/).join('').split(' ') // Pega o conteúdo da mensagem e divide todas as parte que forem números, depois, tudo o que for sinal, por fim divide todos os espaços e joga tudo isso que não for núnero, sinal ou espaço e joga em um array
     while(notIsNumber.indexOf('') >= 0) { notIsNumber.splice(notIsNumber.indexOf(''), 1) } // retira os '' do array acima

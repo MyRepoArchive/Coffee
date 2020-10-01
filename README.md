@@ -37,7 +37,7 @@ Se você estiver utilizando o **Visual Studio Code** como editor de códigos, ne
 node index.js
 ```
 
-Se deseja rodar o bot usando o **PowerShell**, primeiro entre atravez do PowerShell na pasta do seu bot (use cd caminho_da_pasta), em seguida execute o comando:
+Se deseja rodar o bot usando o **PowerShell**, primeiro entre através do PowerShell na pasta do seu bot (use cd caminho_da_pasta), em seguida execute o comando:
 ```
 node index.js
 ```
@@ -67,7 +67,7 @@ Você precisa criar uma aplicação no discord para que o código tenha onde "ro
 ### Emojis personalizados
 
 O **Coffee** usa uma vasta quantidade de emojis personalizados, e esses emojis só estão acessíveis nos servidores de emoji em que a minha instância do bot está, mas para não deixá-los de lado, eu disponibilizei na pasta *Emojis*, que fica dentro da pasta *Image*, todas as imagens que são usadas pelo **Coffee** em forma de emoji.
-Para você consegui usar normalmente, adicione em algum servidor que seu bot esteja, todas essas imagens, na área de emojis do discord, em seguida, você vai alterar todas as ocorrências dos emojis personalizados que a minha instância usa, para os emojis personalizados da sua instância.
+Para você conseguir usar normalmente, adicione em algum servidor que seu bot esteja, todas essas imagens, na área de emojis do discord, em seguida, você vai alterar todas as ocorrências dos emojis personalizados que a minha instância usa, para os emojis personalizados da sua instância.
 Se você usa o *Visual Studio Code* como editor de códigos, existe no canto superior esquerdo, abaixo da aba de arquivos, uma lupa que possibilita você alterar todas as ocorrências de alguma frase ou palavra do seu projeto inteiro, por outra frase ou palavra.
 
 
@@ -141,4 +141,4 @@ For you to be able to use normally, add on some server that your bot is, all the
 If you use *Visual Studio Code* as a code editor, there is a magnifying glass in the upper left corner, below the file tab, that allows you to change all occurrences of any phrase or word in your entire project, by another phrase or word.
 
 
-[...]INCOMPLETE RADME
+[...]INCOMPLETE README

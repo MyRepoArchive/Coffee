@@ -1,22 +1,25 @@
 const api = require('../services/api');
-let cacheActivities = [];
+const cache = require('../utils/cache');
 
 module.exports = {
   async activities() {
-    console.log('cache');
-
-    if (cacheActivities.length > 0) {
-      return cacheActivities;
+    if(cache.activities.length > 0) {
+      return cache.activities;
     } else {
       return await this.getActivities();
     }
   },
 
   async getActivities() {
-    console.log('api');
-    console.log(cacheActivities);
-    const response = await api.get('/activities');
-    cacheActivities = response.data;
-    return response.data;
+    const { data } = await api.get('/activities');
+
+    this.saveDataInCache(data);
+
+    return data;
   },
+
+  saveDataInCache(data) {
+    cache.activities = data;
+    cache.apiReq++;
+  }
 };

@@ -1,15 +1,28 @@
 const { rateReduces } = require("./getRateReducer");
+const { comprasJoinProducts } = require('../functions');
 
-let stts = 'aberto';
+let stts = true;
 
 module.exports = {
   async intervaloVerificacao(connection, client) {
-    if (!stts.includes('fechado')) {
+    if (stts) {
       setInterval(() => {
-        this.verificacao(connection, client)
+        this.verificacao(connection, client);
       }, 50000);
+      stts = false;
     }
   },
+
+  async verification() {
+    const { locais, globais } = await comprasJoinProducts();
+    const vancimentosLocais = locais.filter(compra => compra.p_validade && Date.now() - compra.momento_compra > compra.p_validade);
+    const vencimentosGlobais = globais.filter(compra => compra.p_validade && Date.now() - compra.momento_compra > compra.p_validade);
+
+    if(vancimentosLocais.length > 0 || vencimentosGlobais.length > 0) {
+      
+    };
+  },
+
   async verificacao(connection, client) {
     connection.query(`select compras_globais.id, userid, productid, momento_compra, validade, name, reducao_taxa from compras_globais inner join products on productid = products.id where products.validade > 0 order by userid`, (err, result) => {
       if (err) throw err;
@@ -115,3 +128,4 @@ module.exports = {
     })
   }
 }
+

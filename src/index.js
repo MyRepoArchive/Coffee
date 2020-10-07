@@ -3,25 +3,8 @@ const Discord = require('discord.js'); // Requerimento da biblioteca Discord.js
 const client = new Discord.Client(); // Criação do Client (bot)
 const config = require('./utils/info.json'); // Requerimento do arquivo config, que tem diversas informações pertinentes para o funcionamento do bot
 const hex = require('./utils/colors.json'); // Requerimento de um json de cores para facilitar na criação de embeds 
-let intervalActivity = null; // Starta a variável
-const changeActivity = require('./functions/src/changeActivity') // Chama o arquivo que muda o presence do bot
-const pad = require('./utils/pad.js') // Chama o arquivo que faz a função de pad
-const { createCanvas, loadImage } = require('canvas');
-const mysql = require('mysql'); // Conexão com o MySQL
-const mysqlDb = mysql.createConnection({ // Cria conexão com o banco de dados
-    database: config.mysqlDatabase,
-    host: config.mysqlHost,
-    user: config.mysqlUser,
-    password: config.mysqlPassword,
-    port: config.mysqlPort
-});
-mysqlDb.connect(err => { // Conecta com o banco de dados
-    if (err) {
-        console.error('Erro na conexão: ' + err.stack)
-        mysqlDb.connect()
-        return;
-    }
-});
+const { changeActivity, pad, mysqlDb } = require('./functions/index');
+
 require('./utils/verificadorDeValidade.js').intervaloVerificacao(mysqlDb, client)
 
 // CORES PARA COLORIR TERMINAL

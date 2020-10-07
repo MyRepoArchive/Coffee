@@ -1,5 +1,5 @@
-const activities = require('./src/controllers/activities');
+const ActivitiesController = require('./src/controllers/ActivitiesController');
 
-activities().then(response => {
+ActivitiesController.activities().then(response => {
   console.log(response);
 });

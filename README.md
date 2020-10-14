@@ -141,4 +141,4 @@ For you to be able to use normally, add on some server that your bot is, all the
 If you use *Visual Studio Code* as a code editor, there is a magnifying glass in the upper left corner, below the file tab, that allows you to change all occurrences of any phrase or word in your entire project, by another phrase or word.
 
 
-[...]INCOMPLETE AND PROBABLY INCOHERENT README
+[...]INCOMPLETE AND PROBABLY INCOHERENT README 

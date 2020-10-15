@@ -3,7 +3,7 @@ const Discord = require('discord.js'); // Requerimento da biblioteca Discord.js
 const client = new Discord.Client(); // Criação do Client (bot)
 const config = require('./utils/info.json'); // Requerimento do arquivo config, que tem diversas informações pertinentes para o funcionamento do bot
 const hex = require('./utils/colors.json'); // Requerimento de um json de cores para facilitar na criação de embeds 
-const { changeActivity, pad, mysqlDb } = require('./functions/index');
+const { changeActivity, pad, mysqlDb } = require('./functions');
 
 require('./utils/verificadorDeValidade.js').intervaloVerificacao(mysqlDb, client)
 

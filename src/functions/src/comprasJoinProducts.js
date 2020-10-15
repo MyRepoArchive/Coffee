@@ -1,7 +1,9 @@
+const api = require('../../services/api');
+
 module.exports = async () => {
-  const comprasLocais = await require('../../controllers/ComprasLocaisController').comprasLocais();
-  const comprasGlobais = await require('../../controllers/ComprasGlobaisController').comprasGlobais();
-  const products = await require('../../controllers/ProductsController').products();
+  const comprasLocais = await api.get('/localPurchases');
+  const comprasGlobais = await api.get('/globalPurchases');
+  const products = await api.get('/products');
 
   const result = {
     locais: comprasLocais.map(compra => {
@@ -23,7 +25,7 @@ module.exports = async () => {
   
       return compra;
     })
-  }
+  };
 
   return result;
 }

@@ -1,11 +1,8 @@
-const ActivitiesController = require('./src/controllers/ActivitiesController');
-const cache = require('./src/utils/cache');
+const json = require('./teste.json');
+console.log(JSON.stringify(json)+'\n');
 
-let i = 0;
-const interval = setInterval(() => {
-  ActivitiesController.activities().then(response => {
-    console.log(response, cache);
-  });
-  i++
-  if(i >= 3) clearInterval(interval);
-}, 1000);
+json.oi = 'oi';
+
+require('./tester2')();
+
+console.log(json);

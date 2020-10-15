@@ -1,4 +1,5 @@
 const { client } = require('../../index');
+const api = require('../../services/api');
 
 const defaultActivities = [
   {
@@ -24,7 +25,7 @@ let i = 0;
 module.exports = async () => { // Função que muda o que o bot exibe no "Activity" a cada 20 segundos
   if (!intervalActivity) clearInterval(intervalActivity); // Toda vez que a função for chamada (exceto a primeira) o interval vai ser parado
 
-  const personalizedActivities = await require('../../controllers/ActivitiesController').activities();
+  const personalizedActivities = await api.get('/activities');
 
   const activities = personalizedActivities.filter(activity => activity.important === 1).length > 0 ?
   personalizedActivities.filter(activity => activity.important === 1) :
@@ -35,7 +36,7 @@ module.exports = async () => { // Função que muda o que o bot exibe no "Activi
       client.user.setActivity(activities[i].name, { type: activities[i].type, url: activities[i].url });
       i++;
     } else {
-      client.user.setActivity(activities[0], { type: activities[0].type, url: activities[0].url });
+      client.user.setActivity(activities[0].name, { type: activities[0].type, url: activities[0].url });
       i = 0;
     }
   }, 20000); // 20000ms == 20s

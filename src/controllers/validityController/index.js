@@ -2,7 +2,7 @@ const { comprasJoinProducts, error } = require('../../functions');
 const { client } = require('../..');
 const moment = require('moment');
 const { static: { emoji } } = require('../../utils/emojis.json');
-const { notFoundUser } = require('./src/warnings');
+const { notFoundUser, notFoundServer, notificationMsg, sendUserError } = require('./src/warnings');
 
 let stts = true;
 
@@ -25,30 +25,12 @@ function notify(locais = [], globais = []) {
 
     if (!user) return notFoundUser(compra);
 
-    if (!server) return error(
-      `> ${emoji.emojicoffeeinfo} Aviso\n\n`+
-      '> Houve um problema no momento de notificar um dos usuários sobre o vencimento de um de seus produtos. O Servidor no qual o usuário comprou o item não foi encontrado!\n'+
-      `> O ID do usuário: "${compra.user_id}"\n`+
-      `> O ID do servidor: "${compra.server_id}"\n`+
-      `> O produto: ${compra.p_name} \`${compra.p_id}\``
-    );
+    if (!server) return notFoundServer(compra);
 
     try {
-      user.send(
-        `> ${emoji.emojicoffeeinfo} Aviso\n\n`+
-        `> Olá Sr.${user.username}, informamos que seu **${compra.p_name}** com validade para **${compra.p_validity / 86400000} dias**, comprado no servidor ${server.name} venceu. Ele estará sendo retirado de sua conta neste instante.\n`+
-        '> Agradeçemos a compreensão.\n\n'+
-        `> Data da compra: \`${purchaseDate}\`\n`+
-        `> Data de vencimento: \`${expirationDate}\``
-      );
+      user.send(notificationMsg(user, compra, purchaseDate, expirationDate, server));
     } catch (e) {
-      error(
-        `> ${emoji.emojicoffeeinfo} Aviso\n\n`+
-        '> Aconteceu um problema ao enviar a notificação de vencimento de produto para um dos usuários.\n'+
-        `> O ID do usuário: "${compra.user_id}"\n`+
-        `> O produto: ${compra.p_name} \`${compra.p_id}\`\n`+
-        `> O erro: "${e}"`
-      );
+      sendUserError(compra, e);
     }
   });
 

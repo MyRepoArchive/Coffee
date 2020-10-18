@@ -1,4 +1,4 @@
-const { mysqlDatabase, mysqlHost, mysqlUser, mysqlPassword, mysqlPort } = require('../../utils/info.json');
+const { mysqlDatabase, mysqlHost, mysqlUser, mysqlPassword, mysqlPort } = require('../../config/auth.json');
 const mysql = require('mysql');
 
 const mysqlDb = mysql.createConnection({ // Cria conexão com o banco de dados

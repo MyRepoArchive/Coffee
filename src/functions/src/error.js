@@ -1,10 +1,10 @@
-const { client } = require('../..');
-const { erro } = require('../../utils/info.json');
-const channel = client.channels.cache.get(erro);
+const { erro } = require('../../config/default.json');
 const { static: { emoji } } = require('../../utils/emojis.json');
-const { alertAdmins } = require('..'); 
+const { alertAdmins, client } = require('..'); 
 
 module.exports = (msg) => {
+  const channel = client.channels.cache.get(erro);
+
   if (!channel) return alertAdmins(
     `> ${emoji.emojicoffeeinfo} Aviso\n\n`+
     '> Olá querido administrador, não foi possível encontrar o canal que está cadastrado para envio de erros e avisos.\n'+

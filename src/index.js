@@ -1,18 +1,10 @@
-const fs = require('fs'); // Requerimento do fileSystem
 const Discord = require('discord.js'); // Requerimento da biblioteca Discord.js
-const client = new Discord.Client(); // Criação do Client (bot)
-const config = require('./utils/info.json'); // Requerimento do arquivo config, que tem diversas informações pertinentes para o funcionamento do bot
-const hex = require('./utils/colors.json'); // Requerimento de um json de cores para facilitar na criação de embeds 
-const { changeActivity, pad, mysqlDb } = require('./functions');
+const { token } = require('./config/auth.json'); // TOKEN para logar o bot
+const { client } = require('./functions'); // Client instanciado
 
-require('./utils/verificadorDeValidade.js').intervaloVerificacao(mysqlDb, client)
+require('./controllers/validityController')(); // Passar isso para dentro Ready!
 
-// CORES PARA COLORIR TERMINAL
-const consoleColors = ['\033[0m', '\033[30m', '\033[31m', '\033[32m', '\033[33m', '\033[34m', '\033[35m', '\033[36m', '\033[37m'];
-// 0 = reset; 1 = black; 2 = red; 3 = green; 4 = yellow; 5 = roxo; 6 = magenta; 7 = cyan; 8 = white;
-client.commands = new Discord.Collection(); // Collection com os comandos do bot
-client.reactCommands = new Discord.Collection(); // Collection com os comandos por reação do bot
-client.events = new Discord.Collection(); // Collection dos eventos em que o bot está inscrito
+
 require('./utils/setHandlerNames.js').run(client) // Executa o arquivo com a função de setar os nomes nos events, commands e reactCommands
 
 client.on("ready", () => { client.events.get('ready').execute(client, intervalActivity, Data) }); // Evento da largada do bot 
@@ -33,6 +25,4 @@ process.on("unhandledRejection", reason => { require('./utils/processEvents.js')
 
 process.on("warning", warning => { require('./utils/processEvents.js').wa(warning, client) }); // Evento acionado quanto o processo dispara um alerta
 
-client.login(config.token); // Login do bot com o token
-
-module.exports = { client, mysqlDb };
+/* client.login(token); // Login do bot com o token */

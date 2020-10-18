@@ -5,4 +5,6 @@ module.exports = {
   comprasJoinProducts: require('./src/comprasJoinProducts'),
   error: require('./src/error'),
   alertAdmins: require('./src/alertAdmins'),
+  client: require('./src/instanceClient'),
+  handlerLoader: require('./src/handlerLoader'),
 };

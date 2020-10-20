@@ -1,14 +1,13 @@
 const { admins } =  require('../../config/default.json');
 const { static: { emoji } } = require('../../utils/emojis.json');
-const { client } = require('..');
+const client = require('../..');
 
 module.exports = (msg) => {
   admins.forEach(async id => {
     const user = await client.users.fetch(id);
     
-    try {
-      user.send(msg);
-    } catch (e) {
+    user.send(msg)
+    .catch(e => {
       console.warn(
         `Não foi possível entrar e contato com o usuário de ID: '${id}' que está cadastrado como um dos meus administradores!\n`+
         `A mensagem que deveria ser enviada era: "${msg}"`
@@ -18,6 +17,6 @@ module.exports = (msg) => {
         `> ${emoji.emojicoffeeinfo} Aviso!\n\n`+
         '> Há uma nova mensagem no console do bot!'
       ).catch(() => {});
-    };
+    });
   });
-}
+};

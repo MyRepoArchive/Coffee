@@ -1,6 +1,7 @@
 const { erro } = require('../../config/default.json');
 const { static: { emoji } } = require('../../utils/emojis.json');
-const { alertAdmins, client } = require('..'); 
+const client = require('../..');
+const { alertAdmins } = require('..');
 
 module.exports = (msg) => {
   const channel = client.channels.cache.get(erro);
@@ -19,9 +20,8 @@ module.exports = (msg) => {
     `> Aviso/erro a ser enviado: "${msg}".`
   );
 
-  try {
-    channel.send(msg);
-  } catch (e) {
+  channel.send(msg)
+  .catch(e => {
     alertAdmins(
       `> ${emoji.emojicoffeeinfo} Aviso\n\n`+
       '> Olá meu querido administrador, ocorreu um erro ao enviar um novo aviso/erro no canal cadastrado para envio de erros e avisos.\n'+
@@ -29,5 +29,5 @@ module.exports = (msg) => {
       `> O aviso/erro que deveria ser enviado: "${msg}".\n`+
       `> Erro que ocorreu durante o processo: "${e}".`
     );
-  };
+  });
 };

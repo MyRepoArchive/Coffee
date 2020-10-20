@@ -1,44 +1,32 @@
 const Discord = require('discord.js');
 const fs = require('fs');
-const { client } = require('..')
+const client = require('../..');
 
 module.exports = () => {
-  client.commands = new Discord.Collection(); // Collection com os comandos do bot
-  client.events = new Discord.Collection(); // Collection dos eventos em que o bot está inscrito
-
+  // Collections com os comandos e eventos do bot
+  client.commands = new Discord.Collection();
+  client.events = new Discord.Collection();
+  
+  // Faz um loop por todas as categorias que estão na pasta commands
   fs.readdirSync('./src/commands', { withFileTypes: true })
-  .filter(dirent => dirent.isDirectory())
-  .forEach(dirent => {
-    const commandsOfType = {};
-
+  .filter(category => category.isDirectory())
+  .forEach(category => {
+    // Faz um loop por todos os comandos que estão em cada uma das categoriase seta o comando na collection
     fs.readdirSync(`./src/commands/${dirent.name}`, { withFileTypes: true })
     .filter(dirent => dirent.isDirectory())
     .forEach(dirent => {
-      const command = require(`../../commands/${dirent.name}`);
+      const command = require(`../../commands/${category.name}/${dirent.name}`);
 
-      commandsOfType[command.config.name] = command;
+      client.commands.set(command.config.name, command);
     });
-
-    client.commands.set(dirent.name, commandsOfType);
   });
 
-  const eventFiles = fs.readdirSync('./events/').filter(file => file.endsWith('.js')); // Todos os arquivos dos eventos
+  // Loop por todos os eventos da pasta eventos
+  fs.readdirSync('./src/events', { withFileTypes: true })
+  .filter(dirent => dirent.isDirectory())
+  .forEach(dirent => {
+    const event = require(`../../events/${dirent.name}`);
 
-  for (const file of commandFiles) { // Para cada arquivo da pasta commands vai ser setado alguns nomes
-
-    const command = require(`../commands/${file}`);
-    client.commands.set(command.name, command);
-  }
-
-  for (const file of reactCommandFiles) { // Para cada arquivo da pasta reactCommands vai ser setado alguns nomes
-    const reactCommand = require(`../reactCommands/${file}`);
-    client.reactCommands.set(reactCommand.name, reactCommand);
-  }
-
-  for (const file of eventFiles) {
-    const event = require(`../events/${file}`);
-    client.events.set(event.name, event);
-  }
-}
-
-module.exports();
+    client.events.set(event.config.name, event);
+  });
+};

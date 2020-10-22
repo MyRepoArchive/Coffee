@@ -8,8 +8,10 @@ module.exports = {
   exampleUrl: '',
   cooldown: 10000,
   cooldownControl: {},
+  timesLimit: 2,
+  active: true,
   createdTimestamp: 1598646020000,
-  updatedTimestamp: 1600114820000,
+  updatedTimestamp: 1603328174440,
   version: '1.0',
   releasesNotes: {
     '1.0': ''

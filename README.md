@@ -9,7 +9,7 @@
 Um Bot para o Discord de código aberto, que usa a biblioteca [Discord.js](https://discord.js.org/#/)!
 
 ### Aviso
-**Antes de tudo, para seu bot funcionar corretamente, modifique o arquivo *config.json* para *info.json*! (RECOMENDADO)**
+**Antes de tudo, para seu bot funcionar corretamente modifique o arquivo *config.json* para *info.json*! (RECOMENDADO)**
 
 **Ou você pode entrar em todos os arquivos que requerem o *info.json* e modificar a linha:**
 ```js

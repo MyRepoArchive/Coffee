@@ -3,14 +3,14 @@ const client = require('../../../..');
 
 module.exports = (status, message) => {
   if (!message) return error(
-    `> ${emoji.emojicoffeeinfo} Aviso!\n\n`+
+    `> ${emoji.emojicoffeeinfo} Aviso!\n`+
     '> A função "feedbackUser" está sendo chamada sem o parâmetro "message" que é essencial para o correto funcionamento da mesma.\n'+
     `> Path: "${__filename}"`
   );
 
   if (!status) {
     error(
-      `> ${emoji.emojicoffeeinfo} Aviso!\n\n`+
+      `> ${emoji.emojicoffeeinfo} Aviso!\n`+
       '> A função "feedbackUser" está sendo chamada sem o parâmetro "status".\n'+
       `> Path: "${__filename}"`
     );
@@ -19,7 +19,7 @@ module.exports = (status, message) => {
   }
 
   const msg = 
-    `> ${emoji.emojicoffeecheck} Check!\n\n`+
+    `> ${emoji.emojicoffeecheck} Check!\n`+
     '> Seu report foi enviado para os administradores, eles irão verificar se é válido e irão corrigir o mais rápido possível. Obrigado!\n'+
     `> Status: "${status}"`
 
@@ -31,7 +31,7 @@ module.exports = (status, message) => {
         dm();
 
         error(
-          `> ${emoji.emojicoffeeinfo} Aviso!\n\n` +
+          `> ${emoji.emojicoffeeinfo} Aviso!\n` +
           '> Houve um erro ao enviar um check.\n' +
           `> ID do canal do erro: "${message.channel.id}"\n` +
           `> Erro: "${e}"`
@@ -45,19 +45,12 @@ module.exports = (status, message) => {
         if (permissions.has("ADD_REACTIONS")) message.react(eID.emojicoffeecheck)
           .catch(e => {
             error(
-              `> ${emoji.emojicoffeeinfo} Aviso!\n\n` +
+              `> ${emoji.emojicoffeeinfo} Aviso!\n` +
               '> Houve um problema ao tentar adicionar uma reação em um comando.\n'+
               `> ID do canal do erro: "${message.channel.id}"\n`+
               `> Erro: "${e}"`
             );
-          });;
-
-        error(
-          `> ${emoji.emojicoffeeinfo} Aviso!\n\n` +
-          '> Houve um problema ao enviar um check para a DM de um usuário!\n'+
-          `> Usuário: ${message.author.tag} \`${message.author.id}\`\n`+
-          `> Erro: "${e}"`
-        );
+          });
       });
   };
 };

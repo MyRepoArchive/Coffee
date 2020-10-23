@@ -6,5 +6,6 @@ module.exports = {
   alertAdmins: require('./src/alertAdmins'),
   handlerLoader: require('./src/handlerLoader'),
   apiReqError: require('./src/apiReqError'),
-  verifyCooldown: require('./src/verifyCooldown')
+  verifyCooldown: require('./src/verifyCooldown'),
+  verifyActive: require('./src/verifyActive'),
 };

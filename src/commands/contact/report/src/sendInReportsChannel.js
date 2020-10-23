@@ -8,13 +8,13 @@ module.exports = (reportContent, message, createdTimestamp) => {
   const channel = client.channels.cache.get(report);
 
   if (!channel) return error(
-    `> ${emoji.emojicoffeeinfo} Aviso!\n\n` +
+    `> ${emoji.emojicoffeeinfo} Aviso!\n` +
     '> O canal de reports que foi setado como padrão não foi encontrado!\n' +
     `> Path: "${__filename}"`
   );
 
   if (!channel.permissionsFor(client.user).has('SEND_MESSAGES')) return error(
-    `> ${emoji.emojicoffeeinfo} Aviso!\n\n` +
+    `> ${emoji.emojicoffeeinfo} Aviso!\n` +
     '> O bot não tem permissão para enviar mensagens no canal que foi definido como o canal de reports!\n' +
     `> Path: "${__filename}"`
   );
@@ -28,7 +28,7 @@ module.exports = (reportContent, message, createdTimestamp) => {
 
   channel.send(reportEmbed)
     .catch(e => error(
-      `> ${emoji.emojicoffeeinfo} Aviso!\n\n`+
+      `> ${emoji.emojicoffeeinfo} Aviso!\n`+
       '> Houve um erro ao enviar um novo report no canal de reports!\n'+
       `> Path: "${__filename}"\n`+
       `> Erro: "${e}"\n`+

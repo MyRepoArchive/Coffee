@@ -32,7 +32,7 @@ module.exports = (message, controller, time = 3000, timesLimit = 1) => {
       `${parseInt((time - timeBetween)/60000)} minutos`);
 
   const msg = 
-    `> ${emoji.emojicoffeeinfo} Aviso!\n\n`+
+    `> ${emoji.emojicoffeeinfo} Aviso!\n`+
     '> Você está tentando usar este comando muitas vezes seguidas, por favor aguarde!\n'+
     `> Tempo: ${waitingTime}`;
   
@@ -44,7 +44,7 @@ module.exports = (message, controller, time = 3000, timesLimit = 1) => {
           dm();
   
           error(
-            `> ${emoji.emojicoffeeinfo} Aviso!\n\n`+
+            `> ${emoji.emojicoffeeinfo} Aviso!\n`+
             '> Houve um erro ao tentar enviar um alerta de cooldown.\n'+
             `> ID do canal: "${message.channel.id}"\n`+
             `> Erro: "${e}"`
@@ -71,25 +71,18 @@ module.exports = (message, controller, time = 3000, timesLimit = 1) => {
         if (permissions.has("ADD_REACTIONS")) message.react(eID.emojicoffeeerro)
           .catch(e => {
             error(
-              `> ${emoji.emojicoffeeinfo} Aviso!\n\n` +
+              `> ${emoji.emojicoffeeinfo} Aviso!\n` +
               '> Houve um problema ao tentar adicionar uma reação em um comando.\n'+
               `> ID do canal do erro: "${message.channel.id}"\n`+
               `> Erro: "${e}"`
             );
           });
-
-        error(
-          `> ${emoji.emojicoffeeinfo} Aviso!\n\n` +
-          '> Houve um problema ao enviar um alerta de cooldown para a DM de um usuário!\n'+
-          `> Usuário: ${message.author.tag} \`${message.author.id}\`\n`+
-          `> Erro: "${e}"`
-        );
       });
   };
 
   function withoutParam(param) {
     return (
-      `> ${emoji.emojicoffeeinfo} Aviso!\n\n`+
+      `> ${emoji.emojicoffeeinfo} Aviso!\n`+
       '> A função "verifyCooldown" está sendo chamada sem o parâmetro "' + param + '", que é essencial para o pleno funcionamento da mesma.\n'+
       `> Path: "${__filename}"`
     );

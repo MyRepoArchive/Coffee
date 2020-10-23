@@ -7,7 +7,7 @@ let intervalActivity;
 let i = 0;
 
 module.exports = () => { // Função que muda o que o bot exibe no "Activity" a cada 20 segundos
-  const defaultActivities = [
+  const defaultActivities = () => [
     {
       name: `Estou em ${client.guilds.cache.size} servidores`,
       type: 'STREAMING',
@@ -19,7 +19,7 @@ module.exports = () => { // Função que muda o que o bot exibe no "Activity" a 
       url: null
     },
     {
-      name: `Estou a ${parseInt((Date.now() - client.uptime) / 60000)} horas ativo`,
+      name: `Estou a ${parseInt(client.uptime / 60000)} horas ativo`,
       type: 'STREAMING',
       url: null
     },
@@ -29,12 +29,12 @@ module.exports = () => { // Função que muda o que o bot exibe no "Activity" a 
 
   api.get('/activities')
   .then(({ data }) => {
-    const activities = data.filter(activity => activity.important === 1).length ?
-      data.filter(activity => activity.important === 1) :
-      data.concat(defaultActivities);
-
     intervalActivity = setInterval(() => { // Alterna o presence do bot a cada 20s
-      if (i < activities.lengt) {
+      const activities = data.filter(activity => activity.important === 1).length ?
+      data.filter(activity => activity.important === 1) :
+      data.concat(defaultActivities());
+      
+      if (i < activities.length) {
         client.user.setActivity(activities[i].name, { type: activities[i].type, url: activities[i].url });
         i++;
       } else {

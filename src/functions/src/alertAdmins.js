@@ -14,7 +14,7 @@ module.exports = (msg) => {
       );
       
       user.send(
-        `> ${emoji.emojicoffeeinfo} Aviso!\n\n`+
+        `> ${emoji.emojicoffeeinfo} Aviso!\n`+
         '> Há uma nova mensagem no console do bot!'
       ).catch(() => {});
     });

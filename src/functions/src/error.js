@@ -2,9 +2,12 @@ const { erro } = require('../../config/default.json');
 const { static: { emoji } } = require('../../utils/emojis.json');
 const client = require('../..');
 const { alertAdmins } = require('..');
+const fs = require('fs');
 
 module.exports = (msg) => {
   const channel = client.channels.cache.get(erro);
+  
+  fs.writeFileSync('./src/utils/log.txt', fs.readFileSync('./src/utils/log.txt', { encoding: 'utf8' }) + '\n\n' + msg)
 
   if (!channel) return alertAdmins(
     `> ${emoji.emojicoffeeinfo} Aviso\n`+

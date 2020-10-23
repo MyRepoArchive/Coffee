@@ -14,5 +14,5 @@ module.exports = () => {
   });
 
 
-  fs.writeFileSync('./src/utils/emojis.json', JSON.stringify(emojis));
+  fs.writeFileSync('./src/utils/emojis.json', JSON.stringify(emojis, null, 2));
 }

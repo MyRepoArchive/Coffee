@@ -20,7 +20,7 @@ api.post('/auth', { i: client.user.id, password: auth.apiPassword })
     error(
     `> ${emoji.emojicoffeeerro} Erro!\n`+
     '> Houve um erro ao autenticar o bot na api.\n'+
-    `> Erro: "${JSON.stringify(e.response)}"`
+    `> Erro: "${JSON.stringify(e)}"`
     );
     console.error(e)
   });

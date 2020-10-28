@@ -7,4 +7,6 @@ module.exports = {
   handlerLoader: require('./src/handlerLoader'),
   verifyCooldown: require('./src/verifyCooldown'),
   verifyActive: require('./src/verifyActive'),
+  apiError: require('./src/apiError'),
+  prefix: require('./src/prefix'),
 };

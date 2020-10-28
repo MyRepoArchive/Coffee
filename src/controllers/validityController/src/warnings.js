@@ -1,5 +1,5 @@
-const { error } = require('../../../functions');
-const { static: { emoji } } = require('../../../utils/emojis.json')
+const { error, apiError } = require('../../../functions');
+const { static: { emoji } } = require('../../../utils/emojis.json');
 
 module.exports = {
   notFoundUser(compra) {
@@ -21,15 +21,17 @@ module.exports = {
     );
   },
 
-  notify(user, compra, purchaseDate, expirationDate, server) {
+  notify: (user, compra, purchaseDate, expirationDate, server) => new Promise((resolve, reject) => {
     user.send(
       `> ${emoji.emojicoffeeinfo} Aviso\n`+
       `> Olá Sr.${user.username}, informamos que seu **${compra.p_name}** com validade para **${compra.p_validity / 86400000} dias**${server ? `, comprado no servidor **${server.name}**,` : ''} venceu. Ele estará sendo retirado de sua conta neste instante.\n`+
       '> Agradeçemos a compreensão.\n'+
       `> Data da compra: \`${purchaseDate}\`\n`+
       `> Data de vencimento: \`${expirationDate}\``
-    );
-  },
+    )
+      .then(() => resolve())
+      .catch(e => reject(e));
+  }),
 
   notifyError(compra, e) {
     error(
@@ -37,7 +39,7 @@ module.exports = {
       '> Aconteceu um problema ao enviar a notificação de vencimento de produto para um dos usuários.\n'+
       `> O ID do usuário: "${compra.user_id}"\n`+
       `> O produto: ${compra.p_name} \`${compra.p_id}\`\n`+
-      `> O erro: "${e}"`
+      `> O erro: "${apiError(e)}"`
     );
   },
 
@@ -46,7 +48,7 @@ module.exports = {
       `> ${emoji.emojicoffeeerro} Erro\n`+
       `> Aconteceu um problema ao fazer a requisição de deletar as compras ${type} para a api.\n`+
       `> Os IDs das compras: ${ids}\n`+
-      `> O erro: "${e}"`
+      `> O erro: "${apiError(e)}"`
     );
   }
 };

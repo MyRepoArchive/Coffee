@@ -25,7 +25,7 @@ module.exports = () => {
             error(
               `> ${emoji.emojicoffeeinfo} Aviso!\n`+
               '> O bot encontrou um problema ao tentar enviar o log de largada no canal predefinido para logs!\n'+
-              `> Erro: "${e}"`
+              `> Erro: "${JSON.stringify(e)}"`
             );
           });
       } else error(
@@ -37,6 +37,6 @@ module.exports = () => {
     .catch(e => error(
       `> ${emoji.emojicoffeeinfo} Aviso!\n`+
       '> O bot não conseguiu encontrar o canal predefinido para logs!\n'+
-      `> Erro: "${e}"`
+      `> Erro: "${JSON.stringify(e)}"`
     ));
 };

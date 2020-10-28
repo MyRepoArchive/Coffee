@@ -1,13 +1,19 @@
 const { erro } = require('../../config/default.json');
 const { static: { emoji } } = require('../../utils/emojis.json');
 const client = require('../..');
-const { alertAdmins } = require('..');
+const moment = require('moment');
 const fs = require('fs');
 
 module.exports = (msg) => {
   const channel = client.channels.cache.get(erro);
+  const { alertAdmins } = require('..');
   
-  fs.writeFileSync('./src/utils/log.txt', fs.readFileSync('./src/utils/log.txt', { encoding: 'utf8' }) + '\n\n' + msg)
+  fs.writeFileSync('./src/utils/log.txt', fs.readFileSync('./src/utils/log.txt', { encoding: 'utf8' }) + 
+    '\n\n\n\n' + 
+    '>>> ' + moment().locale('pt-br').format('LLLL') + ' <<<' +
+    '\n\n' +
+    msg
+  );
 
   if (!channel) return alertAdmins(
     `> ${emoji.emojicoffeeinfo} Aviso\n`+
@@ -24,13 +30,13 @@ module.exports = (msg) => {
   );
 
   channel.send(msg)
-  .catch(e => {
-    alertAdmins(
-      `> ${emoji.emojicoffeeinfo} Aviso\n`+
-      '> Olá meu querido administrador, ocorreu um erro ao enviar um novo aviso/erro no canal cadastrado para envio de erros e avisos.\n'+
-      `> ID do canal: '${erro}'.\n`+
-      `> O aviso/erro que deveria ser enviado: "${msg}".\n`+
-      `> Erro que ocorreu durante o processo: "${e}".`
-    );
-  });
+    .catch(e => {
+      alertAdmins(
+        `> ${emoji.emojicoffeeinfo} Aviso\n`+
+        '> Olá meu querido administrador, ocorreu um erro ao enviar um novo aviso/erro no canal cadastrado para envio de erros e avisos.\n'+
+        `> ID do canal: '${erro}'.\n`+
+        `> O aviso/erro que deveria ser enviado: "${msg}".\n`+
+        `> Erro que ocorreu durante o processo: "${JSON.stringify(e)}".`
+      );
+    });
 };

@@ -3,6 +3,7 @@ const { changeActivity } = require('../../functions');
 const client = require('../..');
 const log = require('./src/log');
 const loadEmojis = require('./src/loadEmojis');
+const validityController = require('../../controllers/validityController');
 
 module.exports = () => {
   console.log(
@@ -14,4 +15,5 @@ module.exports = () => {
   loadEmojis();
   log();
   changeActivity();
+  validityController();
 }

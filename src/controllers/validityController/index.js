@@ -1,4 +1,5 @@
-const { comprasJoinProducts, client } = require('../../functions');
+const { comprasJoinProducts } = require('../../functions');
+const client = require('../..');
 const moment = require('moment');
 const { notFoundUser, notFoundServer, notify, notifyError, apiError } = require('./src/warnings');
 const api = require('../../services/api');
@@ -22,52 +23,41 @@ async function verificationValidity() {
   const idsGlobais = vencimentosGlobais.map(compra => compra.id);
 
   // Vencimento de compras locais
-  if(idsLocais.length !== 0) {
-    try {
-      await api.delete('/localPurchases/bulkDelete', { body: { ids: idsLocais } });
-    } catch (e) {
-      return apiError('locais', idsLocais, e);
-    }
+  if (idsLocais.length !== 0) {
+    api.delete('/localPurchases/bulkDelete', { body: { ids: idsLocais } })
+      .then(() => {
+        vencimentosLocais.forEach(compra => {
+          const user = client.users.cache.get(compra.user_id);
+          const server = client.guilds.cache.get(compra.server_id);
+          const purchaseDate = moment(compra.timestamp).locale('pt-br').format('L');
+          const expirationDate = moment(compra.timestamp + compra.p_validity).locale('pt-br').format('L');
 
-    vencimentosLocais.forEach(compra => {
-      const user = client.users.cache.get(compra.user_id);
-      const server = client.guilds.cache.get(compra.server_id);
-      const purchaseDate = moment(compra.timestamp).locale('pt-br').format('L');
-      const expirationDate = moment(compra.timestamp + compra.p_validity).locale('pt-br').format('L');
-  
-      if (!user) return notFoundUser(compra);
-  
-      if (!server) return notFoundServer(compra);
-  
-      try {
-        notify(user, compra, purchaseDate, expirationDate, server);
-      } catch (e) {
-        notifyError(compra, e);
-      };
-    });
+          if (!user) return notFoundUser(compra);
+          if (!server) return notFoundServer(compra);
+
+          notify(user, compra, purchaseDate, expirationDate, server)
+            .catch(e => notifyError(compra, e));
+        });
+      })
+      .catch(e => apiError('locais', idsLocais, e));
   };
 
   // Vencimentos de compras globais
-  if(idsGlobais.length !== 0) {
-    try {
-      await api.delete('/globalPurchases/bulkDelete', { body: { ids: idsGlobais } });
-    } catch (e) {
-      return apiError('globais', idsGlobais, e);
-    }
+  if (idsGlobais.length !== 0) {
+    await api.delete('/globalPurchases/bulkDelete', { body: { ids: idsGlobais } })
+      .then(() => {
+        vencimentosGlobais.forEach(compra => {
+          const user = client.users.cache.get(compra.user_id);
+          const purchaseDate = moment(compra.timestamp).locale('pt-br').format('L');
+          const expirationDate = moment(compra.timestamp + compra.p_validity).locale('pt-br').format('L');
 
-    vencimentosGlobais.forEach(compra => {
-      const user = client.users.cache.get(compra.user_id);
-      const purchaseDate = moment(compra.timestamp).locale('pt-br').format('L');
-      const expirationDate = moment(compra.timestamp + compra.p_validity).locale('pt-br').format('L');
-  
-      if (!user) return notFoundUser(compra);
-  
-      try {
-        notify(user, compra, purchaseDate, expirationDate);
-      } catch (e) {
-        notifyError(compra, e);
-      };
-    });
+          if (!user) return notFoundUser(compra);
+
+          notify(user, compra, purchaseDate, expirationDate)
+            .catch(e => notifyError(compra, e));
+        });
+      })
+      .catch(e => apiError('globais', idsGlobais, e));
   };
 };
 

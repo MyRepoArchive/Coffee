@@ -1,6 +1,6 @@
+const { error, apiError } = require('..');
 const client = require('../..');
 const api = require('../../services/api');
-const { apiReqError } = require('..');
 const { static: { emoji } } = require('../../utils/emojis.json');
 
 let intervalActivity;
@@ -43,5 +43,10 @@ module.exports = () => { // Função que muda o que o bot exibe no "Activity" a 
       }
     }, 20000); // 20000ms == 20s
   })
-  .catch(e => apiReqError(e));
+  .catch(e => error(
+    `> ${emoji.emojicoffeeerro} Erro!\n\n`+
+    '> Houve um erro ao buscar os activities da api!\n'+
+    `> Path: ${__filename}\n`+
+    `> Erro: ${apiError(e)}`
+  ));
 };

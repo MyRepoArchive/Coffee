@@ -1,4 +1,3 @@
-const { comprasJoinProducts } = require('../../functions');
 const client = require('../..');
 const moment = require('moment');
 const { notFoundUser, notFoundServer, notify, notifyError, apiError } = require('./src/warnings');
@@ -16,6 +15,8 @@ module.exports = () => {
 };
 
 async function verificationValidity() {
+  const { comprasJoinProducts } = require('../../functions');
+
   const { locais, globais } = await comprasJoinProducts();
   const vencimentosLocais = locais.filter(compra => compra.p_validade && Date.now() - compra.momento_compra > compra.p_validade);
   const vencimentosGlobais = globais.filter(compra => compra.p_validade && Date.now() - compra.momento_compra > compra.p_validade);
@@ -38,8 +39,7 @@ async function verificationValidity() {
           notify(user, compra, purchaseDate, expirationDate, server)
             .catch(e => notifyError(compra, e));
         });
-      })
-      .catch(e => apiError('locais', idsLocais, e));
+      }, e => apiError('locais', idsLocais, e));
   };
 
   // Vencimentos de compras globais
@@ -56,8 +56,7 @@ async function verificationValidity() {
           notify(user, compra, purchaseDate, expirationDate)
             .catch(e => notifyError(compra, e));
         });
-      })
-      .catch(e => apiError('globais', idsGlobais, e));
+      }, e => apiError('globais', idsGlobais, e));
   };
 };
 

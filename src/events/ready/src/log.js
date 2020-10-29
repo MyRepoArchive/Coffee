@@ -2,10 +2,11 @@ const client = require('../../..');
 const { log } = require('../../../config/default.json');
 const { static: { emoji } } = require('../../../utils/emojis.json');
 const { lightstategray } = require('../../../utils/colors.json');
-const { error } = require('../../../functions');
 const Discord = require('discord.js');
 
 module.exports = () => {
+  const { error } = require('../../../functions');
+
   client.channels.fetch(log)
     .then(channel => {
       const readyEmbed = new Discord.MessageEmbed()
@@ -25,7 +26,7 @@ module.exports = () => {
             error(
               `> ${emoji.emojicoffeeinfo} Aviso!\n`+
               '> O bot encontrou um problema ao tentar enviar o log de largada no canal predefinido para logs!\n'+
-              `> Erro: "${JSON.stringify(e)}"`
+              `> Erro: "${JSON.stringify(e, null, 4)}"`
             );
           });
       } else error(
@@ -33,10 +34,9 @@ module.exports = () => {
         '> O bot não possui permissão de enviar mensagens no canal predefinido para logs'
       );
       
-    })
-    .catch(e => error(
+    }, e => error(
       `> ${emoji.emojicoffeeinfo} Aviso!\n`+
       '> O bot não conseguiu encontrar o canal predefinido para logs!\n'+
-      `> Erro: "${JSON.stringify(e)}"`
-    ));
+      `> Erro: "${JSON.stringify(e, null, 4)}"`
+    ))
 };

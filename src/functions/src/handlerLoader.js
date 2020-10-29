@@ -2,12 +2,13 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const client = require('../..');
 const api = require('../../services/api');
-const { apiAuthToken } = require('../../config/auth.json');
-const { apiError, error } = require('..');
 const { static: { emoji } } = require('../../utils/emojis.json');
 const { reset, yellow, cyan, red } = require('../../utils/Console');
 
 module.exports = () => {
+  const { apiAuthToken } = require('../../config/auth.json');
+  const { apiError, error } = require('..');
+
   // Collections com os comandos do bot
   client.commands = new Discord.Collection();
 
@@ -18,7 +19,7 @@ module.exports = () => {
     .forEach(dirent => {
       const event = require(`../../events/${dirent.name}`);
 
-      client.on(dirent.name, (...params) => event(params));
+      client.on(dirent.name, (...params) => event(...params));
 
       console.log(`Evento ${cyan}${dirent.name.toUpperCase()}${reset} carregado com sucesso!`);
     });
@@ -29,7 +30,7 @@ module.exports = () => {
       console.log(`${yellow}==================== LOADING COMMANDS ====================${reset}`);
       loadCommands(response.data);
       console.log(`${yellow}==========================================================${reset}`);
-    }).catch(e => {
+    }, e => {
       error(
         `> ${emoji.emojicoffeeerro} Erro!\n` +
         '> Houve um erro ao fazer uma requisição na api para buscar todos os comandos!\n' +
@@ -83,8 +84,7 @@ module.exports = () => {
                     `> Aviso!\n` +
                     '> Novo comando criado noi banco de dados!\n' +
                     `> Criado: ${created.data}`
-                  ))
-                  .catch(e => console.error(
+                  ), e => console.error(
                     `> Erro!\n` +
                     '> Um comando não foi criado no banco de dados!\n' +
                     `> Comando que deveria ser criado: ${cmdConfig}\n` +

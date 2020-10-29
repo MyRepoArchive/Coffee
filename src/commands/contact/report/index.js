@@ -17,11 +17,10 @@ module.exports = {
     const reportContent = args.join(' ');
   
     createReport(reportContent, message.author.id)
-    .then(response => {
-      sendInReportsChannel(reportContent, message, response.created_timestamp);
-      feedbackUser(response.status, message);
-    })
-    .catch(() => reportError(message));
+      .then(response => {
+        sendInReportsChannel(reportContent, message, response.created_timestamp);
+        feedbackUser(response.status, message);
+      }, () => reportError(message));
   }
 };
 

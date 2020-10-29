@@ -8,5 +8,7 @@ module.exports = {
   verifyCooldown: require('./src/verifyCooldown'),
   verifyActive: require('./src/verifyActive'),
   apiError: require('./src/apiError'),
-  prefix: require('./src/prefix'),
+  getPrefix: require('./src/prefix'),
+  moreSimilar: require('./src/moreSimilar'),
+  levenshteinDistance: require('./src/levenshteinDistance'),
 };

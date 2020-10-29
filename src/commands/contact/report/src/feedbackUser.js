@@ -1,5 +1,6 @@
 const { static: { emoji, eID } } = require('../../../../utils/emojis.json');
 const client = require('../../../..');
+const { error } = require('../../../../functions');
 
 module.exports = (status, message) => {
   if (!message) return error(
@@ -33,8 +34,11 @@ module.exports = (status, message) => {
         error(
           `> ${emoji.emojicoffeeinfo} Aviso!\n` +
           '> Houve um erro ao enviar um check.\n' +
-          `> ID do canal do erro: "${message.channel.id}"\n` +
-          `> Erro: "${e}"`
+          `> Servidor: "${message.guild.name}" \`${message.guild.id}\`\n` +
+          `> Canal: "${message.channel.name}" \`${message.channel.id}\`\n` +
+          `> Usuário: "${message.author.tag}" \`${message.author.id}\`\n` +
+          `> Path: "${__filename}"\n`+
+          `> Erro: "${JSON.stringify(e, null, 4)}"`
         );
       })
   } else dm();
@@ -47,8 +51,11 @@ module.exports = (status, message) => {
             error(
               `> ${emoji.emojicoffeeinfo} Aviso!\n` +
               '> Houve um problema ao tentar adicionar uma reação em um comando.\n'+
-              `> ID do canal do erro: "${message.channel.id}"\n`+
-              `> Erro: "${e}"`
+              `> Servidor: "${message.guild.name}" \`${message.guild.id}\`\n` +
+              `> Canal: "${message.channel.name}" \`${message.channel.id}\`\n` +
+              `> Usuário: "${message.author.tag}" \`${message.author.id}\`\n` +
+              `> Path: "${__filename}"\n`+
+              `> Erro: "${JSON.stringify(e, null, 4)}"`
             );
           });
       });

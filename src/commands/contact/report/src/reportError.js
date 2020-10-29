@@ -24,8 +24,11 @@ module.exports = (message) => {
         error(
           `> ${emoji.emojicoffeeinfo} Aviso!\n` +
           '> Houve um erro ao enviar um aviso que um comando não havia funcionado da maneira esperada.\n' +
-          `> ID do canal do erro: "${message.channel.id}"\n` +
-          `> Erro: "${e}"`
+          `> Servidor: "${message.guild.name}" \`${message.guild.id}\`\n` +
+          `> Canal: "${message.channel.name}" \`${message.channel.id}\`\n` +
+          `> Usuário: "${message.author.tag}" \`${message.author.id}\`\n` +
+          `> Path: "${__filename}"\n` +
+          `> Erro: "${JSON.stringify(e, null, 4)}"`
         );
       })
   } else dm();
@@ -38,8 +41,11 @@ module.exports = (message) => {
             error(
               `> ${emoji.emojicoffeeinfo} Aviso!\n` +
               '> Houve um problema ao tentar adicionar uma reação em um comando que não teve a resposta esperada!\n' +
-              `> ID do canal do erro: "${message.channel.id}"\n` +
-              `> Erro: "${e}"`
+              `> Servidor: "${message.guild.name}" \`${message.guild.id}\`\n` +
+              `> Canal: "${message.channel.name}" \`${message.channel.id}\`\n` +
+              `> Usuário: "${message.author.tag}" \`${message.author.id}\`\n` +
+              `> Path: "${__filename}"\n` +
+              `> Erro: "${JSON.stringify(e, null, 4)}"`
             );
           });
       });

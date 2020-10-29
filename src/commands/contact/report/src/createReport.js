@@ -1,9 +1,10 @@
 const api = require('../../../../services/api');
-const { apiAuthToken } = require('../../../../config/auth.json');
 const { static: { emoji } } = require('../../../../utils/emojis.json');
-const { error } = require('../../../../functions');
+const { error, apiError } = require('../../../../functions');
 
 module.exports = (report, userId) => new Promise((resolve, reject) => {
+  const { apiAuthToken } = require('../../../../config/auth.json');
+
   if (!report) {
     error(
       `> ${emoji.emojicoffeeinfo} Aviso!\n\n`+
@@ -35,24 +36,21 @@ module.exports = (report, userId) => new Promise((resolve, reject) => {
     return;
   };
 
-  api.put('/reports/create', {
-    report,
-    createdBy: userId
-  },
-  {
-    headers: {
-      Authorization: `Bearer ${apiAuthToken}`,
-    }
+  api.put('/reports/create', { report, createdBy: userId }, {
+    headers: { Authorization: `Bearer ${apiAuthToken}` }
   })
-  .then(res => resolve(res.data))
-  .catch(e => {
-    error(
-    `> ${emoji.emojicoffeeerro} Erro!\n\n`+
-    '> Houve um erro ao tentar criar um novo report na api!\n'+
-    `> O report: "${report}"\n`+
-    `> O ID do usuário: "${userId}"\n`+
-    `> O Erro: "${e}"`
-    );
-    reject();
-  });
+    .then(res => {
+      resolve(res.data);
+    }, e => {
+      console.log('oi')
+      error(
+        `> ${emoji.emojicoffeeerro} Erro!\n`+
+        '> Houve um erro ao tentar criar um novo report na api!\n'+
+        `> O report: "${report}"\n`+
+        `> O ID do usuário: "${userId}"\n`+
+        `> Path: "${__filename}"\n` +
+        `> O Erro: "${apiError(e)}"`
+      );
+      reject();
+    });
 });

@@ -5,12 +5,18 @@ const client = require('../..');
 module.exports = (msg) => {
   admins.forEach(async id => {
     const user = await client.users.fetch(id);
-    
+
+    if (!user) console.warn(
+      `Não foi encontrado um de meus administradores para enviar uma mensagem!\n`+
+      `ID do user: "${id}"\n` +
+      `A mensagem: "${msg}"`
+    );
+
     user.send(msg)
       .catch(e => {
         console.warn(
           `Não foi possível entrar e contato com o usuário de ID: '${id}' que está cadastrado como um dos meus administradores!\n`+
-          `Erro: "${JSON.stringify(e)}"\n`+
+          `Erro: "${JSON.stringify(e, null, 4)}"\n`+
           `A mensagem que deveria ser enviada era: "${msg}"`
         );
         

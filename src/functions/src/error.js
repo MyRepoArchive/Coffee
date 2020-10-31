@@ -31,6 +31,14 @@ module.exports = (msg) => {
     `> Aviso/Erro: "${msg}".`
   );
 
+  if (!channel.permissionsFor(client.user).has('VIEW_CHANNEL')) return error(
+    `> ${emoji.emojicoffeeinfo} Aviso!\n`+
+    '> Não possui permissão para acessar o canal cadastrado para envio de erros e avisos.\n' +
+    `> ID do canal: '${erro}'.\n` +
+    `> Path: "${__filename}"\n` +
+    `> Aviso/Erro: "${msg}"`
+  );
+
   channel.send(msg)
     .catch(e => alertAdmins(
       `> ${emoji.emojicoffeeinfo} Aviso\n` +

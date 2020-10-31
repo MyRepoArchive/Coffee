@@ -7,16 +7,16 @@ module.exports = (message, controller, time = 3000, timesLimit = 1) => {
   let authorized = false;
 
   if (!message) {
-    authorized = true;
     error(withoutParam('message'));
+    return true; 
   };
 
   if (!controller) {
-    authorized = true;
     error(withoutParam('controller'));
+    return true;
   };
 
-  if (admins.includes(message.author.id)) authorized = true;
+  if (admins.includes(message.author.id)) return true;
 
   if (!controller[message.author.id]) controller[message.author.id] = { times: 1, timestamp: message.createdTimestamp };
 

@@ -1,10 +1,10 @@
 const { static: { emoji, eID } } = require('../../utils/emojis.json');
 const client = require('../..')
 
-module.exports = (active, message, reasonInactivity = '') => {
+module.exports = (active, message, reasonInactivity) => {
   const { error } = require('..');
   const permissions = message.channel.permissionsFor(client.user);
-
+  
   const msg =
     `> ${emoji.emojicoffeeinfo} Aviso!\n`+
     '> Este comando está desativado no momento!\n'+

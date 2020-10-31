@@ -9,7 +9,7 @@ module.exports = {
 
   async run({ message, args, prefix }) {
     const { verifyCooldown, verifyActive } = require('../../../functions');
-    if (!verifyActive(this.config.active, message)) return;
+    if (!verifyActive(this.config.active, message, this.config.reasonInactivity)) return;
     if (!verifyCooldown(message, this.config.cooldownControl, this.config.cooldown, this.config.timesLimit)) return;
 
     if (!args.length) return notProvidedReport(message, prefix);

@@ -11,4 +11,6 @@ module.exports = {
   getPrefix: require('./src/prefix'),
   moreSimilar: require('./src/moreSimilar'),
   levenshteinDistance: require('./src/levenshteinDistance'),
+  logger: require('./src/logger'),
+  loadCommands: require('./src/loadCommands')
 };

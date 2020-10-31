@@ -29,8 +29,7 @@ module.exports = {
       `> Data da compra: \`${purchaseDate}\`\n`+
       `> Data de vencimento: \`${expirationDate}\``
     )
-      .then(() => resolve())
-      .catch(e => reject(e));
+      .then(() => resolve(), e => reject(e))
   }),
 
   notifyError(compra, e) {
@@ -39,7 +38,7 @@ module.exports = {
       '> Aconteceu um problema ao enviar a notificação de vencimento de produto para um dos usuários.\n'+
       `> O ID do usuário: "${compra.user_id}"\n`+
       `> O produto: ${compra.p_name} \`${compra.p_id}\`\n`+
-      `> O erro: "${apiError(e)}"`
+      `> O erro: "${JSON.stringify(e)}"`
     );
   },
 

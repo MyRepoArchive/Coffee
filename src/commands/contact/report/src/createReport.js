@@ -1,8 +1,8 @@
 const api = require('../../../../services/api');
 const { static: { emoji } } = require('../../../../utils/emojis.json');
-const { error, apiError } = require('../../../../functions');
 
 module.exports = (report, userId) => new Promise((resolve, reject) => {
+  const { error, apiError } = require('../../../../functions');
   const { apiAuthToken } = require('../../../../config/auth.json');
 
   if (!report) {
@@ -42,7 +42,6 @@ module.exports = (report, userId) => new Promise((resolve, reject) => {
     .then(res => {
       resolve(res.data);
     }, e => {
-      console.log('oi')
       error(
         `> ${emoji.emojicoffeeerro} Erro!\n`+
         '> Houve um erro ao tentar criar um novo report na api!\n'+

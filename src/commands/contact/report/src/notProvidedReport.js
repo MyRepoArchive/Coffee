@@ -1,8 +1,9 @@
 const { static: { emoji, eID } } = require('../../../../utils/emojis.json');
 const client = require('../../../..');
-const { error } = require('../../../../functions');
 
 module.exports = (message, prefix) => {
+  const { error } = require('../../../../functions');
+  
   const msg = 
     `> ${emoji.emojicoffeeinfo} Aviso!\n` +
     '> Você deve passar como parâmetro do comando o seu report!\n' +

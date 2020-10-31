@@ -1,10 +1,10 @@
 const { scores } = require('../../../utils/cache.json');
 const api = require('../../../services/api');
 const { static: { emoji } } = require('../../../utils/emojis.json');
-const { apiAuthToken } = require('../../../config/auth.json');
 
 module.exports = async (response) => {
   const { error, apiError, comprasJoinProducts } = require('../../../functions');
+  const { apiAuthToken } = require('../../../config/auth.json');
   const purchases = await comprasJoinProducts()
   const usersPS = response.data
   const localPointMultipliers = purchases.locais.filter(purchase => purchase.active && purchase.p_type === 'point-multiplier');

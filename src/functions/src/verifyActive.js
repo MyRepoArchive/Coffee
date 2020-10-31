@@ -1,13 +1,14 @@
-const { error } = require('..');
 const { static: { emoji, eID } } = require('../../utils/emojis.json');
 const client = require('../..')
 
-module.exports = (active, message) => {
+module.exports = (active, message, reasonInactivity = '') => {
+  const { error } = require('..');
   const permissions = message.channel.permissionsFor(client.user);
 
   const msg =
     `> ${emoji.emojicoffeeinfo} Aviso!\n`+
-    '> Este comando está desativado no momento!';
+    '> Este comando está desativado no momento!\n'+
+    `> Motivo: ${reasonInactivity ? `"${reasonInactivity.toUpperCase()}"` : 'SEM MOTIVO INFORMADO'}`;
 
   if (!active) {
     if (permissions.has('SEND_MESSAGES')) {

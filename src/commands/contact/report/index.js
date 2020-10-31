@@ -3,12 +3,12 @@ const createReport = require('./src/createReport');
 const reportError = require('./src/reportError');
 const sendInReportsChannel = require('./src/sendInReportsChannel');
 const feedbackUser = require('./src/feedbackUser');
-const { verifyCooldown, verifyActive } = require('../../../functions');
 
 module.exports = {
   config: require('./src/config'),
 
   async run({ message, args, prefix }) {
+    const { verifyCooldown, verifyActive } = require('../../../functions');
     if (!verifyActive(this.config.active, message)) return;
     if (!verifyCooldown(message, this.config.cooldownControl, this.config.cooldown, this.config.timesLimit)) return;
 

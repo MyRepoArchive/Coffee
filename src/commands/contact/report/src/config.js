@@ -10,6 +10,7 @@ module.exports = {
   cooldownControl: {},
   timesLimit: 2,
   active: true,
+  reasonInactivity: 'EM FASE DE TESTES',
   createdTimestamp: 1598646020000,
   updatedTimestamp: 1603328174440,
   version: '1.0',

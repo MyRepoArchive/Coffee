@@ -1,9 +1,9 @@
 const { admins } = require('../../config/default.json');
 const client = require('../..');
 const { static: { emoji, eID } } = require('../../utils/emojis.json');
-const { error } = require('..');
 
 module.exports = (message, controller, time = 3000, timesLimit = 1) => {
+  const { error } = require('..');
   let authorized = false;
 
   if (!message) {
@@ -40,19 +40,19 @@ module.exports = (message, controller, time = 3000, timesLimit = 1) => {
     if (timeBetween < time) {
       if (permissions.has('SEND_MESSAGES')) {
         message.channel.send(msg)
-        .catch(e => {
-          dm();
-  
-          error(
-            `> ${emoji.emojicoffeeinfo} Aviso!\n`+
-            '> Houve um erro ao tentar enviar um alerta de cooldown.\n'+
-            `> Servidor: "${message.guild.name}" \`${message.guild.id}\`\n` +
-            `> Canal: "${message.channel.name}" \`${message.channel.id}\`\n` +
-            `> Usuário: "${message.author.tag}" \`${message.author.id}\`\n` +
-            `> Path: "${__filename}"\n` +
-            `> Erro: "${JSON.stringify(e, null, 4)}"`
-          );
-        });
+          .catch(e => {
+            dm();
+    
+            error(
+              `> ${emoji.emojicoffeeinfo} Aviso!\n`+
+              '> Houve um erro ao tentar enviar um alerta de cooldown.\n'+
+              `> Servidor: "${message.guild.name}" \`${message.guild.id}\`\n` +
+              `> Canal: "${message.channel.name}" \`${message.channel.id}\`\n` +
+              `> Usuário: "${message.author.tag}" \`${message.author.id}\`\n` +
+              `> Path: "${__filename}"\n` +
+              `> Erro: "${JSON.stringify(e, null, 4)}"`
+            );
+          });
       } else dm();
     } else {
       controller[message.author.id].times = 0;
@@ -70,7 +70,7 @@ module.exports = (message, controller, time = 3000, timesLimit = 1) => {
   // Tenta enviar a mensagem na dm do user
   function dm() {
     message.author.send(msg)
-      .catch(e => {
+      .catch(() => {
         if (permissions.has("ADD_REACTIONS")) message.react(eID.emojicoffeeerro)
           .catch(e => {
             error(

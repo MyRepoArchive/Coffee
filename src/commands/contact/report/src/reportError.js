@@ -1,8 +1,9 @@
 const client = require('../../../..');
 const { static: { emoji, eID } } = require('../../../../utils/emojis.json');
-const { error } = require('../../../../functions');
 
 module.exports = (message) => {
+  const { error } = require('../../../../functions');
+  
   if (!message) return error(
     `> ${emoji.emojicoffeeinfo} Aviso!\n`+
     '> A função "reportError" está sendo chamada sem o parâmetro "message" que é essencial para o correto funcionamento da mesma.\n'+

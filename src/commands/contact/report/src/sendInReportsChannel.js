@@ -1,11 +1,11 @@
 const { report } = require('../../../../config/default.json');
 const client = require('../../../..');
-const { error } = require('../../../../functions');
 const { static: { emoji } } = require('../../../../utils/emojis.json');
 const { lightstategray } = require('../../../../utils/colors.json');
 const Discord = require('discord.js');
 
 module.exports = (reportContent, message, createdTimestamp) => {
+  const { error } = require('../../../../functions');
   const channel = client.channels.cache.get(report);
 
   if (!channel) return error(

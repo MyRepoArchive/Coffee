@@ -34,7 +34,7 @@ module.exports = () => {
       error(
         `> ${emoji.emojicoffeeerro} Erro!\n` +
         '> Houve um erro ao fazer uma requisição na api para buscar todos os comandos!\n' +
-        `> Path: "${__dirname}"\n` +
+        `> Path: "${__filename}"\n` +
         `> Erro: "${apiError(e)}"`
       );
 
@@ -58,7 +58,7 @@ module.exports = () => {
 
             if (commands) {
               const commandApi = commands.find(cmd => cmd.name === cmdConfig.name);
-
+              console.log(commandApi)
               if (!commandApi) {
                 api.put('/commands/create', {
                   name: cmdConfig.name,
@@ -74,7 +74,8 @@ module.exports = () => {
                   version: cmdConfig.version,
                   releasesNotes: cmdConfig.releasesNotes,
                   timesLimit: cmdConfig.timesLimit,
-                  active: cmdConfig.active ? 1 : 0
+                  active: cmdConfig.active ? 1 : 0,
+                  reasonInactivity: cmdConfig.reasonInactivity
                 }, {
                   headers: {
                     Authorization: `Bearer ${apiAuthToken}`
@@ -87,13 +88,15 @@ module.exports = () => {
                   ), e => console.error(
                     `> Erro!\n` +
                     '> Um comando não foi criado no banco de dados!\n' +
-                    `> Comando que deveria ser criado: ${cmdConfig}\n` +
+                    `> Comando que deveria ser criado: ${JSON.stringify(cmdConfig)}\n` +
+                    `> Path: "${__filename}"\n` +
                     `> Erro: "${apiError(e)}"`
                   ));
               } else {
                 command.config.cooldown = commandApi.cooldown;
                 command.config.timesLimit = commandApi.timesLimit;
                 command.config.active = commandApi.active === 1;
+                command.config.reasonInactivity = commandApi.reasonInactivity;
               };
             };
 

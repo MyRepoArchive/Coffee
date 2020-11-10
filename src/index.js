@@ -6,11 +6,8 @@ const fs = require('fs');
 fs.writeFileSync('./src/utils/log.txt', '');
 
 client.login(token).then(() => {
-  require('./controllers/botAuthController')().then(() => {
-    const { handlerLoader } = require('./functions');
-    
-    handlerLoader();
-  });
+  const { handlerLoader } = require('./functions');
+  handlerLoader();
 });
 
 module.exports = client;

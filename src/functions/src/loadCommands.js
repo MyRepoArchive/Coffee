@@ -14,12 +14,11 @@ module.exports = (auth = false) => {
 
   api.get('/commands')
     .then(response => {
-      require('../../controllers/botAuthController')()
-        .then(() => {
-          console.log(`${yellow}==================== LOADING COMMANDS ====================${reset}`);
-          load(response.data);
-          console.log(`${yellow}==========================================================${reset}`);
-        }, () => badLoading());
+      if (auth) {
+        console.log(`${yellow}==================== LOADING COMMANDS ====================${reset}`);
+        load(response.data);
+        console.log(`${yellow}==========================================================${reset}`);
+      } else badLoading();
     }, e => {
       error(
         `> ${emoji.emojicoffeeerro} Erro!\n` +
@@ -53,17 +52,17 @@ module.exports = (auth = false) => {
                   aliases: cmdConfig.aliases,
                   type: cmdConfig.type,
                   description: cmdConfig.description,
-                  howToUse: cmdConfig.howToUse,
+                  how_to_use: cmdConfig.how_to_use,
                   cooldown: cmdConfig.cooldown,
                   example: cmdConfig.example,
-                  exampleUrl: cmdConfig.exampleUrl,
-                  createdTimestamp: cmdConfig.createdTimestamp,
-                  updatedTimestamp: cmdConfig.updatedTimestamp,
+                  example_url: cmdConfig.example_url,
+                  created_timestamp: cmdConfig.created_timestamp,
+                  updated_timestamp: cmdConfig.updated_timestamp,
                   version: cmdConfig.version,
-                  releasesNotes: cmdConfig.releasesNotes,
-                  timesLimit: cmdConfig.timesLimit,
+                  releases_notes: cmdConfig.releases_notes,
+                  times_limit: cmdConfig.times_limit,
                   active: cmdConfig.active ? 1 : 0,
-                  reasonInactivity: cmdConfig.reasonInactivity
+                  reason_inactivity: cmdConfig.reason_inactivity
                 }, {
                   headers: {
                     Authorization: `Bearer ${apiAuthToken}`
@@ -82,9 +81,9 @@ module.exports = (auth = false) => {
                   ));
               } else if (commandApi) {
                 command.config.cooldown = commandApi.cooldown;
-                command.config.timesLimit = commandApi.timesLimit;
+                command.config.times_limit = commandApi.times_limit;
                 command.config.active = commandApi.active === 1;
-                command.config.reasonInactivity = commandApi.reason_inactivity;
+                command.config.reason_inactivity = commandApi.reason_inactivity;
               };
             };
 

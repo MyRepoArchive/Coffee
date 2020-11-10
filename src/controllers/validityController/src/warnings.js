@@ -2,51 +2,51 @@ const { error, apiError } = require('../../../functions');
 const { static: { emoji } } = require('../../../utils/emojis.json');
 
 module.exports = {
-  notFoundUser(compra) {
+  notFoundUser(item) {
     error(
       `> ${emoji.emojicoffeeinfo} Aviso\n`+
       '> Houve um problema no momento de notificar um dos usuários sobre o vencimento de um de seus produtos. O usuário não foi encontrado!\n'+
-      `> O ID do usuário: "${compra.user_id}"\n`+
-      `> O produto: ${compra.p_name} \`${compra.p_id}\``
+      `> O ID do usuário: "${item.user}"\n`+
+      `> O produto: ${item.name} \`${item.product}\``
     );
   },
 
-  notFoundServer(compra) {
+  notFoundServer(item) {
     error(
       `> ${emoji.emojicoffeeinfo} Aviso\n`+
       '> Houve um problema no momento de notificar um dos usuários sobre o vencimento de um de seus produtos. O Servidor no qual o usuário comprou o item não foi encontrado!\n'+
-      `> O ID do usuário: "${compra.user_id}"\n`+
-      `> O ID do servidor: "${compra.server_id}"\n`+
-      `> O produto: ${compra.p_name} \`${compra.p_id}\``
+      `> O ID do usuário: "${item.user}"\n`+
+      `> O ID do servidor: "${item.server}"\n`+
+      `> O produto: ${item.name} \`${item.product}\``
     );
   },
 
-  notify: (user, compra, purchaseDate, expirationDate, server) => new Promise((resolve, reject) => {
+  notify: (user, item, purchaseDate, expirationDate, server) => new Promise((resolve, reject) => {
     user.send(
       `> ${emoji.emojicoffeeinfo} Aviso\n`+
-      `> Olá Sr.${user.username}, informamos que seu **${compra.p_name}** com validade para **${compra.p_validity / 86400000} dias**${server ? `, comprado no servidor **${server.name}**,` : ''} venceu. Ele estará sendo retirado de sua conta neste instante.\n`+
+      `> Olá Sr.${user.username}, informamos que seu **${item.name}** com validade para **${item.characteristics.validity / 86400000} dias**${server ? `, item no servidor **${server.name}**,` : ''} venceu. Ele estará sendo retirado de sua conta neste instante.\n`+
       '> Agradeçemos a compreensão.\n'+
-      `> Data da compra: \`${purchaseDate}\`\n`+
+      `> Data da item: \`${purchaseDate}\`\n`+
       `> Data de vencimento: \`${expirationDate}\``
     )
       .then(() => resolve(), e => reject(e))
   }),
 
-  notifyError(compra, e) {
+  notifyError(item, e) {
     error(
       `> ${emoji.emojicoffeeinfo} Aviso\n`+
       '> Aconteceu um problema ao enviar a notificação de vencimento de produto para um dos usuários.\n'+
-      `> O ID do usuário: "${compra.user_id}"\n`+
-      `> O produto: ${compra.p_name} \`${compra.p_id}\`\n`+
-      `> O erro: "${JSON.stringify(e)}"`
+      `> O ID do usuário: "${item.user}"\n`+
+      `> O produto: ${item.name} \`${item.product}\`\n`+
+      `> O erro: "${JSON.stringify(e, null, 4)}"`
     );
   },
 
-  apiError(type, ids, e) {
+  apiError(ids, e) {
     error(
       `> ${emoji.emojicoffeeerro} Erro\n`+
-      `> Aconteceu um problema ao fazer a requisição de deletar as compras ${type} para a api.\n`+
-      `> Os IDs das compras: ${ids}\n`+
+      `> Aconteceu um problema ao fazer a requisição de deletar itens do inventorio que estava vencidos para a api.\n`+
+      `> Os IDs das items: ${ids}\n`+
       `> O erro: "${apiError(e)}"`
     );
   }

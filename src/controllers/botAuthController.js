@@ -1,6 +1,6 @@
 const auth = require('../config/auth.json');
 const api = require('../services/api');
-const client = require('../');
+const client = require('..');
 const { static: { emoji } } = require('../utils/emojis.json');
 
 setInterval(() => {

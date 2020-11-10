@@ -3,18 +3,18 @@ module.exports = {
   aliases: ["reportar"],
   type: "Contato",
   description: 'Se você encontrou algum bug ou coisa que você acredita que não esteja funcionando como deveria, basta usar o comando para que os devenvolvedores fiquem a par do problema e o resolva.',
-  howToUse: 'Digite _report no chat e passe como parâmetro o seu report, em seguida envie a mensagem.',
+  how_to_use: 'Digite _report no chat e passe como parâmetro o seu report, em seguida envie a mensagem.',
   example: '_report Encontrei um bug ao executar o comando ajuda, ao usar o comando o bot não responde!',
-  exampleUrl: null,
+  example_url: null,
   cooldown: 10000,
   cooldownControl: {},
-  timesLimit: 2,
+  times_limit: 2,
   active: true,
-  reasonInactivity: 'EM FASE DE TESTES',
-  createdTimestamp: 1598646020000,
-  updatedTimestamp: 1603328174440,
+  reason_inactivity: 'EM FASE DE TESTES',
+  created_timestamp: 1598646020000,
+  updated_timestamp: 1603328174440,
   version: '1.0',
-  releasesNotes: {
+  releases_notes: {
     '1.0': null
   }
 };

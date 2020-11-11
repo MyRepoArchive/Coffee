@@ -5,20 +5,17 @@ const { static: { emoji } } = require('../../utils/emojis.json');
 const client = require('../..');
 const Discord = require('discord.js');
 
-module.exports = (auth = false) => {
+module.exports = () => {
   // Collections com os comandos do bot
   client.commands = new Discord.Collection();
 
-  const { apiAuthToken } = require('../../config/auth.json');
   const { logger, apiError, error } = require('..');
 
   api.get('/commands')
     .then(response => {
-      if (auth) {
-        console.log(`${yellow}==================== LOADING COMMANDS ====================${reset}`);
-        load(response.data);
-        console.log(`${yellow}==========================================================${reset}`);
-      } else badLoading();
+      console.log(`${yellow}==================== LOADING COMMANDS ====================${reset}`);
+      load(response.data);
+      console.log(`${yellow}==========================================================${reset}`);
     }, e => {
       error(
         `> ${emoji.emojicoffeeerro} Erro!\n` +
@@ -27,10 +24,13 @@ module.exports = (auth = false) => {
         `> Erro: "${apiError(e)}"`
       );
 
-      badLoading();
+      console.log(`${red}==================== LOADING COMMANDS (bad loading) ====================${reset}`);
+      load();
+      console.log(`${red}========================================================================${reset}`);
     });
 
   function load(commands) {
+    const needCreate = [];
     fs.readdirSync('./src/commands', { withFileTypes: true })
       .filter(category => category.isDirectory())
       .forEach(category => {
@@ -46,8 +46,8 @@ module.exports = (auth = false) => {
             if (commands) {
               const commandApi = commands.find(cmd => cmd.name === cmdConfig.name);
               
-              if (!commandApi && auth) {
-                api.put('/commands/create', {
+              if (!commandApi) {
+                needCreate.push({
                   name: cmdConfig.name,
                   aliases: cmdConfig.aliases,
                   type: cmdConfig.type,
@@ -63,27 +63,14 @@ module.exports = (auth = false) => {
                   times_limit: cmdConfig.times_limit,
                   active: cmdConfig.active ? 1 : 0,
                   reason_inactivity: cmdConfig.reason_inactivity
-                }, {
-                  headers: {
-                    Authorization: `Bearer ${apiAuthToken}`
-                  }
                 })
-                  .then(created => logger(
-                    `> ${emoji.emojicoffeeinfo} Aviso!\n` +
-                    '> Novo comando criado no banco de dados!\n' +
-                    `> Criado: ${JSON.stringify(created.data, null, 2)}`
-                  ), e => error(
-                    `> ${emoji.emojicoffeeerro} Erro!\n` +
-                    '> Um comando não foi criado no banco de dados!\n' +
-                    `> Comando que deveria ser criado: ${JSON.stringify(cmdConfig, null, 2)}\n` +
-                    `> Path: "${__filename}"\n` +
-                    `> Erro: "${apiError(e)}"`
-                  ));
-              } else if (commandApi) {
+              } else {
                 command.config.cooldown = commandApi.cooldown;
                 command.config.times_limit = commandApi.times_limit;
                 command.config.active = commandApi.active === 1;
                 command.config.reason_inactivity = commandApi.reason_inactivity;
+
+                if (commandApi.aliases.find(aliase => ))
               };
             };
 
@@ -92,11 +79,17 @@ module.exports = (auth = false) => {
             console.log(`Comando ${cyan}${cmdConfig.name.toUpperCase()}${reset} carregado com sucesso!`);
           });
       });
-  };
-
-  function badLoading() {
-    console.log(`${red}==================== LOADING COMMANDS (bad loading) ====================${reset}`);
-    load();
-    console.log(`${red}========================================================================${reset}`);
+    api.put('/commands/create', { commands: needCreate })
+      .then(response => logger(
+        `> ${emoji.emojicoffeeinfo} Aviso!\n` +
+        '> Novos comandos criados no banco de dados!\n' +
+        `> Criados: ${JSON.stringify(response.data.commands, null, 2)}`
+      ), e => error(
+        `> ${emoji.emojicoffeeerro} Erro!\n` +
+        '> Alguns comandos não foram criados no banco de dados!\n' +
+        `> Comandos que deveriam ser criados: ${JSON.stringify(needCreate, null, 2)}\n` +
+        `> Path: "${__filename}"\n` +
+        `> Erro: "${apiError(e)}"`
+      ));
   };
 };

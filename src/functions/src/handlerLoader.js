@@ -18,6 +18,5 @@ module.exports = () => {
     });
   console.log(`${yellow}========================================================${reset}`);
 
-  require('../../controllers/botAuthController')()
-    .then(() => loadCommands(true), () => loadCommands());
+  loadCommands();
 };

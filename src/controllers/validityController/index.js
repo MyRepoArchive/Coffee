@@ -15,9 +15,7 @@ module.exports = () => {
 };
 
 function verificationValidity() {
-  const { apiAuthToken } = require('../../config/auth.json');
-
-  api.get('/inventory', { body: { joinProducts: true }, headers: { Authorization: `Bearer ${apiAuthToken}` } })
+  api.get('/inventory', { body: { joinProducts: true } })
     .then(response => {
       const vencidos = response.data.filter(item => {
         const characteristics = item.characteristics;

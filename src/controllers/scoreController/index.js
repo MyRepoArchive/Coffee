@@ -9,16 +9,15 @@ module.exports = {
 };
 
 setInterval(() => {
-  getUserPerServer();
+  getMembers();
 }, 60000); // 60 segundos
 
-function getUserPerServer() {
+function getMembers() {
   const { error, apiError } = require('../../functions');
-  const { apiAuthToken } = require('../../config/auth.json');
 
-  api.get('/userPerServer', { headers: { Authorization: `Bearer ${apiAuthToken}` } })
+  api.get('/members')
     .then(response => {
-      require('./src/saveScore')(response);
+      require('./src/saveScore')(response.data);
     }, e => error(
       `> ${emoji.emojicoffeeerro} Erro!\n`+
       '> Houve um erro ao fazer uma requisição dos user_per_server para a API!\n'+
@@ -27,4 +26,4 @@ function getUserPerServer() {
     ));
 };
 
-getUserPerServer();
+getMembers();

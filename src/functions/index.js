@@ -12,5 +12,6 @@ module.exports = {
   moreSimilar: require('./src/moreSimilar'),
   levenshteinDistance: require('./src/levenshteinDistance'),
   logger: require('./src/logger'),
-  loadCommands: require('./src/loadCommands')
+  loadCommands: require('./src/loadCommands'),
+  isEquivalent: require('./src/isEquivalent')
 };

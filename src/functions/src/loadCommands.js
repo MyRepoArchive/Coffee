@@ -9,7 +9,7 @@ module.exports = () => {
   // Collections com os comandos do bot
   client.commands = new Discord.Collection();
 
-  const { logger, apiError, error } = require('..');
+  const { logger, apiError, error, isEquivalent } = require('..');
 
   api.get('/commands')
     .then(response => {
@@ -31,6 +31,8 @@ module.exports = () => {
 
   function load(commands) {
     const needCreate = [];
+    const needUpdate = {};
+
     fs.readdirSync('./src/commands', { withFileTypes: true })
       .filter(category => category.isDirectory())
       .forEach(category => {
@@ -47,30 +49,33 @@ module.exports = () => {
               const commandApi = commands.find(cmd => cmd.name === cmdConfig.name);
               
               if (!commandApi) {
-                needCreate.push({
-                  name: cmdConfig.name,
-                  aliases: cmdConfig.aliases,
-                  type: cmdConfig.type,
-                  description: cmdConfig.description,
-                  how_to_use: cmdConfig.how_to_use,
-                  cooldown: cmdConfig.cooldown,
-                  example: cmdConfig.example,
-                  example_url: cmdConfig.example_url,
-                  created_timestamp: cmdConfig.created_timestamp,
-                  updated_timestamp: cmdConfig.updated_timestamp,
-                  version: cmdConfig.version,
-                  releases_notes: cmdConfig.releases_notes,
-                  times_limit: cmdConfig.times_limit,
-                  active: cmdConfig.active ? 1 : 0,
-                  reason_inactivity: cmdConfig.reason_inactivity
-                })
+                needCreate.push(cmdConfig);
               } else {
                 command.config.cooldown = commandApi.cooldown;
                 command.config.times_limit = commandApi.times_limit;
                 command.config.active = commandApi.active === 1;
                 command.config.reason_inactivity = commandApi.reason_inactivity;
 
-                if (commandApi.aliases.find(aliase => ))
+                if (commandApi.aliases.length !== cmdConfig.aliases.length || cmdConfig.aliases.find((aliase, index) => aliase !== commandApi.aliases[index])) 
+                  needUpdate.aliases ? needUpdate.aliases.push({ id: commandApi.id, value: cmdConfig.aliases }) : needUpdate.aliases = [{ id: commandApi.id, value: cmdConfig }];
+                if (commandApi.type !== cmdConfig.type) 
+                  needUpdate.type ? needUpdate.type.push({ id: commandApi.id, value: cmdConfig.type }) : needUpdate.type = [{ id: commandApi, value: cmdConfig.type }];
+                if (commandApi.description !== cmdConfig.description)
+                  needUpdate.description ? needUpdate.description.push({ id: commandApi.id, value: cmdConfig.description }) : needUpdate.description = [{ id: commandApi.id, value: cmdConfig.description }];
+                if (commandApi.how_to_use !== cmdConfig.how_to_use)
+                  needUpdate.how_to_use ? needUpdate.how_to_use.push({ id: commandApi.id, value: cmdConfig.how_to_use }) : needUpdate.how_to_use = [{ id: commandApi.id, value: cmdConfig.how_to_use }];
+                if (commandApi.example !== cmdConfig.example)
+                  needUpdate.example ? needUpdate.example.push({ id: commandApi.id, value: cmdConfig.example }) : needUpdate.example = [{ id: commandApi.id, value: cmdConfig.example }];
+                if (commandApi.example_url !== cmdConfig.example_url)
+                  needUpdate.example_url ? needUpdate.example_url.push({ id: commandApi.id, value: cmdConfig.example_url }) : needUpdate.example_url = [{ id: commandApi.id, value: cmdConfig.example_url }];
+                if (commandApi.created_timestamp !== cmdConfig.created_timestamp)
+                  needUpdate.created_timestamp ? needUpdate.created_timestamp.push({ id: commandApi.id, value: cmdConfig.created_timestamp }) : needUpdate.created_timestamp = [{ id: commandApi.id, value: cmdConfig.created_timestamp }];
+                if (commandApi.updated_timestamp !== cmdConfig.updated_timestamp)
+                  needUpdate.updated_timestamp ? needUpdate.updated_timestamp.push({ id: commandApi.id, value: cmdConfig.updated_timestamp }) : needUpdate.updated_timestamp = [{ id: commandApi.id, value: cmdConfig.updated_timestamp }];
+                if (commandApi.version !== cmdConfig.version)
+                  needUpdate.version ? needUpdate.version.push({ id: commandApi.id, value: cmdConfig.version }) : needUpdate.version = [{ id: commandApi.id, value: cmdConfig.version }];
+                if (!isEquivalent(commandApi.releases_notes, cmdConfig.releases_notes))
+                  needUpdate.releases_notes ? needUpdate.releases_notes.push({ id: commandApi.id, value: cmdConfig.releases_notes }) : needUpdate.releases_notes = [{ id: commandApi.id, value: cmdConfig.releases_notes }];
               };
             };
 
@@ -79,7 +84,9 @@ module.exports = () => {
             console.log(`Comando ${cyan}${cmdConfig.name.toUpperCase()}${reset} carregado com sucesso!`);
           });
       });
-    api.put('/commands/create', { commands: needCreate })
+
+    if (needCreate.length) {
+      api.put('/commands/create', { commands: needCreate })
       .then(response => logger(
         `> ${emoji.emojicoffeeinfo} Aviso!\n` +
         '> Novos comandos criados no banco de dados!\n' +
@@ -91,5 +98,22 @@ module.exports = () => {
         `> Path: "${__filename}"\n` +
         `> Erro: "${apiError(e)}"`
       ));
+    };
+
+    if (Object.keys(needUpdate).length) {
+      api.post('/commands/update', { commands: needUpdate })
+        .then(response => logger(
+          `> ${emoji.emojicoffeeinfo} Aviso!\n` +
+          '> Alguns commandos foram atualizados no banco de dados!\n' +
+          `> Request: ${needUpdate}\n` +
+          `> Resposta: ${response.data}`
+        ), e => error(
+          `> ${emoji.emojicoffeeerro} Erro!\n` +
+          '> Alguns comandos não foram atualizados no banco de dados!\n' +
+          `> Path: "${__filename}"\n` +
+          `> Request: ${needUpdate}\n` +
+          `> Erro: "${apiError(e)}"`
+        ));
+    };
   };
 };

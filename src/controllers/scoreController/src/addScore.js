@@ -1,8 +1,10 @@
-module.exports = (scores, userId, serverId) => {
-  if (scores[serverId]) {
-    scores[serverId][userId] ? scores[serverId][userId]++ : scores[serverId][userId] = 1;
+const cache = require('../../../utils/cache');
+
+module.exports = (userId, serverId) => {
+  if (cache.scores[serverId]) {
+    cache.scores[serverId][userId] ? cache.scores[serverId][userId]++ : cache.scores[serverId][userId] = 1;
   } else {
-    scores[serverId] = {};
-    scores[serverId][userId] = 1;
+    cache.scores[serverId] = {};
+    cache.scores[serverId][userId] = 1;
   };
 };

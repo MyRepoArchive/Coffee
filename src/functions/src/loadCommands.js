@@ -57,7 +57,7 @@ module.exports = () => {
                 command.config.reason_inactivity = commandApi.reason_inactivity;
 
                 if (commandApi.aliases.length !== cmdConfig.aliases.length || cmdConfig.aliases.find((aliase, index) => aliase !== commandApi.aliases[index])) 
-                  needUpdate.aliases ? needUpdate.aliases.push({ id: commandApi.id, value: cmdConfig.aliases }) : needUpdate.aliases = [{ id: commandApi.id, value: cmdConfig }];
+                  needUpdate.aliases ? needUpdate.aliases.push({ id: commandApi.id, value: cmdConfig.aliases }) : needUpdate.aliases = [{ id: commandApi.id, value: cmdConfig.aliases }];
                 if (commandApi.type !== cmdConfig.type) 
                   needUpdate.type ? needUpdate.type.push({ id: commandApi.id, value: cmdConfig.type }) : needUpdate.type = [{ id: commandApi, value: cmdConfig.type }];
                 if (commandApi.description !== cmdConfig.description)
@@ -76,6 +76,7 @@ module.exports = () => {
                   needUpdate.version ? needUpdate.version.push({ id: commandApi.id, value: cmdConfig.version }) : needUpdate.version = [{ id: commandApi.id, value: cmdConfig.version }];
                 if (!isEquivalent(commandApi.releases_notes, cmdConfig.releases_notes))
                   needUpdate.releases_notes ? needUpdate.releases_notes.push({ id: commandApi.id, value: cmdConfig.releases_notes }) : needUpdate.releases_notes = [{ id: commandApi.id, value: cmdConfig.releases_notes }];
+                
               };
             };
 
@@ -105,13 +106,13 @@ module.exports = () => {
         .then(response => logger(
           `> ${emoji.emojicoffeeinfo} Aviso!\n` +
           '> Alguns commandos foram atualizados no banco de dados!\n' +
-          `> Request: ${needUpdate}\n` +
-          `> Resposta: ${response.data}`
+          `> Request: ${JSON.stringify(needUpdate, null, 4)}\n` +
+          `> Resposta: ${JSON.stringify(response.data, null, 4)}`
         ), e => error(
           `> ${emoji.emojicoffeeerro} Erro!\n` +
           '> Alguns comandos não foram atualizados no banco de dados!\n' +
           `> Path: "${__filename}"\n` +
-          `> Request: ${needUpdate}\n` +
+          `> Request: ${JSON.stringify(needUpdate, null, 4)}\n` +
           `> Erro: "${apiError(e)}"`
         ));
     };

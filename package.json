@@ -24,5 +24,8 @@
     "jsonwebtoken": "^8.5.1",
     "mathjs": "^7.2.0",
     "moment": "^2.29.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
   }
 }

@@ -1,10 +1,10 @@
-const { scores } = require('../../utils/cache.json');
+const { scores } = require('../../utils/cache');
 const api = require('../../services/api');
 const { static: { emoji } } = require('../../utils/emojis.json');
 
 module.exports = {
   addScore(serverId, userId) {
-    require('./src/addScore')(scores, userId, serverId);
+    require('./src/addScore')(userId, serverId);
   }
 };
 
@@ -17,7 +17,7 @@ function getMembers() {
 
   api.get('/members')
     .then(response => {
-      require('./src/saveScore')(response.data);
+      require('./src/saveScore')(response.data, scores);
     }, e => error(
       `> ${emoji.emojicoffeeerro} Erro!\n`+
       '> Houve um erro ao fazer uma requisição dos user_per_server para a API!\n'+

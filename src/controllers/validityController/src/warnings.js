@@ -46,7 +46,7 @@ module.exports = {
     error(
       `> ${emoji.emojicoffeeerro} Erro\n`+
       `> Aconteceu um problema ao fazer a requisição de deletar itens do inventorio que estava vencidos para a api.\n`+
-      `> Os IDs das items: ${ids}\n`+
+      `> Os IDs das items: ${JSON.stringify(ids, null, 4)}\n`+
       `> O erro: "${apiError(e)}"`
     );
   }

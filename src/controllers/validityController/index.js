@@ -10,21 +10,23 @@ module.exports = () => {
     setInterval(() => {
       verificationValidity();
     }, 50000);
+    verificationValidity();
     stts = false;
   };
 };
 
 function verificationValidity() {
-  api.get('/inventory', { body: { joinProducts: true } })
+  api.get('/inventory', { params: { joinProducts: true } })
     .then(response => {
       const vencidos = response.data.filter(item => {
-        const characteristics = item.characteristics;
-
+        const characteristics = JSON.parse(item.characteristics);
+        console.log(characteristics);
         return characteristics && characteristics.validity && Date.now() - item.timestamp > characteristics.validity;
       });
       const ids = vencidos.map(item => item.ID);
 
-      api.delete('/inventory/delete', { body: { properties: { id: ids } } })
+      if (ids.length) {
+        api.delete('/inventory/delete', { body: {  } }, { properties: { id: ids } })
         .then(() => {
           vencidos.forEach(item => {
             const user = client.users.cache.get(item.user);
@@ -39,6 +41,7 @@ function verificationValidity() {
               .catch(e => notifyError(item, e));
           });
         }, e => apiError(ids, e));
+      };
     });
 };
 

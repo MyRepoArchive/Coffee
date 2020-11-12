@@ -20,7 +20,7 @@ module.exports = () => { // Função que muda o que o bot exibe no "Activity" a 
       url: null
     },
     {
-      name: `Estou a ${parseInt(client.uptime / 60000)} horas ativo`,
+      name: `Estou a ${parseInt(client.uptime / 3600000)} horas ativo`,
       type: 'STREAMING',
       url: null
     },

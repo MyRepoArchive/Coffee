@@ -2,6 +2,7 @@ const { static: { emoji } } = require('../../../utils/emojis.json');
 
 module.exports = (message, prefix) => {
   const { error } = require('../../../functions');
+  
   message.channel.send(`> Alguém me chamou? Se estiver precisando de ajuda, use **${prefix}ajuda**`)
     .catch(e => error(
       `> ${emoji.emojicoffeeinfo} Aviso!\n` +

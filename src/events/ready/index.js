@@ -9,7 +9,7 @@ module.exports = () => {
   
   console.log(
     `${green}==================== START ====================${reset}\n` +
-    `Iniciou em ${yellow}${parseInt(process.uptime() - client.uptime)}${reset} segundos\n` +
+    `Iniciou em ${yellow}${parseInt(process.uptime() - (client.uptime / 1000))}${reset} segundos\n` +
     `Usuários: ${yellow}${client.users.cache.size}${reset}. Servidores: ${yellow}${client.guilds.cache.size}${reset}. Canais: ${yellow}${client.channels.cache.size}${reset}\n`+
     `${green}===============================================${reset}`
   );

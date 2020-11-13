@@ -3,11 +3,14 @@ const { static: { emoji } } = require('../../../utils/emojis.json');
 const cache = require('../../../utils/cache');
 
 module.exports = async (members) => {
-  const { error, apiError, logger } = require('../../../functions');
+  const { error, apiError, logger, getLevel } = require('../../../functions');
   
-  api.get('/inventory', { body: { joinProducts: true } })
+  api.get('/inventory', { params: { joinProducts: true } })
     .then(response => {
-      const pointMultiplier = response.data.filter(item => item.active && item.type === 'point-multiplier');
+      const pointMultiplier = response.data.filter(item => {
+        item.characteristics = JSON.parse(item.characteristics);
+        return item.active && item.type === 'point-multiplier';
+      });
       const needCreate = [];
       const needUpdate = [];
 
@@ -28,8 +31,9 @@ module.exports = async (members) => {
                   (item.scope === 'global' && item.user === userId) || 
                   (item.scope === 'local' && item.user === userId && item.server === serverId)
                 ).reduce((prev, curr) => prev.characteristics.point_multiplier += curr.characteristics.point_multiplier) : 1;
-  
-                const value = cache.scores[serverId][userId] * multiplier + member.score;
+
+                const level = getLevel(member.score);
+                const value = Math.round(cache.scores[serverId][userId] * (level * 0.5) * multiplier + member.score);
   
                 needUpdate.push({ id: member.id, value });
               };
@@ -41,11 +45,6 @@ module.exports = async (members) => {
 
       if (needCreate.length) api.put('/members/create', { members: needCreate })
         .then(res => {
-          logger(
-            `> ${emoji.emojicoffeeinfo} Aviso!\n` +
-            '> Novos membros foram criados no banco de dados!\n' +
-            `> Os membros: ${JSON.stringify(res.data.members, null, 4)}` 
-          );
           needCreate.splice(0, needCreate.length);
         }, e => error(
           `> ${emoji.emojicoffeeerro} Erro!\n` +
@@ -57,11 +56,6 @@ module.exports = async (members) => {
 
       if (needUpdate.length) api.post('/members/update', { members: { score: needUpdate } })
         .then(res => {
-          logger(
-            `> ${emoji.emojicoffeeinfo} Aviso!\n` +
-            '> Foram atualizadas as pontuações de alguns membros!\n' +
-            `> As pontuações: ${JSON.stringify(needUpdate, null, 4)}`
-          );
           needUpdate.splice(0, needUpdate.length);
         }, e => error(
           `> ${emoji.emojicoffeeerro} Erro!\n` +

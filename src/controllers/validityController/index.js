@@ -1,6 +1,6 @@
 const client = require('../..');
 const moment = require('moment');
-const { notFoundUser, notFoundServer, notify, notifyError, apiError } = require('./src/warnings');
+const { notFoundUser, notFoundServer, notify, notifyError, apiError, apiGetError } = require('./src/warnings');
 const api = require('../../services/api');
 
 let stts = true;
@@ -20,7 +20,7 @@ function verificationValidity() {
     .then(response => {
       const vencidos = response.data.filter(item => {
         const characteristics = JSON.parse(item.characteristics);
-
+        
         return characteristics && characteristics.validity && Date.now() - item.TIMESTAMP > characteristics.validity;
       });
       const ids = vencidos.map(item => item.ID);
@@ -29,6 +29,8 @@ function verificationValidity() {
         api.delete('/inventory/delete', { params: { properties: { id: ids } } })
         .then(() => {
           vencidos.forEach(item => {
+            item.characteristics = JSON.parse(item.characteristics);
+
             const user = client.users.cache.get(item.user);
             const server = item.server ? client.guilds.cache.get(item.server) : false;
             const purchaseDate = moment(item.TIMESTAMP).locale('pt-br').format('L');
@@ -42,6 +44,6 @@ function verificationValidity() {
           });
         }, e => apiError(ids, e));
       };
-    });
+    }, e => apiGetError(e));
 };
 

@@ -20,7 +20,7 @@ function getMembers() {
       require('./src/saveScore')(response.data, scores);
     }, e => error(
       `> ${emoji.emojicoffeeerro} Erro!\n`+
-      '> Houve um erro ao fazer uma requisição dos user_per_server para a API!\n'+
+      '> Houve um erro ao fazer uma requisição dos members para a API!\n'+
       `> Path: "${__filename}"\n`+
       `> Erro: "${apiError(e)}"`
     ));

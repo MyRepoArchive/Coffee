@@ -13,5 +13,6 @@ module.exports = {
   levenshteinDistance: require('./src/levenshteinDistance'),
   logger: require('./src/logger'),
   loadCommands: require('./src/loadCommands'),
-  isEquivalent: require('./src/isEquivalent')
+  isEquivalent: require('./src/isEquivalent'),
+  getLevel: require('./src/getLevel'),
 };

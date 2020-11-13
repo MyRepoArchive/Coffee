@@ -24,7 +24,7 @@ module.exports = {
   notify: (user, item, purchaseDate, expirationDate, server) => new Promise((resolve, reject) => {
     user.send(
       `> ${emoji.emojicoffeeinfo} Aviso\n`+
-      `> Olá Sr.${user.username}, informamos que seu **${item.name}** com validade para **${item.characteristics.validity / 86400000} dias**${server ? `, item no servidor **${server.name}**,` : ''} venceu. Ele estará sendo retirado de sua conta neste instante.\n`+
+      `> Olá Sr.${user.username}, informamos que seu **${item.name}** com validade para **${item.characteristics.validity / 86400000} dias**${server ? `, adquirido no servidor **${server.name}**,` : ''} venceu. Ele estará sendo retirado de sua conta neste instante.\n`+
       '> Agradeçemos a compreensão.\n'+
       `> Data da item: \`${purchaseDate}\`\n`+
       `> Data de vencimento: \`${expirationDate}\``
@@ -49,5 +49,13 @@ module.exports = {
       `> Os IDs das items: ${JSON.stringify(ids, null, 4)}\n`+
       `> O erro: "${apiError(e)}"`
     );
+  },
+
+  apiGetError(e) {
+    error(
+      `> ${emoji.emojicoffeeerro} Erro\n` +
+      `> Aconteceu um problema ao fazer a requisição do inventário para a API.\n` +
+      `> Erro: ${apiError(e)}`
+    )
   }
 };

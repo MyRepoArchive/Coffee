@@ -9,8 +9,8 @@ module.exports = {
 
   async run({ message, args, prefix }) {
     const { verifyCooldown, verifyActive } = require('../../../functions');
-    if (!verifyActive(this.config.active, message, this.config.reasonInactivity)) return;
-    if (!verifyCooldown(message, this.config.cooldownControl, this.config.cooldown, this.config.timesLimit)) return;
+    if (!verifyActive(this.config.active, message, this.config.reason_inactivity)) return;
+    if (!verifyCooldown(message, this.config.cooldownControl, this.config.cooldown, this.config.times_limit)) return;
 
     if (!args.length) return notProvidedReport(message, prefix);
 
@@ -18,7 +18,7 @@ module.exports = {
   
     createReport(reportContent, message.author.id)
       .then(response => {
-        sendInReportsChannel(reportContent, message, response.created_timestamp);
+        sendInReportsChannel(reportContent, message, response.created_timestamp, response.id);
         feedbackUser(response.status, message);
       }, () => reportError(message));
   }

@@ -36,11 +36,9 @@ module.exports = (report, userId) => new Promise((resolve, reject) => {
     return;
   };
 
-  api.put('/reports/create', { report, createdBy: userId }, {
-    headers: { Authorization: `Bearer ${apiAuthToken}` }
-  })
+  api.put('/reports/create', { reports: [ { report, created_by: userId } ] })
     .then(res => {
-      resolve(res.data);
+      resolve(res.data.reports[0]);
     }, e => {
       error(
         `> ${emoji.emojicoffeeerro} Erro!\n`+

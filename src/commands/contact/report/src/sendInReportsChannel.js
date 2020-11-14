@@ -4,7 +4,7 @@ const { static: { emoji, eID } } = require('../../../../utils/emojis.json');
 const { lightstategray } = require('../../../../utils/colors.json');
 const Discord = require('discord.js');
 
-module.exports = (reportContent, message, createdTimestamp) => {
+module.exports = (reportContent, message, createdTimestamp, id) => {
   const { error } = require('../../../../functions');
   const channel = client.channels.cache.get(report_analise);
 
@@ -29,6 +29,7 @@ module.exports = (reportContent, message, createdTimestamp) => {
   const reportEmbed = new Discord.MessageEmbed()
     .setColor(lightstategray)
     .setAuthor(`${message.author.tag} | ${message.author.id}`, message.author.displayAvatarURL())
+    .setTitle(id)
     .setDescription(reportContent)
     .setTimestamp(createdTimestamp)
     .setFooter(`Canal: "${message.channel.id}". Servidor: "${message.channel.guild.id}"`);

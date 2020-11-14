@@ -21,6 +21,7 @@
     "axios": "^0.20.0",
     "canvas": "^2.6.1",
     "discord.js": "^12.2.0",
+    "emojis-list": "^3.0.0",
     "jsonwebtoken": "^8.5.1",
     "mathjs": "^7.2.0",
     "moment": "^2.29.1"

@@ -32,11 +32,27 @@ module.exports = async (data) => {
                     .then(response => {
                       client.users.fetch(response.data.created_by)
                         .then(user => {
+                          const report = response.data.report;
+                          const feitoEm = moment(response.data.created_timestamp).locale('pt-br').format('LLLL');
+
                           user.send(
-                            `> Seu report "${response.data.report}" feito ${moment(response.data.created_timestamp).locale('pt-br').format('LLLL')} foi `)
-                        });
-                    });
-    
+                            `> Seu report "${report}" feito ${feitoEm} foi ${status}!\n` +
+                            `${status === 'aprovado' ? 'Agora ele será corrigido o mais rápido possível!' : ''}`
+                          ).catch(() => {});
+                        }, e => error(
+                          `> ${emoji.emojicoffeeinfo} Aviso!\n` +
+                          '> Não foi possível encontrar o user que fez um dos reports!\n' +
+                          `> ID do report: "${response.data.id}"\n` +
+                          `> Path: "${__filename}"\n` +
+                          `> Erro: "${JSON.stringify(e, null, 4)}"`
+                        ));
+                    }, e => error(
+                      `> ${emoji.emojicoffeeerro} Erro\n` +
+                      '> Houve um erro ao buscar um report na API\n' +
+                      `> Path: "${__filename}"\n` +
+                      `> Erro: "${apiError(e)}"`
+                    ));
+
                   message.delete();
                 }, e => sendError(e));
             }, e => updateErr(e));
@@ -64,7 +80,7 @@ module.exports = async (data) => {
       '> Houve um erro ao atualizar o status de um report!\n' +
       `> Path: "${__filename}"\n` +
       `> Erro: "${apiError(e)}"`
-    )
+    );
   };
 
   function sendError(e) {
@@ -73,6 +89,6 @@ module.exports = async (data) => {
       '> Não foi possível enviar o report para o canal destinado!\n' +
       `> Path: "${__filename}"\n` +
       `> Erro: "${JSON.stringify(e, null, 4)}"`
-    )
+    );
   };
 };

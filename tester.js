@@ -1,5 +1,9 @@
-const arr = [1,2,3,4,5,6,7,8,9,10,11,22];
+const api = require('./src/services/api');
 
-console.log(arr);
-arr.splice(0, Infinity);
-console.log(arr);
+async function a() {
+  const commands = await api.get('/commands').catch(e => console.log('erro'));
+
+  console.log(commands.data)
+};
+
+a()

@@ -1,10 +1,2 @@
-module.exports = {
-  name: 0,
-  aliases: ["ola", "tudo bem"]
-};
-
-module.exports.load = () => {
-  module.exports.name++;
-  console.log('carregado')
-};
-module.exports.load();
+const translate = require('@vitalets/google-translate-api');
+translate('oi', { from: 'pt', to: 'en' }).then(text => console.log(text.text));

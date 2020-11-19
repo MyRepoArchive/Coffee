@@ -14,7 +14,7 @@ module.exports = () => {
   api.get('/commands')
     .then(response => {
       console.log(`${yellow}==================== LOADING COMMANDS ====================${reset}`);
-      load(response.data);
+      load(response.data); // Carrega os comandos normalmente com os comandos buscados da API
       console.log(`${yellow}==========================================================${reset}`);
     }, e => {
       error(
@@ -25,7 +25,7 @@ module.exports = () => {
       );
 
       console.log(`${red}==================== LOADING COMMANDS (bad loading) ====================${reset}`);
-      load();
+      load(); // Carrega os comandos apenas do que já tem nos próprios arquivos (faz um mal carregamento de comandos)
       console.log(`${red}========================================================================${reset}`);
     });
 
@@ -33,7 +33,7 @@ module.exports = () => {
     const needCreate = [];
     const needUpdate = {};
 
-    fs.readdirSync('./src/commands', { withFileTypes: true })
+    fs.readdirSync('./src/commands', { withFileTypes: true }) // Lê a pasta commands
       .filter(category => category.isDirectory())
       .forEach(category => {
         console.log(`${yellow}${category.name.toUpperCase()} COMMANDS LOADING${reset}`);
@@ -49,13 +49,15 @@ module.exports = () => {
               const commandApi = commands.find(cmd => cmd.name === cmdConfig.name);
               
               if (!commandApi) {
-                needCreate.push(cmdConfig);
+                needCreate.push(cmdConfig); // Se o comando ainda não tiver sido criado na API, ele cria um novo com as config padrão
               } else {
+                // Coloca no comando local as variáveis que vieram do banco de dados
                 command.config.cooldown = commandApi.cooldown;
                 command.config.times_limit = commandApi.times_limit;
                 command.config.active = commandApi.active === 1;
                 command.config.reason_inactivity = commandApi.reason_inactivity;
 
+                // Todos esses ifs verificam se no comando da API tem algo de incoerente com o que está nos arquivos locais do comando
                 if (commandApi.aliases.length !== cmdConfig.aliases.length || cmdConfig.aliases.find((aliase, index) => aliase !== commandApi.aliases[index])) 
                   needUpdate.aliases ? needUpdate.aliases.push({ id: commandApi.id, value: cmdConfig.aliases }) : needUpdate.aliases = [{ id: commandApi.id, value: cmdConfig.aliases }];
                 if (commandApi.type !== cmdConfig.type) 
@@ -76,18 +78,17 @@ module.exports = () => {
                   needUpdate.version ? needUpdate.version.push({ id: commandApi.id, value: cmdConfig.version }) : needUpdate.version = [{ id: commandApi.id, value: cmdConfig.version }];
                 if (!isEquivalent(commandApi.releases_notes, cmdConfig.releases_notes))
                   needUpdate.releases_notes ? needUpdate.releases_notes.push({ id: commandApi.id, value: cmdConfig.releases_notes }) : needUpdate.releases_notes = [{ id: commandApi.id, value: cmdConfig.releases_notes }];
-                
               };
             };
 
-            client.commands.set(cmdConfig.name, command);
+            client.commands.set(cmdConfig.name, command); // Carrega o comando no bot
 
             console.log(`Comando ${cyan}${cmdConfig.name.toUpperCase()}${reset} carregado com sucesso!`);
           });
       });
 
     if (needCreate.length) {
-      api.put('/commands/create', { commands: needCreate })
+      api.put('/commands/create', { commands: needCreate }) // Cria os comandos que precisar, se precisar
       .then(response => logger(
         `> ${emoji.emojicoffeeinfo} Aviso!\n` +
         '> Novos comandos criados no banco de dados!\n' +
@@ -102,7 +103,7 @@ module.exports = () => {
     };
 
     if (Object.keys(needUpdate).length) {
-      api.post('/commands/update', { commands: needUpdate })
+      api.post('/commands/update', { commands: needUpdate }) // Atualiza os comandos que precisar, se precisar
         .then(response => logger(
           `> ${emoji.emojicoffeeinfo} Aviso!\n` +
           '> Alguns commandos foram atualizados no banco de dados!\n' +

@@ -13,6 +13,7 @@ module.exports = (data) => {
     .then(message => {
       const channelSolucionado = client.channels.cache.get(report_solucionados);
       const reportId = Number(message.embeds[0].title);
+      console.log(message.reactions.cache)
 
       if (message.author.id !== client.user.id) return;
 

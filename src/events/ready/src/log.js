@@ -26,17 +26,20 @@ module.exports = () => {
             error(
               `> ${emoji.emojicoffeeinfo} Aviso!\n`+
               '> O bot encontrou um problema ao tentar enviar o log de largada no canal predefinido para logs!\n'+
+              `> Path: "${__filename}"\n` + 
               `> Erro: "${JSON.stringify(e, null, 4)}"`
             );
           });
       } else error(
         `> ${emoji.emojicoffeeinfo} Aviso!\n`+
         '> O bot não possui permissão de enviar mensagens no canal predefinido para logs'
+        `> Path: "${__filename}"`
       );
       
     }, e => error(
       `> ${emoji.emojicoffeeinfo} Aviso!\n`+
       '> O bot não conseguiu encontrar o canal predefinido para logs!\n'+
+      `> Path: "${__filename}"\n` + 
       `> Erro: "${JSON.stringify(e, null, 4)}"`
     ))
 };

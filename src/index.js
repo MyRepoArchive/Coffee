@@ -8,6 +8,8 @@ fs.writeFileSync('./src/utils/log.txt', '');
 client.login(token).then(() => {
   const { handlerLoader } = require('./functions');
   handlerLoader();
+
+  require('./services/botApi');
 });
 
 module.exports = client;

@@ -26,7 +26,7 @@ module.exports = {
       `> ${emoji.emojicoffeeinfo} Aviso\n`+
       `> Olá Sr.${user.username}, informamos que seu **${item.name}** com validade para **${item.characteristics.validity / 86400000} dias**${server ? `, adquirido no servidor **${server.name}**,` : ''} venceu. Ele estará sendo retirado de sua conta neste instante.\n`+
       '> Agradeçemos a compreensão.\n'+
-      `> Data da item: \`${purchaseDate}\`\n`+
+      `> Data da compra: \`${purchaseDate}\`\n`+
       `> Data de vencimento: \`${expirationDate}\``
     )
       .then(() => resolve(), e => reject(e))

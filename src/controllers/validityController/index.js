@@ -27,22 +27,22 @@ function verificationValidity() {
 
       if (ids.length) {
         api.delete('/inventory/delete', { params: { properties: { id: ids } } })
-        .then(() => {
-          vencidos.forEach(item => {
-            item.characteristics = JSON.parse(item.characteristics);
+          .then(() => {
+            vencidos.forEach(item => {
+              item.characteristics = JSON.parse(item.characteristics);
 
-            const user = client.users.cache.get(item.user);
-            const server = item.server ? client.guilds.cache.get(item.server) : false;
-            const purchaseDate = moment(item.TIMESTAMP).locale('pt-br').format('L');
-            const expirationDate = moment(item.TIMESTAMP + item.characteristics.validity).locale('pt-br').format('L');
+              const user = client.users.cache.get(item.user);
+              const server = item.server ? client.guilds.cache.get(item.server) : false;
+              const purchaseDate = moment(item.TIMESTAMP).locale('pt-br').format('L');
+              const expirationDate = moment(item.TIMESTAMP + item.characteristics.validity).locale('pt-br').format('L');
 
-            if (!user) return notFoundUser(item);
-            if (server === undefined) return notFoundServer(item);
+              if (!user) return notFoundUser(item);
+              if (server === undefined) return notFoundServer(item);
 
-            notify(user, item, purchaseDate, expirationDate, server)
-              .catch(e => notifyError(item, e));
-          });
-        }, e => apiError(ids, e));
+              notify(user, item, purchaseDate, expirationDate, server)
+                .catch(e => notifyError(item, e));
+            });
+          }, e => apiError(ids, e));
       };
     }, e => apiGetError(e));
 };

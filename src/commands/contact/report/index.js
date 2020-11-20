@@ -20,7 +20,7 @@ module.exports = {
     createReport(reportContent, message.author.id) // Cria o report na API
       .then(response => {
         sendInReportsChannel(reportContent, message, response.created_timestamp, response.id); // Manda para o canal de analise de reports
-        feedbackUser(response.status, message); // Envia uma resposta para o usuário que fez o report
+        feedbackUser(response.status, message, response.id); // Envia uma resposta para o usuário que fez o report
       }, () => reportError(message)); // Se não criar, avisa o user e os admins
   }
 };

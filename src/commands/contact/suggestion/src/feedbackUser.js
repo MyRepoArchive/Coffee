@@ -22,8 +22,8 @@ module.exports = (status, message, id) => {
 
   const msg = 
     `> ${emoji.emojicoffeecheck} Check!\n`+
-    '> Seu report foi enviado para os administradores, eles irão verificar se é válido e irão corrigir o mais rápido possível. Obrigado!\n'+
-    `> ID do report: "${id}"\n` +
+    '> Sua sugestão foi enviada para os administradores, eles irão verificar e ver se aceitam ou não. Obrigado!\n'+
+    `> ID da suggestion: "${id}"\n` +
     `> Status: "${status}"`
 
   const permissions = message.channel.permissionsFor(client.user);

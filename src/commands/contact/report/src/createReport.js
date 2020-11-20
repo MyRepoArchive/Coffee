@@ -3,7 +3,6 @@ const { static: { emoji } } = require('../../../../utils/emojis.json');
 
 module.exports = (report, userId) => new Promise((resolve, reject) => {
   const { error, apiError } = require('../../../../functions');
-  const { apiAuthToken } = require('../../../../config/auth.json');
 
   if (!report) {
     error(

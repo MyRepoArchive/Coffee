@@ -1,7 +1,7 @@
-const api = require('../../../services/api');
-const updateErr = require('./reportUpdateErr');
-const sendError = require('./reportSendError');
-const alertUser = require('./reportAlertUser');
+const api = require('../../../../services/api');
+const updateErr = require('./updateErr');
+const sendError = require('./sendError');
+const alertUser = require('./alertUser');
 
 module.exports = (reportId, channelReprovado, message) => {
   api.post('/reports/update', { reports: { status: [{ id: reportId, value: 'REPROVADO' }] } })

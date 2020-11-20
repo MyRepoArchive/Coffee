@@ -1,11 +1,11 @@
-const client = require('../../..');
-const { static: { eID, emoji } } = require('../../../utils/emojis.json');
-const { report_analise, report_reprovados, report_aprovados } = require('../../../config/default.json');
-const reportApprover = require('./reportApprover');
-const reportReprover = require('./reportReprover');
+const client = require('../../../..');
+const { static: { eID, emoji } } = require('../../../../utils/emojis.json');
+const { report_analise, report_reprovados, report_aprovados } = require('../../../../config/default.json');
+const reportApprover = require('./approver');
+const reportReprover = require('./reprover');
 
 module.exports = (data) => {
-  const { error } = require('../../../functions');
+  const { error } = require('../../../../functions');
 
   client.channels.cache.get(report_analise).messages.fetch(data.d.message_id)
     .then(message => {

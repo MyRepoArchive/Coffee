@@ -1,0 +1,213 @@
+
+
+
+
+>>> sexta-feira, 20 de novembro de 2020 às 17:37 <<<
+
+> <:emojicoffeeinfo:766020288885293097> Aviso!
+> Alguns commandos foram atualizados no banco de dados!
+> Request: {
+    "aliases": [
+        {
+            "id": 1,
+            "value": [
+                "reportar"
+            ]
+        },
+        {
+            "id": 2,
+            "value": [
+                "sugestao"
+            ]
+        }
+    ],
+    "releases_notes": [
+        {
+            "id": 1,
+            "value": {
+                "1.0": null,
+                "2.0": "Comando refeito, agora com um sistema de gestão de reports mais aprimorado. O usuário que fez o report é notificado quando o status do seu report muda, sabe se foi aceito ou rejeitado, e caso aceito, sabe quando foi solucionado!"
+            }
+        },
+        {
+            "id": 2,
+            "value": {
+                "1.0": null,
+                "2.0": null
+            }
+        }
+    ]
+}
+> Resposta: {
+    "result": {
+        "fieldCount": 0,
+        "affectedRows": 2,
+        "insertId": 0,
+        "serverStatus": 2,
+        "warningCount": 0,
+        "message": "(Rows matched: 2  Changed: 0  Warnings: 0",
+        "protocol41": true,
+        "changedRows": 0
+    },
+    "sql": "UPDATE commands SET aliases = CASE id WHEN 1 THEN '[\"reportar\"]' WHEN 2 THEN '[\"sugestao\"]' ELSE aliases END, releases_notes = CASE id WHEN 1 THEN '{\"1.0\":null,\"2.0\":\"Comando refeito, agora com um sistema de gestão de reports mais aprimorado. O usuário que fez o report é notificado quando o status do seu report muda, sabe se foi aceito ou rejeitado, e caso aceito, sabe quando foi solucionado!\"}' WHEN 2 THEN '{\"1.0\":null,\"2.0\":null}' ELSE releases_notes END WHERE id IN (1, 2)",
+    "commands": [
+        {
+            "id": 1,
+            "name": "report",
+            "aliases": [
+                "reportar"
+            ],
+            "type": "Contato",
+            "description": "Se você encontrou algum bug ou coisa que você acredita que não esteja funcionando como deveria, basta usar o comando para que os devenvolvedores fiquem a par do problema e o resolva.",
+            "how_to_use": "Digite _report no chat e passe como parâmetro o seu report, em seguida envie a mensagem.",
+            "cooldown": 10000,
+            "example": "_report Encontrei um bug ao executar o comando ajuda, ao usar o comando o bot não responde!",
+            "example_url": "https://i.imgur.com/mAs7Ueq.png",
+            "created_timestamp": 1598646020000,
+            "updated_timestamp": 1605780157057,
+            "version": "2.0",
+            "releases_notes": {
+                "1.0": null,
+                "2.0": "Comando refeito, agora com um sistema de gestão de reports mais aprimorado. O usuário que fez o report é notificado quando o status do seu report muda, sabe se foi aceito ou rejeitado, e caso aceito, sabe quando foi solucionado!"
+            },
+            "times_limit": 2,
+            "active": 1,
+            "reason_inactivity": null
+        },
+        {
+            "id": 2,
+            "name": "sugerir",
+            "aliases": [
+                "sugestao"
+            ],
+            "type": "Contato",
+            "description": "Se você gostaria de ver alguma nova funcionalidade no bot que ainda não tenha, ou qualquer tipo de feature, basta usar o comando para que os devenvolvedores fiquem a par da sugestão e possa prontamente atender aos seus pedidos.",
+            "how_to_use": "Digite _sugerir no chat e passe como parâmetro a sua sugestão, em seguida envie a mensagem.",
+            "cooldown": 10000,
+            "example": "_sugerir Eu gostaria de um comando que me trouxesse café na cama, PARA ONTEM!",
+            "example_url": null,
+            "created_timestamp": 1598663751000,
+            "updated_timestamp": 1605780157057,
+            "version": "2.0",
+            "releases_notes": {
+                "1.0": null,
+                "2.0": null
+            },
+            "times_limit": 2,
+            "active": 1,
+            "reason_inactivity": null
+        }
+    ]
+}
+
+
+
+>>> sexta-feira, 20 de novembro de 2020 às 17:37 <<<
+
+> <:emojicoffeeinfo:766020288885293097> Aviso
+> Ocorreu um erro ao enviar um novo log no canal cadastrado para logs.
+> ID do canal: '757002422437543966'.
+> Path: "C:\Users\Pichau\Documents\Bots\Coffe\src\functions\src\logger.js"
+> Log: "> <:emojicoffeeinfo:766020288885293097> Aviso!
+> Alguns commandos foram atualizados no banco de dados!
+> Request: {
+    "aliases": [
+        {
+            "id": 1,
+            "value": [
+                "reportar"
+            ]
+        },
+        {
+            "id": 2,
+            "value": [
+                "sugestao"
+            ]
+        }
+    ],
+    "releases_notes": [
+        {
+            "id": 1,
+            "value": {
+                "1.0": null,
+                "2.0": "Comando refeito, agora com um sistema de gestão de reports mais aprimorado. O usuário que fez o report é notificado quando o status do seu report muda, sabe se foi aceito ou rejeitado, e caso aceito, sabe quando foi solucionado!"
+            }
+        },
+        {
+            "id": 2,
+            "value": {
+                "1.0": null,
+                "2.0": null
+            }
+        }
+    ]
+}
+> Resposta: {
+    "result": {
+        "fieldCount": 0,
+        "affectedRows": 2,
+        "insertId": 0,
+        "serverStatus": 2,
+        "warningCount": 0,
+        "message": "(Rows matched: 2  Changed: 0  Warnings: 0",
+        "protocol41": true,
+        "changedRows": 0
+    },
+    "sql": "UPDATE commands SET aliases = CASE id WHEN 1 THEN '[\"reportar\"]' WHEN 2 THEN '[\"sugestao\"]' ELSE aliases END, releases_notes = CASE id WHEN 1 THEN '{\"1.0\":null,\"2.0\":\"Comando refeito, agora com um sistema de gestão de reports mais aprimorado. O usuário que fez o report é notificado quando o status do seu report muda, sabe se foi aceito ou rejeitado, e caso aceito, sabe quando foi solucionado!\"}' WHEN 2 THEN '{\"1.0\":null,\"2.0\":null}' ELSE releases_notes END WHERE id IN (1, 2)",
+    "commands": [
+        {
+            "id": 1,
+            "name": "report",
+            "aliases": [
+                "reportar"
+            ],
+            "type": "Contato",
+            "description": "Se você encontrou algum bug ou coisa que você acredita que não esteja funcionando como deveria, basta usar o comando para que os devenvolvedores fiquem a par do problema e o resolva.",
+            "how_to_use": "Digite _report no chat e passe como parâmetro o seu report, em seguida envie a mensagem.",
+            "cooldown": 10000,
+            "example": "_report Encontrei um bug ao executar o comando ajuda, ao usar o comando o bot não responde!",
+            "example_url": "https://i.imgur.com/mAs7Ueq.png",
+            "created_timestamp": 1598646020000,
+            "updated_timestamp": 1605780157057,
+            "version": "2.0",
+            "releases_notes": {
+                "1.0": null,
+                "2.0": "Comando refeito, agora com um sistema de gestão de reports mais aprimorado. O usuário que fez o report é notificado quando o status do seu report muda, sabe se foi aceito ou rejeitado, e caso aceito, sabe quando foi solucionado!"
+            },
+            "times_limit": 2,
+            "active": 1,
+            "reason_inactivity": null
+        },
+        {
+            "id": 2,
+            "name": "sugerir",
+            "aliases": [
+                "sugestao"
+            ],
+            "type": "Contato",
+            "description": "Se você gostaria de ver alguma nova funcionalidade no bot que ainda não tenha, ou qualquer tipo de feature, basta usar o comando para que os devenvolvedores fiquem a par da sugestão e possa prontamente atender aos seus pedidos.",
+            "how_to_use": "Digite _sugerir no chat e passe como parâmetro a sua sugestão, em seguida envie a mensagem.",
+            "cooldown": 10000,
+            "example": "_sugerir Eu gostaria de um comando que me trouxesse café na cama, PARA ONTEM!",
+            "example_url": null,
+            "created_timestamp": 1598663751000,
+            "updated_timestamp": 1605780157057,
+            "version": "2.0",
+            "releases_notes": {
+                "1.0": null,
+                "2.0": null
+            },
+            "times_limit": 2,
+            "active": 1,
+            "reason_inactivity": null
+        }
+    ]
+}".
+> Erro: "{
+    "name": "DiscordAPIError",
+    "message": "Invalid Form Body\ncontent: Must be 2000 or fewer in length.",
+    "method": "post",
+    "path": "/channels/757002422437543966/messages",
+    "code": 50035,
+    "httpStatus": 400
+}"

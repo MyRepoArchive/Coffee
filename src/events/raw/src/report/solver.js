@@ -1,13 +1,13 @@
-const client =  require('../../..');
-const { report_aprovados, report_solucionados } = require('../../../config/default.json');
-const { static: { emoji, eID } } = require('../../../utils/emojis.json');
-const api = require('../../../services/api');
-const alertUser = require('./reportAlertUser');
-const sendError = require('./reportSendError');
-const updateErr = require('./reportUpdateErr');
+const client =  require('../../../..');
+const { report_aprovados, report_solucionados } = require('../../../../config/default.json');
+const { static: { emoji, eID } } = require('../../../../utils/emojis.json');
+const api = require('../../../../services/api');
+const alertUser = require('./alertUser');
+const sendError = require('./sendError');
+const updateErr = require('./updateErr');
 
 module.exports = (data) => {
-  const { error } = require('../../../functions');
+  const { error } = require('../../../../functions');
 
   client.channels.cache.get(report_aprovados).messages.fetch(data.d.message_id)
     .then(message => {

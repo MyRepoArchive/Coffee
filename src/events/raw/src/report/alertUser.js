@@ -1,6 +1,6 @@
-const api = require('../../../services/api');
-const client = require('../../..');
-const { static: { emoji } } = require('../../../utils/emojis.json');
+const api = require('../../../../services/api');
+const client = require('../../../..');
+const { static: { emoji } } = require('../../../../utils/emojis.json');
 const moment = require('moment');
 
 module.exports = (reportId) => {

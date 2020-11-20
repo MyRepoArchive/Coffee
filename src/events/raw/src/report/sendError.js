@@ -1,7 +1,7 @@
-const { static: { emoji } } = require('../../../utils/emojis.json');
+const { static: { emoji } } = require('../../../../utils/emojis.json');
 
 module.exports = (e) => {
-  const { error } = require('../../../functions');
+  const { error } = require('../../../../functions');
 
   error(
     `> ${emoji.emojicoffeeinfo} Aviso!\n` +

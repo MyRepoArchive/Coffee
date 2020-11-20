@@ -8,11 +8,11 @@ module.exports = {
   config: require('./src/config'),
 
   async run({ message, args, prefix }) {
-    const { verifyCooldown, verifyActive } = require('../../../functions');
+    const { verifyActiveCooldown } = require('../../../functions');
+    const { active, reason_inactivity, cooldownControl, cooldown, times_limit } = this.config;
 
-    // Faz três verificações rápidas, antes de executar o comando em si.
-    if (!verifyActive(this.config.active, message, this.config.reason_inactivity)) return;
-    if (!verifyCooldown(message, this.config.cooldownControl, this.config.cooldown, this.config.times_limit)) return;
+    // Faz duas verificações rápidas, antes de executar o comando em si.
+    if (!verifyActiveCooldown(message, active, reason_inactivity, cooldownControl, cooldown, times_limit)) return;
     if (!args.length) return notProvidedReport(message, prefix);
 
     const reportContent = args.join(' ');

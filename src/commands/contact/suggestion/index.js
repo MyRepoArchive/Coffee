@@ -1,15 +1,17 @@
 const Discord = require('discord.js')
-const hex = require('../colors.json')
-const config = require('../info.json')
-const emojis = require('../emojis.json')
 
 module.exports = {
-  name: "sugerir",
-  aliases: ["sugestao"],
-  type: "Contato com os desenvolvedores",
-  description: `Se você gostaria de ver alguma nova funcionalidade no bot que ainda não tenha, ou qualquer tipo de feature, basta usar o comando para que os devenvolvedores fiquem a par da sugestão e possa prontamente atender aos seus pedidos.\nComo usar: ${config.prefix}sugerir sua sugestão vai aqui`,
+  config: require('./src/config'),
 
-  async execute(message, args, comando, client) {
+  async run({ message, args, prefix }) {
+    const { verifyActiveCooldown } = require('../../../functions');
+    const { active, reason_inactivity, cooldownControl, cooldown, times_limit } = this.config;
+
+    if (!verifyActiveCooldown(message, active, reason_inactivity, cooldownControl, cooldown, times_limit)) return;
+    if (!args.length) {
+      
+    }
+
     const { run } = require('../utils/errorAlert.js')
     if(args.length === 0)return run(message, client, `<:${emojis.alertcircleamarelo}> Coloque algum conteúdo quando for fazer sua sugestão!`, emojis.alertcircleamarelo)
     const sugestContent = args.join(' ')

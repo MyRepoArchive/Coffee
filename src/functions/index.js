@@ -15,4 +15,5 @@ module.exports = {
   loadCommands: require('./src/loadCommands'),
   isEquivalent: require('./src/isEquivalent'),
   getLevel: require('./src/getLevel'),
+  verifyActiveCooldown: require('./src/verifyActiveCooldown')
 };

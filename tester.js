@@ -2,6 +2,7 @@ const fs = require('fs');
 const moment = require('moment');
 
 module.exports = (ticket, messages) => {
+  messages = messages.reverse();
   fs.writeFileSync('ticket.html', 
   `<!DOCTYPE html>
   <html lang="pt">
@@ -252,7 +253,7 @@ module.exports = (ticket, messages) => {
         src="${messages[0].guild.iconURL()}"
         alt="Guild Icon" id="guild-icon">
       <div class="header-content">
-        <h1 id="guild-name-header">${messages[0].guild.name}</h1>
+        <h1 id="guild-name-header">${messages[0].guild.name.replace(/[<]/g, '&lt;').replace(/[>]/g, '&gt;').replace(/[\n]/g, '<br>')}</h1>
         <h2 id="channel-name-header">
           <svg width="24" height="24" viewBox="0 0 24 24" class="icon-1DeIlz"><path
               fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"
@@ -272,7 +273,7 @@ module.exports = (ticket, messages) => {
               21H13.8866C13.5755 21 13.3399 20.7189 13.3943 20.4126L14
               17H8.00001L7.36325 20.5874C7.32088 20.8261 7.11337 21 6.87094
               21H5.88657ZM9.41045 9L8.35045 15H14.3504L15.4104 9H9.41045Z"></path></svg>
-          ${messages[0].channel.name}
+          ${messages[0].channel.name.replace(/[<]/g, '&lt;').replace(/[>]/g, '&gt;').replace(/[\n]/g, '<br>')}
         </h2>
         <p id="qtd-msgs"><span id="num-msgs">${messages.length}</span> mensagens</p>
       </div>
@@ -288,9 +289,9 @@ module.exports = (ticket, messages) => {
               src="${message.author.displayAvatarURL()}"
               alt="" class="user-icon">
             <div class="username-and-data">
-              <p class="user-username">${message.author.username}</p>
+              <p class="user-username">${message.author.username.replace(/[<]/g, '&lt;').replace(/[>]/g, '&gt;').replace(/[\n]/g, '<br>')}</p>
               <div class="user-metadata">
-                <p class="user-metadata-tag">${message.author.tag}</p>
+                <p class="user-metadata-tag">${message.author.tag.replace(/[<]/g, '&lt;').replace(/[>]/g, '&gt;').replace(/[\n]/g, '<br>')}</p>
                 <p class="user-metadata-id">${message.author.id}</p>
               </div>
               ${message.author.bot ? `<div class="tag-bot">BOT</div>` : ''}
@@ -298,64 +299,76 @@ module.exports = (ticket, messages) => {
             </div>
           </header>
           <div class="conteudo-total-mensagem">
-          <p class="message-content">${message.content}</p>
+          <p class="message-content">${message.content.replace(/[<]/g, '&lt;').replace(/[>]/g, '&gt;').replace(/[\n]/g, '<br>')}</p>
           ${message.embeds.map(embed => {
             return (`
             <div class="container-embed">
             <div class="embed" style="border-color: ${embed.color};">
               <div class="embed-left-side">
-                ${embed.author ? `<div class="embed-author">
-                ${embed.author.}
-                <p class="embed-author-value">Author da Embed</p>
-              </div>`}
+                ${embed.author ? 
+                  `<div class="embed-author">
+                    ${embed.author.iconURL ? `<img class="embed-author-img" src="${embed.author.iconURL}"` : ''}
+                    <p class="embed-author-value">${embed.author.url ? `<a href="${embed.author.url}">${embed.author.name.replace(/[<]/g, '&lt;').replace(/[>]/g, '&gt;').replace(/[\n]/g, '<br>')}</a>` : embed.author.name.replace(/[<]/g, '&lt;').replace(/[>]/g, '&gt;').replace(/[\n]/g, '<br>')}</p>
+                  </div>` : ''}
 
-                <div class="embed-title">
-                  <p class="embed-title-value">Título da embed</p>
-                </div>
+                ${embed.title ? 
+                  `<div class="embed-title">
+                    <p class="embed-title-value">${embed.url ? `<a href="${embed.url.replace(/[<]/g, '&lt;').replace(/[>]/g, '&gt;').replace(/[\n]/g, '<br>')}">${embed.title.replace(/[<]/g, '&lt;').replace(/[>]/g, '&gt;').replace(/[\n]/g, '<br>')}</a>` : embed.title.replace(/[<]/g, '&lt;').replace(/[>]/g, '&gt;').replace(/[\n]/g, '<br>')}</p>
+                  </div>` : ''
+                }
 
-                <div class="embed-description">
-                  Descrição de toda a embed!!<br>Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Eligendi omnis explicabo
-                  suscipit rerum laudantium. Minus exercitationem, cum magni
-                  sed, voluptatum totam similique ex recusandae consectetur
-                  excepturi, nulla quisquam obcaecati neque.
-                </div>
+                ${embed.description ? `<div class="embed-description">
+                ${embed.description}
+              </div>` : ''}
 
-                <div class="embed-field">
-                  <h3 class="embed-field-title">Título da field</h3>
-                  <p class="embed-field-value">Valor da field<br>Lorem ipsum
-                    dolor sit, amet consectetur adipisicing elit. Error in odit
-                    adipisci maxime officiis quibusdam nihil, ipsam obcaecati
-                    ipsa debitis, qui veritatis aut dicta commodi laudantium
-                    non! Ullam, dolorum reprehenderit.</p>
-                </div>
+                ${embed.fields.map(field => {
+                  return (
+                    `<div class="embed-field">
+                      <h3 class="embed-field-title">${field.name.replace(/[<]/g, '&lt;').replace(/[>]/g, '&gt;').replace(/[\n]/g, '<br>')}</h3>
+                      <p class="embed-field-value">${field.value.replace(/[<]/g, '&lt;').replace(/[>]/g, '&gt;').replace(/[\n]/g, '<br>')}</p>
+                    </div>`
+                  )
+                }).join('')}
 
-                <div class="embed-image">
+                ${embed.image ? 
+                  `<div class="embed-image">
+                    <img
+                      src="${embed.image.url}"
+                      alt="" class="embed-image-img">
+                  </div>`  : ''  
+                }
+              </div>
+
+              ${embed.thumbnail ? 
+                `<div class="embed-thumbnail">
                   <img
-                    src="https://www.popsci.com/resizer/QgEMm6gNVXFYEFCmonq-Tp9_D7g=/760x506/cloudfront-us-east-1.images.arcpublishing.com/bonnier/3NIEQB3SFVCMNHH6MHZ42FO6PA.jpg"
-                    alt="" class="embed-image-img">
-                </div>
-              </div>
+                    src="${embed.thumbnail.url}"
+                    alt="" class="embed-thumbnail-img">
+                </div>`: ''
+              }
 
-              <div class="embed-thumbnail">
-                <img
-                  src="https://cdn.discordapp.com/icons/425864977996578816/a_d14e0f77585fe273923d784856448b19.webp"
-                  alt="" class="embed-thumbnail-img">
-              </div>
-
-              <div class="embed-footer">
-                <img
-                  src="https://cdn.discordapp.com/avatars/403925985847934976/7f41b812a99d42a786e84a76489c45b7.webp"
-                  alt="" class="embed-footer-img">
-                <p class="embed-footer-value">Rodapé da embed aqui!</p>
-                <p class="embed-footer-timestamp"> • Ontem as 18:30</p>
-              </div>
+              ${embed.footer ? 
+                `<div class="embed-footer">
+                  ${embed.footer.iconURL ? 
+                    `<img
+                      src="${embed.footer.iconURL}"
+                      alt="" class="embed-footer-img">` : ''
+                  }
+                  <p class="embed-footer-value">${embed.footer.text.replace(/[<]/g, '&lt;').replace(/[>]/g, '&gt;').replace(/[\n]/g, '<br>')}</p>
+                  <p class="embed-footer-timestamp"> • ${moment(message.createdTimestamp).locale('pt-br').calendar()}</p>
+                </div>` : ''
+              }
             </div>
           </div>
             `)
-          })}
+          }).join('')}
+        </div>
         </div>
         `)
-      })}`
+      }).join('')}
+      </main>
+  </body>
+</html>`
+      
   )
 };

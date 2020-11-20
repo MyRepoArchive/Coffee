@@ -25,5 +25,5 @@ module.exports = (guild) => {
       `> Canais: ${JSON.stringify(channels, null, 4)}\n` +
       `> Path: "${__filename}"\n` +
       `> Erro: "${apiError(e)}"`
-    ))
+    ));
 };

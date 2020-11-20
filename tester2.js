@@ -1,1 +1,1 @@
-console.log(Date.now())
+console.log('a'.repla)

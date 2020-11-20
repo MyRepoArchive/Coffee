@@ -8,7 +8,7 @@ module.exports = (suggestionId, channelAprovado, message) => {
   api.post('/suggestions/update', { suggestions: { status: [{ id: suggestionId, value: 'APROVADO' }] } })
     .then(() => {
       channelAprovado.send(message.embeds[0])
-        .then(msg => {
+        .then(() => {
           alertUser(suggestionId);
 
           message.delete();

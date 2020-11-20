@@ -4,6 +4,8 @@ const { static: { emoji } } = require('../../../../utils/emojis.json');
 const moment = require('moment');
 
 module.exports = (reportId) => {
+  const { error, apiError } = require('../../../../functions');
+
   api.get(`/reports/${reportId}`)
     .then(response => {
       client.users.fetch(response.data.created_by)

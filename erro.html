@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+  <html lang="pt">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>message</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap"
+      rel="stylesheet">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+  
+      body {
+        background-color: #36393e;
+        min-height: 100vh;
+        color: #b9bbbe;
+        font-family: 'Mutka', Helvetica, sans-serif;
+      }
+  
+      header#cabecalho-geral {
+        display: flex;
+        align-items: center;
+      }
+  
+      #guild-icon {
+        margin: 1rem;
+        width: 7rem;
+        border-radius: 100%;
+      }
+  
+      .header-content {
+        display: inline-block;
+      }
+  
+      #channel-name-header {
+        display: flex;
+        align-items: center;
+      }
+  
+      #channel-name-header svg {
+        opacity: 0.6;
+      }
+  
+      #qtd-msgs {
+        opacity: 0.6;
+      }
+  
+      .message {
+        margin: 1rem;
+        max-width: 700px;
+      }
+  
+      .user-icon {
+        width: 3rem;
+        border-radius: 100%;
+      }
+  
+      .username-and-data {
+        display: inline-block;
+        margin-top: 0.2rem;
+        vertical-align: top;
+      }
+  
+      .username-and-data:hover .user-metadata {
+        display: inline-block;
+      }
+  
+      .user-username {
+        display: inline-block;
+        font-weight: bold;
+        color: #cdd1d6;
+      }
+  
+      .user-metadata {
+        position: absolute;
+        margin-top: -1rem;
+        margin-left: .5rem;
+        display: inline-block;
+        background-color: black;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        z-index: 2;
+        color: white;
+        display: none;
+      }
+  
+      .tag-bot {
+        background: rgb(85, 118, 209);
+        border-radius: 0.3rem;
+        padding: 0.2rem;
+        display: inline-block;
+        font-size: 0.7rem;
+        font-weight: bold;
+        color: white;
+      }
+  
+      .message-data {
+        opacity: 0.2;
+        display: inline-block;
+      }
+  
+      .conteudo-total-mensagem {
+        margin-left: 3.5rem;
+        margin-top: -1.5rem;
+      }
+  
+      .container-embed {
+        overflow: hidden;
+        border-radius: 0.5rem;
+        background: #1f2124;
+        margin: 1rem 0;
+      }
+  
+      .embed {
+        border-left: 0.3rem solid greenyellow;
+        padding: 0rem;
+        background: #33363a;
+        padding: 1.2rem;
+        min-height: 10rem;
+        display: grid;
+        grid-template-columns: auto 8rem;
+        grid-gap: 1rem;
+      }
+  
+      .embed-author {
+        display: flex;
+        align-items: center;
+        color: white;
+        font-size: 0.8rem;
+        margin-bottom: 1rem;
+      }
+  
+      .embed-author-img {
+        width: 1.5rem;
+        border-radius: 100%;
+      }
+  
+      .embed-author-value {
+        display: inline-block;
+        margin-left: 0.5rem;
+      }
+  
+      .embed-thumbnail {
+        float: right;
+      }
+  
+      .embed-thumbnail-img {
+        width: 8rem;
+        border-radius: 0.4rem;
+      }
+  
+      .embed-title {
+        color: white;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+      }
+  
+      .embed-description {
+        margin-bottom: 1rem;
+      }
+  
+      .embed-field-title {
+        font-size: 1rem;
+        color: white;
+        margin-bottom: 1rem;
+      }
+  
+      .embed-field-value {
+        margin-bottom: 1rem;
+      }
+  
+      .embed-image {
+        display: block;
+        margin: auto;
+      }
+  
+      .embed-image-img {
+        max-width: 100%;
+        border-radius: .4rem;
+      }
+  
+      .embed-footer {
+        font-size: 0.8rem;
+        display: flex;
+        align-items: center;
+      }
+  
+      .embed-footer-img {
+        width: 1.3rem;
+        border-radius: 100%;
+        margin-right: 0.2rem;
+      }
+  
+      .embed-footer-value, .embed-footer-timestamp {
+        opacity: 0.7;
+        display: inline-block;
+        margin-left: 0.3rem;
+      }
+  
+      .code-block {
+        background: #1f2124;
+        border: 1px solid black;
+        font-family: monospace;
+        padding: 0.5rem;
+        border-radius: .3rem;
+        line-height: 1.2rem;
+      }
+  
+      .message-content {
+        display: inline-block;
+      }
+  
+      .code {
+        background: #1f2124;
+        font-family: monospace;
+        padding: 0 .3rem;
+        display: inline;
+      }
+  
+      .bold {
+        font-weight: bolder;
+      }
+  
+      .italico {
+        font-style: italic;
+      }
+  
+      .sublinhado {
+        text-decoration: underline;
+      }
+  
+      .riscado {
+        text-decoration: line-through;
+      }
+
+      .message-quote-bar {
+        background: #b9bbbe85;
+        border-radius: 5rem;
+        width: 0.25rem;
+        height: 1.3rem;
+        margin-right: 0.3rem;
+        display: inline-block;
+        margin-bottom: -0.3rem;
+      }
+    </style>
+    </head>
+    
+    <body>
+    
+    
+    <main>
+      
+          <div class="message">
+          <header class="cabecalho-mensagem">
+            <img
+              src="https://cdn.discordapp.com/avatars/739309305588744263/3b946309ba229625ce8aaaf2d1d41714.webp"
+              alt="" class="user-icon">
+            <div class="username-and-data">
+              <p class="user-username">BETA Coffee</p>
+              <div class="user-metadata">
+                <p class="user-metadata-tag">BETA Coffee#8248</p>
+                <p class="user-metadata-id">739309305588744263</p>
+              </div>
+              <div class="tag-bot">BOT</div>
+              <span class="message-data">Ter, 24 de nov de 2020 21:21</span>
+            </div>
+          </header>
+          <div class="conteudo-total-mensagem">
+          <p class="message-content"><span class="message-quote-bar"></span> &lt;:emojicoffeeerro:766020289074167828&gt; Erro!<br><span class="message-quote-bar"></span> Houve um erro ao tentar criar um novo suggestion na api!<br><span class="message-quote-bar"></span> O suggestion: "dx o coffee on pra mim usa o daily😎"<br><span class="message-quote-bar"></span> O ID do usuário: "477534823011844120"<br><span class="message-quote-bar"></span> Path: "C:\Users\Pichau\Documents\Bots\Coffe\src\commands\contact\suggestion\src\createSuggestion.js"<br><span class="message-quote-bar"></span> O Erro: "{<br>&nbsp;&nbsp;"message": "Request failed with status code 500",<br>&nbsp;&nbsp;"name": "Error",<br>&nbsp;&nbsp;"stack": "Error: Request failed with status code 500\n&nbsp;&nbsp;at createError (C:\\Users\\Pichau\\Documents\\Bots\\Coffe\\node_modules\\axios\\lib\\core\\createError.js:16:15)\n&nbsp;&nbsp;at settle (C:\\Users\\Pichau\\Documents\\Bots\\Coffe\\node_modules\\axios\\lib\\core\\settle.js:17:12)\n&nbsp;&nbsp;at IncomingMessage.handleStreamEnd (C:\\Users\\Pichau\\Documents\\Bots\\Coffe\\node_modules\\axios\\lib\\adapters\\http.js:244:11)\n&nbsp;&nbsp;at IncomingMessage.emit (events.js:327:22)\n&nbsp;&nbsp;at endReadableNT (_stream_readable.js:1327:12)\n&nbsp;&nbsp;at processTicksAndRejections (internal/process/task_queues.js:80:21)",<br>&nbsp;&nbsp;"config": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"url": "/suggestions/create",<br>&nbsp;&nbsp;&nbsp;&nbsp;"method": "put",<br>&nbsp;&nbsp;&nbsp;&nbsp;"data": "{\"suggestions\":[{\"suggestion\":\"dx o coffee on pra mim usa o daily😎\",\"created_by\":\"477534823011844120\"}]}",<br>&nbsp;&nbsp;&nbsp;&nbsp;"headers": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Accept": "application/json, text/plain, */*",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Content-Type": "application/json;charset=utf-8",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjczOTMwOTMwNTU4ODc0NDI2MyIsImlhdCI6MTYwNjI2MzY5NX0.k35WrQ2KEpozsaP-ZvlaQAg-LB3troeon_KYkXPCPoM",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"User-Agent": "axios/0.20.0",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Content-Length": 107<br>&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;"baseURL": "http://localhost:3001/api",<br>&nbsp;&nbsp;&nbsp;&nbsp;"transformRequest": [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null<br>&nbsp;&nbsp;&nbsp;&nbsp;],<br>&nbsp;&nbsp;&nbsp;&nbsp;"transformResponse": [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null<br>&nbsp;&nbsp;&nbsp;&nbsp;],<br>&nbsp;&nbsp;&nbsp;&nbsp;"timeout": 0,<br>&nbsp;&nbsp;&nbsp;&nbsp;"xsrfCookieName": "XSRF-TOKEN",<br>&nbsp;&nbsp;&nbsp;&nbsp;"xsrfHeaderName": "X-XSRF-TOKEN",<br>&nbsp;&nbsp;&nbsp;&nbsp;"maxContentLength": -1,<br>&nbsp;&nbsp;&nbsp;&nbsp;"maxBodyLength": -1<br>&nbsp;&nbsp;}<br>}<br>{<br>&nbsp;&nbsp;"error": "Error when creating",<br>&nbsp;&nbsp;"sqlError": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"code": "ER_TRUNCATED_WRONG_VALUE_FOR_FIELD",<br>&nbsp;&nbsp;&nbsp;&nbsp;"errno": 1366,<br>&nbsp;&nbsp;&nbsp;&nbsp;"sqlMessage": "Incorrect string value: '\\xF0\\x9F\\x98\\x8E' for column 'suggestion' at row 1",<br>&nbsp;&nbsp;&nbsp;&nbsp;"sqlState": "HY000",<br>&nbsp;&nbsp;&nbsp;&nbsp;"index": 0,<br>&nbsp;&nbsp;&nbsp;&nbsp;"sql": "INSERT INTO suggestions (suggestion, created_by, created_timestamp, status) VALUES ('dx o coffee on pra mim usa o daily😎', '477534823011844120', '1606263695299', 'EM ANALISE')"<br>&nbsp;&nbsp;}<br>}"</p>
+          
+        </div>
+        </div>
+      </main>
+  </body>
+</html>

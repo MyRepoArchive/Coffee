@@ -14,6 +14,8 @@ module.exports = (suggestion, userId) => new Promise((resolve, reject) => {
     return;
   };
 
+  suggestion = suggestion.replace(/\\/g, '\\\\');
+
   if (!userId) {
     error(
       `> ${emoji.emojicoffeeinfo} Aviso!\n\n`+

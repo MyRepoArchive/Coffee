@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+  <html lang="pt">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>message</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap"
+      rel="stylesheet">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+  
+      body {
+        background-color: #36393e;
+        min-height: 100vh;
+        color: #b9bbbe;
+        font-family: 'Mutka', Helvetica, sans-serif;
+      }
+  
+      header#cabecalho-geral {
+        display: flex;
+        align-items: center;
+      }
+  
+      #guild-icon {
+        margin: 1rem;
+        width: 7rem;
+        border-radius: 100%;
+      }
+  
+      .header-content {
+        display: inline-block;
+      }
+  
+      #channel-name-header {
+        display: flex;
+        align-items: center;
+      }
+  
+      #channel-name-header svg {
+        opacity: 0.6;
+      }
+  
+      #qtd-msgs {
+        opacity: 0.6;
+      }
+  
+      .message {
+        margin: 1rem;
+        max-width: 700px;
+      }
+  
+      .user-icon {
+        width: 3rem;
+        border-radius: 100%;
+      }
+  
+      .username-and-data {
+        display: inline-block;
+        margin-top: 0.2rem;
+        vertical-align: top;
+      }
+  
+      .username-and-data:hover .user-metadata {
+        display: inline-block;
+      }
+  
+      .user-username {
+        display: inline-block;
+        font-weight: bold;
+        color: #cdd1d6;
+      }
+  
+      .user-metadata {
+        position: absolute;
+        margin-top: -1rem;
+        margin-left: .5rem;
+        display: inline-block;
+        background-color: black;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        z-index: 2;
+        color: white;
+        display: none;
+      }
+  
+      .tag-bot {
+        background: rgb(85, 118, 209);
+        border-radius: 0.3rem;
+        padding: 0.2rem;
+        display: inline-block;
+        font-size: 0.7rem;
+        font-weight: bold;
+        color: white;
+      }
+  
+      .message-data {
+        opacity: 0.2;
+        display: inline-block;
+      }
+  
+      .conteudo-total-mensagem {
+        margin-left: 3.5rem;
+        margin-top: -1.5rem;
+      }
+  
+      .container-embed {
+        overflow: hidden;
+        border-radius: 0.5rem;
+        background: #1f2124;
+        margin: 1rem 0;
+      }
+  
+      .embed {
+        border-left: 0.3rem solid greenyellow;
+        padding: 0rem;
+        background: #33363a;
+        padding: 1.2rem;
+        min-height: 10rem;
+        display: grid;
+        grid-template-columns: auto 8rem;
+        grid-gap: 1rem;
+      }
+  
+      .embed-author {
+        display: flex;
+        align-items: center;
+        color: white;
+        font-size: 0.8rem;
+        margin-bottom: 1rem;
+      }
+  
+      .embed-author-img {
+        width: 1.5rem;
+        border-radius: 100%;
+      }
+  
+      .embed-author-value {
+        display: inline-block;
+        margin-left: 0.5rem;
+      }
+  
+      .embed-thumbnail {
+        float: right;
+      }
+  
+      .embed-thumbnail-img {
+        width: 8rem;
+        border-radius: 0.4rem;
+      }
+  
+      .embed-title {
+        color: white;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+      }
+  
+      .embed-description {
+        margin-bottom: 1rem;
+      }
+  
+      .embed-field-title {
+        font-size: 1rem;
+        color: white;
+        margin-bottom: 1rem;
+      }
+  
+      .embed-field-value {
+        margin-bottom: 1rem;
+      }
+  
+      .embed-image {
+        display: block;
+        margin: auto;
+      }
+  
+      .embed-image-img {
+        max-width: 100%;
+        border-radius: .4rem;
+      }
+  
+      .embed-footer {
+        font-size: 0.8rem;
+        display: flex;
+        align-items: center;
+      }
+  
+      .embed-footer-img {
+        width: 1.3rem;
+        border-radius: 100%;
+        margin-right: 0.2rem;
+      }
+  
+      .embed-footer-value, .embed-footer-timestamp {
+        opacity: 0.7;
+        display: inline-block;
+        margin-left: 0.3rem;
+      }
+  
+      .code-block {
+        background: #1f2124;
+        border: 1px solid black;
+        font-family: monospace;
+        padding: 0.5rem;
+        border-radius: .3rem;
+        line-height: 1.2rem;
+      }
+  
+      .message-content {
+        display: inline-block;
+      }
+  
+      .code {
+        background: #1f2124;
+        font-family: monospace;
+        padding: 0 .3rem;
+        display: inline;
+      }
+  
+      .bold {
+        font-weight: bolder;
+      }
+  
+      .italico {
+        font-style: italic;
+      }
+  
+      .sublinhado {
+        text-decoration: underline;
+      }
+  
+      .riscado {
+        text-decoration: line-through;
+      }
+    </style>
+    </head>
+    
+    <body>
+    
+    
+    <main>
+      
+          <div class="message">
+          <header class="cabecalho-mensagem">
+            <img
+              src="https://cdn.discordapp.com/avatars/739309305588744263/3b946309ba229625ce8aaaf2d1d41714.webp"
+              alt="" class="user-icon">
+            <div class="username-and-data">
+              <p class="user-username">BETA Coffee</p>
+              <div class="user-metadata">
+                <p class="user-metadata-tag">BETA Coffee#8248</p>
+                <p class="user-metadata-id">739309305588744263</p>
+              </div>
+              <div class="tag-bot">BOT</div>
+              <span class="message-data">Sáb, 21 de nov de 2020 09:43</span>
+            </div>
+          </header>
+          <div class="conteudo-total-mensagem">
+          <p class="message-content">&gt; &lt;:emojicoffeeinfo:766020288885293097&gt; Aviso<br>&gt; Ocorreu um erro ao enviar um novo log no canal cadastrado para logs.<br>&gt; ID do canal: '757002422437543966'.<br>&gt; Path: "C:\Users\Pichau\Documents\Bots\Coffe\src\functions\src\logger.js"<br>&gt; Log: "&gt; &lt;:emojicoffeeinfo:766020288885293097&gt; Aviso!<br>&gt; Alguns commandos foram atualizados no banco de dados!<br>&gt; Request: {<br>    "aliases": [<br>        {<br>            "id": 1,<br>            "value": [<br>                "reportar"<br>            ]<br>        },<br>        {<br>            "id": 2,<br>            "value": [<br>                "sugestao"<br>            ]<br>        }<br>    ],<br>    "releases_notes": [<br>        {<br>            "id": 1,<br>            "value": {<br>                "1.0": null,<br>                "2.0": "Comando refeito, agora com um sistema de gestão de reports mais aprimorado. O usuário que fez o report é notificado quando o status do seu report muda, sabe se foi aceito ou rejeitado, e caso aceito, sabe quando foi solucionado!"<br>            }<br>        },<br>        {<br>            "id": 2,<br>            "value": {<br>                "1.0": null,<br>                "2.0": null<br>            }<br>        }<br>    ]<br>}<br>&gt; Resposta: {<br>    "result": {<br>        "fieldCount": 0,<br>        "affectedRows": 2,<br>        "insertId": 0,<br>        "serverStatus": 2,<br>        "warningCount": 0,<br>        "message": "(Rows matched: 2  Changed: 0  Warnings: 0",<br>        "protocol41": true,<br>        "changedRows": 0<br>    },<br>    "sql": "UPDATE commands SET aliases = CASE id WHEN 1 THEN '[\"reportar\"]' WHEN 2 THEN '[\"sugestao\"]' ELSE aliases END, releases_notes = CASE id WHEN 1 THEN '{\"1.0\":null,\"2.0\":\"Comando refeito, agora com um sistema de gestão de reports mais aprimorado. O usuário que fez o report é notificado quando o status do seu report muda, sabe se foi aceito ou rejeitado, e caso aceito, sabe quando foi solucionado!\"}' WHEN 2 THEN '{\"1.0\":null,\"2.0\":null}' ELSE releases_notes END WHERE id IN (1, 2)",<br>    "commands": [<br>        {<br>            "id": 1,<br>            "name": "report",<br>            "aliases": [<br>                "reportar"<br>            ],<br>            "type": "Contato",<br>            "description": "Se você encontrou algum bug ou coisa que você acredita que não esteja funcionando como deveria, basta usar o comando para que os devenvolvedores fiquem a par do problema e o resolva.",<br>            "how_to_use": "Digite _report no chat e passe como parâmetro o seu report, em seguida envie a mensagem.",<br>            "cooldown": 10000,<br>            "example": "_report Encontrei um bug ao executar o comando ajuda, ao usar o comando o bot não responde!",<br>            "example_url": "https://i.imgur.com/mAs7Ueq.png",<br>            "created_timestamp": 1598646020000,<br>            "updated_timestamp": 1605780157057,<br>            "version": "2.0",<br>            "releases_notes": {<br>                "1.0": null,<br>                "2.0": "Comando refeito, agora com um sistema de gestão de reports mais aprimorado. O usuário que fez o report é notificado quando o status do seu report muda, sabe se foi aceito ou rejeitado, e caso aceito, sabe quando foi solucionado!"<br>            },<br>            "times_limit": 2,<br>            "active": 1,<br>            "reason_inactivity": null<br>        },<br>        {<br>            "id": 2,<br>            "name": "sugerir",<br>            "aliases": [<br>                "sugestao"<br>            ],<br>            "type": "Contato",<br>            "description": "Se você gostaria de ver alguma nova funcionalidade no bot que ainda não tenha, ou qualquer tipo de feature, basta usar o comando para que os devenvolvedores fiquem a par da sugestão e possa prontamente atender aos seus pedidos.",<br>            "how_to_use": "Digite _sugerir no chat e passe como parâmetro a sua sugestão, em seguida envie a mensagem.",<br>            "cooldown": 10000,<br>            "example": "_sugerir Eu gostaria de um comando que me trouxesse café na cama, PARA ONTEM!",<br>            "example_url": null,<br>            "created_timestamp": 1598663751000,<br>            "updated_timestamp": 1605780157057,<br>            "version": "2.0",<br>            "releases_notes": {<br>                "1.0": null,<br>                "2.0": null<br>            },<br>            "times_limit": 2,<br>            "active": 1,<br>            "reason_inactivity": null<br>        }<br>    ]<br>}".<br>&gt; Erro: "{<br>    "name": "DiscordAPIError",<br>    "message": "Invalid Form Body\ncontent: Must be 2000 or fewer in length.",<br>    "method": "post",<br>    "path": "/channels/757002422437543966/messages",<br>    "code": 50035,<br>    "httpStatus": 400<br>}"</p>
+          
+        </div>
+        </div>
+      </main>
+  </body>
+</html>

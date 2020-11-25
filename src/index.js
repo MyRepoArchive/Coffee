@@ -12,4 +12,6 @@ client.login(token).then(() => { // Authentica o bot na API do Discord
   require('./services/botApi'); // Inicia a api local
 });
 
+process.on('disconnect', data => console.log(data))
+
 module.exports = client; // Exporta o client (bot)

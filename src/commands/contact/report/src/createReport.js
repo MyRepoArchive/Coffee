@@ -14,6 +14,8 @@ module.exports = (report, userId) => new Promise((resolve, reject) => {
     return;
   };
 
+  report = report.replace(/\\/g, '\\\\');
+
   if (!userId) {
     error(
       `> ${emoji.emojicoffeeinfo} Aviso!\n\n`+

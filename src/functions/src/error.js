@@ -37,8 +37,6 @@ module.exports = (msg) => {
     ));
 
   function errSendError(e) {
-    const { alertAdmins } = require('..');
-  
     alertAdmins(
       `> ${emoji.emojicoffeeinfo} Aviso\n` +
       '> Olá meu querido administrador, ocorreu um erro ao enviar um novo aviso/erro no canal cadastrado para envio de erros e avisos.\n' +

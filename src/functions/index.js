@@ -18,4 +18,5 @@ module.exports = {
   verifyActiveCooldown: require('./src/verifyActiveCooldown'),
   genFakeMessage: require('./src/genFakeMessage'),
   genHtmlMessage: require('./src/genHtmlMessage'),
+  sendHtmlDoc: require('./src/sendHtmlDoc'),
 };

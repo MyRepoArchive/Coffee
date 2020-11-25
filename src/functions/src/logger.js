@@ -2,17 +2,12 @@ const { log } = require('../../config/default.json');
 const { static: { emoji } } = require('../../utils/emojis.json');
 const client = require('../..');
 const moment = require('moment');
-const fs = require('fs');
+const logJs = require('../../utils/log');
 
 module.exports = (msg) => {
-  const { error } = require('..');
+  const { error, sendHtmlDoc } = require('..');
 
-  fs.writeFileSync('./src/utils/log.txt', fs.readFileSync('./src/utils/log.txt', { encoding: 'utf8' }) +
-    '\n\n\n\n' +
-    '>>> ' + moment().locale('pt-br').format('LLLL') + ' <<<' +
-    '\n\n' +
-    msg
-  );
+  logJs[moment().locale('pt-br').format('LLLL')] = msg;
 
   client.channels.fetch(log)
     .then(channel => {
@@ -32,15 +27,7 @@ module.exports = (msg) => {
         `> Log: "${msg}"`
       );
     
-      channel.send(msg)
-        .catch(e => error(
-          `> ${emoji.emojicoffeeinfo} Aviso\n` +
-          '> Ocorreu um erro ao enviar um novo log no canal cadastrado para logs.\n' +
-          `> ID do canal: '${log}'.\n` +
-          `> Path: "${__filename}"\n` +
-          `> Log: "${msg}".\n` +
-          `> Erro: "${JSON.stringify(e, null, 4)}"`
-        ));
+      channel.send(msg).catch(e => sendHtmlDoc(e, msg, channel, errSendLog).catch(() => errSendLog(e)));
     }, e => error(
       `> ${emoji.emojicoffeeinfo} Aviso\n` +
       '> Não foi possível encontrar o canal que está cadastrado para logs.\n' +
@@ -48,4 +35,15 @@ module.exports = (msg) => {
       `> Path: "${__filename}"\n` +
       `> Log: "${msg}"`
     ));
+
+  function errSendLog(e) {
+    error(
+      `> ${emoji.emojicoffeeinfo} Aviso\n` +
+      '> Ocorreu um erro ao enviar um novo log no canal cadastrado para logs.\n' +
+      `> ID do canal: '${log}'.\n` +
+      `> Path: "${__filename}"\n` +
+      `> Log: "${msg}".\n` +
+      `> Erro: "${JSON.stringify(e, null, 4)}"`
+    );
+  };
 };

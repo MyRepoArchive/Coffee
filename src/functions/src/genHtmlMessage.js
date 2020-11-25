@@ -1,9 +1,8 @@
-const fs = require('fs');
 const moment = require('moment');
 let podeIr = 0;
 
-module.exports = (message, name) => {
-  fs.writeFileSync(name, 
+module.exports = (message) => {
+  return (
   `<!DOCTYPE html>
   <html lang="pt">
   <head>

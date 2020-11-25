@@ -2,17 +2,12 @@ const { erro } = require('../../config/default.json');
 const { static: { emoji } } = require('../../utils/emojis.json');
 const client = require('../..');
 const moment = require('moment');
-const fs = require('fs');
+const logJs = require('../../utils/log');
 
 module.exports = (msg) => {
-  const { alertAdmins, genHtmlMessage, genFakeMessage } = require('..');
+  const { alertAdmins, sendHtmlDoc } = require('..');
 
-  fs.writeFileSync('./src/utils/log.txt', fs.readFileSync('./src/utils/log.txt', { encoding: 'utf8' }) +
-    '\n\n\n\n' +
-    '>>> ' + moment().locale('pt-br').format('LLLL') + ' <<<' +
-    '\n\n' +
-    msg
-  );
+  logJs[moment().locale('pt-br').format('LLLL')] = msg;
 
   client.channels.fetch(erro)
     .then(channel => {
@@ -32,19 +27,7 @@ module.exports = (msg) => {
         `> Aviso/Erro: "${msg}"`
       );
 
-      channel.send(msg)
-        .catch(e => {
-          if (e.name === 'DiscordAPIError' && e.code === 50035) {
-            const name = 'erro.html';
-
-            genHtmlMessage(genFakeMessage(client.user, msg), name);
-
-            channel.send({ files: [{ name, attachment: fs.readFileSync('erro.html')}] }).catch(e => errSend(e))
-
-            return;
-          }
-          errSend(e);
-        });
+      channel.send(msg).catch(e => sendHtmlDoc(e, msg, channel, errSendError).catch(() => errSendError(e)));
     }, e => alertAdmins(
       `> ${emoji.emojicoffeeinfo} Aviso\n` +
       '> Olá querido administrador, não foi possível encontrar o canal que está cadastrado para envio de erros e avisos.\n' +
@@ -53,7 +36,9 @@ module.exports = (msg) => {
       `> Aviso/Erro: "${msg}"`
     ));
 
-  function errSend(e) {
+  function errSendError(e) {
+    const { alertAdmins } = require('..');
+  
     alertAdmins(
       `> ${emoji.emojicoffeeinfo} Aviso\n` +
       '> Olá meu querido administrador, ocorreu um erro ao enviar um novo aviso/erro no canal cadastrado para envio de erros e avisos.\n' +

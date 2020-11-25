@@ -1,9 +1,6 @@
 const Discord = require('discord.js'); // Requerimento da biblioteca Discord.js
 const { token } = require('./config/auth.json'); // TOKEN para logar o bot
 const client = new Discord.Client(); // Instância do Client
-const fs = require('fs');
-
-fs.writeFileSync('./src/utils/log.txt', ''); // Limpa o arquivo de logs
 
 client.login(token).then(() => { // Authentica o bot na API do Discord
   const { handlerLoader } = require('./functions');
@@ -11,7 +8,5 @@ client.login(token).then(() => { // Authentica o bot na API do Discord
 
   require('./services/botApi'); // Inicia a api local
 });
-
-process.on('disconnect', data => console.log(data))
 
 module.exports = client; // Exporta o client (bot)

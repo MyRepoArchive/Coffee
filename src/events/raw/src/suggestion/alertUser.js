@@ -16,7 +16,7 @@ module.exports = (suggestionId) => {
 
           user.send(
             `> ${emoji.emojicoffeeinfo} Aviso!\n` +
-            `> Sua sugestão "${suggestion}" feita **${feitoEm}** foi **${status}**!`
+            `> Sua sugestão (\`${suggestionId}\`) "${suggestion}" feita **${feitoEm}** foi **${status}**!`
           ).catch(() => { });
         }, e => error(
           `> ${emoji.emojicoffeeinfo} Aviso!\n` +

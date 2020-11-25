@@ -16,7 +16,7 @@ module.exports = (reportId) => {
 
           user.send(
             `> ${emoji.emojicoffeeinfo} Aviso!\n` +
-            `> Seu report "${report}" feito **${feitoEm}** foi **${status}**!\n` +
+            `> Seu report (\`${reportId}\`) "${report}" feito **${feitoEm}** foi **${status}**!\n` +
             `${status === 'aprovado' ? '> Agora ele será corrigido o mais rápido possível!' : ''}`
           ).catch(() => { });
         }, e => error(

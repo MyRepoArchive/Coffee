@@ -1,0 +1,30 @@
+module.exports = {
+  name: "eval",
+  aliases: ["ev", "e"],
+  type: "Admin",
+  description: 'Esse é um comando exclusivo para o uso de administradores do bot, sua função é: Executar o código JavaScript fornecido pelo usuário enquanto o bot está em execução, independente de qual seja. Por esse motivo, deve-se tomar cuidado ao utilizá-lo, pois pode acontecer de credenciais do bot serem vazadas sem que o autor queira.',
+  how_to_use: 'Digite _eval no chat e passe como parâmetro o código javascript que deseja executar na instância do bot.',
+  example: '_eval console.log("Hello, World!")',
+  example_url: null,
+  cooldown: 60000,
+  cooldownControl: {},
+  times_limit: 1,
+  active: true,
+  reason_inactivity: null,
+  created_timestamp: 1599083760000,
+  updated_timestamp: 1606334927649,
+  version: '1.1',
+  releases_notes: {
+    '1.0': {
+      name: 'Comando inicial',
+      description: 'Verifica se quem executou o comando está cadastrado como administrador do bot, caso  seja, executa o valor em Javascript solicitado!',
+      timestamp: 1599083760000
+    },
+    '1.1': {
+      name: 'Sistema para fechar o eval',
+      description: 'Para cada eval aberto pelo bot, ele reage com um emoji que ao ser clicado por um admin, apaga a mensagem de resposta do bot!',
+      timestamp: 1599511860000
+    }
+  }
+};
+

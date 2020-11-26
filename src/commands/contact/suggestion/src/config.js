@@ -15,8 +15,16 @@ module.exports = {
   updated_timestamp: 1606334927649,
   version: '2.0',
   releases_notes: {
-    '1.0': 'Envia a sugestão em um canal no Discord para os administradores acessarem, com o nome do usuário que criou para caso precise entrar em contato',
-    '2.0': 'Comando refeito, agora com um sistema de gestão de sugestões mais aprimorado. O usuário que sugeriu é notificado quando o status muda e sabe se foi aceito ou rejeitado! A sugestão é colocada em um banco de dados, e recebe uma identificação única que é repassada para o usuário.'
+    '1.0': {
+      name: 'Comando inicial',
+      description: 'Envia a sugestão em um canal no Discord para os administradores acessarem, com o nome do usuário que criou para caso precise entrar em contato',
+      timestamp: 1598663751000
+    },
+    '2.0': {
+      name: 'Code refactoring e melhoria de gestão',
+      description: 'Comando refeito, agora com um sistema de gestão de sugestões mais aprimorado. O usuário que sugeriu é notificado quando o status muda e sabe se foi aceito ou rejeitado! A sugestão é colocada em um banco de dados, e recebe uma identificação única que é repassada para o usuário.',
+      timestamp: 1606334927649
+    }
   }
 };
 

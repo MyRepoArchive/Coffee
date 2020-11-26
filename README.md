@@ -1,6 +1,6 @@
 # Coffe
 
-![Banner Coffee](image/coffee-zorro-16x9.png)
+![Banner Coffee](src/assets/images/coffee-icon-2-default-big-banner.png)
 
 [Português](#Português) |
 [English](#English)
@@ -9,16 +9,39 @@
 Um Bot para o Discord de código aberto, que usa a biblioteca [Discord.js](https://discord.js.org/#/)!
 
 ### Aviso
-**Antes de tudo, para seu bot funcionar corretamente, modifique o arquivo *config.json* para *info.json*! (RECOMENDADO)**
+**Antes de tudo, para seu bot funcionar corretamente, se encaminhe até a pasta `src/config` e crie dois arquivos: `auth.json` e `default.json`**
+**No arquivo `auth.json` você vai preencher com as seguintes informações:**
+```json
+{
+  "token": "<Token do seu bot, disponível em: https://discord.com/developers/applications>",
+  "apiBaseURL": "<A URL base da sua API>",
+  "apiPassword": "<A senha do seu bot na API>",
+  "secret": "<Um hash md5 que vai ser a chave secreta para decodificação dos tokens>",
+  "key": "<Uma key que dará acesso de terceiros à API interna do bot>"
+}
+```
+*Essas informações devem ser secretas e não podem ser divulgadas para pessoas não confiáveis, pois pode colocar em risco dados dos seus usuários e seus*
 
-**Ou você pode entrar em todos os arquivos que requerem o *info.json* e modificar a linha:**
-```js
-const config = require("./info.json");
+**No arquivo `default.json` você vai preencher com:**
+```json
+{
+  "prefix": "<O prefixo padrão do seu bot>",
+  "admins": ["<O ID do primeiro administrador do bot>", "<O ID do segundo administrador do bot (se houver)>", "<O ID do terceiro... (faça isso quantas vezes for necessário até preencher com o ID de todos os administradores do bot)>"],
+  "log": "<O ID de um canal no discord que vai receber todos os logs que o bot enviar (é recomendado criar um servidor apenas para os admins do bot e colocar o ID de algum canal desse servidor, já que podem haver logs com credenciais inclusas)>",
+  "erro": "<O ID de um canal no discord que vai receber todos os erros que o bot enviar (é recomendado criar um servidor apenas para os admins do bot e colocar o ID de algum canal desse servidor, já que podem haver erros com credenciais inclusas)>",
+  "report_analise": "<O ID de algum canal no Discord que vai receber os reports que os usuários criarem, enquanto estiverem em análise!>",
+  "report_aprovados": "<O ID de algum canal no Discord que vai receber os reports depois que forem aprovados>",
+  "report_reprovados": "<O ID de algum canal no Discord que vai receber os reports depois que forem reprovados>",
+  "report_solucionados": "<O ID de algum canal no Discord que vai receber os reports depois que forem solucionados>",
+  "suggestion_analise": "<O ID de algum canal no Discord que vai receber as sugestões que os usuários criarem, quanto estiverem em análise>",
+  "suggestion_aprovados": "<O ID de algum canal no Discord que vai receber as sugestões depois que forem aprovadas>",
+  "suggestion_reprovados": "<O ID de algum canal no Discord que vai receber as sugestões depois que forem reprovadas>",
+  "commandsURL": "<A URL de algum site (ou repositório) que tenha todos os comandos do bot>",
+  "repository": "<A URL do repositório do bot>"
+}
 ```
-para:
-```js
-const config = require("./config.json");
-```
+*Essas informações não são secretas, não haverá problemas se outras pessoas verem*
+*Tudo o que está entre os sinais de `<` (menor que) e `>` (maior que), incluindo-os, é onde você deve colocar suas próprias informações*
 
 #### Links
 [Como usar](#Como-usar) |
@@ -26,19 +49,23 @@ const config = require("./config.json");
 [Emojis personalizados](#Emojis-personalizados)
 
 ### Como usar?
-Para rodar o bot na sua máquina, primeiramente você deve ter instalado o **NodeJS**, e ter [criado um bot na área de desenvolvedor do Discord](#Criando-bot-no-discord).
-
-Após esses dois passos concluídos, copie o *token* do seu bot, e cole na área reservada para o token no arquivo **info.json** dentro dos arquivos do bot.
-
-Neste mesmo arquivo **info.json**, você vai perceber que existem outras informações que tem uma descrição do que deve ser colocado alí, preencha-as corretamente!
+Para rodar o bot na sua máquina, primeiramente você deve ter instalado o **NodeJS** e **npm**, e ter [criado um bot na área de desenvolvedor do Discord](#Criando-bot-no-discord).
 
 Se você estiver utilizando o **Visual Studio Code** como editor de códigos, nele abra a pasta do bot, em seguida abra o terminal, e execute dentro do terminal o seguinte comando:
+```shell
+npm install
 ```
+e em seguida, após o término da instalação de todas as dependências:
+```shell
 node index.js
 ```
 
 Se deseja rodar o bot usando o **PowerShell**, primeiro entre através do PowerShell na pasta do seu bot (use cd caminho_da_pasta), em seguida execute o comando:
+```shell
+npm install
 ```
+e em seguida, após o término da instalação de todas as dependências:
+```shell
 node index.js
 ```
 

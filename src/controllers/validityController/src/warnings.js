@@ -6,6 +6,7 @@ module.exports = {
     error(
       `> ${emoji.emojicoffeeinfo} Aviso\n`+
       '> Houve um problema no momento de notificar um dos usuários sobre o vencimento de um de seus produtos. O usuário não foi encontrado!\n'+
+      `> Path: "${__filename}"\n` +
       `> O ID do usuário: "${item.user}"\n`+
       `> O produto: ${item.name} \`${item.product}\``
     );
@@ -15,6 +16,7 @@ module.exports = {
     error(
       `> ${emoji.emojicoffeeinfo} Aviso\n`+
       '> Houve um problema no momento de notificar um dos usuários sobre o vencimento de um de seus produtos. O Servidor no qual o usuário comprou o item não foi encontrado!\n'+
+      `> Path: "${__filename}"\n` +
       `> O ID do usuário: "${item.user}"\n`+
       `> O ID do servidor: "${item.server}"\n`+
       `> O produto: ${item.name} \`${item.product}\``
@@ -36,6 +38,7 @@ module.exports = {
     error(
       `> ${emoji.emojicoffeeinfo} Aviso\n`+
       '> Aconteceu um problema ao enviar a notificação de vencimento de produto para um dos usuários.\n'+
+      `> Path: "${__filename}"\n` +
       `> O ID do usuário: "${item.user}"\n`+
       `> O produto: ${item.name} \`${item.product}\`\n`+
       `> O erro: "${JSON.stringify(e, null, 4)}"`
@@ -47,6 +50,7 @@ module.exports = {
       `> ${emoji.emojicoffeeerro} Erro\n`+
       `> Aconteceu um problema ao fazer a requisição de deletar itens do inventorio que estava vencidos para a api.\n`+
       `> Os IDs das items: ${JSON.stringify(ids, null, 4)}\n`+
+      `> Path: "${__filename}"\n` +
       `> O erro: "${apiError(e)}"`
     );
   },
@@ -55,6 +59,7 @@ module.exports = {
     error(
       `> ${emoji.emojicoffeeerro} Erro\n` +
       `> Aconteceu um problema ao fazer a requisição do inventário para a API.\n` +
+      `> Path: "${__filename}"\n` +
       `> Erro: ${apiError(e)}`
     )
   }

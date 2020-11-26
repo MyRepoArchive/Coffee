@@ -44,7 +44,7 @@ module.exports = () => { // Função que muda o que o bot exibe no "Activity" a 
         }
       }, 20000); // 20000ms == 20s
     }, e => error(
-      `> ${emoji.emojicoffeeerro} Erro!\n\n`+
+      `> ${emoji.emojicoffeeerro} Erro!\n`+
       '> Houve um erro ao buscar os activities da api!\n'+
       `> Path: ${__filename}\n`+
       `> Erro: ${apiError(e)}`

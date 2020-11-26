@@ -3,7 +3,7 @@ const { static: { emoji, eID } } = require('../../../../utils/emojis.json');
 
 module.exports = (message) => {
   const msg =
-    `> ${emoji.emojicoffeeerro} Aviso!\n` +
+    `> ${emoji.emojicoffeeinfo} Aviso!\n` +
     `> ${message.author}, você deve passar como parâmetro o código JavaScript que deve ser executado!`; 
 
   const permissions = message.channel.permissionsFor(client.user);

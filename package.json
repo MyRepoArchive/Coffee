@@ -19,7 +19,6 @@
   "homepage": "https://github.com/JoaoSCoelho/Coffe#readme",
   "dependencies": {
     "@vitalets/google-translate-api": "^4.0.0",
-    "axios": "^0.20.0",
     "canvas": "^2.6.1",
     "cors": "^2.8.5",
     "discord.js": "^12.2.0",
@@ -28,7 +27,11 @@
     "jsonwebtoken": "^8.5.1",
     "mathjs": "^7.2.0",
     "moment": "^2.29.1",
-    "translate": "^1.1.2"
+    "translate": "^1.1.2",
+    "axios": "^0.21.0",
+    "bcryptjs": "^2.4.3",
+    "firebase": "^8.1.1",
+    "mysql": "^2.18.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"

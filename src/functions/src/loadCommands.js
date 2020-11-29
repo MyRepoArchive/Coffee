@@ -1,7 +1,5 @@
-const api = require('../../services/api');
 const { reset, yellow, cyan, red } = require('../../utils/Console');
 const fs = require('fs');
-const { static: { emoji } } = require('../../utils/emojis.json');
 const client = require('../..');
 const Discord = require('discord.js');
 
@@ -9,30 +7,17 @@ module.exports = () => {
   // Collections com os comandos do bot
   client.commands = new Discord.Collection();
 
-  const { logger, apiError, error, isEquivalent } = require('..');
-
-  api.get('/commands')
-    .then(response => {
-      console.log(`${yellow}==================== LOADING COMMANDS ====================${reset}`);
-      load(response.data); // Carrega os comandos normalmente com os comandos buscados da API
-      console.log(`${yellow}==========================================================${reset}`);
-    }, e => {
-      error(
-        `> ${emoji.emojicoffeeerro} Erro!\n` +
-        '> Houve um erro ao fazer uma requisição na api para buscar todos os comandos!\n' +
-        `> Path: "${__filename}"\n` +
-        `> Erro: "${apiError(e)}"`
-      );
-
-      console.log(`${red}==================== LOADING COMMANDS (bad loading) ====================${reset}`);
-      load(); // Carrega os comandos apenas do que já tem nos próprios arquivos (faz um mal carregamento de comandos)
-      console.log(`${red}========================================================================${reset}`);
-    });
+  if (cache.commands && Object.keys(cache.commands).length) {
+    console.log(`${yellow}==================== LOADING COMMANDS ====================${reset}`);
+    load(cache.commands); // Carrega os comandos normalmente com os comandos buscados da API
+    console.log(`${yellow}==========================================================${reset}`);
+  } else {
+    console.log(`${red}==================== LOADING COMMANDS (bad loading) ====================${reset}`);
+    load(); // Carrega os comandos apenas do que já tem nos próprios arquivos (faz um mal carregamento de comandos)
+    console.log(`${red}========================================================================${reset}`);
+  }
 
   function load(commands) {
-    const needCreate = [];
-    const needUpdate = {};
-
     fs.readdirSync('./src/commands', { withFileTypes: true }) // Lê a pasta commands
       .filter(category => category.isDirectory())
       .forEach(category => {
@@ -46,38 +31,28 @@ module.exports = () => {
             const cmdConfig = command.config;
 
             if (commands) {
-              const commandApi = commands.find(cmd => cmd.name === cmdConfig.name);
+              const commandDb = commands[cmdConfig.name];
               
-              if (!commandApi) {
-                needCreate.push(cmdConfig); // Se o comando ainda não tiver sido criado na API, ele cria um novo com as config padrão
+              if (!commandDb) {
+                cache.commands[cmdConfig.name] = cmdConfig; // Se o comando ainda não tiver sido criado na API, ele cria um novo com as config padrão
               } else {
                 // Coloca no comando local as variáveis que vieram do banco de dados
-                command.config.cooldown = commandApi.cooldown;
-                command.config.times_limit = commandApi.times_limit;
-                command.config.active = commandApi.active === 1;
-                command.config.reason_inactivity = commandApi.reason_inactivity;
+                command.config.cooldown = commandDb.cooldown;
+                command.config.times_limit = commandDb.times_limit;
+                command.config.active = commandDb.active;
+                command.config.reason_inactivity = commandDb.reason_inactivity || null;
 
-                // Todos esses ifs verificam se no comando da API tem algo de incoerente com o que está nos arquivos locais do comando
-                if (commandApi.aliases.length !== cmdConfig.aliases.length || cmdConfig.aliases.find((aliase, index) => aliase !== commandApi.aliases[index])) 
-                  needUpdate.aliases ? needUpdate.aliases.push({ id: commandApi.id, value: cmdConfig.aliases }) : needUpdate.aliases = [{ id: commandApi.id, value: cmdConfig.aliases }];
-                if (commandApi.type !== cmdConfig.type) 
-                  needUpdate.type ? needUpdate.type.push({ id: commandApi.id, value: cmdConfig.type }) : needUpdate.type = [{ id: commandApi, value: cmdConfig.type }];
-                if (commandApi.description !== cmdConfig.description)
-                  needUpdate.description ? needUpdate.description.push({ id: commandApi.id, value: cmdConfig.description }) : needUpdate.description = [{ id: commandApi.id, value: cmdConfig.description }];
-                if (commandApi.how_to_use !== cmdConfig.how_to_use)
-                  needUpdate.how_to_use ? needUpdate.how_to_use.push({ id: commandApi.id, value: cmdConfig.how_to_use }) : needUpdate.how_to_use = [{ id: commandApi.id, value: cmdConfig.how_to_use }];
-                if (commandApi.example !== cmdConfig.example)
-                  needUpdate.example ? needUpdate.example.push({ id: commandApi.id, value: cmdConfig.example }) : needUpdate.example = [{ id: commandApi.id, value: cmdConfig.example }];
-                if (commandApi.example_url !== cmdConfig.example_url)
-                  needUpdate.example_url ? needUpdate.example_url.push({ id: commandApi.id, value: cmdConfig.example_url }) : needUpdate.example_url = [{ id: commandApi.id, value: cmdConfig.example_url }];
-                if (commandApi.created_timestamp !== cmdConfig.created_timestamp)
-                  needUpdate.created_timestamp ? needUpdate.created_timestamp.push({ id: commandApi.id, value: cmdConfig.created_timestamp }) : needUpdate.created_timestamp = [{ id: commandApi.id, value: cmdConfig.created_timestamp }];
-                if (commandApi.updated_timestamp !== cmdConfig.updated_timestamp)
-                  needUpdate.updated_timestamp ? needUpdate.updated_timestamp.push({ id: commandApi.id, value: cmdConfig.updated_timestamp }) : needUpdate.updated_timestamp = [{ id: commandApi.id, value: cmdConfig.updated_timestamp }];
-                if (commandApi.version !== cmdConfig.version)
-                  needUpdate.version ? needUpdate.version.push({ id: commandApi.id, value: cmdConfig.version }) : needUpdate.version = [{ id: commandApi.id, value: cmdConfig.version }];
-                if (!isEquivalent(commandApi.releases_notes, cmdConfig.releases_notes))
-                  needUpdate.releases_notes ? needUpdate.releases_notes.push({ id: commandApi.id, value: cmdConfig.releases_notes }) : needUpdate.releases_notes = [{ id: commandApi.id, value: cmdConfig.releases_notes }];
+                [
+                  "aliases",
+                  "type",
+                  "description",
+                  "example",
+                  "example_url",
+                  "created_timestamp",
+                  "updated_timestamp",
+                  "version",
+                  "releases_notes"
+                ].forEach(prop => cache.commands[cmdConfig.name][prop] = cmdConfig[prop])
               };
             };
 
@@ -86,36 +61,5 @@ module.exports = () => {
             console.log(`Comando ${cyan}${cmdConfig.name.toUpperCase()}${reset} carregado com sucesso!`);
           });
       });
-
-    if (needCreate.length) {
-      api.put('/commands/create', { commands: needCreate }) // Cria os comandos que precisar, se precisar
-      .then(response => logger(
-        `> ${emoji.emojicoffeeinfo} Aviso!\n` +
-        '> Novos comandos criados no banco de dados!\n' +
-        `> Criados: ${JSON.stringify(response.data.commands, null, 2)}`
-      ), e => error(
-        `> ${emoji.emojicoffeeerro} Erro!\n` +
-        '> Alguns comandos não foram criados no banco de dados!\n' +
-        `> Comandos que deveriam ser criados: ${JSON.stringify(needCreate, null, 2)}\n` +
-        `> Path: "${__filename}"\n` +
-        `> Erro: "${apiError(e)}"`
-      ));
-    };
-
-    if (Object.keys(needUpdate).length) {
-      api.post('/commands/update', { commands: needUpdate }) // Atualiza os comandos que precisar, se precisar
-        .then(response => logger(
-          `> ${emoji.emojicoffeeinfo} Aviso!\n` +
-          '> Alguns commandos foram atualizados no banco de dados!\n' +
-          `> Request: ${JSON.stringify(needUpdate, null, 4)}\n` +
-          `> Resposta: ${JSON.stringify(response.data, null, 4)}`
-        ), e => error(
-          `> ${emoji.emojicoffeeerro} Erro!\n` +
-          '> Alguns comandos não foram atualizados no banco de dados!\n' +
-          `> Path: "${__filename}"\n` +
-          `> Request: ${JSON.stringify(needUpdate, null, 4)}\n` +
-          `> Erro: "${apiError(e)}"`
-        ));
-    };
   };
 };

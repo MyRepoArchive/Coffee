@@ -22,7 +22,7 @@ module.exports = async (path, obj, force = false) => new Promise((resolve, rejec
   if (/\.|$|#|\[|\]/g.test(path))
     return reject(new Error('Path\'s não podem corresponder à essa Expressão /\\.|$|#|\\[|\\]/g'));
 
-  const cachePath = await pathToObject(path, client.db.cache)
+  const cachePath = await pathToObject(path, client.db.cache);
 
   if (cachePath.result !== undefined)
     return reject(new Error('O valor que deseja criar já existe!'));
@@ -39,16 +39,20 @@ module.exports = async (path, obj, force = false) => new Promise((resolve, rejec
     value = newValue;
   });
   
-  if (predefinedStructures(path).isValid(obj)) {
+  if (predefinedStructures(path) && predefinedStructures(path).isValid(obj)) {
     client.db.ref(path).update(obj);
 
     createInCache();
+
+    client.emit('createInDb', path, obj, force);
 
     resolve((await pathToObject(path, client.db.cache)).result);
   } else if (force) {
     client.db.ref(path).update(obj);
 
     createInCache();
+
+    client.emit('createInDb', path, obj, force);
 
     resolve((await pathToObject(path, client.db.cache)).result);
   } else {

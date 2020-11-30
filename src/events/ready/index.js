@@ -18,4 +18,4 @@ module.exports = () => {
   log();
   changeActivity();
   validityController();
-}
+};

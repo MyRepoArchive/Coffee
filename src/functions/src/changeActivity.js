@@ -25,9 +25,9 @@ module.exports = () => { // Função que muda o que o bot exibe no "Activity" a 
   if (!intervalActivity) clearInterval(intervalActivity); // Toda vez que a função for chamada (exceto a primeira) o interval vai ser parado
 
   intervalActivity = setInterval(() => { // Alterna o presence do bot a cada 20s
-    const activities = Object.values(cache.activities).find(activity => activity.important) ?
-    Object.values(cache.activities).filter(activity => activity.important) :
-    Object.values(cache.activities).concat(defaultActivities());
+    const activities = Object.values(client.db.cache.activities).find(activity => activity.important) ?
+    Object.values(client.db.cache.activities).filter(activity => activity.important) :
+    Object.values(client.db.cache.activities).concat(defaultActivities());
     
     if (i < activities.length) {
       client.user.setActivity(activities[i].name, { type: activities[i].type, url: activities[i].url || null });

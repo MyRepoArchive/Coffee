@@ -1,1 +1,0 @@
-module.exports = name => typeof name === "string" && (/^(\d*[a-z]+)[\d_a-z]*$/g.test(name) || name !== '');

@@ -1,1 +1,0 @@
-module.exports = (ver) => typeof ver !== "string" || /[^0-9,]/g.test(ver) || ver === '';

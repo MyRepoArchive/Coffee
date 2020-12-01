@@ -1,5 +1,4 @@
-const client = require("../../..");
-
+const client = require("../..");
 
 module.exports = () => {
   const inventoryJoinProducts = Object.values(client.db.cache.inventory).map(item => {
@@ -9,8 +8,6 @@ module.exports = () => {
 
     return item;
   });
-
-  console.log(inventoryJoinProducts);
   
   return inventoryJoinProducts;
 };

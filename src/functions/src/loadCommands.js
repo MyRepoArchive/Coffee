@@ -2,10 +2,9 @@ const { reset, yellow, cyan, red } = require('../../utils/Console');
 const fs = require('fs');
 const client = require('../..');
 const Discord = require('discord.js');
-const create = require('../../controllers/create');
-const { isEquivalent, logger, error } = require('..');
-const { static: { emoji } } = require('../../utils/emojis.json');
-const update = require('../../controllers/update');
+const { isEquivalent } = require('..');
+const create = require('../../controllers/commands/create');
+const update = require('../../controllers/commands/update');
 
 module.exports = () => {
   // Collections com os comandos do bot
@@ -70,19 +69,7 @@ module.exports = () => {
           });
       });
 
-    if (Object.keys(createObj).length) {
-      create('commands', createObj).then(e => error(
-        `> ${emoji.emojicoffeeerro} Erro!\n` +
-        '> Erro ao criar comando na API\n' +
-        `> Path: "${__filename}"\n` +
-        `> Erro: "${JSON.stringify(e, null, 2)}"`
-      )); // Se o comando ainda não tiver sido criado na API, ele cria um novo com as config padrão
-    };
-    if (Object.keys(updtObj).length) {
-      update('commands', updtObj).catch(e => error(
-        `> ${emoji.emojicoffeeerro} Erro!\n` +
-        '> Erro ao atualizar comandos'
-      ))
-    };
+    if (Object.keys(createObj).length) create(createObj);
+    if (Object.keys(updtObj).length) update(updtObj);
   };
 };

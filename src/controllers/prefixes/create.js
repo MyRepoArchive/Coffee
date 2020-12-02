@@ -9,7 +9,12 @@ const setDefault = require('./setDefault');
 const checkPrefixType = require('./checkPrefixType');
 
 module.exports = (prefixes, { ignore = false, only = false, orUpdate = false }) => new Promise((resolve, reject) => {
-  const obs = {};
+  const obs = {
+    ignoredValues = [],
+    ignoredKeys = [],
+    updatedKeys = [],
+    alreadyExisted = []
+  };
 
   if (!checkPrefixesType(prefixes, reject) || !checkBannedGuilds(prefixes, ignore, obs, reject) || !checkKeys(prefixes, ignore, obs, reject)) return;
 

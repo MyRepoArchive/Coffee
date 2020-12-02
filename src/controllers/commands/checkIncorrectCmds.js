@@ -1,5 +1,6 @@
 const { isEquivalent } = require("../../functions");
 const filterIncorrectCmds = require("./filterIncorrectCmds");
+const client = require('../..');
 
 module.exports = (commands, obs, ignore, reject) => {
   const incorrectCommands = filterIncorrectCmds(commands);
@@ -9,11 +10,9 @@ module.exports = (commands, obs, ignore, reject) => {
       obs.ignoredValues.push(incorrectCommands);
       obs.ignoredValues = [...new Set(obs.ignoredValues)];
       incorrectCommands.forEach((command) => {
-        Object.values(commands).forEach((cmd, index) => {
-          const key = Object.keys(commands)[index];
-
+        Object.values(commands).forEach((cmd) => {
           isEquivalent(cmd, command[1]) ? 
-          commands[key] = client.db.cache.commands[key] || null : 
+          commands[command[0]] = client.db.cache.commands[command[0]] || null : 
           null
         });
       });

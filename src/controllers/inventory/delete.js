@@ -2,9 +2,17 @@ const client = require('..');
 const { error } = require('../../functions');
 const { static: { emoji } } = require('../../utils/emojis.json');
 
-module.exports = (keys) => new Promise((resolve, reject) => {
-  if (keys.filter(key => typeof key !== 'number').length)
-    return reject(new Error('A key da propriedade deve ser um número!'));
+module.exports = (keys, { ignore = false, only = false }) => new Promise((resolve, reject) => {
+  const obs = {};
+
+  if (keys.filter(key => typeof key !== 'number').length) {
+    if (ignore) {
+      obs.ignoredKeys = keys.filter(key => typeof key !== 'number');
+    } else {
+      return reject(new Error('A key da propriedade deve ser um número!'));
+    };
+  };
+    
   // Se chave conter algum algarismo que não seja de A a Z, a a z, 0 a 9 ou _ retorna um erro!  
   if (keys.filter(key => /\D+/g.test(key + '')).length)
     return reject(new Error('A chave não pode corresponder à seguinte Expressão /\\D+/g'));

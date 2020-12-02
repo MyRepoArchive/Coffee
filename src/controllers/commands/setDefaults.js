@@ -1,4 +1,4 @@
-module.exports = (commands, ) => {
+module.exports = (commands) => {
   Object.values(commands).forEach((command, index) => {
     if (command === null) return;
 

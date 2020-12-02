@@ -4,6 +4,8 @@ const prefixCreate = require('../prefixes/create');
 
 module.exports = (guildIds, { onlyCheck = false }) => {
   const response = {};
+  const createObjChannels = {};
+  const createObjPrefixes = {};
 
   guildIds.filter(guildId => {
     const guild = client.guilds.cache.get(guildId);
@@ -12,12 +14,9 @@ module.exports = (guildIds, { onlyCheck = false }) => {
 
     if (Object.values(client.db.cache.channels).filter(channel => channel.guild_id === guildId).length !== guild.channels.cache.size) {
       if (!onlyCheck) {
-        const nonDbChannels = client.channels.cache.filter(channel => !Object.keys(client.db.cache.channels).includes(channel.id));
-        const createObjChannels = {};
+        const nonDbChannels = guild.channels.cache.filter(channel => !Object.keys(client.db.cache.channels).includes(channel.id));
 
         nonDbChannels.forEach(channel => createObjChannels[channel.id] = { calc_perm: 1, guild_id: guildId, id: channel.id });
-
-        channelsCreate(createObjChannels, false, true);
       };
 
       response[guildId].channels = false;
@@ -25,16 +24,15 @@ module.exports = (guildIds, { onlyCheck = false }) => {
       
     if (!client.db.cache.prefixes[guildId]) {
       if (!onlyCheck) {
-        const createObjPrefixes = {};
-
         createObjPrefixes[guildId] = null;
-
-        prefixCreate(createObjPrefixes, false, true);
       };
 
       response[guildId].prefix = false;
     } else response[guildId].prefix = true;
   });
+
+  if (Object.keys(createObjChannels).length) channelsCreate(createObjChannels, { only: true });
+  if (Object.keys(createObjPrefixes).length) prefixCreate(createObjPrefixes, { only: true });
 
   return response;
 };

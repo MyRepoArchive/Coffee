@@ -34,5 +34,7 @@ module.exports = (guildIds, { onlyCheck = false }) => {
 
       response[guildId].prefix = false;
     } else response[guildId].prefix = true;
-  })
+  });
+
+  return response;
 };

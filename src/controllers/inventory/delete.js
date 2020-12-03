@@ -1,9 +1,12 @@
-const client = require('..');
+const client = require('../..');
 const { error } = require('../../functions');
 const { static: { emoji } } = require('../../utils/emojis.json');
 
-module.exports = (keys, { ignore = false, only = false }) => new Promise((resolve, reject) => {
-  const obs = {};
+module.exports = (keys, { ignore = false, only = false } = {}) => new Promise((resolve, reject) => {
+  const obs = {
+    ignoredKeys: []
+  };
+  const obj = {};
 
   if (keys.filter(key => typeof key !== 'number').length) {
     if (ignore) {
@@ -12,12 +15,14 @@ module.exports = (keys, { ignore = false, only = false }) => new Promise((resolv
       return reject(new Error('A key da propriedade deve ser um número!'));
     };
   };
-    
-  // Se chave conter algum algarismo que não seja de A a Z, a a z, 0 a 9 ou _ retorna um erro!  
-  if (keys.filter(key => /\D+/g.test(key + '')).length)
-    return reject(new Error('A chave não pode corresponder à seguinte Expressão /\\D+/g'));
-
-  const obj = {};
+  
+  if (keys.filter(key => /\D+/g.test(key + '')).length) {
+    if (ignore) {
+      obs.ignoredKeys.push(keys.filter(key => /\D+/g.test(key + '')));
+    } else {
+      return reject(new Error('A chave não pode corresponder à seguinte Expressão /\\D+/g'));
+    };
+  };
 
   keys.forEach(key => {
     obj[key] = null;
@@ -26,7 +31,7 @@ module.exports = (keys, { ignore = false, only = false }) => new Promise((resolv
   client.db.ref('inventory').update(obj).then(() => {
     keys.forEach(key => client.db.cache.inventory[key] = null);
 
-    resolve((await pathToObject(path, client.db.cache)).result);
+    resolve({ inventory: client.db.cache.inventory, obs });
   }, e => error(
     `> ${emoji.emojicoffeeerro} Erro!\n` +
     '> Houve um erro ao deletar alguns itens do inventário!\n' +

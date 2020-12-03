@@ -16,5 +16,6 @@ module.exports = {
   genHtmlMessage: require('./src/genHtmlMessage'),
   sendHtmlDoc: require('./src/sendHtmlDoc'),
   generateToken: require('./src/generateToken'),
-  pathToObject: require('./src/pathToObject')
+  pathToObject: require('./src/pathToObject'),
+  checkKeys: require('./src/checkKeys')
 };

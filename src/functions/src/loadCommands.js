@@ -2,7 +2,7 @@ const { reset, yellow, cyan, red } = require('../../utils/Console');
 const fs = require('fs');
 const client = require('../..');
 const Discord = require('discord.js');
-const { isEquivalent } = require('..');
+const isEquivalent = require('../src/isEquivalent');
 const create = require('../../controllers/commands/create');
 const update = require('../../controllers/commands/update');
 
@@ -57,8 +57,8 @@ module.exports = () => {
                   "updated_timestamp",
                   "version",
                   "releases_notes"
-                ].forEach(prop => {
-                  if (!isEquivalent(cmdConfig[prop], commandDb[prop])) updtObj[cmdConfig.name] = cmdConfig;
+                ].forEach(async prop => {
+                  if (!await isEquivalent(cmdConfig[prop], commandDb[prop])) updtObj[cmdConfig.name] = cmdConfig;
                 });
               };
             };

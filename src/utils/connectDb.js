@@ -22,8 +22,6 @@ module.exports.start = () => new Promise((resolve, reject) => {
   db.ref('/').once('value').then(data => {
     db.cache = data.val();
 
-    console.log(db.ref('/teste').child('a').update({ "0": { a: ['ade', 546, {}, [null, 2], false] } }).then(data => console.log(data)));
-
     console.log('Conectado ao Firebase');
 
     resolve(db);

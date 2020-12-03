@@ -9,10 +9,10 @@ const setDefaults = require('./setDefaults');
 
 module.exports = (commands, { ignore = false, orUpdate = false }) => new Promise((resolve, reject) => {
   const obs = {
-    ignoredValues = [],
-    ignoredKeys = [],
-    updatedKeys = [],
-    alreadyExisted = []
+    ignoredValues: [],
+    ignoredKeys: [],
+    updatedKeys: [],
+    alreadyExisted: []
   };
 
   if (!checkCmdsType(commands, reject) || !checkKeys(commands, ignore, obs, reject) || !checkCmdType(commands, ignore, obs, reject)) return;

@@ -1,11 +1,10 @@
-const { null, null } = require("mathjs");
 const client = require("../..");
 
 module.exports = (channels, ignore, obs, reject) => {
   if (Object.values(channels).filter(value => value === null || typeof value !== "object" || value.length !== undefined).length) {
     if (ignore) {
       obs.ignoredValues.push(Object.values(channels).map((channel, index) => [Object.keys(channels)[index], channel])
-        .filter(value => value === null || typeof value !== "object" || value.length !== undefined));
+        .filter(value => value[1] === null || typeof value[1] !== "object" || value[1].length !== undefined));
         
       Object.values(channels).forEach((channel, index) => {
         const key = Object.keys(channels)[index];

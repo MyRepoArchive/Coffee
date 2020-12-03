@@ -9,10 +9,10 @@ const checkIncorrectCmds = require('./checkIncorrectCmds');
 
 module.exports = (commands, { ignore = false, orCreate = false }) => new Promise((resolve, reject) => {
   const obs = {
-    ignoredValues = [],
-    ignoredKeys = [],
-    updatedKeys = [],
-    alreadyExisted = []
+    ignoredValues: [],
+    ignoredKeys: [],
+    createdKeys: [],
+    nonExistent: []
   };
 
   if (!checkCmdsType(commands, reject) || !checkKeys(commands, ignore, obs, reject) || !checkCmdType(commands, ignore, obs, reject)) return;
@@ -26,7 +26,7 @@ module.exports = (commands, { ignore = false, orCreate = false }) => new Promise
       obs.createdKeys = Object.keys(commands).filter(key => !client.db.cache.commands[key]);
     } else if (ignore) {
       obs.nonExistent = Object.keys(commands).filter(key => !client.db.cache.commands[key]);
-      obs.nonExistent.forEach(name => commands[key] = null);
+      obs.nonExistent.forEach(key => commands[key] = null);
     } else {
       return reject(new Error('Um dos comandos não existe!'));
     };

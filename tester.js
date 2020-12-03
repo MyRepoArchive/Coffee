@@ -1,7 +1,7 @@
-const obj = {};
+const isEquivalent = require("./src/functions/src/isEquivalent");
 
-console.log(obj);
+async function teste() {
+  console.log(await isEquivalent({ b: { b: { b: 'name' } } }, { b: 'name' }))
+};
 
-require('./tester2')(obj);
-
-console.log(obj)
+teste()

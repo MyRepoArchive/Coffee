@@ -1,21 +1,18 @@
-const client = require('../..');
-const { error } = require('../../functions');
+const client = require("../..");
+const checkKeys = require("../../functions/src/checkKeys");
+const checkBannedGuilds = require("./checkBannedGuilds");
+const checkIncorrectMembers = require("./checkIncorrectMembers");
+const checkMembersType = require("./checkMembersType");
+const checkMemberType = require("./checkMemberType");
+const setDefaults = require("./setDefaults");
 const { static: { emoji } } = require('../../utils/emojis.json');
-const checkMembersType = require('./checkMembersType');
-const checkBannedGuilds = require('./checkBannedGuilds');
-const checkMemberType = require('./checkMemberType');
-const { checkKeys } = require('../../functions');
-const setDefaults = require('./setDefaults');
-const checkIncorrectMembers = require('./checkIncorrectMembers');
-const checkExistence = require('../guilds/checkExistence');
-const checkBannedUsers = require('./checkBannedUsers');
 
-module.exports = (members, { ignore = false, only = false, orUpdate = false }) => new Promise((resolve, reject) => {
+module.exports = (members, { ignore = false, orCreate = false, only = false }) => new Promise((resolve, reject) => {
   const obs = {
     ignoredValues: [],
     ignoredKeys: [],
-    updatedKeys: [],
-    alreadyExisted: []
+    createdKeys: [],
+    nonExistent: []
   };
 
   if (!checkMembersType(members, reject) || !checkBannedGuilds(members, ignore, obs, reject) || !checkBannedUsers(members, ignore, obs, reject) || !checkKeys(members, ignore, obs, reject) || checkMemberType(members, ignore, obs, reject)) return;
@@ -24,14 +21,14 @@ module.exports = (members, { ignore = false, only = false, orUpdate = false }) =
 
   if (!checkIncorrectMembers(members, ignore, obs, reject)) return;
 
-  if (Object.keys(members).filter(key => client.db.cache.members[key]).length) {
-    if (orUpdate) {
-      obs.updatedKeys = Object.keys(members).filter(key => client.db.cache.members[key]);
+  if (Object.keys(members).filter(key => !client.db.cache.members[key]).length) {
+    if (orCreate) {
+      obs.createdKeys = Object.keys(members).filter(key => !client.db.cache.members[key]);
     } else if (ignore) {
-      obs.alreadyExisted = Object.keys(members).filter(key => client.db.cache.members[key]);
-      obs.alreadyExisted.forEach(key => members[key] = client.db.cache.members[key])
+      obs.nonExistent = Object.keys(members).filter(key => !client.db.cache.members[key]);
+      obs.nonExistent.forEach(key => members[key] = null);
     } else {
-      return reject(new Error('Este canal já existe!'));
+      return reject(new Error('Um dos memberos não existe!'));
     };
   };
 

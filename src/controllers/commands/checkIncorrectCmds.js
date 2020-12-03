@@ -10,8 +10,8 @@ module.exports = (commands, obs, ignore, reject) => {
       obs.ignoredValues.push(incorrectCommands);
       obs.ignoredValues = [...new Set(obs.ignoredValues)];
       incorrectCommands.forEach((command) => {
-        Object.values(commands).forEach((cmd) => {
-          isEquivalent(cmd, command[1]) ? 
+        Object.values(commands).forEach(async (cmd) => {
+          await isEquivalent(cmd, command[1]) ? 
           commands[command[0]] = client.db.cache.commands[command[0]] || null : 
           null
         });

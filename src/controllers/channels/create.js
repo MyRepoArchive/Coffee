@@ -4,17 +4,17 @@ const { static: { emoji } } = require('../../utils/emojis.json');
 const checkChannelsType = require('./checkChannelsType');
 const checkBannedGuilds = require('./checkBannedGuilds');
 const checkChannelType = require('./checkChannelType');
-const checkKeys = require('./checkKeys');
+const { checkKeys } = require('../../functions');
 const setDefaults = require('./setDefaults');
 const checkIncorrectChannels = require('./checkIncorrectChannels');
 const checkExistence = require('../guilds/checkExistence');
 
 module.exports = (channels, { ignore = false, only = false, orUpdate = false }) => new Promise((resolve, reject) => {
   const obs = {
-    ignoredValues = [],
-    ignoredKeys = [],
-    updatedKeys = [],
-    alreadyExisted = []
+    ignoredValues: [],
+    ignoredKeys: [],
+    updatedKeys: [],
+    alreadyExisted: []
   };
 
   if (!checkChannelsType(channels, reject) || !checkBannedGuilds(channels, ignore, obs, reject) || !checkKeys(channels, ignore, obs, reject) || checkChannelType(channels, ignore, obs, reject)) return;
@@ -44,7 +44,7 @@ module.exports = (channels, { ignore = false, only = false, orUpdate = false }) 
       client.db.cache.channels[key] = channel;
     });
 
-    resolve(client.db.cache.channels);
+    resolve({ channels: client.db.cache.channels, obs });
   }, e => error(
     `> ${emoji.emojicoffeeerro} Erro!\n` +
     '> Houve um erro ao criar um ou mais canais!\n' +

@@ -46,7 +46,7 @@ function verificationValidity() {
 
     user.send(
       `> ${emoji.emojicoffeeinfo} Aviso\n`+
-      `> Olá Sr.${user.username}, informamos que seu **${item.products.name}** com validade para **${item.product.validity / 86400000} dias**${server ? `, adquirido no servidor **${server.name}**,` : ''} venceu. Ele estará sendo retirado de sua conta neste instante.\n`+
+      `> Olá Sr.${user.username}, informamos que seu **${item.product.name}** com validade para **${item.product.validity / 86400000} dias**${server ? `, adquirido no servidor **${server.name}**,` : ''} venceu. Ele estará sendo retirado de sua conta neste instante.\n`+
       '> Agradeçemos a compreensão.\n'+
       `> Data da compra: \`${purchaseDate}\`\n`+
       `> Data de vencimento: \`${expirationDate}\``

@@ -13,7 +13,7 @@ module.exports = {
   reason_inactivity: null,
   created_timestamp: 1599083760000,
   updated_timestamp: 1606401503746,
-  version: '1,1',
+  version: '2,0',
   releases_notes: {
     '1,0': {
       name: 'Comando inicial',

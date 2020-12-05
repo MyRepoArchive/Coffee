@@ -1,10 +1,12 @@
-const { reset, purple, cyan, red, yellow } = require('../utils/Console');
+const { reset, cyan, red, yellow } = require('../utils/Console');
 const fs = require('fs');
 const client = require('..');
 const Discord = require('discord.js');
 const isEquivalent = require('./isEquivalent');
 const create = require('../controllers/commands/create');
 const update = require('../controllers/commands/update');
+const error = require('./error');
+const { static: { emoji } } = require('../utils/emojis.json');
 
 module.exports = () => {
   // Collections com os comandos do bot
@@ -47,19 +49,24 @@ module.exports = () => {
                   command.config[prop] = commandDb[prop] === undefined ? null : commandDb[prop];
                 });
 
-                [
-                  "aliases",
-                  "type",
-                  "description",
-                  "example",
-                  "example_url",
-                  "created_timestamp",
-                  "updated_timestamp",
-                  "version",
-                  "releases_notes"
-                ].forEach(async prop => {
-                  if (!await isEquivalent(cmdConfig[prop], commandDb[prop])) updtObj[cmdConfig.name] = cmdConfig;
+                const updateDb = async () => new Promise((resolve) => {
+                  [
+                    "aliases",
+                    "type",
+                    "description",
+                    "example",
+                    "example_url",
+                    "created_timestamp",
+                    "updated_timestamp",
+                    "version",
+                    "releases_notes"
+                  ].forEach(async (prop, i, arr) => {
+                    if (!await isEquivalent(cmdConfig[prop], commandDb[prop])) updtObj[cmdConfig.name] = cmdConfig;
+                    if (i === arr.length - 1) resolve()
+                  });
                 });
+
+                updateDb().then(() => client.emit('updateDbReady'));
               };
             };
 
@@ -69,7 +76,21 @@ module.exports = () => {
           });
       });
 
-    if (Object.keys(createObj).length) create(createObj);
-    if (Object.keys(updtObj).length) update(updtObj);
+    if (Object.keys(createObj).length) create(createObj).catch(e => error(
+      `> ${emoji.emojicoffeeerro} Erro!\n` +
+      `> Houve um erro ao criar um ou mais comandos no banco de dados!\n` +
+      `> Path: "${__filename}"\n` +
+      `> Comandos: ${JSON.stringify(createObj, null, 2)}\n` +
+      `> Erro: "${e}"`
+    ));
+    client.once('updateDbReady', () => {
+      if (Object.keys(updtObj).length) update({ updateobj: updtObj }).catch(e => error(
+        `> ${emoji.emojicoffeeerro} Erro!\n` +
+        `> Houve um erro ao atualizar um ou mais comandos no banco de dados!\n` +
+        `> Path: "${__filename}"\n` +
+        `> Comandos: ${JSON.stringify(updtObj, null, 2)}\n` +
+        `> Erro: "${e}"`
+      ));
+    })
   };
 };

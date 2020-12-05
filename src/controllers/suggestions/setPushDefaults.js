@@ -10,6 +10,6 @@ module.exports = (suggestions) => {
     suggestion.id = key;
     if (!suggestion.status) suggestion.status = "EM ANALISE"
 
-    suggestions[index] = suggestion;
+    suggestions[key] = suggestion;
   });
 };

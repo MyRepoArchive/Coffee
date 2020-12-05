@@ -8,7 +8,7 @@ const checkKeys = require('./checkKeys');
 const setDefault = require('./setDefault');
 const checkPrefixType = require('./checkPrefixType');
 
-module.exports = (prefixes, { ignore = false, only = false, orUpdate = false }) => new Promise((resolve, reject) => {
+module.exports = (prefixes, { ignore = false, only = false, orUpdate = false } = {}) => new Promise((resolve, reject) => {
   const obs = {
     ignoredValues: [],
     ignoredKeys: [],
@@ -34,13 +34,13 @@ module.exports = (prefixes, { ignore = false, only = false, orUpdate = false }) 
   };
 
   client.db.ref('prefixes').update(prefixes).then(() => {
-    if (!only) checkExistence(Object.keys(prefixes));
-
     Object.values(prefixes).forEach((prefix, index) => {
       const key = Object.keys(prefixes)[index];
 
       client.db.cache.prefixes[key] = prefix;
     });
+
+    if (!only) checkExistence(Object.keys(prefixes), 'prefixes');
 
     resolve({ prefixes: client.db.cache.prefixes, obs });
   }, e => error(

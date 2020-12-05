@@ -3,21 +3,21 @@ const isEquivalent = require("../../functions/isEquivalent");
 
 module.exports = (members, ignore, obs, reject) => {
   const incorrectMembers = Object.values(members).map((member, index) => [Object.keys(members)[index], member]).filter((member, index) => {
-    if (member === null) return;
+    if (member[1] === null) return;
 
-    const key = Object.keys(members)[index];
+    const key = member[0];
 
     return (
-      typeof member.created_timestamp !== "number" ||
-      typeof member.guild_id !== "string" ||
-      member.guild_id === '' ||
-      /\D+/g.test(member.guild_id) ||
-      member.guild_id !== key.split('-')[0] ||
-      typeof member.money !== "number" ||
-      typeof member.score !== "number" ||
-      typeof member.user_id !== 'string' ||
-      /\D+/g.test(member.user_id) ||
-      member.user_id !== key.split('-')[1]
+      typeof member[1].created_timestamp !== "number" ||
+      typeof member[1].guild_id !== "string" ||
+      member[1].guild_id === '' ||
+      /\D+/g.test(member[1].guild_id) ||
+      member[1].guild_id !== key.split('-')[0] ||
+      typeof member[1].money !== "number" ||
+      typeof member[1].score !== "number" ||
+      typeof member[1].user_id !== 'string' ||
+      /\D+/g.test(member[1].user_id) ||
+      member[1].user_id !== key.split('-')[1]
     );
   });
 

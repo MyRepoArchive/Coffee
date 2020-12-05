@@ -1,19 +1,21 @@
 const client = require("../..");
 const error = require("../../functions/error");
-const channelsCreate = require('../channels/create');
-const prefixCreate = require('../prefixes/create');
-const membersCreate = require('../members/create');
 const { static: { emoji } } = require('../../utils/emojis.json');
 
-module.exports = (guildIds, { onlyCheck = false }) => {
+module.exports = (guildIds, calledBy, { onlyCheck = false } = {}) => {
+  const channelsCreate = require('../channels/create');
+  const prefixCreate = require('../prefixes/create');
+  const membersCreate = require('../members/create');
   const response = {};
   const createObjChannels = {};
   const createObjPrefixes = {};
   const createObjMembers = {};
 
+  guildIds.forEach(id => response[id] = {});
+
   guildIds.filter(guildId => {
     const guild = client.guilds.cache.get(guildId);
-    
+
     if (!guild) return response[guildId] = "Não existe";
 
     if (Object.values(client.db.cache.channels).filter(channel => channel.guild_id === guildId).length !== guild.channels.cache.size) {
@@ -25,7 +27,7 @@ module.exports = (guildIds, { onlyCheck = false }) => {
 
       response[guildId].channels = false;
     } else response[guildId].channels = true;
-      
+
     if (!client.db.cache.prefixes[guildId]) {
       if (!onlyCheck) {
         createObjPrefixes[guildId] = null;
@@ -56,7 +58,7 @@ module.exports = (guildIds, { onlyCheck = false }) => {
       `> ${emoji.emojicoffeeerro} Erro!\n` +
       `> Houve um erro ao criar ${prop} no banco de dados!\n` +
       `> Path: "${__filename}"\n` +
-      `> Erro: "${JSON.stringify(e, null, 2)}"`
+      `> Erro: "${e}"`
     );
   };
 };

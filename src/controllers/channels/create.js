@@ -9,7 +9,7 @@ const checkIncorrectChannels = require('./checkIncorrectChannels');
 const checkExistence = require('../guilds/checkExistence');
 const error = require('../../functions/error');
 
-module.exports = (channels, { ignore = false, only = false, orUpdate = false }) => new Promise((resolve, reject) => {
+module.exports = (channels, { ignore = false, only = false, orUpdate = false } = {}) => new Promise((resolve, reject) => {
   const obs = {
     ignoredValues: [],
     ignoredKeys: [],
@@ -17,7 +17,7 @@ module.exports = (channels, { ignore = false, only = false, orUpdate = false }) 
     alreadyExisted: []
   };
 
-  if (!checkChannelsType(channels, reject) || !checkBannedGuilds(channels, ignore, obs, reject) || !checkKeys(channels, ignore, obs, reject) || checkChannelType(channels, ignore, obs, reject)) return;
+  if (!checkChannelsType(channels, reject) || !checkBannedGuilds(channels, ignore, obs, reject) || !checkKeys(channels, ignore, obs, reject) || !checkChannelType(channels, ignore, obs, reject)) return;
 
   setDefaults(channels);
 
@@ -33,16 +33,15 @@ module.exports = (channels, { ignore = false, only = false, orUpdate = false }) 
       return reject(new Error('Este canal já existe!'));
     };
   };
-    
 
   client.db.ref('channels').update(channels).then(() => {
-    if (!only) checkExistence(Object.values(channels).map(channel => channel.guild_id));
-
     Object.values(channels).forEach((channel, index) => {
       const key = Object.keys(channels)[index];
 
       client.db.cache.channels[key] = channel;
     });
+
+    if (!only) checkExistence(Object.values(channels).map(channel => channel.guild_id), 'channels');
 
     resolve({ channels: client.db.cache.channels, obs });
   }, e => error(

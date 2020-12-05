@@ -1,6 +1,6 @@
 const checkReportsType = require('./checkReportsType');
 const checkBannedUsers = require('./checkBannedUsers');
-const checkKeys = require('../../functions/src/checkKeys');
+const checkKeys = require('../../functions/checkKeys');
 const checkReportType = require('./checkReportType');
 const setDefaults = require('./setDefaults');
 const checkIncorrectReports = require('./checkIncorrectReports');
@@ -8,7 +8,7 @@ const client = require('../..');
 const { static: { emoji } } = require('../../utils/emojis.json');
 const error = require('../../functions/error');
 
-module.exports = (reports, { ignore = false, orUpdate = false }) => new Promise((resolve, reject) => {
+module.exports = (reports, { ignore = false, orUpdate = false } = {}) => new Promise((resolve, reject) => {
 
   const obs = {
     ignoredValues: [],

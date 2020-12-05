@@ -2,6 +2,8 @@ module.exports = (commands) => {
   Object.values(commands).forEach((command, index) => {
     if (command === null) return;
 
+    const key = Object.keys(commands)[index];
+
     if (command.aliases === undefined || 
       command.aliases === null ||
       typeof command.aliases !== "object" ||
@@ -19,6 +21,6 @@ module.exports = (commands) => {
       !Object.keys(command.releases_notes).length) command.releases_notes = null;
     if (command.times_limit === undefined) command.times_limit = 1;
 
-    commands[index] = command;
+    commands[key] = command;
   });
 };

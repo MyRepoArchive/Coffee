@@ -11,6 +11,6 @@ module.exports = (members) => {
     if (!member.guild_id) member.guild_id = key.split('-')[0]
     if (!member.user_id) member.user_id = key.split('-')[1];
 
-    members[index] = member;
+    members[key] = member;
   });
 };

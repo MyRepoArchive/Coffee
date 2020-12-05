@@ -1,12 +1,14 @@
 const Discord = require('discord.js'); // Requerimento da biblioteca Discord.js
 const { token } = require('./config/auth.json'); // TOKEN para logar o bot
-const { db } = require('./utils/connectDb');
+const { db } = require('./functions/connectDb');
 const client = new Discord.Client(); // Instância do Client
 
 client.login(token).then(() => { // Authentica o bot na API do Discord
   const handlerLoader = require('./functions/handlerLoader');
 
   client.db = db;
+
+  require('./functions/pullControllersToCache')();
 
   handlerLoader(); // Carrega os eventos e comandos
 });

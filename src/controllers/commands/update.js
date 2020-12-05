@@ -7,7 +7,7 @@ const checkCmdsType = require('./checkCmdsType');
 const setDefaults = require('./setDefaults');
 const checkIncorrectCmds = require('./checkIncorrectCmds');
 
-module.exports = (commands, { ignore = false, orCreate = false }) => new Promise((resolve, reject) => {
+module.exports = (commands, { ignore = false, orCreate = false } = {}) => new Promise((resolve, reject) => {
   const obs = {
     ignoredValues: [],
     ignoredKeys: [],

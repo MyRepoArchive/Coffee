@@ -7,7 +7,7 @@ const client = require('../..');
 const { static: { emoji } } = require('../../utils/emojis.json');
 const error = require('../../functions/error');
 
-module.exports = (suggestions, { ignore = false }) => new Promise((resolve, reject) => {
+module.exports = (suggestions, { ignore = false } = {}) => new Promise((resolve, reject) => {
   const obs = {
     ignoredValues: [],
     ignoredKeys: [],

@@ -23,7 +23,7 @@ module.exports = async (message) => {
   const args = message.content.slice(prefix.length).trim().split(/ +/g); // Um array com cada palavra digitada pelo usuário
   const comando = args.shift().toLowerCase(); // A primeira palavra do args minúscula
   const permissions = message.channel.permissionsFor(client.user); // As permissões que o bot tem no canal em que foi enviada a mensagem
-
+  
   if (distincWords.length >= 3 || message.content.startsWith(prefix)) 
     addScore(message.author.id, message.guild.id);
   

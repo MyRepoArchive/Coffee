@@ -7,7 +7,7 @@ const checkIncorrectCmds = require('./checkIncorrectCmds');
 const checkKeys = require('./checkKeys');
 const setDefaults = require('./setDefaults');
 
-module.exports = (commands, { ignore = false, orUpdate = false }) => new Promise((resolve, reject) => {
+module.exports = (commands, { ignore = false, orUpdate = false } = {}) => new Promise((resolve, reject) => {
   const obs = {
     ignoredValues: [],
     ignoredKeys: [],

@@ -8,17 +8,17 @@ module.exports = () => { // Função que muda o que o bot exibe no "Activity" a 
     {
       name: `Estou em ${client.guilds.cache.size} servidores`,
       type: 'STREAMING',
-      url: null
+      url: 'https://www.twitch.tv/...'
     },
     {
       name: `Tenho ${client.users.cache.size} usuários`,
       type: 'STREAMING',
-      url: null
+      url: 'https://www.twitch.tv/...'
     },
     {
       name: `Estou a ${parseInt(client.uptime / 3600000)} horas ativo`,
       type: 'STREAMING',
-      url: null
+      url: 'https://www.twitch.tv/...'
     },
   ];
 

@@ -1,8 +1,8 @@
-const { log } = require('../../config/default.json');
-const { static: { emoji } } = require('../../utils/emojis.json');
-const client = require('../..');
+const { log } = require('../config/default.json');
+const { static: { emoji } } = require('../utils/emojis.json');
+const client = require('..');
 const moment = require('moment');
-const logJs = require('../../utils/log');
+const logJs = require('../utils/log');
 const error = require('./error');
 const sendHtmlDoc = require('./sendHtmlDoc');
 

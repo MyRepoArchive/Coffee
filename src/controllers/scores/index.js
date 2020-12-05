@@ -9,6 +9,8 @@ setInterval(() => {
   saveScore(client.db.cache.members, require('./scores'))
 }, 60000); // 60 segundos
 
+saveScore(client.db.cache.members, require('./scores'))
+
 async function saveScore(members, scores) {
   const pointMultipliers = joinProducts().filter(item => {
     return item.active && item.product.type === 'point_multiplier';
@@ -27,6 +29,7 @@ async function saveScore(members, scores) {
       const level = getLevel(members[key].score);
       const value = Math.round(scores[key] * (level * 0.5) * multiplier + members[key].score);
 
+      console.log(scores[key], level, value, members[key].score)
       obj[key] = members[key];
       obj[key].score = value;
     } else {
@@ -40,9 +43,9 @@ async function saveScore(members, scores) {
       '> Houve um erro ao atualizar a pontuação dos usuários no banco de dados!\n' +
       `> Path: "${__filename}"\n` +
       `> Objeto: ${JSON.stringify(obj, null, 2)}\n` +
-      `> Erro: ${JSON.stringify(e, null, 2)}`
+      `> Erro: ${e}`
     ));
 
-    Object.keys(scores).forEach(key => scores[key] = undefined);
+    Object.keys(scores).forEach(key => delete scores[key]);
   };
 };

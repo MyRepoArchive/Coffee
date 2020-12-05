@@ -7,6 +7,6 @@ module.exports = (channels) => {
     if (channel.calc_perm === undefined || channel.calc_perm === null) channel.calc_perm = 1;
     if (!channel.id) channel.id = `${key}`;
 
-    channels[index] = channel;
+    channels[key] = channel;
   });
 };

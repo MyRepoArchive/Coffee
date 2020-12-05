@@ -1,4 +1,4 @@
-const { secret } = require('../../config/auth.json');
+const { secret } = require('../config/auth.json');
 const jwt = require('jsonwebtoken');
 
 module.exports = (params = {}) => {

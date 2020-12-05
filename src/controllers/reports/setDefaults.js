@@ -8,6 +8,6 @@ module.exports = (reports) => {
     if (!report.id) report.id = Number(key);
     if (!report.status) report.status = "EM ANALISE"
 
-    reports[index] = report;
+    reports[key] = report;
   });
 };

@@ -7,7 +7,7 @@ app.use(cors());
 
 module.exports = app;
 
-require('./src/utils/connectDb').start().then(() => {
+require('./src/functions/connectDb').start().then(() => {
   require('./src');
 
   app.listen(3001, '', () => console.log('Servidor ligado'));

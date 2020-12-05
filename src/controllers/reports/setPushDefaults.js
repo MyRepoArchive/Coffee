@@ -10,6 +10,6 @@ module.exports = (reports) => {
     report.id = key;
     if (!report.status) report.status = "EM ANALISE"
 
-    reports[index] = report;
+    reports[key] = report;
   });
 };

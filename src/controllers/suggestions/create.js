@@ -1,6 +1,6 @@
 const checkSuggestionsType = require('./checkSuggestionsType');
 const checkBannedUsers = require('./checkBannedUsers');
-const checkKeys = require('../../functions/src/checkKeys');
+const checkKeys = require('../../functions/checkKeys');
 const checkSuggestionType = require('./checkSuggestionType');
 const setDefaults = require('./setDefaults');
 const checkIncorrectSuggestions = require('./checkIncorrectSuggestions');
@@ -8,7 +8,7 @@ const client = require('../..');
 const { static: { emoji } } = require('../../utils/emojis.json');
 const error = require('../../functions/error');
 
-module.exports = (suggestions, { ignore = false, orUpdate = false }) => new Promise((resolve, reject) => {
+module.exports = (suggestions, { ignore = false, orUpdate = false } = {}) => new Promise((resolve, reject) => {
 
   const obs = {
     ignoredValues: [],

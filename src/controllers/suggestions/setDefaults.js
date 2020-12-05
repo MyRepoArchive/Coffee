@@ -8,6 +8,6 @@ module.exports = (suggestions) => {
     if (!suggestion.id) suggestion.id = Number(key);
     if (!suggestion.status) suggestion.status = "EM ANALISE"
 
-    suggestions[index] = suggestion;
+    suggestions[key] = suggestion;
   });
 };

@@ -1,4 +1,4 @@
-const client = require('../..');
+const client = require('..');
 const genFakeMessage = require('./genFakeMessage');
 const genHtmlMessage = require('./genHtmlMessage');
 

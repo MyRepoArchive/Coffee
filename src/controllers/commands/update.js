@@ -1,5 +1,5 @@
 const client = require('../..');
-const { error } = require('../../functions');
+const error = require('../../functions/error');
 const { static: { emoji } } = require('../../utils/emojis.json');
 const checkKeys = require('./checkKeys');
 const checkCmdType = require('./checkCmdType');

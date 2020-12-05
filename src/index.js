@@ -4,7 +4,7 @@ const { db } = require('./utils/connectDb');
 const client = new Discord.Client(); // Instância do Client
 
 client.login(token).then(() => { // Authentica o bot na API do Discord
-  const { handlerLoader } = require('./functions');
+  const handlerLoader = require('./functions/handlerLoader');
 
   client.db = db;
 

@@ -1,9 +1,8 @@
 const client = require('../../../..');
+const error = require('../../../../functions/error');
 const { static: { emoji, eID } } = require('../../../../utils/emojis.json');
 
 module.exports = (message) => {
-  const { error } = require('../../../../functions');
-  
   if (!message) return error(
     `> ${emoji.emojicoffeeinfo} Aviso!\n`+
     '> A função "suggestionError" está sendo chamada sem o parâmetro "message" que é essencial para o correto funcionamento da mesma.\n'+

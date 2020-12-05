@@ -1,10 +1,9 @@
 const { static: { emoji } } = require('../../../../utils/emojis.json');
 const push = require('../../../../controllers/suggestions/push');
 const client = require('../../../..');
+const error = require('../../../../functions/error');
 
 module.exports = (suggestion, userId) => new Promise((resolve, reject) => {
-  const { error } = require('../../../../functions');
-
   if (!suggestion) {
     error(
       `> ${emoji.emojicoffeeinfo} Aviso!\n\n`+

@@ -1,5 +1,5 @@
 const client = require('../..');
-const { error } = require('../../functions');
+const error = require('../../functions/error');
 const { static: { emoji } } = require('../../utils/emojis.json');
 
 module.exports = (keys, { ignore = false, only = false } = {}) => new Promise((resolve, reject) => {

@@ -1,6 +1,6 @@
 const predefinedStructures = require("../utils/predefinedStructures");
 const client = require('..');
-const { pathToObject } = require("../functions");
+const pathToObject = require("../functions/pathToObject");
 
 module.exports = (path, keys) => new Promise((resolve, reject) => {
   if (keys.filter(key => typeof key !== 'number' && typeof key !== 'string').length)

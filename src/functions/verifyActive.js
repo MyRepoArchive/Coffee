@@ -1,8 +1,8 @@
 const { static: { emoji, eID } } = require('../../utils/emojis.json');
-const client = require('../..')
+const client = require('../..');
+const error = require('./error');
 
 module.exports = (active, message, reasonInactivity) => {
-  const { error } = require('..');
   const permissions = message.channel.permissionsFor(client.user);
   
   const msg =

@@ -1,8 +1,7 @@
-const { static: { emoji } } = require('../../../../utils/emojis.json');
+const { static: { emoji } } = require('../../../src/utils/emojis.json');
+const error = require('../../../src/functions/error');
 
 module.exports = (e) => {
-  const { error } = require('../../../../functions');
-
   error(
     `> ${emoji.emojicoffeeinfo} Aviso!\n` +
     '> Não foi possível enviar o report para o canal destinado!\n' +

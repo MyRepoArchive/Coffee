@@ -1,10 +1,10 @@
 const client = require('../..');
-const { error } = require('../../functions');
+const error = require('../../functions/error');
 const { static: { emoji } } = require('../../utils/emojis.json');
 const checkMembersType = require('./checkMembersType');
 const checkBannedGuilds = require('./checkBannedGuilds');
 const checkMemberType = require('./checkMemberType');
-const { checkKeys } = require('../../functions');
+const checkKeys = require('../../functions/checkKeys');
 const setDefaults = require('./setDefaults');
 const checkIncorrectMembers = require('./checkIncorrectMembers');
 const checkExistence = require('../guilds/checkExistence');

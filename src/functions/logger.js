@@ -3,10 +3,10 @@ const { static: { emoji } } = require('../../utils/emojis.json');
 const client = require('../..');
 const moment = require('moment');
 const logJs = require('../../utils/log');
+const error = require('./error');
+const sendHtmlDoc = require('./sendHtmlDoc');
 
 module.exports = (msg) => {
-  const { error, sendHtmlDoc } = require('..');
-
   logJs[moment().locale('pt-br').format('LLLL')] = msg;
 
   client.channels.fetch(log)

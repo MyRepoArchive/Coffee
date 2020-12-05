@@ -6,6 +6,7 @@ const checkMembersType = require("./checkMembersType");
 const checkMemberType = require("./checkMemberType");
 const setDefaults = require("./setDefaults");
 const { static: { emoji } } = require('../../utils/emojis.json');
+const error = require("../../functions/error");
 
 module.exports = (members, { ignore = false, orCreate = false, only = false }) => new Promise((resolve, reject) => {
   const obs = {

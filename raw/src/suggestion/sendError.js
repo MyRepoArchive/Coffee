@@ -1,8 +1,7 @@
-const { static: { emoji } } = require('../../../../utils/emojis.json');
+const error = require('../../../src/functions/error');
+const { static: { emoji } } = require('../../../src/utils/emojis.json');
 
 module.exports = (e) => {
-  const { error } = require('../../../../functions');
-
   error(
     `> ${emoji.emojicoffeeinfo} Aviso!\n` +
     '> Não foi possível enviar a sugestão para o canal destinado!\n' +

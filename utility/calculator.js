@@ -3,7 +3,6 @@ const Discord = require('discord.js')
 const hex = require('../colors.json')
 const config = require('../info.json')
 const { evaluate, create, all } = require('mathjs')
-const { levenshteinDistance } = require('../utils/levenshteinDistance.js')
 const math = create(all)
 
 // Código exportado

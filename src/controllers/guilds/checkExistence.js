@@ -1,5 +1,5 @@
 const client = require("../..");
-const { error } = require("../../functions");
+const error = require("../../functions/error");
 const channelsCreate = require('../channels/create');
 const prefixCreate = require('../prefixes/create');
 const membersCreate = require('../members/create');

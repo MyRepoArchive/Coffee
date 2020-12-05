@@ -1,4 +1,6 @@
 const client = require('../..');
+const error = require('../../functions/error');
+const getLevel = require('../../functions/getLevel');
 const { static: { emoji } } = require('../../utils/emojis.json');
 const joinProducts = require('../inventory/inventoryJoinProducts');
 const membersUpdate = require('../members/update');
@@ -8,8 +10,6 @@ setInterval(() => {
 }, 60000); // 60 segundos
 
 async function saveScore(members, scores) {
-  const { error, getLevel } = require('../../functions');
-
   const pointMultipliers = joinProducts().filter(item => {
     return item.active && item.product.type === 'point_multiplier';
   });

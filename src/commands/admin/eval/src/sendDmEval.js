@@ -1,8 +1,7 @@
+const error = require('../../../../functions/error');
 const { static, animated } = require('../../../../utils/emojis.json');
 
 module.exports = async (message, embed) => {
-  const { error } = require('../../../../functions');
-
   const sendingDmMsg = await message.channel.send(`> ${animated.emoji.loading2} Enviando...`).catch(e => error(
     `> ${static.emoji.emojicoffeeinfo} Aviso!\n` +
     '> Aconteceu um erro ao enviar uma mensagem de envio de eval!\n' +

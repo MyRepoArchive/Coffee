@@ -1,9 +1,9 @@
 const { admins } = require('../../config/default.json');
 const client = require('../..');
 const { static: { emoji, eID } } = require('../../utils/emojis.json');
+const error = require('./error');
 
 module.exports = (message, controller, time = 3000, timesLimit = 1) => {
-  const { error } = require('..');
   let authorized = false;
 
   if (!message) {

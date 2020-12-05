@@ -1,11 +1,10 @@
 const api = require('../../../../services/api');
-const client = require('../../../..');
-const { static: { emoji } } = require('../../../../utils/emojis.json');
+const client = require('../../../src');
+const { static: { emoji } } = require('../../../src/utils/emojis.json');
 const moment = require('moment');
+const error = require('../../../src/functions/error');
 
 module.exports = (suggestionId) => {
-  const { error, apiError } = require('../../../../functions');
-
   api.get(`/suggestions/${suggestionId}`)
     .then(response => {
       client.users.fetch(response.data.created_by)

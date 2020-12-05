@@ -1,6 +1,6 @@
-const { isEquivalent } = require("../../functions");
 const filterIncorrectCmds = require("./filterIncorrectCmds");
 const client = require('../..');
+const isEquivalent = require("../../functions/isEquivalent");
 
 module.exports = (commands, obs, ignore, reject) => {
   const incorrectCommands = filterIncorrectCmds(commands);

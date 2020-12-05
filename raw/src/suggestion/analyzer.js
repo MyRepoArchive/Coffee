@@ -3,10 +3,9 @@ const { static: { eID, emoji } } = require('../../../src/utils/emojis.json');
 const { suggestion_analise, suggestion_reprovados, suggestion_aprovados } = require('../../../src/config/default.json');
 const suggestionApprover = require('./approver');
 const suggestionReprover = require('./reprover');
+const error = require('../../../src/functions/error');
 
 module.exports = (data) => {
-  const { error } = require('../../../src/functions');
-
   client.channels.cache.get(suggestion_analise).messages.fetch(data.d.message_id)
     .then(message => {
       const channelAprovado = client.channels.cache.get(suggestion_aprovados);

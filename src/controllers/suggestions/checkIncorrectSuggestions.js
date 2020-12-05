@@ -1,5 +1,5 @@
 const client = require('../..');
-const { isEquivalent } = require('../../functions');
+const isEquivalent = require('../../functions/isEquivalent');
 
 module.exports = (suggestions, ignore, obs, reject) => {
   const incorrectSuggestions = Object.values(suggestions).map((suggestion, index) => [Object.keys(suggestions)[index], suggestion]).filter((suggestion, index) => {

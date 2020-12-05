@@ -1,8 +1,9 @@
 const client = require('../../..');
+const error = require('../../../functions/error');
+const moreSimilar = require('../../../functions/moreSimilar');
 const { static: { emoji } } = require('../../../utils/emojis.json');
 
 module.exports = (comando, message, prefix) => {
-  const { moreSimilar } = require('../../../functions');
   const possibleNamesCommand = client.commands.map(command => command.config.aliases.concat([command.config.name]));
   const allAliases = [].concat(...possibleNamesCommand);
   const similarWord = moreSimilar(comando, allAliases);

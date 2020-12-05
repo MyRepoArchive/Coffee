@@ -1,5 +1,5 @@
 const client = require("..");
-const { pathToObject } = require("../functions");
+const pathToObject = require("../functions/pathToObject");
 const predefinedStructures = require("../utils/predefinedStructures");
 
 module.exports = async (path, obj, force = false) => new Promise((resolve, reject) => {

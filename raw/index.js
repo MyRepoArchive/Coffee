@@ -1,5 +1,5 @@
-const client = require('../..');
-const { report_analise, report_aprovados, admins, suggestion_analise } = require('../../config/default.json');
+const client = require('../src');
+const { report_analise, report_aprovados, admins, suggestion_analise } = require('../src/config/default.json');
 const reportAnalyzer = require('./src/report/analyzer');
 const reportSolver = require('./src/report/solver');
 const suggestionAnalyzer = require('./src/suggestion/analyzer');

@@ -28,5 +28,3 @@ module.exports.start = () => new Promise((resolve, reject) => {
   }, e => reject(e));
 });
 
-module.exports.start()
-

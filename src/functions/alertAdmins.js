@@ -1,10 +1,9 @@
-const { admins } =  require('../../config/default.json');
-const { static: { emoji } } = require('../../utils/emojis.json');
-const client = require('../..');
+const { admins } =  require('../config/default.json');
+const { static: { emoji } } = require('../utils/emojis.json');
+const client = require('..');
+const sendHtmlDoc = require('./sendHtmlDoc');
 
 module.exports = (msg) => {
-  const { sendHtmlDoc } = require('..');
-
   admins.forEach(id => {
     client.users.fetch(id)
       .then(user => {

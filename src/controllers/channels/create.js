@@ -1,13 +1,13 @@
 const client = require('../..');
-const { error } = require('../../functions');
 const { static: { emoji } } = require('../../utils/emojis.json');
 const checkChannelsType = require('./checkChannelsType');
 const checkBannedGuilds = require('./checkBannedGuilds');
 const checkChannelType = require('./checkChannelType');
-const { checkKeys } = require('../../functions');
+const checkKeys = require('../../functions/checkKeys');
 const setDefaults = require('./setDefaults');
 const checkIncorrectChannels = require('./checkIncorrectChannels');
 const checkExistence = require('../guilds/checkExistence');
+const error = require('../../functions/error');
 
 module.exports = (channels, { ignore = false, only = false, orUpdate = false }) => new Promise((resolve, reject) => {
   const obs = {

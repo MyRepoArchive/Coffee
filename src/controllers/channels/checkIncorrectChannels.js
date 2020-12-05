@@ -1,5 +1,5 @@
 const client = require("../..");
-const { isEquivalent } = require("../../functions");
+const isEquivalent = require("../../functions/isEquivalent");
 
 module.exports = (channels, ignore, obs, reject) => {
   const incorrectChannels = Object.values(channels).map((channel, index) => [Object.keys(channels)[index], channel]).filter((channel, index) => {

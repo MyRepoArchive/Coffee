@@ -1,4 +1,4 @@
-const { static: { eID } } = require('../../../../utils/emojis.json');
+const { static: { eID } } = require('../../../src/utils/emojis.json');
 const api = require('../../../../services/api');
 const updateErr = require('./updateErr');
 const sendError = require('./sendError');

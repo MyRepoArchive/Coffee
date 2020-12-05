@@ -3,10 +3,10 @@ const { static: { emoji } } = require('../../utils/emojis.json');
 const client = require('../..');
 const moment = require('moment');
 const logJs = require('../../utils/log');
+const alertAdmins = require('./alertAdmins');
+const sendHtmlDoc = require('./sendHtmlDoc');
 
 module.exports = (msg) => {
-  const { alertAdmins, sendHtmlDoc } = require('..');
-
   logJs[moment().locale('pt-br').format('LLLL')] = msg;
 
   client.channels.fetch(erro)
@@ -19,7 +19,7 @@ module.exports = (msg) => {
         `> Aviso/Erro: "${msg}".`
       );
 
-      if (!channel.permissionsFor(client.user).has('VIEW_CHANNEL')) return error(
+      if (!channel.permissionsFor(client.user).has('VIEW_CHANNEL')) return alertAdmins(
         `> ${emoji.emojicoffeeinfo} Aviso!\n`+
         '> Não possui permissão para acessar o canal cadastrado para envio de erros e avisos.\n' +
         `> ID do canal: '${erro}'.\n` +

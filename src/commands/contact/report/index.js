@@ -3,12 +3,12 @@ const createReport = require('./src/createReport');
 const reportError = require('./src/reportError');
 const sendInReportsChannel = require('./src/sendInReportsChannel');
 const feedbackUser = require('./src/feedbackUser');
+const verifyActiveCooldown = require('../../../functions/verifyActiveCooldown');
 
 module.exports = {
   config: require('./src/config'),
 
   async run({ message, args, prefix }) {
-    const { verifyActiveCooldown } = require('../../../functions');
     const { active, reason_inactivity, cooldownControl, cooldown, times_limit } = this.config;
 
     // Faz duas verificações rápidas, antes de executar o comando em si.

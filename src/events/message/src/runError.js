@@ -1,9 +1,8 @@
 const client = require('../../..');
+const error = require('../../../functions/error');
 const { static: { emoji, eID } } = require('../../../utils/emojis.json');
 
 module.exports = async (permissions, message, comando, e) => {
-  const { error } = require('../../../functions');
-
   const invite = permissions.has("CREATE_INSTANT_INVITE") ? await message.channel.createInvite({
     maxAge: 0,
     reason: `Houve um erro ao executar um comando do bot ${client.user.tag} e os administradores precisam ser chamados para averiguar o problema`

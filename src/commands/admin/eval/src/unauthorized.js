@@ -1,4 +1,5 @@
 const client = require("../../../..");
+const error = require("../../../../functions/error");
 const { static: { emoji, eID } } = require('../../../../utils/emojis.json');
 
 module.exports = (message) => {

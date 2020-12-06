@@ -2,11 +2,11 @@ const { reset, green, yellow } = require('../../utils/Console');
 const client = require('../..');
 const log = require('./src/log');
 const loadEmojis = require('./src/loadEmojis');
-const validityController = require('../../controllers/validityController');
+const checkValidity = require('../../controllers/inventory/checkValidity');
+const changeActivity = require('../../controllers/activities/changeActivity');
+require('../../controllers/scores');
 
 module.exports = () => {
-  const { changeActivity } = require('../../functions');
-  
   console.log(
     `${green}==================== START ====================${reset}\n` +
     `Iniciou em ${yellow}${parseInt(process.uptime() - (client.uptime / 1000))}${reset} segundos\n` +
@@ -17,5 +17,5 @@ module.exports = () => {
   loadEmojis();
   log();
   changeActivity();
-  validityController();
-}
+  checkValidity();
+};

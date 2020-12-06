@@ -1,9 +1,9 @@
-const api = require('../../../../services/api');
 const { static: { emoji } } = require('../../../../utils/emojis.json');
+const push = require('../../../../controllers/reports/push');
+const client = require('../../../..');
+const error = require('../../../../functions/error');
 
 module.exports = (report, userId) => new Promise((resolve, reject) => {
-  const { error, apiError } = require('../../../../functions');
-
   if (!report) {
     error(
       `> ${emoji.emojicoffeeinfo} Aviso!\n\n`+
@@ -13,8 +13,6 @@ module.exports = (report, userId) => new Promise((resolve, reject) => {
     reject();
     return;
   };
-
-  report = report.replace(/\\/g, '\\\\');
 
   if (!userId) {
     error(
@@ -37,18 +35,17 @@ module.exports = (report, userId) => new Promise((resolve, reject) => {
     return;
   };
 
-  api.put('/reports/create', { reports: [ { report, created_by: userId } ] })
-    .then(res => {
-      resolve(res.data.reports[0]);
-    }, e => {
-      error(
-        `> ${emoji.emojicoffeeerro} Erro!\n`+
-        '> Houve um erro ao tentar criar um novo report na api!\n'+
-        `> O report: "${report}"\n`+
-        `> O ID do usuário: "${userId}"\n`+
-        `> Path: "${__filename}"\n` +
-        `> O Erro: "${apiError(e)}"`
-      );
-      reject();
-    });
+  push([{ created_by: userId, report }]).then(reports => {
+    resolve(reports[client.db.cache.last_id]);
+  }, e => {
+    error(
+      `> ${emoji.emojicoffeeerro} Erro!\n` +
+      '> Houve um erro ao tentar criar um novo report no banco de dados!\n' +
+      `> Report: "${report}"\n` +
+      `> O ID do usuário: "${userId}"\n`+
+      `> Path: "${__filename}"\n` +
+      `> Erro: "${JSON.stringify(e, null, 2)}"`
+    );
+    reject();
+  });
 });

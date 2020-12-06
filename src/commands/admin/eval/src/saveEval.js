@@ -1,9 +1,8 @@
 const { static, animated } = require('../../../../utils/emojis.json');
 const moment = require('moment');
+const error = require('../../../../functions/error');
 
 module.exports = async (message, evalContent, embed) => {
-  const { error } = require('../../../../functions');
-
   const savingMsg = await message.channel.send(`> ${animated.emoji.loading2} Salvando...`).catch(e => error(
     `> ${static.emoji.emojicoffeeinfo} Aviso!\n` +
     '> Aconteceu um erro ao enviar uma mensagem de salvamento de eval!\n' +

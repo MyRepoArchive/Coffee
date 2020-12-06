@@ -3,10 +3,9 @@ const client = require('../../..');
 const Discord = require('discord.js');
 const { lightstategray } = require('../../../utils/colors.json');
 const { static: { emoji } } = require('../../../utils/emojis.json');
+const error = require('../../../functions/error');
 
 module.exports = (guild) => {
-  const { error } = require('../../../functions');
-
   client.channels.fetch(log)
     .then(channel => {
       const embed = new Discord.MessageEmbed()

@@ -2,12 +2,12 @@ const createSuggestion = require('./src/createSuggestion');
 const sendInSuggestionsChannel = require('./src/sendInSuggestionsChannel');
 const feedbackUser = require('./src/feedbackUser');
 const suggestionError = require('./src/suggestionError');
+const verifyActiveCooldown = require('../../../functions/verifyActiveCooldown');
 
 module.exports = {
   config: require('./src/config'),
 
   async run({ message, args, prefix }) {
-    const { verifyActiveCooldown } = require('../../../functions');
     const { active, reason_inactivity, cooldownControl, cooldown, times_limit } = this.config;
 
     if (!verifyActiveCooldown(message, active, reason_inactivity, cooldownControl, cooldown, times_limit)) return;

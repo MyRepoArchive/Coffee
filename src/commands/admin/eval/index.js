@@ -8,13 +8,15 @@ const moment = require('moment');
 const client = require('../../..');
 const reactionCollectors = require('./src/reactionCollectors');
 const messageCollectors = require('./src/messageCollectors');
+const verifyActiveCooldown = require('../../../functions/verifyActiveCooldown');
+const error = require('../../../functions/error');
 const credentials = Object.values(require('../../../config/auth.json'));
 
 module.exports = {
   config: require('./src/config'),
 
   async run({ message, args }) {
-    const { verifyActiveCooldown, error } = require('../../../functions');
+    
     const { active, reason_inactivity, cooldownControl, cooldown, times_limit } = this.config;
     const evalContent = args.join(' ');
     const permissions = message.channel.permissionsFor(client.user);

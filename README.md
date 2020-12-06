@@ -69,7 +69,7 @@ e em seguida, após o término da instalação de todas as dependências:
 node index.js
 ```
 
-E pronto, seu bot ficará online, mostrando no terminal a quantidade de pessoas, de servidores e de canais, também vai ser exibida uma lista com o nome de todos os servidores que o bot está presente!
+E pronto, seu bot ficará online, mostrando no terminal algumas informações que podem ser úteis!
 
 **LEMBRE-SE que seu bot só ficará online enquanto sua máquina estiver ligada, ou até o momento que você parar de rodar o bot (pode usar *"CTRL + C"* dentro do terminal para parar o bot).**
 

@@ -13,19 +13,19 @@ module.exports = {
   reason_inactivity: null,
   created_timestamp: 1599083760000,
   updated_timestamp: 1606401503746,
-  version: '1.1',
+  version: '2,0',
   releases_notes: {
-    '1.0': {
+    '1,0': {
       name: 'Comando inicial',
       description: 'Verifica se quem executou o comando está cadastrado como administrador do bot, caso  seja, executa o valor em Javascript solicitado!',
       timestamp: 1599083760000
     },
-    '1.1': {
+    '1,1': {
       name: 'Sistema para fechar o eval',
       description: 'Para cada eval aberto pelo bot, ele reage com um emoji que ao ser clicado por um admin, apaga a mensagem de resposta do bot!',
       timestamp: 1599511860000
     },
-    '2.0': {
+    '2,0': {
       name: 'Code refactoring e melhorias',
       description: 'Agora o comando conta com duas novas funcionalidades para gestão do eval, uma delas é a de conseguir salvar o resultado do eval em em documento ".txt", que é enviado para a DM do usuário, e a segunda é poder enviar a mesma embed de resposta do bot para a DM do usuário. Essas novas funcionalidades podem ser utilizadas com reações no próprio eval (o bot já faz uma pré-reação para facilitar), ou com comandos pre-definidos: "!deval" para deletar o eval, "!sendeval" para enviar a embed do eval na DM do usuário, "!saveeval" para salvar o conteúdo do eval. O comando também verifica se na resposta do eval há alguma informação que seja uma credencial do bot (informações que ficam no arquivo "auth.json"), se houver, ele manda o eval na DM do usuário para evitar o vazamento de informações sem que o usuário deseje.',
       timestamp: 1606401503746

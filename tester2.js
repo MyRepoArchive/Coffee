@@ -1,1 +1,3 @@
-console.log('a'.repla)
+module.exports = (obj) => {
+  obj = 'testando'
+}

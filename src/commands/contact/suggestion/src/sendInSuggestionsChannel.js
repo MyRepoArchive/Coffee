@@ -3,9 +3,9 @@ const client = require('../../../..');
 const { static: { emoji, eID } } = require('../../../../utils/emojis.json');
 const { lightstategray } = require('../../../../utils/colors.json');
 const Discord = require('discord.js');
+const error = require('../../../../functions/error');
 
 module.exports = (suggestionContent, message, createdTimestamp, id) => {
-  const { error } = require('../../../../functions');
   const channel = client.channels.cache.get(suggestion_analise);
 
   if (!channel) return error(

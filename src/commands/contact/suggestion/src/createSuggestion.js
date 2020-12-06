@@ -1,9 +1,9 @@
-const api = require('../../../../services/api');
 const { static: { emoji } } = require('../../../../utils/emojis.json');
+const push = require('../../../../controllers/suggestions/push');
+const client = require('../../../..');
+const error = require('../../../../functions/error');
 
 module.exports = (suggestion, userId) => new Promise((resolve, reject) => {
-  const { error, apiError } = require('../../../../functions');
-
   if (!suggestion) {
     error(
       `> ${emoji.emojicoffeeinfo} Aviso!\n\n`+
@@ -13,8 +13,6 @@ module.exports = (suggestion, userId) => new Promise((resolve, reject) => {
     reject();
     return;
   };
-
-  suggestion = suggestion.replace(/\\/g, '\\\\');
 
   if (!userId) {
     error(
@@ -37,18 +35,17 @@ module.exports = (suggestion, userId) => new Promise((resolve, reject) => {
     return;
   };
 
-  api.put('/suggestions/create', { suggestions: [ { suggestion, created_by: userId } ] })
-    .then(res => {
-      resolve(res.data.suggestions[0]);
-    }, e => {
-      error(
-        `> ${emoji.emojicoffeeerro} Erro!\n`+
-        '> Houve um erro ao tentar criar um novo suggestion na api!\n'+
-        `> O suggestion: "${suggestion}"\n`+
-        `> O ID do usuário: "${userId}"\n`+
-        `> Path: "${__filename}"\n` +
-        `> O Erro: "${apiError(e)}"`
-      );
-      reject();
-    });
+  push([{ created_by: userId, suggestion }]).then(suggestions => {
+    resolve(suggestions[client.db.cache.last_id]);
+  }, e => {
+    error(
+      `> ${emoji.emojicoffeeerro} Erro!\n` +
+      '> Houve um erro ao tentar criar um novo report no banco de dados!\n' +
+      `> Report: "${report}"\n` +
+      `> O ID do usuário: "${userId}"\n`+
+      `> Path: "${__filename}"\n` +
+      `> Erro: "${JSON.stringify(e, null, 2)}"`
+    );
+    reject();
+  });
 });

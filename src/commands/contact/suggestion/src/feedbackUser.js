@@ -1,9 +1,8 @@
 const { static: { emoji, eID } } = require('../../../../utils/emojis.json');
 const client = require('../../../..');
+const error = require('../../../../functions/error');
 
 module.exports = (status, message, id) => {
-  const { error } = require('../../../../functions');
-
   if (!message) return error(
     `> ${emoji.emojicoffeeinfo} Aviso!\n`+
     '> A função "feedbackUser" está sendo chamada sem o parâmetro "message" que é essencial para o correto funcionamento da mesma.\n'+

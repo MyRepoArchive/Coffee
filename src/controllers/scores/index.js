@@ -29,7 +29,6 @@ async function saveScore(members, scores) {
       const level = getLevel(members[key].score);
       const value = Math.round(scores[key] * (level * 0.5) * multiplier + members[key].score);
 
-      console.log(scores[key], level, value, members[key].score)
       obj[key] = members[key];
       obj[key].score = value;
     } else {

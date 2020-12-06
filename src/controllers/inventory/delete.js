@@ -29,7 +29,7 @@ module.exports = (keys, { ignore = false, only = false } = {}) => new Promise((r
   });
   
   client.db.ref('inventory').update(obj).then(() => {
-    keys.forEach(key => client.db.cache.inventory[key] = null);
+    keys.forEach(key => delete client.db.cache.inventory[key]);
 
     resolve({ inventory: client.db.cache.inventory, obs });
   }, e => error(

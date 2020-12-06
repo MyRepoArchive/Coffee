@@ -84,7 +84,7 @@ module.exports = () => {
       `> Erro: "${e}"`
     ));
     client.once('updateDbReady', () => {
-      if (Object.keys(updtObj).length) update({ updateobj: updtObj }).catch(e => error(
+      if (Object.keys(updtObj).length) update(updtObj).catch(e => error(
         `> ${emoji.emojicoffeeerro} Erro!\n` +
         `> Houve um erro ao atualizar um ou mais comandos no banco de dados!\n` +
         `> Path: "${__filename}"\n` +

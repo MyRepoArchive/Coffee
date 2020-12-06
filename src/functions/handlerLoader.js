@@ -7,7 +7,7 @@ module.exports = () => {
   const dirents = fs.readdirSync('./src/events', { withFileTypes: true }).filter(dirent => dirent.isDirectory());
 
   // Loop por todos os eventos da pasta eventos
-  console.log(`${cyan}==================== LOADING EVENTS (${reset}${dirents.length}${cyan}) ====================${reset}`);
+  console.log(`${cyan}==================== LOADING EVENTS (${yellow}${dirents.length}${cyan}) ================${reset}`);
   dirents.forEach(dirent => {
     const event = require(`../events/${dirent.name}`);
 

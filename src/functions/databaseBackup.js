@@ -4,8 +4,6 @@ const error = require("./error");
 const { static: { emoji } } = require('../utils/emojis.json');
 const moment = require('moment');
 
-console.log(error)
-
 module.exports = () => {
   setInterval(() => {
     client.channels.fetch(backup).then(channel => {

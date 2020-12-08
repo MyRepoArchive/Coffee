@@ -21,6 +21,5 @@ module.exports = (newTime) => new Promise((resolve, reject) => {
     return resolve(newTime);
   }, e => {
     reject(e);
-    console.log(e)
   });
 });

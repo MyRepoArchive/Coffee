@@ -1,5 +1,5 @@
-const error = require('../../../src/functions/error');
-const { static: { emoji } } = require('../../../src/utils/emojis.json');
+const error = require('../../../../functions/error');
+const { static: { emoji } } = require('../../../../utils/emojis.json');
 
 module.exports = (e) => {
   error(

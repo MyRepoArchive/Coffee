@@ -5,14 +5,14 @@ module.exports = {
   description: 'Esse é um comando exclusivo para o uso de administradores do bot, sua função é: Executar o código JavaScript fornecido pelo usuário enquanto o bot está em execução, independente de qual seja. Por esse motivo, deve-se tomar cuidado ao utilizá-lo, pois pode acontecer de credenciais do bot serem vazadas sem que o autor queira.',
   how_to_use: 'Digite _eval no chat e passe como parâmetro o código javascript que deseja executar na instância do bot.',
   example: '_eval console.log("Hello, World!")',
-  example_url: null,
+  example_url: 'https://i.imgur.com/t1psaLe.png',
   cooldown: 60000,
   cooldownControl: {},
   times_limit: 1,
   active: true,
   reason_inactivity: null,
   created_timestamp: 1599083760000,
-  updated_timestamp: 1607338598309,
+  updated_timestamp: 1607470153400,
   version: '2,1',
   releases_notes: {
     '1,0': {

@@ -1,3 +1,1 @@
-module.exports = (obj) => {
-  obj = 'testando'
-}
+console.log(Date.now())

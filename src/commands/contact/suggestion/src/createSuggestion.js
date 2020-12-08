@@ -35,16 +35,16 @@ module.exports = (suggestion, userId) => new Promise((resolve, reject) => {
     return;
   };
 
-  push([{ created_by: userId, suggestion }]).then(suggestions => {
+  push([{ created_by: userId, suggestion }]).then(({ suggestions }) => {
     resolve(suggestions[client.db.cache.last_id]);
   }, e => {
     error(
       `> ${emoji.emojicoffeeerro} Erro!\n` +
-      '> Houve um erro ao tentar criar um novo report no banco de dados!\n' +
-      `> Report: "${report}"\n` +
+      '> Houve um erro ao tentar criar uma nova sugestão no banco de dados!\n' +
+      `> Sugestão: "${suggestion}"\n` +
       `> O ID do usuário: "${userId}"\n`+
       `> Path: "${__filename}"\n` +
-      `> Erro: "${JSON.stringify(e, null, 2)}"`
+      `> Erro: "${e}"`
     );
     reject();
   });

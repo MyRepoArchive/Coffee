@@ -17,6 +17,10 @@ module.exports = (suggestions, { ignore = false } = {}) => new Promise((resolve,
 
   setPushDefaults(suggestions);
 
+  const obj = {};
+  Object.values(suggestions).forEach(suggestion => obj[suggestion.id] = suggestion);
+  suggestions = obj;
+
   if (!checkIncorrectSuggestions(suggestions, ignore, obs, reject)) return;
 
   client.db.ref('suggestions').update(suggestions).then(() => {
@@ -26,9 +30,9 @@ module.exports = (suggestions, { ignore = false } = {}) => new Promise((resolve,
       client.db.cache.suggestions[key] = suggestion;
     });
 
-    client.db.ref('last_id').set(client.db.cache.last_id + Object.keys(reports).length);
+    client.db.ref('last_id').set(client.db.cache.last_id + Object.keys(suggestions).length);
 
-    client.db.cache.last_id = client.db.cache.last_id + Object.keys(reports).length;
+    client.db.cache.last_id = client.db.cache.last_id + Object.keys(suggestions).length;
 
     resolve({ suggestions: client.db.cache.suggestions, obs });
   }, e => error(

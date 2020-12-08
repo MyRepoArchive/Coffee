@@ -8,12 +8,12 @@ const client = require('../..');
 const { static: { emoji } } = require('../../utils/emojis.json');
 const error = require('../../functions/error');
 
-module.exports = (reports, { ignore = false, orUpdate = false } = {}) => new Promise((resolve, reject) => {
+module.exports = (reports, { ignore = false, orCreate = false } = {}) => new Promise((resolve, reject) => {
   const obs = {
     ignoredValues: [],
     ignoredKeys: [],
-    updatedKeys: [],
-    alreadyExisted: []
+    createdKeys: [],
+    nonExistent: []
   };
 
   if (!checkReportsType(reports) || !checkBannedUsers(reports, ignore, obs, reject) || !checkKeys(reports, ignore, obs, reject) || !checkReportType(reports, ignore, obs, reject)) return;
@@ -22,14 +22,14 @@ module.exports = (reports, { ignore = false, orUpdate = false } = {}) => new Pro
 
   if (!checkIncorrectReports(reports, ignore, obs, reject)) return;
 
-  if (Object.keys(reports).filter(key => client.db.cache.reports[key]).length) {
-    if (orUpdate) {
-      obs.updatedKeys = Object.keys(reports).filter(key => client.db.cache.reports[key]);
+  if (Object.keys(reports).filter(key => !client.db.cache.reports[key]).length) {
+    if (orCreate) {
+      obs.createdKeys = Object.keys(reports).filter(key => !client.db.cache.reports[key]);
     } else if (ignore) {
-      obs.alreadyExisted = Object.keys(reports).filter(key => client.db.cache.reports[key]);
-      obs.alreadyExisted.forEach(key => reports[key] = client.db.cache.reports[key])
+      obs.nonExistent = Object.keys(reports).filter(key => !client.db.cache.reports[key]);
+      obs.nonExistent.forEach(key => reports[key] = null);
     } else {
-      return reject(new Error('Este report já existe!'));
+      return reject(new Error('Um dos reports não existe!'));
     };
   };
 
@@ -43,7 +43,7 @@ module.exports = (reports, { ignore = false, orUpdate = false } = {}) => new Pro
     resolve({ reports: client.db.cache.reports, obs });
   }, e => error(
     `> ${emoji.emojicoffeeerro} Erro!\n` +
-    '> Houve um erro ao criar um ou mais reports!\n' +
+    '> Houve um erro ao atualizar um ou mais reports!\n' +
     `> Path: "${__filename}"\n` +
     `> Reports: ${JSON.stringify(reports, null, 2)}\n` +
     `> Erro: "${JSON.stringify(e, null, 4)}"`

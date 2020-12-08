@@ -35,7 +35,7 @@ module.exports = (report, userId) => new Promise((resolve, reject) => {
     return;
   };
 
-  push([{ created_by: userId, report }]).then(reports => {
+  push([{ created_by: userId, report }]).then(({ reports }) => {
     resolve(reports[client.db.cache.last_id]);
   }, e => {
     error(

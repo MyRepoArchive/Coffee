@@ -40,5 +40,5 @@ module.exports = (guild) => {
       '> O bot não conseguiu encontrar o canal predefinido para logs!\n' +
       `> Path: "${__filename}"\n` +
       `> Erro: "${JSON.stringify(e, null, 4)}"`
-    ))
+    ));
 };

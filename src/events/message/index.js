@@ -31,7 +31,7 @@ module.exports = async (message) => {
 
   // Se mencionar o bot no início da mensagem ele responde com o seu comando de ajuda
   if (message.content.startsWith(`<@${client.user.id}>`) || message.content.startsWith(`<@!${client.user.id}>`) && permissions.has("SEND_MESSAGES"))
-  require('./src/mentionBot')(message, prefix);
+    require('./src/mentionBot')(message, prefix);
     
   /* require('../commands/calculator.js').calc(message, client, connection) */
 

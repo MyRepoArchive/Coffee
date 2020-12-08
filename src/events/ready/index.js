@@ -4,6 +4,7 @@ const log = require('./src/log');
 const loadEmojis = require('./src/loadEmojis');
 const checkValidity = require('../../controllers/inventory/checkValidity');
 const changeActivity = require('../../controllers/activities/changeActivity');
+const databaseBackup = require('../../functions/databaseBackup');
 require('../../controllers/scores');
 
 module.exports = () => {
@@ -18,4 +19,5 @@ module.exports = () => {
   log();
   changeActivity();
   checkValidity();
+  databaseBackup();
 };

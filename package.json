@@ -4,6 +4,7 @@
   "description": "An open source Discord Bot, using the [Discord.js](https://discord.js.org/#/) library!",
   "main": "index.js",
   "scripts": {
+    "start": "node .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

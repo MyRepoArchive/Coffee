@@ -1,3 +1,5 @@
+const { re } = require("mathjs");
+
 module.exports = (commands) => {
   return Object.values(commands).map((command, index) => [Object.keys(commands)[index], command]).filter((command) => {
     if (command === null) return;
@@ -16,11 +18,13 @@ module.exports = (commands) => {
       command[1].name !== key ||
       (command[1].releases_notes !== null && (
         Object.keys(command[1].releases_notes).filter(ver => typeof ver !== "string" || /[^0-9,]/g.test(ver) || ver === '').length ||
-        Object.values(command[1].releases_notes).filter(rel => (
+        Object.values(command[1].releases_notes).filter((rel, index) => (
           rel !== null && (
             typeof rel !== "object" ||
             rel.length !== undefined ||
             typeof rel.name !== "string" ||
+            typeof rel.v !== "string" ||
+            rel.v !== Object.keys(command[1].releases_notes)[index] ||
             typeof rel.description !== "string" ||
             typeof rel.timestamp !== "number"
           )

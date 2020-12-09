@@ -12,7 +12,7 @@ module.exports = {
   active: true,
   reason_inactivity: null,
   created_timestamp: 1598646020000,
-  updated_timestamp: 1606334927649,
+  updated_timestamp: 1607547529598,
   version: '2,0',
   releases_notes: {
     '1,0': {

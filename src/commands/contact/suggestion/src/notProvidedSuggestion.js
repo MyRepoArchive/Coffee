@@ -6,7 +6,7 @@ module.exports = (message, prefix) => {
   const msg = 
     `> ${emoji.emojicoffeeinfo} Aviso!\n` +
     '> Você deve passar como parâmetro do comando a sua sugestão!\n' +
-    `> Use \`${prefix}desc sugerir\` para saber mais de como usar o comando!\n` +
+    `> Use \`${prefix}help sugerir\` para saber mais de como usar o comando!\n` +
     '> Status: "NÃO CRIADO"';
 
   const permissions = message.channel.permissionsFor(client.user);

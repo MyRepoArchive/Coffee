@@ -5,7 +5,7 @@ module.exports = {
   description: 'O comando help serve para mostrar todos os comandos disponíveis do bot, sejam eles de forma abrangente ou detalhada.',
   how_to_use: 'Envie _help no chat e aguarde a resposta com todos os comandos divididos por categoria. Se quiser fazer uma filtragem apenas por uma determinada categoria, use _help <categoria>, e se quiser ver detalhes de um determinado comando basta usar _help <comando>.',
   example: '_help sugerir',
-  example_url: null,
+  example_url: 'https://imgur.com/gHWSRjJ.png',
   cooldown: 3000,
   cooldownControl: {},
   timesLimit: 2,

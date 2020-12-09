@@ -6,7 +6,7 @@ module.exports = (message, prefix) => {
   const msg = 
     `> ${emoji.emojicoffeeinfo} Aviso!\n` +
     '> Você deve passar como parâmetro do comando o seu report!\n' +
-    `> Use \`${prefix}desc report\` para saber mais de como usar o comando!\n` +
+    `> Use \`${prefix}help report\` para saber mais de como usar o comando!\n` +
     '> Status: "NÃO CRIADO"';
   
   if (!message) return error(

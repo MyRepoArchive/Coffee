@@ -8,11 +8,11 @@ module.exports = {
   example_url: 'https://imgur.com/gHWSRjJ.png',
   cooldown: 3000,
   cooldownControl: {},
-  timesLimit: 2,
+  times_limit: 2,
   active: true,
   reason_inactivity: null,
   created_timestamp: 1597006800000,
-  updated_timestamp: 1607546267174,
+  updated_timestamp: 1607597054541,
   version: '1,0',
   releases_notes: {
     '0,1': {

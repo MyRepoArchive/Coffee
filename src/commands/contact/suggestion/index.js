@@ -8,9 +8,7 @@ module.exports = {
   config: require('./src/config'),
 
   async run({ message, args, prefix }) {
-    const { active, reason_inactivity, cooldownControl, cooldown, times_limit } = this.config;
-
-    if (!verifyActiveCooldown(message, active, reason_inactivity, cooldownControl, cooldown, times_limit)) return;
+    if (!verifyActiveCooldown(message, this.config)) return;
     if (!args.length) return require('./src/notProvidedSuggestion')(message, prefix);
 
     const suggestionContent = args.join(' ');

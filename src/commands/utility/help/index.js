@@ -3,15 +3,13 @@ const verifyActiveCooldown = require('../../../functions/verifyActiveCooldown');
 const commandDetails = require('./src/commandDetails');
 const categoryDetails = require('./src/categoryDetails');
 const { MessageEmbed } = require('discord.js');
-const sendEmbed = require('./src/sendEmbed');
+const chatOrDm = require('../../../functions/chatOrDm');
 
 module.exports = {
   config: require('./src/config'),
 
   run({ message, args, prefix }) {
-    const { active, reason_inactivity, cooldownControl, cooldown, times_limit } = this.config;
-
-    if (!verifyActiveCooldown(message, active, reason_inactivity, cooldownControl, cooldown, times_limit)) return;
+    if (!verifyActiveCooldown(message, this.config)) return;
 
     const distinctCategories = [...new Set(client.commands.map(x => x.config.type))];
     const argumentos = args.join(' ');
@@ -34,7 +32,7 @@ module.exports = {
       embed.addField(`${category} (\`${commandsForCategory.map(x => x).length}\`)`, `\`${commandsForCategory.map(x => x.config.name).join('`, `')}\``);
     })
 
-    sendEmbed(embed, permissions, message);
+    chatOrDm(embed, permissions, message);
 
     function getComando(argumentos) {
       const cmd = argumentos ? argumentos.toLowerCase() : '';

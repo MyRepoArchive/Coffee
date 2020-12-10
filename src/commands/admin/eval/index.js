@@ -16,11 +16,10 @@ module.exports = {
   config: require('./src/config'),
 
   async run({ message, args }) {
-    const { active, reason_inactivity, cooldownControl, cooldown, times_limit } = this.config;
     const evalContent = args.join(' ');
     const permissions = message.channel.permissionsFor(client.user);
 
-    if (!verifyActiveCooldown(message, active, reason_inactivity, cooldownControl, cooldown, times_limit)) return;
+    if (!verifyActiveCooldown(message, this.config)) return;
     if (!admins.includes(message.author.id)) return unauthorized(message);
     if (!evalContent) return notProvidedEval(message);
 

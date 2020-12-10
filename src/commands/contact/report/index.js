@@ -9,10 +9,8 @@ module.exports = {
   config: require('./src/config'),
 
   async run({ message, args, prefix }) {
-    const { active, reason_inactivity, cooldownControl, cooldown, times_limit } = this.config;
-
     // Faz duas verificações rápidas, antes de executar o comando em si.
-    if (!verifyActiveCooldown(message, active, reason_inactivity, cooldownControl, cooldown, times_limit)) return;
+    if (!verifyActiveCooldown(message, this.config)) return;
     if (!args.length) return notProvidedReport(message, prefix);
 
     const reportContent = args.join(' ');

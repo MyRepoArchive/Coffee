@@ -1,6 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 const client = require('../../../..');
-const sendEmbed = require('./sendEmbed');
+const chatOrDm = require('../../../../functions/chatOrDm');
 
 module.exports = (category, message, permissions) => {
   const comandos = client.commands.filter(cmd => cmd.config.type.toLowerCase() === category.toLowerCase());
@@ -11,5 +11,5 @@ module.exports = (category, message, permissions) => {
     .setDescription(`${comandos.map(cmd => `**${cmd.config.name}** (\`${cmd.config.aliases.join('`, `')}\`)`).join('\n')}`)
     .setTimestamp()
 
-  sendEmbed(embed, permissions, message);
+  chatOrDm(embed, permissions, message);
 };

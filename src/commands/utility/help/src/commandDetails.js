@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 const ms = require('ms');
 const moment = require('moment');
 const { static: { emoji } } = require('../../../../utils/emojis.json');
-const sendEmbed = require("./sendEmbed");
+const chatOrDm = require('../../../../functions/chatOrDm')
 
 module.exports = (command, message, permissions) => {
   const momentoCriacao = `${moment(command.created_timestamp).locale('pt-br').format('LLL')} (${moment(command.created_timestamp).locale('pt-br').fromNow()})`;
@@ -63,5 +63,5 @@ module.exports = (command, message, permissions) => {
     .setColor(message.member.displayHexColor)
     .setTimestamp()
 
-  sendEmbed(embed, permissions, message);
+  chatOrDm(embed, permissions, message);
 };

@@ -3,10 +3,12 @@ const error = require('../../../functions/error');
 const moreSimilar = require('../../../functions/moreSimilar');
 const { static: { emoji } } = require('../../../utils/emojis.json');
 
-module.exports = (comando, message, prefix) => {
+module.exports = (comando, message, prefix, args) => {
   const possibleNamesCommand = client.commands.map(command => command.config.aliases.concat([command.config.name]));
   const allAliases = [].concat(...possibleNamesCommand);
   const similarWord = moreSimilar(comando, allAliases);
+
+  if (!args.join(' ')) return;
 
   message.channel.send(
     `> ${emoji.emojicoffeeinfo} Aviso!\n` +

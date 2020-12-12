@@ -32,15 +32,15 @@ module.exports = async (message) => {
   // Se mencionar o bot no início da mensagem ele responde com o seu comando de ajuda
   if (message.content.startsWith(`<@${client.user.id}>`) || message.content.startsWith(`<@!${client.user.id}>`) && permissions.has("SEND_MESSAGES"))
     require('./src/mentionBot')(message, prefix);
-    
-  /* require('../commands/calculator.js').calc(message, client, connection) */
+  
+  require('../../commands/utility/calculator/index').calc(message);
 
   if (!message.content.startsWith(prefix)) return;
   
   const cmd = client.commands.get(comando) || client.commands.find(command => command.config.aliases.includes(comando));
 
   if (!cmd) { // Se o comando digitado pelo usuário não for compatível com nenhum comando do bot, ele responde
-    if (permissions.has("SEND_MESSAGES")) require('./src/noCmd')(comando, message, prefix);
+    if (permissions.has("SEND_MESSAGES")) require('./src/noCmd')(comando, message, prefix, args);
     return;
   };
 

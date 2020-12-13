@@ -1,10 +1,12 @@
+const { prefix } = require('../../../../config/default.json');
+
 module.exports = {
   name: "report",
   aliases: ["reportar"],
   type: "Contato",
   description: 'Se você encontrou algum bug ou coisa que você acredita que não esteja funcionando como deveria, basta usar o comando para que os devenvolvedores fiquem a par do problema e o resolva.',
-  how_to_use: 'Digite _report no chat e passe como parâmetro o seu report, em seguida envie a mensagem.',
-  example: '_report Encontrei um bug ao executar o comando ajuda, ao usar o comando o bot não responde!',
+  how_to_use: `Digite ${prefix}report no chat e passe como parâmetro o seu report, em seguida envie a mensagem.`,
+  example: `${prefix}report Encontrei um bug ao executar o comando ajuda, ao usar o comando o bot não responde!`,
   example_url: 'https://i.imgur.com/JYECykB.png',
   cooldown: 10000,
   cooldownControl: {},

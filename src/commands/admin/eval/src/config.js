@@ -1,10 +1,12 @@
+const { prefix } = require('../../../../config/default.json');
+
 module.exports = {
   name: "eval",
   aliases: ["ev", "e", "evaluate"],
   type: "Admin",
   description: 'Esse é um comando exclusivo para o uso de administradores do bot, sua função é: Executar o código JavaScript fornecido pelo usuário enquanto o bot está em execução, independente de qual seja. Por esse motivo, deve-se tomar cuidado ao utilizá-lo, pois pode acontecer de credenciais do bot serem vazadas sem que o autor queira.',
-  how_to_use: 'Digite _eval no chat e passe como parâmetro o código javascript que deseja executar na instância do bot.',
-  example: '_eval console.log("Hello, World!")',
+  how_to_use: `Digite ${prefix}eval no chat e passe como parâmetro o código javascript que deseja executar na instância do bot.`,
+  example: `${prefix}eval console.log("Hello, World!")`,
   example_url: 'https://i.imgur.com/t1psaLe.png',
   cooldown: 60000,
   cooldownControl: {},

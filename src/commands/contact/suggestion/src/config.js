@@ -1,10 +1,12 @@
+const { prefix } = require('../../../../config/default.json');
+
 module.exports = {
   name: "sugerir",
   aliases: ["sugestao"],
   type: "Contato",
   description: 'Se você gostaria de ver alguma nova funcionalidade no bot que ainda não tenha, ou qualquer tipo de feature, basta usar o comando para que os devenvolvedores fiquem a par da sugestão e possa prontamente atender aos seus pedidos.',
-  how_to_use: 'Digite _sugerir no chat e passe como parâmetro a sua sugestão, em seguida envie a mensagem.',
-  example: '_sugerir Eu gostaria de um comando que me trouxesse café na cama, PARA ONTEM!',
+  how_to_use: `Digite ${prefix}sugerir no chat e passe como parâmetro a sua sugestão, em seguida envie a mensagem.`,
+  example: `${prefix}sugerir Eu gostaria de um comando que me trouxesse café na cama, PARA ONTEM!`,
   example_url: 'https://i.imgur.com/NOsKTDK.png',
   cooldown: 10000,
   cooldownControl: {},

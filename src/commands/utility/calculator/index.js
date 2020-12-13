@@ -40,6 +40,7 @@ module.exports = {
     const permissions = message.channel.permissionsFor(client.user);
     const numbers = expressao.split(/\D+/g);
 
+    if (numbers.length === 0) return;
     if (expressao.startsWith('-') && numbers.length === 1) return;
     if (expressao.startsWith('(') && numbers.length === 1) return;
     if (Number(expressao)) return;

@@ -6,10 +6,11 @@ const error = require('../../../../functions/error');
 const { static: { emoji } } = require('../../../../utils/emojis.json');
 const client = require('../../../..');
 
-module.exports = (reportId, channelReprovado, message) => {
+module.exports = (reportId, channelReprovado, message, reason) => {
   const obj = {};
   obj[reportId] = client.db.cache.reports[reportId];
   obj[reportId].status = 'REPROVADO';
+  obj[reportId].reason = reason;
 
   update(obj).then(() => {
     channelReprovado.send(message.embeds[0]).then(msg => {

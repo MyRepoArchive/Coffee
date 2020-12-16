@@ -14,8 +14,8 @@ module.exports = {
   active: true,
   reason_inactivity: null,
   created_timestamp: 1598646020000,
-  updated_timestamp: 1607547529598,
-  version: '2,0',
+  updated_timestamp: 1608145712456,
+  version: '2,1',
   releases_notes: {
     '1,0': {
       v: '1,0',
@@ -28,6 +28,12 @@ module.exports = {
       name: 'Code refactoring e melhoria de gestão',
       description: 'Comando refeito, agora com um sistema de gestão de reports mais aprimorado. O usuário que fez o report é notificado quando o status do seu report muda, sabe se foi aceito ou rejeitado, e caso aceito, sabe quando foi solucionado! O report é colocado em um banco de dados, e recebe uma identificação única que é repassada para o usuário.',
       timestamp: 1606334927649
+    },
+    '2,1': {
+      v: '2,1',
+      name: 'Motivo de reprovação',
+      description: 'Foi adicionado um motivo para a reprovação de um report.',
+      timestamp: 1608145712456
     }
   }
 };

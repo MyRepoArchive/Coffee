@@ -3,6 +3,7 @@ const { static: { eID, emoji } } = require('../../../../utils/emojis.json');
 const { report_analise, report_reprovados, report_aprovados } = require('../../../../config/default.json');
 const reportApprover = require('./approver');
 const reportReprover = require('./reprover');
+const reportReproverMiddleware = require('./reproverMiddleware');
 const error = require('../../../../functions/error');
 
 module.exports = (data) => {
@@ -13,8 +14,8 @@ module.exports = (data) => {
 
     if (message.author.id !== client.user.id) return;
 
-    if (data.d.emoji.id === eID.emojicoffeecheck) reportApprover(reportId, channelAprovado, message)
-    if (data.d.emoji.id === eID.emojicoffeeerro) reportReprover(reportId, channelReprovado, message);
+    if (data.d.emoji.id === eID.emojicoffeecheck) reportApprover(reportId, channelAprovado, message);
+    if (data.d.emoji.id === eID.emojicoffeeerro) reportReproverMiddleware(reportId, channelReprovado, message);
   }, e => error(
     `> ${emoji.emojicoffeeinfo} Aviso!\n` +
     '> Não foi possível encontrar a mensagem que continha o report para aprova-la ou reprova-la!\n' +

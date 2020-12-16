@@ -1,0 +1,5 @@
+Fonts used in this design:
+
+Font: Neris
+Author: Eimantas Paškonis
+Url: http://www.fontsquirrel.com/fonts/neris

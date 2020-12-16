@@ -14,14 +14,20 @@ module.exports = {
   active: true,
   reason_inactivity: null,
   created_timestamp: 1598998320000,
-  updated_timestamp: 1607612559407,
-  version: '1,0',
+  updated_timestamp: 1608142316318,
+  version: '1,1',
   releases_notes: {
     '1,0': {
       v: '1,0',
       name: 'Comando inicial',
       description: 'Seta o prefixo no servidor em que foi dado o comando, o prefixo pode ter até 10 caracteres e se houverem espaços apena o primeiro de uma sequencia será identificado. Conta também com uma opção para retornar para o prefixo padrão do bot.',
       timestamp: 1607612559407
+    },
+    '1,1': {
+      v: '1,1',
+      name: 'Collector update',
+      description: 'Os dois coletores acionados pelo uso do comando sem o parâmetro prefix agora finalizam um ao outro quando qualquer um deles é utilizado. Também foi feita uma verificação para saber se o bot consegue adicionar reações no canal, caso consiga, ele pede para clicar em um emoji personalizado, caso não consiga, pede para clicar em um emoji padrão.',
+      timestamp: 1608142316318
     }
   }
 };

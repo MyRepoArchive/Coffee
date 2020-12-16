@@ -38,9 +38,9 @@ module.exports = {
       message.content.toLowerCase().replace(/π/g, 'pi').replace(/÷|:/g, '/').replace(/×/g, '*').replace(/\*\*/g, '^').replace(/'|\[|\]|\{|\}/g, '');
 
     const permissions = message.channel.permissionsFor(client.user);
-    const numbers = expressao.split(/\D+/g);
+    const numbers = expressao.match(/\d+/g);
 
-    if (numbers.length === 0) return;
+    if (!numbers) return;
     if (expressao.startsWith('-') && numbers.length === 1) return;
     if (expressao.startsWith('(') && numbers.length === 1) return;
     if (Number(expressao)) return;

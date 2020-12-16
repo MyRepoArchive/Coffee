@@ -640,7 +640,20 @@
       "emoj0pOra": "<:emoj0pOra:752224028802023474>",
       "pepeping": "<:pepeping:759216730756349972>",
       "occ": "<:occ:770575501441761280>",
-      "emojicoffeegears": "<:emojicoffeegears:786550030500626452>"
+      "emojicoffeegears": "<:emojicoffeegears:786550030500626452>",
+      "colornumber1": "<:colornumber1:788166715708014633>",
+      "colornumber7": "<:colornumber7:788166717125427210>",
+      "colornumber4": "<:colornumber4:788166717187686440>",
+      "colornumber9": "<:colornumber9:788166717775806464>",
+      "colornumber6": "<:colornumber6:788166717796253706>",
+      "colornumber2": "<:colornumber2:788166717822074901>",
+      "colornumber0": "<:colornumber0:788166717955768370>",
+      "colornumber3": "<:colornumber3:788166718198382593>",
+      "colornumber8": "<:colornumber8:788166719037243392>",
+      "colornumber5": "<:colornumber5:788166719046549534>",
+      "1_": "<:1_:788340240883646504>",
+      "hostingserverperm": "<:hostingserverperm:788367644695986176>",
+      "hostingserverblock": "<:hostingserverblock:788367645095100437>"
     },
     "eID": {
       "heart2": "755155119779348530",
@@ -1282,7 +1295,20 @@
       "emoj0pOra": "752224028802023474",
       "pepeping": "759216730756349972",
       "occ": "770575501441761280",
-      "emojicoffeegears": "786550030500626452"
+      "emojicoffeegears": "786550030500626452",
+      "colornumber1": "788166715708014633",
+      "colornumber7": "788166717125427210",
+      "colornumber4": "788166717187686440",
+      "colornumber9": "788166717775806464",
+      "colornumber6": "788166717796253706",
+      "colornumber2": "788166717822074901",
+      "colornumber0": "788166717955768370",
+      "colornumber3": "788166718198382593",
+      "colornumber8": "788166719037243392",
+      "colornumber5": "788166719046549534",
+      "1_": "788340240883646504",
+      "hostingserverperm": "788367644695986176",
+      "hostingserverblock": "788367645095100437"
     }
   },
   "animated": {

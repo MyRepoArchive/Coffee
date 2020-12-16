@@ -2,6 +2,7 @@ const { admins } = require('../config/default.json');
 const client = require('..');
 const { static: { emoji, eID } } = require('../utils/emojis.json');
 const error = require('./error');
+const ms = require('ms');
 
 module.exports = (message, controller, time = 3000, timesLimit = 1) => {
   let authorized = false;
@@ -23,13 +24,7 @@ module.exports = (message, controller, time = 3000, timesLimit = 1) => {
   const timeBetween = message.createdTimestamp - controller[message.author.id].timestamp;
   const permissions = message.channel.permissionsFor(client.user);
 
-  const waitingTime = time - timeBetween < 60000 ?
-    (parseInt((time - timeBetween)/1000) === 1 ? 
-      `${parseInt((time - timeBetween)/1000)} segundo` :
-      `${parseInt((time - timeBetween)/1000)} segundos`) :
-    (parseInt((time - timeBetween)/60000) === 1 ?
-      `${parseInt((time - timeBetween)/60000)} minuto` :
-      `${parseInt((time - timeBetween)/60000)} minutos`);
+  const waitingTime = ms(time - timeBetween);
 
   const msg = 
     `> ${emoji.emojicoffeeinfo} Aviso!\n`+
@@ -54,6 +49,8 @@ module.exports = (message, controller, time = 3000, timesLimit = 1) => {
             );
           });
       } else dm();
+
+      return false;
     } else {
       controller[message.author.id].times = 0;
       authorized = true;

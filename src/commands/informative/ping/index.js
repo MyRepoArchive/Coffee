@@ -27,7 +27,7 @@ module.exports = {
     async function dbPing() {
       const start = process.hrtime();
 
-      await client.db.ref('/').once('value');
+      await client.db.ref('/last_id').once('value');
 
       const stop = process.hrtime(start);
       return ((stop[0] * 1e9) + stop[1]) / 1e6;

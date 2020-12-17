@@ -42,7 +42,7 @@ module.exports = (members, { ignore = false, orCreate = false, only = false } = 
       client.db.cache.members[key] = member;
     });
 
-    if (!only) checkExistence(Object.values(members).map(member => member.guild_id), 'members');
+    if (!only) checkExistence([...new Set(Object.values(members).map(member => member.guild_id))], 'members');
 
     resolve({ members: client.db.cache.members, obs });
   }, e => error(

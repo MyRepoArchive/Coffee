@@ -41,9 +41,9 @@ module.exports = (channels, { ignore = false, only = false, orCreate = false } =
       client.db.cache.channels[key] = channel;
     });
 
-    if (!only) checkExistence(Object.values(channels).map(channel => channel.guild_id), 'channels');
-
     resolve({ channels: client.db.cache.channels, obs });
+
+    if (!only) checkExistence([...new Set(Object.values(channels).map(channel => channel.guild_id))], 'channels');
   }, e => error(
     `> ${emoji.emojicoffeeerro} Erro!\n` +
     '> Houve um erro ao editar um ou mais canais!\n' +

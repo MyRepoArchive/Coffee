@@ -653,7 +653,8 @@
       "colornumber5": "<:colornumber5:788166719046549534>",
       "1_": "<:1_:788340240883646504>",
       "hostingserverperm": "<:hostingserverperm:788367644695986176>",
-      "hostingserverblock": "<:hostingserverblock:788367645095100437>"
+      "hostingserverblock": "<:hostingserverblock:788367645095100437>",
+      "lab_cool": "<:lab_cool:786578726275383316>"
     },
     "eID": {
       "heart2": "755155119779348530",
@@ -1308,7 +1309,8 @@
       "colornumber5": "788166719046549534",
       "1_": "788340240883646504",
       "hostingserverperm": "788367644695986176",
-      "hostingserverblock": "788367645095100437"
+      "hostingserverblock": "788367645095100437",
+      "lab_cool": "786578726275383316"
     }
   },
   "animated": {

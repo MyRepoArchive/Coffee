@@ -1,5 +1,3 @@
-const { re } = require("mathjs");
-
 module.exports = (commands) => {
   return Object.values(commands).map((command, index) => [Object.keys(commands)[index], command]).filter((command) => {
     if (command === null) return;

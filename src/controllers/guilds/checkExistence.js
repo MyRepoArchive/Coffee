@@ -2,7 +2,7 @@ const client = require("../..");
 const error = require("../../functions/error");
 const { static: { emoji } } = require('../../utils/emojis.json');
 
-module.exports = (guildIds, calledBy, { onlyCheck = false } = {}) => {
+module.exports = (guildIds, calledBy, { onlyCheck = false } = {}) => new Promise((resolve) => {
   const channelsCreate = require('../channels/create');
   const prefixCreate = require('../prefixes/create');
   const membersCreate = require('../members/create');
@@ -51,7 +51,7 @@ module.exports = (guildIds, calledBy, { onlyCheck = false } = {}) => {
   if (Object.keys(createObjPrefixes).length) prefixCreate(createObjPrefixes, { only: true }).catch(e => genErrorResponse('prefixos', e));
   if (Object.keys(createObjMembers).length) membersCreate(createObjMembers, { only: true }).catch(e => genErrorResponse('membros', e));
 
-  return response;
+  return resolve(response);
 
   function genErrorResponse(prop, e) {
     error(
@@ -61,4 +61,4 @@ module.exports = (guildIds, calledBy, { onlyCheck = false } = {}) => {
       `> Erro: "${e}"`
     );
   };
-};
+});

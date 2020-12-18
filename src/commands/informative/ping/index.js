@@ -11,15 +11,16 @@ module.exports = {
 
     const param = args.join(' ').toLowerCase();
     const permissions = message.channel.permissionsFor(client.user);
+    const botPing = (mess) => `${mess.createdTimestamp - message.createdTimestamp}`.replace('-', '');
 
     if (param === 'bot') return chatOrDm(`${loading2} Carregando...`, permissions, message).then(mess => {
-      mess.edit(`> ${mess.createdTimestamp - message.createdTimestamp}ms`);
+      mess.edit(`> ${botPing(mess)}ms`);
     }, () => { });
     if (param === 'api') return chatOrDm(`> ${client.ws.ping}ms`, permissions, message).catch(() => { });
     if (param === 'database' || param === 'db' || param === 'banco') return chatOrDm(`> ${Math.round(await dbPing())}ms`, permissions, message).catch(() => {});
 
     chatOrDm(`${loading2} Carregando...`, permissions, message).then(async mess => {
-      mess.edit(`Ping do bot é de **${mess.createdTimestamp - message.createdTimestamp}ms**, da API é de **${client.ws.ping}ms** e do banco é **${Math.round(await dbPing())}ms**`)
+      mess.edit(`Ping do bot é de **${botPing(mess)}ms**, da API é de **${client.ws.ping}ms** e do banco é **${Math.round(await dbPing())}ms**`)
     });
 
 

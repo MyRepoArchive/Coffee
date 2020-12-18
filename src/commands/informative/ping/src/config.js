@@ -7,14 +7,14 @@ module.exports = {
   description: `O ping é utilizado para saber se eu estou na ativa e saber quanto tempo eu demoro para responder minhas solicitações.`,
   how_to_use: `Envie ${prefix}ping no chat e aguarde a resposta do bot com os meus valores de latência. Se desejar saber apenas um dos valores, você pode passar alguns parâmetros na frente do comando, como "BOT" (para saber apenas o ping do bot), "API" (para saber apenas o ping da API) e "DATABASE" (para saber apenas o ping do banco de dados).`,
   example: `${prefix}ping API`,
-  example_url: null,
+  example_url: 'https://imgur.com/G8W6umH.png',
   cooldown: 10000,
   cooldownControl: {},
   times_limit: 1,
   active: true,
   reason_inactivity: null,
   created_timestamp: 1596403980000,
-  updated_timestamp: 1608231954528,
+  updated_timestamp: 1608290686125,
   version: '1,2',
   releases_notes: {
     '1,0': {

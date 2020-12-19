@@ -1,6 +1,6 @@
 {
   "name": "Coffe",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "An open source Discord Bot, using the [Discord.js](https://discord.js.org/#/) library!",
   "main": "index.js",
   "scripts": {

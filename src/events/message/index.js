@@ -2,6 +2,7 @@ const client = require('../..');
 const createPrefix = require('../../controllers/prefixes/create');
 const defaultPrefixo = require('../../config/default.json').prefix;
 const addScore = require('../../controllers/scores/addScore');
+const verifyActiveCooldown = require('../../functions/verifyActiveCooldown');
 
 module.exports = async (message) => {
   if (message.author.bot) return; // Verifica se o autor é um bot e retorna
@@ -44,8 +45,10 @@ module.exports = async (message) => {
     return;
   };
 
+  if (!verifyActiveCooldown(message, cmd.config)) return;
+
   try { // Tenta executar o comando do usuário
-    cmd.run({ message, args, comando, prefix });
+    cmd.run({ message, args, comando, prefix, permissions });
   } catch (e) { // Caso não consiga executar o comando, loga o erro
     require('./src/runError')(permissions, message, comando, e);
   };

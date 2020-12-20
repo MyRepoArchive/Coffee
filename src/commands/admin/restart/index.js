@@ -10,7 +10,7 @@ module.exports = {
   run({ message, permissions }) {
     chatOrDm(`> ${emoji.emojicoffeeinfo} Aviso!\n` + 
     `> Você gostaria mesmo de restartar o bot? Se sim reaja com ${permissions.has('ADD_REACTIONS') ? emoji.emojicoffeecheck : '✅'}.`, permissions, message)
-      .then(mess => {
+      .then(async mess => {
         if (permissions.has('ADD_REACTIONS')) await mess.react(eID.emojicoffeecheck).catch(() => {});
 
         mess.createReactionCollector((reaction, user) => 

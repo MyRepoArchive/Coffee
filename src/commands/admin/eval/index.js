@@ -6,6 +6,7 @@ const moment = require('moment');
 const reactionCollectors = require('./src/reactionCollectors');
 const messageCollectors = require('./src/messageCollectors');
 const error = require('../../../functions/error');
+const client = require('../../..');
 const credentials = Object.values(require('../../../config/auth.json'));
 
 module.exports = {

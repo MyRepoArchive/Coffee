@@ -13,7 +13,7 @@ module.exports = (comando, message, prefix, args) => {
     `> ${emoji.emojicoffeeinfo} Aviso!\n` +
     `> Eu não conheço esse comando, use **${prefix}ajuda** para saber todos os meus comandos!\n` +
     `${similarWord && `> Você quis dizer: **${similarWord}**?`}`
-  ).then(msg => {}, e => error(
+  ).then(msg => msg.delete({ timeout: 5000 }).catch(() => {}), e => error(
     `> ${emoji.emojicoffeeinfo} Aviso!\n` +
     '> Houve um erro ao enviar uma mensagem de que o comando não existe para um usuário!\n' +
     `> Servidor: "${message.guild.name}" \`${message.guild.id}\`\n` +

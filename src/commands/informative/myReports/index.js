@@ -1,5 +1,4 @@
 const client = require('../../..');
-const verifyActiveCooldown = require('../../../functions/verifyActiveCooldown');
 const showAllReports = require('./src/showAllReports');
 const showReport = require('./src/showReport');
 const { static: { emoji } } = require('../../../utils/emojis.json');
@@ -8,9 +7,7 @@ const chatOrDm = require('../../../functions/chatOrDm');
 module.exports = {
   config: require('./src/config'),
 
-  run({ message, args }) {
-    if (!verifyActiveCooldown(message, this.config)) return;
-
+  run({ message, args, permissions }) {
     const permissions = message.channel.permissionsFor(client.user);
     const reportId = Number(args[0]);
     const reports = Object.values(client.db.cache.reports).filter(x => x.created_by === message.author.id);

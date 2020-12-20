@@ -8,13 +8,10 @@ const set = require('./src/set');
 module.exports = {
   config: require('./src/config'),
 
-  run({ message, args }) {
-    if (!verifyActiveCooldown(message, this.config)) return;
-
+  run({ message, args, permissions }) {
     const oldPrefix = client.db.cache.prefixes[message.guild.id];
     const newPrefix = args.join(' ');
     const guildPerms = message.member.permissions;
-    const permissions = message.channel.permissionsFor(client.user);
 
     if (!guildPerms.has('MANAGE_GUILD') && !guildPerms.has('ADMINISTRATOR') && !admins.includes(message.author.id)) 
       return unauthorized(message, permissions);

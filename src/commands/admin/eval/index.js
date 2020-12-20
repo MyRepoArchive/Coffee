@@ -1,26 +1,19 @@
 const Discord = require('discord.js');
-const { admins } = require('../../../config/default.json');
-const unauthorized = require('./src/unauthorized');
 const notProvidedEval = require('./src/notProvidedEval');
 const { gray, orangered } = require('../../../utils/colors.json');
 const { static, animated } = require('../../../utils/emojis.json');
 const moment = require('moment');
-const client = require('../../..');
 const reactionCollectors = require('./src/reactionCollectors');
 const messageCollectors = require('./src/messageCollectors');
-const verifyActiveCooldown = require('../../../functions/verifyActiveCooldown');
 const error = require('../../../functions/error');
 const credentials = Object.values(require('../../../config/auth.json'));
 
 module.exports = {
   config: require('./src/config'),
 
-  async run({ message, args }) {
+  async run({ message, args, permissions }) {
     const evalContent = args.join(' ');
-    const permissions = message.channel.permissionsFor(client.user);
 
-    if (!verifyActiveCooldown(message, this.config)) return;
-    if (!admins.includes(message.author.id)) return unauthorized(message);
     if (!evalContent) return notProvidedEval(message);
 
     const preMessage = await message.channel.send(`> ${animated.emoji.loading2} Processando...`).catch(() => { });

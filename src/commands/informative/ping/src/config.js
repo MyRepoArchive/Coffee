@@ -14,7 +14,7 @@ module.exports = {
   active: true,
   reason_inactivity: null,
   created_timestamp: 1596403980000,
-  updated_timestamp: 1608290686125,
+  updated_timestamp: 1608475293933,
   version: '1,2',
   releases_notes: {
     '1,0': {

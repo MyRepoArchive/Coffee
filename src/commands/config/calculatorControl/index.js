@@ -1,5 +1,4 @@
 const client = require('../../..');
-const verifyActiveCooldown = require('../../../functions/verifyActiveCooldown');
 const { admins } = require('../../../config/default.json');
 const unauthorized = require('../setPrefix/src/unauthorized');
 const { static: { emoji, eID }, animated: { emoji: { loading2 } } } = require('../../../utils/emojis.json');
@@ -9,11 +8,9 @@ const exec = require('./src/exec');
 module.exports = {
   config: require('./src/config'),
 
-  run({ message, args, prefix }) {
+  run({ message, args, prefix, permissions }) {
     const guildPerms = message.member.permissions;
-    const permissions = message.channel.permissionsFor(client.user);
 
-    if (!verifyActiveCooldown(message, this.config)) return;
     if (!guildPerms.has('MANAGE_GUILD') && !guildPerms.has('ADMINISTRATOR') && !admins.includes(message.author.id))
       return unauthorized(message, permissions);
 

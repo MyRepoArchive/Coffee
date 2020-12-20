@@ -5,11 +5,9 @@ const { static: { emoji } } = require('../../../utils/emojis.json');
 module.exports = {
   config: require('./src/config'),
 
-  run({ message, args, prefix }) {
+  run({ message, args, prefix, permissions }) {
     const expressao = 
       args.join(' ').toLowerCase().replace(/π/g, 'pi').replace(/÷|:/g, '/').replace(/×/g, '*').replace(/\*\*/g, '^').replace(/'|\[|\]|\{|\}/g, '');
-
-    const permissions = message.channel.permissionsFor(client.user);
 
     if (!expressao) {
       if (permissions.has('SEND_MESSAGES')) message.channel.send(

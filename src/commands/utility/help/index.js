@@ -1,5 +1,4 @@
 const client = require('../../..');
-const verifyActiveCooldown = require('../../../functions/verifyActiveCooldown');
 const commandDetails = require('./src/commandDetails');
 const categoryDetails = require('./src/categoryDetails');
 const { MessageEmbed } = require('discord.js');
@@ -8,14 +7,11 @@ const chatOrDm = require('../../../functions/chatOrDm');
 module.exports = {
   config: require('./src/config'),
 
-  run({ message, args, prefix }) {
-    if (!verifyActiveCooldown(message, this.config)) return;
-
+  run({ message, args, prefix, permissions }) {
     const distinctCategories = [...new Set(client.commands.map(x => x.config.type))];
     const argumentos = args.join(' ');
     const comando = getComando(argumentos);
     const category = getCategory(argumentos);
-    const permissions = message.channel.permissionsFor(client.user);
 
     if (comando) return commandDetails(comando.config, message, permissions);
     if (category) return categoryDetails(category, message, permissions);

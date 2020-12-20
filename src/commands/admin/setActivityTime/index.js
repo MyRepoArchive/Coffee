@@ -1,6 +1,3 @@
-const verifyActiveCooldown = require('../../../functions/verifyActiveCooldown');
-const { admins } = require('../../../config/default.json');
-const unauthorized = require('../eval/src/unauthorized');
 const client = require('../../..');
 const notProvidedTime = require('./src/notProvidedTime');
 const { static: { emoji } } = require('../../../utils/emojis.json');
@@ -11,13 +8,10 @@ const error = require('../../../functions/error');
 module.exports = {
   config: require('./src/config'),
 
-  run({ message, args }) {
-    const permissions = message.channel.permissionsFor(client.user);
+  run({ message, args, permissions }) {
     const oldTime = client.db.cache.activity_time;
     const newTime = Number(args[0]);
 
-    if (!verifyActiveCooldown(message, this.config)) return;
-    if (!admins.includes(message.author.id)) return unauthorized(message);
     if (!newTime) return notProvidedTime(message);
     if (newTime < 1000 || newTime > 2592000000) return chatOrDm(
       `> ${emoji.emojicoffeeinfo} Aviso!\n` +

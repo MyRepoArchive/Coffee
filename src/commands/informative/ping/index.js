@@ -1,4 +1,3 @@
-const verifyActiveCooldown = require('../../../functions/verifyActiveCooldown');
 const chatOrDm = require('../../../functions/chatOrDm');
 const client = require('../../..');
 const { animated: { emoji: { loading2 } } } = require('../../../utils/emojis.json');
@@ -6,11 +5,8 @@ const { animated: { emoji: { loading2 } } } = require('../../../utils/emojis.jso
 module.exports = {
   config: require('./src/config'),
 
-  async run({ message, args }) {
-    if (!verifyActiveCooldown(message, this.config)) return;
-
+  async run({ message, args, permissions }) {
     const param = args.join(' ').toLowerCase();
-    const permissions = message.channel.permissionsFor(client.user);
     const botPing = (mess) => `${mess.createdTimestamp - message.createdTimestamp}`.replace('-', '');
 
     if (param === 'bot') return chatOrDm(`${loading2} Carregando...`, permissions, message).then(mess => {

@@ -10,5 +10,7 @@ require('./src/functions/connectDb').start().then(() => {
 
   app.use('/api', require('./src/api/routes'));
 
-  app.listen(3001, '', () => console.log('Servidor ligado'));
+ 
+    module.exports = app.listen(3001, '', () => console.log('Servidor ligado'));
+  
 });

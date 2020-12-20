@@ -3,6 +3,8 @@ const createPrefix = require('../../controllers/prefixes/create');
 const defaultPrefixo = require('../../config/default.json').prefix;
 const addScore = require('../../controllers/scores/addScore');
 const verifyActiveCooldown = require('../../functions/verifyActiveCooldown');
+const { admins } = require('../../config/default.json');
+const unauthorized = require('./src/unauthorized');
 
 module.exports = async (message) => {
   if (message.author.bot) return; // Verifica se o autor é um bot e retorna
@@ -46,6 +48,7 @@ module.exports = async (message) => {
   };
 
   if (!verifyActiveCooldown(message, cmd.config)) return;
+  if (cmd.config.type === 'Admin' && !admins.includes(message.author.id)) return unauthorized(message, permissions);
 
   try { // Tenta executar o comando do usuário
     cmd.run({ message, args, comando, prefix, permissions });

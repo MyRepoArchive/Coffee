@@ -29,11 +29,9 @@ module.exports = (message, permissions, oldPrefix) => {
     });
 
     msgCol.on('collect', (mensagem) => {
-      if (mensagem.content.toLowerCase() === 'ok') {
-        set(oldPrefix, defaultPrefix, message, permissions);
-        reactionCol.stop();
-        msgCol.stop();
-      };
+      if (mensagem.content.toLowerCase() === 'ok') set(oldPrefix, defaultPrefix, message, permissions);
+      reactionCol.stop();
+      msgCol.stop();
     }); 
   });
 };

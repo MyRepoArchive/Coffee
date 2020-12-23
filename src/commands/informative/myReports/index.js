@@ -8,6 +8,7 @@ module.exports = {
   config: require('./src/config'),
 
   run({ message, args, permissions }) {
+    const permissions = message.channel.permissionsFor(client.user);
     const reportId = Number(args[0]);
     const reports = Object.values(client.db.cache.reports).filter(x => x.created_by === message.author.id);
 

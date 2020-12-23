@@ -5,9 +5,9 @@ module.exports = {
   aliases: ["reiniciar"],
   type: "Admin",
   description: 'Esse é um comando exclusivo para o uso de administradores do bot, sua função é: Reiniciar a instância do bot.',
-  how_to_use: `Digite ${prefix}restart no chat e e aguarde a resposta do bot com um pedido de confirmação, caso queira pular a parte de confirmação, passe "Y" ou "S" como parâmetro.`,
-  example: `${prefix}restart Y`,
-  example_url: null,
+  how_to_use: `Digite ${prefix}restart no chat e e aguarde a resposta do bot com um pedido de confirmação.`,
+  example: `${prefix}restart`,
+  example_url: 'https://imgur.com/Fs6xAX8.png',
   cooldown: 60000,
   cooldownControl: {},
   times_limit: 1,
@@ -20,7 +20,7 @@ module.exports = {
     '1,0': {
       v: '1,0',
       name: 'Comando inicial',
-      description: 'Restarta o bot após a confirmação direta ou indireta do usuário',
+      description: 'Restarta o bot após a confirmação do usuário',
       timestamp: 1608383577052
     }
   }

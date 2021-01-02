@@ -7,6 +7,7 @@ const reactionCollectors = require('./src/reactionCollectors');
 const messageCollectors = require('./src/messageCollectors');
 const error = require('../../../functions/error');
 const credentials = Object.values(require('../../../config/auth.json'));
+const client = require('../../..');
 
 module.exports = {
   config: require('./src/config'),

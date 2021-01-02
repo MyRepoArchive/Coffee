@@ -1,11 +1,11 @@
+const notFoundMember = require('../setMoney/src/notFoundMember');
 const notProvidedParams = require('./src/notProvidedParams');
-const notFoundMember = require('./src/notFoundMember');
 const NaNMoney = require('./src/NaNMoney');
 const client = require('../../..');
 const update = require('../../../controllers/members/update');
+const chatOrDm = require('../../../functions/chatOrDm');
 const error = require('../../../functions/error');
 const { static: { emoji } } = require('../../../utils/emojis.json');
-const chatOrDm = require('../../../functions/chatOrDm');
 
 module.exports = {
   config: require('./src/config'),
@@ -31,13 +31,13 @@ module.exports = {
     const oldMoneyValue = client.db.cache.members[`${message.guild.id}-${member.id}`] ?
       client.db.cache.members[`${message.guild.id}-${member.id}`].money :
       0;
-    const newMoneyValue = Number(Number(paramValue).toFixed(2));
+    const newMoneyValue = oldMoneyValue + Number(Number(paramValue).toFixed(2));
 
     if (isNaN(newMoneyValue) || !isFinite(newMoneyValue)) return NaNMoney(message, permissions);
 
     const msg =
       `> ${emoji.emojicoffeecheck} Check!\n` +
-      `> Foi setado um novo valor de dinheiro no membro ${member}!\n` +
+      `> Foi adicionado um novo valor de dinheiro no membro ${member}!\n` +
       `> Valor anterior: \`${oldMoneyValue}\`\n` +
       `> Valor atual: \`${newMoneyValue}\``;
 
@@ -66,4 +66,4 @@ module.exports = {
       `> Erro: "${e}"`
     ));
   }
-};
+}

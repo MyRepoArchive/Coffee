@@ -31,7 +31,7 @@ module.exports = (members, { ignore = false, only = false, orUpdate = false } = 
       obs.alreadyExisted = Object.keys(members).filter(key => client.db.cache.members[key]);
       obs.alreadyExisted.forEach(key => members[key] = client.db.cache.members[key])
     } else {
-      return reject(new Error('Este canal já existe!'));
+      return reject(new Error('Este membro já existe!'));
     };
   };
 

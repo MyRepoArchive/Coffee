@@ -1,7 +1,7 @@
 const notProvidedParams = require('./src/notProvidedParams');
-const notFoundUser = require('./src/notFoundUser');
-const NaNMoney = require('../setMoney/src/NaNMoney');
 const client = require('../../..');
+const notFoundUser = require('../setBankMoney/src/notFoundUser');
+const NaNMoney = require('../addMoney/src/NaNMoney');
 const update = require('../../../controllers/users/update');
 const error = require('../../../functions/error');
 const { static: { emoji } } = require('../../../utils/emojis.json');
@@ -24,14 +24,16 @@ module.exports = {
 
     if (!user) return notFoundUser(message, permissions, paramUser);
 
-    const oldMoneyValue = client.db.cache.users[user.id]?.money ?? 0;
-    const newMoneyValue = Number(Number(paramValue).toFixed(2));
+    const oldMoneyValue = client.db.cache.users[user.id] ?
+      client.db.cache.users[user.id].money :
+      0;
+    const newMoneyValue = oldMoneyValue + Number(Number(paramValue).toFixed(2));
 
     if (isNaN(newMoneyValue) || !isFinite(newMoneyValue)) return NaNMoney(message, permissions);
 
     const msg =
       `> ${emoji.emojicoffeecheck} Check!\n` +
-      `> Foi setado um novo valor de dinheiro no usuário ${user}!\n` +
+      `> Foi adicionado um novo valor de dinheiro no usuário ${user}!\n` +
       `> Valor anterior: \`${oldMoneyValue}\`\n` +
       `> Valor atual: \`${newMoneyValue}\``;
 
@@ -49,16 +51,16 @@ module.exports = {
       job: 0
     };
 
-    obj[user.id].money = newMoneyValue;
+    obj[user.d].money = newMoneyValue;
 
     update(obj, { orCreate: true }).then(() => {
       chatOrDm(msg, permissions, message).catch(() => { });
     }, e => error(
       `> ${emoji.emojicoffeeerro} Erro!\n` +
       `> Houve um erro ao atualizar o dinheiro de um usuário do banco de dados!\n` +
-      `> O membro: ${message.guild.id}-${user.id}\n` +
+      `> O usuário: ${message.guild.id}-${user.id}\n` +
       `> Path: "${__filename}"\n` +
       `> Erro: "${e}"`
     ));
   }
-};
+}

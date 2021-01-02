@@ -51,7 +51,7 @@ module.exports = {
       job: 0
     };
 
-    obj[user.d].money = newMoneyValue;
+    obj[user.id].money = newMoneyValue;
 
     update(obj, { orCreate: true }).then(() => {
       chatOrDm(msg, permissions, message).catch(() => { });

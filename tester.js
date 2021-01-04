@@ -31,6 +31,8 @@ connection.query('select * from users', (err, result) => {
 
   let i = 0
 
+  require('../../Sites/saldo-coffee/index.html')
+
   const newObj = require('../../Outros/backup_seg_7_de_dez_de_2020_as_1130.json').members
 
   const duplicates = Object.keys(require('../../Outros/backup_seg_7_de_dez_de_2020_as_1130.json').members).filter(id => {

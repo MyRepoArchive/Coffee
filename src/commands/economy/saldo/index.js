@@ -17,17 +17,22 @@ module.exports = {
     const paramMember = args.join(' ');
     await page.setViewport({ width: 490, height: 250, deviceScaleFactor: 1 });
     let user =
-    message.mentions.users.first() ||
+    (message.mentions.users.first() ||
     message.guild.members.cache.find(member => (
       paramMember === member.id ||
       paramMember === member.displayName ||
       paramMember === member.user.username
-    ))?.user || 
+    )) ? message.mentions.users.first() ||
+    message.guild.members.cache.find(member => (
+      paramMember === member.id ||
+      paramMember === member.displayName ||
+      paramMember === member.user.username
+    )).user : undefined) || 
     message.author;
 
     if (user.bot) user = message.author;
 
-    const saldoLocal = client.db.cache.members[`${message.guild.id}-${user.id}`]?.money ?? (() => {
+    const saldoLocal = (client.db.cache.members[`${message.guild.id}-${user.id}`] ? client.db.cache.members[`${message.guild.id}-${user.id}`].money : undefined) ?? (() => {
       const obj = {};
       const newMember = {
         created_timestamp: null,
@@ -51,7 +56,7 @@ module.exports = {
       return 0
     })();
 
-    const saldoGlobal = client.db.cache.users[user.id]?.money ?? (() => {
+    const saldoGlobal = (client.db.cache.users[user.id] ? client.db.cache.users[user.id].money : undefined) ?? (() => {
       const obj = {};
       const newUser = {
         admin: null,
@@ -78,7 +83,7 @@ module.exports = {
 
     await page.setContent(genHTML(saldoLocal, saldoGlobal, user.displayAvatarURL({ format: 'png', size: 1024 })), { waitUntil: 'networkidle2' });
 
-    await preMsg?.delete();
+    await preMsg ? preMsg.delete() : undefined;
 
     chatOrDm({ files: [{ name: 'saldo.png', attachment: Buffer.from(await page.screenshot({ encoding: 'base64' }), 'base64') }] }, permissions, message).catch(() => {});
   }

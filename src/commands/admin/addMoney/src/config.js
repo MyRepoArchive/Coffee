@@ -7,14 +7,14 @@ module.exports = {
   description: 'Adiciona um valor de money para o membro que foi mencionado. (O valor passado como parâmetro não substituirá o valor antigo que o membro possuia, apenas se somará a ele)',
   how_to_use: `Digite ${prefix}addmoney no chat e passe como parâmetro o membro que receberá o dinheiro e também o valor que será somado`,
   example: `${prefix}addmoney @Membro 200`,
-  example_url: null,
+  example_url: 'https://imgur.com/KcMAHUV.png',
   cooldown: 60000,
   cooldownControl: {},
   times_limit: 1,
   active: true,
   reason_inactivity: null,
   created_timestamp: 1609592708899,
-  updated_timestamp: 1609593216105,
+  updated_timestamp: 1609845313919,
   version: '1,0',
   releases_notes: {
     '1,0': {

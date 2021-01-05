@@ -24,7 +24,7 @@ module.exports = {
 
     if (!user) return notFoundUser(message, permissions, paramUser);
 
-    const oldMoneyValue = (client.db.cache.users[user.id] ? client.db.cache.users[user.id].money : undefined) ?? 0;
+    const oldMoneyValue = client.db.cache.users[user.id] ? (client.db.cache.users[user.id].money || 0) : 0;
     const newMoneyValue = Number(Number(paramValue).toFixed(2));
 
     if (isNaN(newMoneyValue) || !isFinite(newMoneyValue)) return NaNMoney(message, permissions);

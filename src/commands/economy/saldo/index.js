@@ -32,7 +32,7 @@ module.exports = {
 
     if (user.bot) user = message.author;
 
-    const saldoLocal = (client.db.cache.members[`${message.guild.id}-${user.id}`] ? client.db.cache.members[`${message.guild.id}-${user.id}`].money : undefined) ?? (() => {
+    const saldoLocal = client.db.cache.members[`${message.guild.id}-${user.id}`] ? client.db.cache.members[`${message.guild.id}-${user.id}`].money : (() => {
       const obj = {};
       const newMember = {
         created_timestamp: null,
@@ -56,7 +56,7 @@ module.exports = {
       return 0
     })();
 
-    const saldoGlobal = (client.db.cache.users[user.id] ? client.db.cache.users[user.id].money : undefined) ?? (() => {
+    const saldoGlobal = client.db.cache.users[user.id] ? client.db.cache.users[user.id].money : (() => {
       const obj = {};
       const newUser = {
         admin: null,

@@ -6,7 +6,7 @@ module.exports = {
   config: require('./src/config'),
 
   run({ message, args, permissions }) {
-    const param = args[0]?.toUpperCase();
+    const param = args[0] ? args[0].toUpperCase() : undefined;
 
     if (!param) return notProvidedFilter(permissions, message);
 

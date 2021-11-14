@@ -1,7 +1,7 @@
 import { Message, PermissionString, TextChannel } from 'discord.js'
 import { Bot } from './Bot'
 
-export type CommandType = 'utility' | 'miscellany'
+export type CommandType = 'utility' | 'miscellany' | 'moderation'
 
 export interface StartData {
   message: Message
@@ -26,7 +26,7 @@ export interface CommandOptions {
   readonly type?: Exclude<CommandType, 'miscellany'>
   readonly allowBot?: boolean
   readonly allowDM?: boolean
-  readonly necessaryPermissions?: PermissionString[][]
+  readonly memberNecessaryPermissions?: PermissionString[][]
   readonly botNecessaryPermissions?: PermissionString[][]
   readonly run: (data: Data) => any
 }
@@ -87,8 +87,9 @@ export default class Command {
     )
 
     if (!havePermission) {
-      const messageContent =
-        '> <:x_:905962263750537257> Você não possui as permissões necessárias para usar este comando!'
+      const messageContent = `> <:x_:905962263750537257> Você não possui as permissões necessárias para usar este comando!\n\`\`\`\n(${this.memberNecessaryPermissions
+        .map((permissions) => permissions.join(' e '))
+        .join('), (')})\n\`\`\``
 
       if (channel.permissionsFor?.(message.guild!.me!)?.has('SEND_MESSAGES')) {
         message.channel.send(messageContent)
@@ -115,8 +116,9 @@ export default class Command {
     })
 
     if (!havePermission) {
-      const messageContent =
-        '> <:x_:905962263750537257> Eu não possuo as permissões necessárias para usar este comando!'
+      const messageContent = `> <:x_:905962263750537257> Eu não possuo as permissões necessárias para usar este comando!\n\`\`\`\n(${this.botNecessaryPermissions
+        .map((permissions) => permissions.join(' e '))
+        .join('), (')})\n\`\`\``
 
       if (channel.permissionsFor?.(message.guild!.me!)?.has('SEND_MESSAGES')) {
         message.channel.send(messageContent)

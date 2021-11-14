@@ -38,7 +38,9 @@ class Command {
                 (channel.permissionsFor?.(message.member).has(permission) ?? true));
         });
         if (!havePermission) {
-            const messageContent = '> <:x_:905962263750537257> Você não possui as permissões necessárias para usar este comando!';
+            const messageContent = `> <:x_:905962263750537257> Você não possui as permissões necessárias para usar este comando!\n\`\`\`\n(${this.memberNecessaryPermissions
+                .map((permissions) => permissions.join(' e '))
+                .join('), (')})\n\`\`\``;
             if (channel.permissionsFor?.(message.guild.me)?.has('SEND_MESSAGES')) {
                 message.channel.send(messageContent);
             }
@@ -58,7 +60,9 @@ class Command {
                 (channel.permissionsFor?.(message.guild.me).has(permission) ?? true));
         });
         if (!havePermission) {
-            const messageContent = '> <:x_:905962263750537257> Eu não possuo as permissões necessárias para usar este comando!';
+            const messageContent = `> <:x_:905962263750537257> Eu não possuo as permissões necessárias para usar este comando!\n\`\`\`\n(${this.botNecessaryPermissions
+                .map((permissions) => permissions.join(' e '))
+                .join('), (')})\n\`\`\``;
             if (channel.permissionsFor?.(message.guild.me)?.has('SEND_MESSAGES')) {
                 message.channel.send(messageContent);
             }

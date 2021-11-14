@@ -1,0 +1,10 @@
+{
+  "verbose": false,
+  "ignore": ["*.test.js", "fixtures/*", "node_modules", "./dist"],
+  "watch": ["src"],
+  "ext": "ts",
+  "execMap": {
+    "rb": "ruby",
+    "pde": "processing --sketch={{pwd}} --run"
+  }
+}

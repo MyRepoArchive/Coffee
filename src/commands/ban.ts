@@ -8,9 +8,11 @@ export default new Command({
   description: `Bane o usuário mencionado do servidor!`,
   botNecessaryPermissions: [['BAN_MEMBERS']],
   memberNecessaryPermissions: [['BAN_MEMBERS']],
-  run: async ({ message, args, prefix, bot }) => {
+  run: async ({ message, args, prefix, bot, isMentionPrefix }) => {
     const membro =
-      message.mentions.members?.first() ||
+      (isMentionPrefix
+        ? message.mentions.members?.at(1)
+        : message.mentions.members?.first()) ||
       message.guild!.members.cache.get(args[0]) ||
       message.guild!.members.cache.find(
         (member) =>
@@ -27,6 +29,20 @@ export default new Command({
         .setTimestamp()
       return message.channel.send({ embeds: [descEmbed] }).catch(() => {
         message.author.send({ embeds: [descEmbed] })
+        message.react('905962263750537257')
+      })
+    }
+    if (membro.user.id === bot.user.id) {
+      const messageContent = `> <:x_:905962263750537257> Não posso me banir!`
+      return message.channel.send(messageContent).catch(() => {
+        message.author.send(messageContent)
+        message.react('905962263750537257')
+      })
+    }
+    if (membro === message.member) {
+      const messageContent = `> <:x_:905962263750537257> Não pode banir a si mesmo!`
+      return message.channel.send(messageContent).catch(() => {
+        message.author.send(messageContent)
         message.react('905962263750537257')
       })
     }
@@ -56,20 +72,7 @@ export default new Command({
         message.react('905962263750537257')
       })
     }
-    if (membro.user.id === bot.user.id) {
-      const messageContent = `> <:x_:905962263750537257> Não posso me banir!`
-      return message.channel.send(messageContent).catch(() => {
-        message.author.send(messageContent)
-        message.react('905962263750537257')
-      })
-    }
-    if (membro === message.member) {
-      const messageContent = `> <:x_:905962263750537257> Não pode banir a si mesmo!`
-      return message.channel.send(messageContent).catch(() => {
-        message.author.send(messageContent)
-        message.react('905962263750537257')
-      })
-    }
+
     const msgMotivo = await message.channel.send(
       'Deseja adiciona um motivo ao banimento?'
     )
@@ -79,7 +82,7 @@ export default new Command({
     const collectorOptions: ReactionCollectorOptions = {
       filter: (reaction, user) => reaction.me && user.id === message.author.id,
       max: 1,
-      time: 10000,
+      time: 60000,
     }
 
     const collectorReactionMotivo =
@@ -92,13 +95,10 @@ export default new Command({
             membro!.user.tag
           }** sejam deletadas!`
         )
-        msgMotivo.reactions.cache
-          .filter(
-            (reaction) =>
-              reaction.emoji.id === '905962263750537257' ||
-              reaction.emoji.id === '905952950864715836'
-          )
-          .map((reaction) => reaction.users.remove(bot.user.id))
+        await msgMotivo.reactions.cache
+          .get('905952950864715836')
+          ?.users.remove(bot.user.id)
+
         await msgMotivo.react('0️⃣')
         await msgMotivo.react('1️⃣')
         await msgMotivo.react('2️⃣')
@@ -108,8 +108,10 @@ export default new Command({
         await msgMotivo.react('6️⃣')
         await msgMotivo.react('7️⃣')
         await msgMotivo.react('905962263750537257')
+
         const collectorDias =
           msgMotivo.createReactionCollector(collectorOptions)
+
         collectorDias.on('collect', (reaction) => {
           if (reaction.emoji.name === '0️⃣')
             membro!.ban({ days: 0, reason: motivo })
@@ -127,11 +129,19 @@ export default new Command({
             membro!.ban({ days: 6, reason: motivo })
           if (reaction.emoji.name === '7️⃣')
             membro!.ban({ days: 7, reason: motivo })
-          if (reaction.emoji.id === '905962263750537257')
+
+          if (reaction.emoji.id === '905962263750537257') {
             return msgMotivo.edit('Banimento cancelado!')
+          }
+
           msgMotivo.edit(`**${membro!.user.tag}** foi banido com sucesso!`)
         })
+
+        collectorDias.on('end', (_coll, reason) => {
+          if (reason === 'time') msgMotivo.edit('Banimento cancelado!')
+        })
       }
+
       if (reaction.emoji.id === '905962263750537257') {
         daysAndBan()
       } else if (reaction.emoji.id === '905952950864715836') {
@@ -146,6 +156,10 @@ export default new Command({
           daysAndBan(msg.content)
         })
       }
+    })
+
+    collectorReactionMotivo.on('end', (_coll, reason) => {
+      if (reason === 'time') msgMotivo.edit('Banimento cancelado!')
     })
     message.delete()
   },

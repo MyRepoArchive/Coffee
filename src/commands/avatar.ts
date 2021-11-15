@@ -3,6 +3,13 @@ import Command from '../shared/Command'
 
 export default new Command({
   name: 'avatar',
+  aliases: [
+    'mostraravatar',
+    'fotodeperfil',
+    'imagemdeperfil',
+    'imagedeperfil',
+    'displayavatar',
+  ],
   allowDM: true,
   description:
     'Obtenha o avatar do usuário de maneira baixável e com grande visualização',

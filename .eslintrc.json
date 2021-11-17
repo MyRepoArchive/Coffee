@@ -19,7 +19,7 @@
         "prettier"
     ],
     "rules": {
-        "prettier/prettier": "error",
+        "prettier/prettier": "off",
         "space-before-function-paren": "off",
         "no-var": "error",
         "no-unused-vars": "warn",

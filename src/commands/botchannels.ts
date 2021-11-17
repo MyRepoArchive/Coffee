@@ -3,7 +3,7 @@ import Command from '../shared/Command'
 
 export default new Command({
   name: 'botchannels',
-  aliases: ['channelsbots'],
+  aliases: ['channelsbots', 'bc'],
   allowDM: true,
   botNecessaryPermissions: [['SEND_MESSAGES']],
   description: 'Mostra a quantidade de canais em que o bot tem acesso',

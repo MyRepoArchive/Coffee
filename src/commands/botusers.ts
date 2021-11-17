@@ -2,7 +2,7 @@ import Command from '../shared/Command'
 
 export default new Command({
   name: 'botusers',
-  aliases: ['usersbot'],
+  aliases: ['usersbot', 'bu'],
   allowDM: true,
   botNecessaryPermissions: [['SEND_MESSAGES']],
   description: 'Mostra a quantidade de usuários que o bot está tendo acesso',

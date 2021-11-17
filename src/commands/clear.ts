@@ -20,8 +20,10 @@ export default new Command({
     'O comando clean é usado para limpar até 100 mensagens de um canal (apenas mensagens com menos de 2 semanas de enviadas)',
   memberNecessaryPermissions: [['MANAGE_MESSAGES']],
   run: async ({ message, args }) => {
+    const thisChannel = message.channel as TextChannel
+
     if (!args[0]) {
-      const qtdToDeleteMessage = await message.channel.send(
+      const qtdToDeleteMessage = await thisChannel.send(
         'Digite a quantidade de mensagens a serem deletadas! (De 2 a 100)'
       )
 
@@ -35,7 +37,7 @@ export default new Command({
         max: 1,
       })
 
-      const qtdToDeleteCollector = message.channel.createMessageCollector({
+      const qtdToDeleteCollector = thisChannel.createMessageCollector({
         filter: (msg) => msg.author.id === message.author.id,
         time: 60000,
         idle: 30000,
@@ -56,28 +58,25 @@ export default new Command({
           return
         }
 
-        (message.channel as TextChannel)
-          .bulkDelete(qtdToDelete, true)
-          .then((msgs) => {
-            if (qtdToDelete - msgs.size > 0)
-              message.channel.send(
-                `${
-                  qtdToDelete - msgs.size
-                } mensagens não foram deletadas pois tinham mais de duas semanas!`
-              )
-          })
+        thisChannel.bulkDelete(qtdToDelete, true).then((msgs) => {
+          if (qtdToDelete - msgs.size > 0)
+            thisChannel.send(
+              `${
+                qtdToDelete - msgs.size
+              } mensagens não foram deletadas pois tinham mais de duas semanas!`
+            )
+        })
       })
-      return;
+      return
     }
 
     const qtd = Number(args[0])
 
     if (isNaN(qtd) || qtd > 100 || qtd < 2)
-      return message.channel.send('Digite um número de 2 a 100!')
-    
-    ;(message.channel as TextChannel).bulkDelete(qtd, true).then((msgs) => {
+      return thisChannel.send('Digite um número de 2 a 100!')
+    thisChannel.bulkDelete(qtd, true).then((msgs) => {
       if (qtd - msgs.size > 0)
-        message.channel.send(
+        thisChannel.send(
           `${
             qtd - msgs.size
           } mensagens não foram deletadas pois tinham mais de duas semanas!`

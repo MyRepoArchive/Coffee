@@ -2,7 +2,7 @@ import Command from '../shared/Command'
 
 export default new Command({
   name: 'botservers',
-  aliases: ['serversbot', 'botguilds', 'guildsbot'],
+  aliases: ['serversbot', 'botguilds', 'guildsbot', 'bs', 'bg'],
   allowDM: true,
   botNecessaryPermissions: [['SEND_MESSAGES']],
   description: 'Mostra a quantidade de servidores em que o bot está',

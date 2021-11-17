@@ -14,7 +14,7 @@ module.exports = {
     const permissoesBot = message.channel.memberPermissions(botMembro)
     const podeEnviarMsg = permissoesBot.has("SEND_MESSAGES")
     const podeAddReactions = permissoesBot.has("ADD_REACTIONS")
-    const comandos = [...new Set(client.commands.filter(comando => comando.type !== 'Dev commands').map(comando => comando.name))]
+    const comandos = [...new Set(client.commands.filter((comando) => comando.type !== 'Dev commands').map((comando) => comando.name))]
     const embed = new Discord.MessageEmbed()
       .setAuthor(message.author.username, message.author.displayAvatarURL())
       .setColor(hex.gray21)

@@ -1,4 +1,5 @@
 import Event from '../shared/Event'
+import calc from '../utils/calc'
 import { env } from '../utils/env'
 import getPrefix from '../utils/getPrefix'
 
@@ -36,5 +37,7 @@ export default new Event('messageCreate', async (bot, message) => {
       isMentionPrefix,
       dbPrefix,
     })
+  } else {
+    calc({ message, bot })
   }
 })

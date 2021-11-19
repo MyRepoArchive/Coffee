@@ -47,8 +47,8 @@ export default new Command({
 
     const desc =
       bot.commands.get(args[0])?.description ||
-      bot.commands.find((command) => command.aliases.includes(args[0]))!
-        .description ||
+      bot.commands.find((command) => command.aliases.includes(args[0]))
+        ?.description ||
       '***`COMANDO SEM DESCRIÇÃO`***'
     const embed = new MessageEmbed()
       .setColor('#7289DA')

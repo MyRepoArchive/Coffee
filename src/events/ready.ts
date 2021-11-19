@@ -1,9 +1,7 @@
 import chalk from 'chalk'
 import Event from '../shared/Event'
-import infoTemplate from '../utils/infoTemplate'
 import changeActivity from '../utils/changeActivity'
 import getLogChannel from '../utils/getLogChannel'
-import successTemplate from '../utils/successTemplate'
 import log from '../utils/log'
 
 export default new Event(
@@ -53,6 +51,7 @@ export default new Event(
 
     const dataToSync = [
       { name: 'guilds', promise: bot.database.guilds.syncWithDiscord(bot) },
+      { name: 'channels', promise: bot.database.channels.syncWithDiscord(bot) },
     ]
 
     dataToSync.forEach(({ name, promise }, index) => {

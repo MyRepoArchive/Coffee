@@ -1,7 +1,8 @@
 import { Message, PermissionString, TextChannel } from 'discord.js'
+import { env } from '../utils/env'
 import { Bot } from './Bot'
 
-export type CommandType = 'utility' | 'miscellany' | 'moderation'
+export type CommandType = 'utility' | 'miscellany' | 'moderation' | 'admin'
 
 export interface StartData {
   message: Message
@@ -72,6 +73,18 @@ export default class Command {
   }
 
   async memberPermissionsValidation({ message, isDm }: Data) {
+    if (this.type === 'admin' && !env.OWNERS.includes(message.author.id)) {
+      const messageContent =
+        'Apenas administradores do bot podem utilizar este comando!'
+
+      message.channel.send(messageContent).catch(() => {
+        message.author.send(messageContent)
+        message.react('905962263750537257')
+      })
+
+      return false
+    }
+
     if (isDm) return true
 
     const channel = message.channel as TextChannel

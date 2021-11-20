@@ -7,8 +7,8 @@
     "node": "16.9.1"
   },
   "scripts": {
-    "dev": "nodemon ./index.js",
-    "start": "node ./index.js"
+    "dev": "nodemon ./dev.js",
+    "start": "node ./start.js"
   },
   "repository": {
     "type": "git",

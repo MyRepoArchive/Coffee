@@ -8,7 +8,8 @@ export default new Command({
   type: 'admin',
   allowDM: true,
   botNecessaryPermissions: [['ADD_REACTIONS', 'SEND_MESSAGES']],
-  run: async ({ message, args }) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  run: async ({ message, args, bot }) => {
     const evalContent = args.join(' ')
     const evalEmbed = new MessageEmbed()
       .setAuthor(message.author.username, message.author.displayAvatarURL())

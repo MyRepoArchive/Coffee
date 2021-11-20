@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "An open source Discord Bot, using the [Discord.js](https://discord.js.org/#/) library!",
   "main": "index.js",
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "scripts": {
     "dev": "nodemon ./index.js"
   },

@@ -1,6 +1,5 @@
 import Collection from '@discordjs/collection'
-import mysql, { OkPacket } from 'mysql'
-import mySqlConfig from '../../../utils/mySqlConfig'
+import { OkPacket } from 'mysql'
 import getLogChannel from '../../../utils/getLogChannel'
 import { Bot } from '../../../shared/Bot'
 import Discord, { GuildChannel, MessageAttachment } from 'discord.js'
@@ -9,18 +8,16 @@ import Channel, { ChannelDTO, DatabaseChannel } from '../../entities/Channel'
 import log from '../../../utils/log'
 import ChannelBulkCreateError from './errors/ChannelBulkCreateError'
 import ChannelBulkDeleteError from './errors/ChannelBulkDeleteError'
+import { pool } from '../../..'
 
 export default class ChannelsController {
   readonly cache: Collection<string, Channel> = new Collection()
 
   makeCache(bot: Bot): Promise<this> {
     return new Promise((resolve, reject) => {
-      const pool = mysql.createPool(mySqlConfig)
       const query = 'SELECT * FROM channels'
 
       pool.query(query, async (error, results: DatabaseChannel[]) => {
-        pool.end()
-
         if (error) {
           log.error(
             `Erro ao buscar os canais no banco de dados!\nQuery: ${query}\nErro:`,
@@ -160,7 +157,6 @@ export default class ChannelsController {
     channelsDTO: ChannelDTO[]
   ): Promise<{ channels: Channel[]; results: OkPacket; query: string }> {
     return new Promise((resolve, reject) => {
-      const pool = mysql.createPool(mySqlConfig)
       const channels = channelsDTO.map((channelDTO) =>
         Channel.create(channelDTO)
       )
@@ -172,8 +168,6 @@ export default class ChannelsController {
         .join(', ')}`
 
       pool.query(query, (error, results) => {
-        pool.end()
-
         if (error)
           reject(new ChannelBulkCreateError('Error', query, error, results))
         else {
@@ -239,14 +233,11 @@ export default class ChannelsController {
     channelIds: string[]
   ): Promise<{ results: OkPacket; query: string }> {
     return new Promise((resolve, reject) => {
-      const pool = mysql.createPool(mySqlConfig)
       const query = `DELETE FROM channels WHERE channel_id IN (${channelIds
         .map((channelId) => `'${channelId}'`)
         .join(', ')})`
 
       pool.query(query, (error, results) => {
-        pool.end()
-
         if (error)
           reject(new ChannelBulkDeleteError('Error', query, error, results))
         else {
@@ -281,12 +272,9 @@ export default class ChannelsController {
         if (cachedChannel) return resolve(cachedChannel)
       }
 
-      const pool = mysql.createPool(mySqlConfig)
       const query = `SELECT * FROM channels WHERE channel_id = '${channelId}'`
 
       pool.query(query, async (error, results: [DatabaseChannel]) => {
-        pool.end()
-
         if (error) {
           log.error(
             `Erro ao buscar um canal no banco de dados!\nQuery: ${query}\nErro:`,

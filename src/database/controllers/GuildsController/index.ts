@@ -1,7 +1,6 @@
 import Collection from '@discordjs/collection'
 import Guild, { GuildDTO, GuildObject } from '../../entities/Guild'
-import mysql, { OkPacket } from 'mysql'
-import mySqlConfig from '../../../utils/mySqlConfig'
+import { OkPacket } from 'mysql'
 import errorTemplate from '../../../utils/errorTemplate'
 import chalk from 'chalk'
 import getLogChannel from '../../../utils/getLogChannel'
@@ -12,18 +11,16 @@ import GuildCreateError from './errors/GuildCreateError'
 import GuildDeleteError from './errors/GuildDeleteError'
 import GuildBulkCreateError from './errors/GuildBulkCreateError'
 import GuildBulkDeleteError from './errors/GuildBulkDeleteError'
+import { pool } from '../../..'
 
 export default class GuildsController {
   readonly cache: Collection<string, Guild> = new Collection()
 
   makeCache(bot: Bot): Promise<this> {
     return new Promise((resolve, reject) => {
-      const pool = mysql.createPool(mySqlConfig)
       const query = 'SELECT * FROM guilds'
 
       pool.query(query, async (error, results: GuildObject[]) => {
-        pool.end()
-
         if (error) {
           console.error(
             errorTemplate(),
@@ -126,15 +123,12 @@ export default class GuildsController {
     guildDTO: GuildDTO
   ): Promise<{ guild: Guild; results: OkPacket; query: string }> {
     return new Promise((resolve, reject) => {
-      const pool = mysql.createPool(mySqlConfig)
       const guild = Guild.create(guildDTO)
       const query = `INSERT INTO guilds (guild_id, prefix) VALUES ('${
         guild.guild_id.value
       }', '${guild.prefix.value.replace(/\\/g, '\\\\')}')`
 
       pool.query(query, (error, results) => {
-        pool.end()
-
         if (error) reject(new GuildCreateError('Error', query, error, results))
         else {
           if (results.affectedRows === 1) {
@@ -168,7 +162,6 @@ export default class GuildsController {
     guildsDTO: GuildDTO[]
   ): Promise<{ guilds: Guild[]; results: OkPacket; query: string }> {
     return new Promise((resolve, reject) => {
-      const pool = mysql.createPool(mySqlConfig)
       const guilds = guildsDTO.map((guildDTO) => Guild.create(guildDTO))
       const query = `INSERT INTO guilds (guild_id, prefix) VALUES ${guilds
         .map(
@@ -181,8 +174,6 @@ export default class GuildsController {
         .join(', ')}`
 
       pool.query(query, (error, results) => {
-        pool.end()
-
         if (error)
           reject(new GuildBulkCreateError('Error', query, error, results))
         else {
@@ -209,12 +200,9 @@ export default class GuildsController {
 
   delete(guildId: string): Promise<{ results: OkPacket; query: string }> {
     return new Promise((resolve, reject) => {
-      const pool = mysql.createPool(mySqlConfig)
       const query = `DELETE FROM guilds WHERE guild_id = '${guildId}'`
 
       pool.query(query, (error, results) => {
-        pool.end()
-
         if (error) reject(new GuildDeleteError('Error', query, error, results))
         else {
           if (results.affectedRows === 1) {
@@ -248,14 +236,11 @@ export default class GuildsController {
     guildIds: string[]
   ): Promise<{ results: OkPacket; query: string }> {
     return new Promise((resolve, reject) => {
-      const pool = mysql.createPool(mySqlConfig)
       const query = `DELETE FROM guilds WHERE guild_id IN (${guildIds
         .map((guildId) => `'${guildId}'`)
         .join(', ')})`
 
       pool.query(query, (error, results) => {
-        pool.end()
-
         if (error)
           reject(new GuildBulkDeleteError('Error', query, error, results))
         else {
@@ -290,12 +275,9 @@ export default class GuildsController {
         if (cachedGuild) return resolve(cachedGuild)
       }
 
-      const pool = mysql.createPool(mySqlConfig)
       const query = `SELECT * FROM guilds WHERE guild_id = '${guildId}'`
 
       pool.query(query, async (error, results) => {
-        pool.end()
-
         if (error) {
           console.error(
             errorTemplate(),

@@ -2,41 +2,10 @@ import dayjs from 'dayjs'
 import setHandlers from './config/handlers'
 import { Bot } from './shared/Bot'
 import login from './utils/login'
+import mysql from 'mysql'
+import mySqlConfig from './utils/mySqlConfig'
 
-export const logs: string[] = []
-
-function hookStream(
-  _stream:
-    | (NodeJS.WriteStream & { fd: 1 })
-    | (NodeJS.WriteStream & { fd: 2 })
-    | (NodeJS.ReadStream & { fd: 0 }),
-  fn: {
-    (string: any): void
-    (string: any): void
-    (string: any): void
-    (arg0: any): void
-  }
-) {
-  const oldWrite = _stream.write
-  _stream.write = (...params: any[]) => {
-    fn(params)
-    return oldWrite.apply(_stream, params as any)
-  }
-
-  return function () {
-    _stream.write = oldWrite
-  }
-}
-
-hookStream(process.stdout, function (string: any) {
-  logs.push(string[0])
-})
-hookStream(process.stderr, function (string: any) {
-  logs.push(string[0])
-})
-hookStream(process.stdin, function (string: any) {
-  logs.push(string[0])
-})
+export const pool = mysql.createPool(mySqlConfig)
 
 async function app() {
   const bot = new Bot(
@@ -69,3 +38,38 @@ async function app() {
 }
 
 app()
+
+/* export const logs: string[] = []
+
+function hookStream(
+  _stream:
+    | (NodeJS.WriteStream & { fd: 1 })
+    | (NodeJS.WriteStream & { fd: 2 })
+    | (NodeJS.ReadStream & { fd: 0 }),
+  fn: {
+    (string: any): void
+    (string: any): void
+    (string: any): void
+    (arg0: any): void
+  }
+) {
+  const oldWrite = _stream.write
+  _stream.write = (...params: any[]) => {
+    fn(params)
+    return oldWrite.apply(_stream, params as any)
+  }
+
+  return function () {
+    _stream.write = oldWrite
+  }
+}
+
+hookStream(process.stdout, function (string: any) {
+  logs.push(string[0])
+})
+hookStream(process.stderr, function (string: any) {
+  logs.push(string[0])
+})
+hookStream(process.stdin, function (string: any) {
+  logs.push(string[0])
+}) */

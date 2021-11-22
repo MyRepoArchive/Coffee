@@ -10,6 +10,7 @@ import { Bot } from '../shared/Bot'
 import { env } from '../utils/env'
 import GuildCreateError from '../database/controllers/GuildsController/errors/GuildCreateError'
 import { bot } from '..'
+import log from '../utils/log'
 
 export default new Event('guildCreate', async (guild) => {
   enterLogs(bot, guild)
@@ -27,10 +28,7 @@ export default new Event('guildCreate', async (guild) => {
 })
 
 async function enterLogs(bot: Bot, guild: Guild) {
-  console.info(
-    '\n' + infoTemplate(),
-    `Bot acabou de entrar no servidor ${chalk.cyan(guild.name)}!`
-  )
+  log.info(`Bot acabou de entrar no servidor ${chalk.cyan(guild.name)}!`)
 
   const logChannel = await getLogChannel(bot)
 
@@ -51,14 +49,11 @@ async function onCreateError(
   guild: Guild,
   query: string
 ) {
-  console.error(
-    errorTemplate(),
-    chalk.bold.red(
-      `Erro ao cadastrar o servidor ${chalk.white(
-        guild.name
-      )} no banco de dados!\nQuery: ${query}\nErro:`,
-      error
-    )
+  log.error(
+    `Erro ao cadastrar o servidor ${chalk.white(
+      guild.name
+    )} no banco de dados!\nQuery: ${query}\nErro:`,
+    error
   )
 
   const logChannel = await getLogChannel(bot)
@@ -94,14 +89,11 @@ async function onAffectMoreOfOneRow(
   query: string,
   results: OkPacket
 ) {
-  console.error(
-    errorTemplate(),
-    chalk.bold.red(
-      `Mais de um registro foi afetado ao tentar registrar o servidor ${chalk.white(
-        guild.name
-      )} no banco de dados!\nQuery: ${query}\nOkPacket:`,
-      JSON.stringify(results, null, 2)
-    )
+  log.error(
+    `Mais de um registro foi afetado ao tentar registrar o servidor ${chalk.white(
+      guild.name
+    )} no banco de dados!\nQuery: ${query}\nOkPacket:`,
+    JSON.stringify(results, null, 2)
   )
 
   const logChannel = await getLogChannel(bot)
@@ -133,14 +125,11 @@ async function onAffectNoneRows(
   query: string,
   results: OkPacket
 ) {
-  console.error(
-    errorTemplate(),
-    chalk.bold.red(
-      `Nenhum registro foi afetado ao tentar registrar o servidor ${chalk.white(
-        guild.name
-      )} no banco de dados!\nQuery: ${query}\nOkPacket:`,
-      JSON.stringify(results, null, 2)
-    )
+  log.error(
+    `Nenhum registro foi afetado ao tentar registrar o servidor ${chalk.white(
+      guild.name
+    )} no banco de dados!\nQuery: ${query}\nOkPacket:`,
+    JSON.stringify(results, null, 2)
   )
 
   const logChannel = await getLogChannel(bot)
@@ -167,8 +156,7 @@ async function onAffectNoneRows(
 }
 
 async function onCreateSuccess(bot: Bot, guild: Guild) {
-  console.info(
-    successTemplate(),
+  log.success(
     `Servidor ${chalk.cyan(guild.name)} (${chalk.cyan(
       guild.id
     )}) cadastrado com sucesso no banco de dados!`

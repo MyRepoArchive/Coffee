@@ -12,6 +12,7 @@ import GuildDeleteError from './errors/GuildDeleteError'
 import GuildBulkCreateError from './errors/GuildBulkCreateError'
 import GuildBulkDeleteError from './errors/GuildBulkDeleteError'
 import { connection } from '../../..'
+import log from '../../../utils/log'
 
 export default class GuildsController {
   readonly cache: Collection<string, Guild> = new Collection()
@@ -22,12 +23,9 @@ export default class GuildsController {
 
       connection.query(query, async (error, results: GuildObject[]) => {
         if (error) {
-          console.error(
-            errorTemplate(),
-            chalk.bold.red(
-              `Erro ao buscar os servidores no banco de dados!\nQuery: ${query}\nErro:`,
-              error
-            )
+          log.error(
+            `Erro ao buscar os servidores no banco de dados!\nQuery: ${query}\nErro:`,
+            error
           )
 
           const logChannel = await getLogChannel(bot)
@@ -69,16 +67,13 @@ export default class GuildsController {
 
                 this.cache.set(guild.guild_id.value, guild)
               } catch (error: any) {
-                console.error(
-                  errorTemplate(),
-                  chalk.bold.red(
-                    `Erro ao criar entidades de Guild e setar em cache!\nResult: ${JSON.stringify(
-                      result,
-                      null,
-                      2
-                    )}\nErro:`,
-                    error
-                  )
+                log.error(
+                  `Erro ao criar entidades de Guild e setar em cache!\nResult: ${JSON.stringify(
+                    result,
+                    null,
+                    2
+                  )}\nErro:`,
+                  error
                 )
 
                 const logChannel = await getLogChannel(bot)
@@ -279,12 +274,9 @@ export default class GuildsController {
 
       connection.query(query, async (error, results) => {
         if (error) {
-          console.error(
-            errorTemplate(),
-            chalk.bold.red(
-              `Erro ao buscar um servidor no banco de dados!\nQuery: ${query}\nErro:`,
-              error
-            )
+          log.error(
+            `Erro ao buscar um servidor no banco de dados!\nQuery: ${query}\nErro:`,
+            error
           )
 
           const logChannel = await getLogChannel(bot)
@@ -327,12 +319,9 @@ export default class GuildsController {
           } else if (results.length > 1) {
             this.cache.clear()
 
-            console.error(
-              errorTemplate(),
-              chalk.bold.red(
-                `Mais de um registro foi encontrado ao tentar buscar um servidor no bancos de dados!\nQuery: ${query}\nResults:`,
-                JSON.stringify(results, null, 2)
-              )
+            log.error(
+              `Mais de um registro foi encontrado ao tentar buscar um servidor no bancos de dados!\nQuery: ${query}\nResults:`,
+              JSON.stringify(results, null, 2)
             )
 
             const logChannel = await getLogChannel(bot)
@@ -390,12 +379,9 @@ export default class GuildsController {
       await this.bulkCreate(guildsDTO).catch(
         async (error: GuildBulkCreateError) => {
           if (error.reason === 'Error') {
-            console.error(
-              errorTemplate(),
-              chalk.bold.red(
-                `Erro ao cadastrar novos servidores no banco de dados!\nQuery: ${error.query}\nGuildsDTO: ${guildsDTO}\nErro:`,
-                error.mysqlError
-              )
+            log.error(
+              `Erro ao cadastrar novos servidores no banco de dados!\nQuery: ${error.query}\nGuildsDTO: ${guildsDTO}\nErro:`,
+              error.mysqlError
             )
 
             const logChannel = await getLogChannel(bot)
@@ -435,12 +421,9 @@ export default class GuildsController {
               files: [queryText, errorText, errorJson, guildsDTOJson],
             })
           } else {
-            console.error(
-              errorTemplate(),
-              chalk.bold.red(
-                `Uma quantidade diferente de linhas foram afetadas ao cadastrar novos servidores no banco de dados!\nQuery: ${error.query}\nGuildsDTO: ${guildsDTO}\nOkPacket:`,
-                JSON.stringify(error.results, null, 2)
-              )
+            log.error(
+              `Uma quantidade diferente de linhas foram afetadas ao cadastrar novos servidores no banco de dados!\nQuery: ${error.query}\nGuildsDTO: ${guildsDTO}\nOkPacket:`,
+              JSON.stringify(error.results, null, 2)
             )
 
             const logChannel = await getLogChannel(bot)
@@ -484,12 +467,9 @@ export default class GuildsController {
       await this.bulkDelete(guildsToDelete).catch(
         async (error: GuildBulkDeleteError) => {
           if (error.reason === 'Error') {
-            console.error(
-              errorTemplate(),
-              chalk.bold.red(
-                `Erro ao remover servidores do banco de dados!\nQuery: ${error.query}\nguildsToDelete: ${guildsToDelete}\nErro:`,
-                error.mysqlError
-              )
+            log.error(
+              `Erro ao remover servidores do banco de dados!\nQuery: ${error.query}\nguildsToDelete: ${guildsToDelete}\nErro:`,
+              error.mysqlError
             )
 
             const logChannel = await getLogChannel(bot)
@@ -529,12 +509,9 @@ export default class GuildsController {
               files: [queryText, errorText, errorJson, guildsToDeleteJson],
             })
           } else {
-            console.error(
-              errorTemplate(),
-              chalk.bold.red(
-                `Uma quantidade diferente de linhas foram afetadas ao remover servidores do banco de dados!\nQuery: ${error.query}\nguildsToDelete: ${guildsToDelete}\nOkPacket:`,
-                JSON.stringify(error.results, null, 2)
-              )
+            log.error(
+              `Uma quantidade diferente de linhas foram afetadas ao remover servidores do banco de dados!\nQuery: ${error.query}\nguildsToDelete: ${guildsToDelete}\nOkPacket:`,
+              JSON.stringify(error.results, null, 2)
             )
 
             const logChannel = await getLogChannel(bot)

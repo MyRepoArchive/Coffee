@@ -1,17 +1,12 @@
-import chalk from 'chalk'
 import { MessageAttachment } from 'discord.js'
 import { bot } from '..'
 import Event from '../shared/Event'
 import { env } from '../utils/env'
-import errorTemplate from '../utils/errorTemplate'
 import getLogChannel from '../utils/getLogChannel'
+import log from '../utils/log'
 
 export default new Event('error', async (error) => {
-  console.error(
-    errorTemplate(),
-    chalk.bold.red('Um erro foi emitido pelo bot!\nErro:'),
-    error
-  )
+  log.error('Um erro foi emitido pelo bot!\nErro:', error)
 
   const logChannel = await getLogChannel(bot)
   const attachment = new MessageAttachment(

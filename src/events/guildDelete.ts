@@ -10,6 +10,7 @@ import { Bot } from '../shared/Bot'
 import { env } from '../utils/env'
 import GuildDeleteError from '../database/controllers/GuildsController/errors/GuildDeleteError'
 import { bot } from '..'
+import log from '../utils/log'
 
 export default new Event('guildDelete', async (guild) => {
   if (guild.id === '901538946222293002' || guild.id === '901750805948932126')
@@ -30,10 +31,7 @@ export default new Event('guildDelete', async (guild) => {
 })
 
 async function leaveLogs(bot: Bot, guild: Guild) {
-  console.info(
-    '\n' + infoTemplate(),
-    `Bot acabou de sair do servidor ${chalk.cyan(guild.name)}!`
-  )
+  log.info(`Bot acabou de sair do servidor ${chalk.cyan(guild.name)}!`)
 
   const logChannel = await getLogChannel(bot)
 
@@ -54,14 +52,11 @@ async function onRemoveError(
   query: string,
   bot: Bot
 ) {
-  console.error(
-    errorTemplate(),
-    chalk.bold.red(
-      `Erro ao remover o registro do servidor ${chalk.white(
-        guild.name
-      )} do banco de dados!\nQuery: ${query}\nErro:`,
-      error
-    )
+  log.error(
+    `Erro ao remover o registro do servidor ${chalk.white(
+      guild.name
+    )} do banco de dados!\nQuery: ${query}\nErro:`,
+    error
   )
 
   const logChannel = await getLogChannel(bot)
@@ -92,8 +87,7 @@ async function onRemoveError(
 }
 
 async function onRemoveSuccess(guild: Guild, bot: Bot) {
-  console.info(
-    successTemplate(),
+  log.success(
     `Registro do servidor ${chalk.cyan(guild.name)} (${chalk.cyan(
       guild.id
     )}) removido com sucesso do banco de dados!`
@@ -118,14 +112,11 @@ async function onRemoveMoreOfOneRow(
   query: string,
   results: OkPacket
 ) {
-  console.error(
-    errorTemplate(),
-    chalk.bold.red(
-      `Mais de um registro foi afetado ao tentar remover o registro do servidor ${chalk.white(
-        guild.name
-      )} do banco de dados!\nQuery: ${query}\nOkPacket:`,
-      JSON.stringify(results, null, 2)
-    )
+  log.error(
+    `Mais de um registro foi afetado ao tentar remover o registro do servidor ${chalk.white(
+      guild.name
+    )} do banco de dados!\nQuery: ${query}\nOkPacket:`,
+    JSON.stringify(results, null, 2)
   )
 
   const logChannel = await getLogChannel(bot)
@@ -157,14 +148,11 @@ async function onRemoveNoneRows(
   query: string,
   results: OkPacket
 ) {
-  console.error(
-    errorTemplate(),
-    chalk.bold.red(
-      `Nenhum registro foi afetado ao tentar remover o registro do servidor ${chalk.white(
-        guild.name
-      )} do banco de dados!\nQuery: ${query}\nOkPacket:`,
-      JSON.stringify(results, null, 2)
-    )
+  log.error(
+    `Nenhum registro foi afetado ao tentar remover o registro do servidor ${chalk.white(
+      guild.name
+    )} do banco de dados!\nQuery: ${query}\nOkPacket:`,
+    JSON.stringify(results, null, 2)
   )
 
   const logChannel = await getLogChannel(bot)

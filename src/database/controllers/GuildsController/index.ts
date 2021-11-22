@@ -1,8 +1,6 @@
 import Collection from '@discordjs/collection'
 import Guild, { GuildDTO, GuildObject } from '../../entities/Guild'
 import { OkPacket } from 'mysql'
-import errorTemplate from '../../../utils/errorTemplate'
-import chalk from 'chalk'
 import getLogChannel from '../../../utils/getLogChannel'
 import { Bot } from '../../../shared/Bot'
 import Discord, { MessageAttachment } from 'discord.js'

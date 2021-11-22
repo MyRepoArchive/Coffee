@@ -18,14 +18,21 @@ function handleConnection() {
   })
 
   setInterval(() => {
-    connection.query('SELECT 1')
+    connection.query('SELECT 1', (err) => {
+      if (err) {
+        log.error(`Erro ao realizar query ping: `, err)
+        log.info('Reconectando ao banco de dados...')
+        handleConnection()
+      }
+    })
   }, 50000)
 
   connection.on('error', (err) => {
-    if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-      log.error('Conexão com banco de dados perdida. Reconectando...')
-      handleConnection()
-    } else log.error('Erro no banco de dados: ', err)
+    if (err.code === 'PROTOCOL_CONNECTION_LOST')
+      log.error('Conexão com banco de dados perdida')
+    else log.error('Erro no banco de dados: ', err)
+    log.info('Reconectando ao banco de dados...')
+    handleConnection()
   })
 }
 

@@ -17,6 +17,10 @@ function handleConnection() {
     else log.info('Conectado ao banco de dados')
   })
 
+  setInterval(() => {
+    connection.query('SELECT 1')
+  }, 50000)
+
   connection.on('error', (err) => {
     if (err.code === 'PROTOCOL_CONNECTION_LOST') {
       log.error('Conexão com banco de dados perdida. Reconectando...')

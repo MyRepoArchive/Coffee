@@ -9,12 +9,16 @@ import successTemplate from '../utils/successTemplate'
 import { Bot } from '../shared/Bot'
 import { env } from '../utils/env'
 import GuildDeleteError from '../database/controllers/GuildsController/errors/GuildDeleteError'
+import { bot } from '..'
 
-export default new Event('guildDelete', async (bot, guild) => {
+export default new Event('guildDelete', async (guild) => {
+  if (guild.id === '901538946222293002' || guild.id === '901750805948932126')
+    return
+
   leaveLogs(bot, guild)
 
-  bot.database.guilds
-    .delete(guild.id)
+  bot
+    .database!.guilds.delete(guild.id)
     .then(() => onRemoveSuccess(guild, bot))
     .catch((error: GuildDeleteError) => {
       if (error.reason === 'Error')

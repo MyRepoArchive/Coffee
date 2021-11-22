@@ -11,7 +11,7 @@ import GuildCreateError from './errors/GuildCreateError'
 import GuildDeleteError from './errors/GuildDeleteError'
 import GuildBulkCreateError from './errors/GuildBulkCreateError'
 import GuildBulkDeleteError from './errors/GuildBulkDeleteError'
-import { pool } from '../../..'
+import { connection } from '../../..'
 
 export default class GuildsController {
   readonly cache: Collection<string, Guild> = new Collection()
@@ -20,7 +20,7 @@ export default class GuildsController {
     return new Promise((resolve, reject) => {
       const query = 'SELECT * FROM guilds'
 
-      pool.query(query, async (error, results: GuildObject[]) => {
+      connection.query(query, async (error, results: GuildObject[]) => {
         if (error) {
           console.error(
             errorTemplate(),
@@ -128,7 +128,7 @@ export default class GuildsController {
         guild.guild_id.value
       }', '${guild.prefix.value.replace(/\\/g, '\\\\')}')`
 
-      pool.query(query, (error, results) => {
+      connection.query(query, (error, results) => {
         if (error) reject(new GuildCreateError('Error', query, error, results))
         else {
           if (results.affectedRows === 1) {
@@ -173,7 +173,7 @@ export default class GuildsController {
         )
         .join(', ')}`
 
-      pool.query(query, (error, results) => {
+      connection.query(query, (error, results) => {
         if (error)
           reject(new GuildBulkCreateError('Error', query, error, results))
         else {
@@ -202,7 +202,7 @@ export default class GuildsController {
     return new Promise((resolve, reject) => {
       const query = `DELETE FROM guilds WHERE guild_id = '${guildId}'`
 
-      pool.query(query, (error, results) => {
+      connection.query(query, (error, results) => {
         if (error) reject(new GuildDeleteError('Error', query, error, results))
         else {
           if (results.affectedRows === 1) {
@@ -240,7 +240,7 @@ export default class GuildsController {
         .map((guildId) => `'${guildId}'`)
         .join(', ')})`
 
-      pool.query(query, (error, results) => {
+      connection.query(query, (error, results) => {
         if (error)
           reject(new GuildBulkDeleteError('Error', query, error, results))
         else {
@@ -277,7 +277,7 @@ export default class GuildsController {
 
       const query = `SELECT * FROM guilds WHERE guild_id = '${guildId}'`
 
-      pool.query(query, async (error, results) => {
+      connection.query(query, async (error, results) => {
         if (error) {
           console.error(
             errorTemplate(),

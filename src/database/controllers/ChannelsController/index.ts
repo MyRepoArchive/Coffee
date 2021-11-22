@@ -8,7 +8,7 @@ import Channel, { ChannelDTO, DatabaseChannel } from '../../entities/Channel'
 import log from '../../../utils/log'
 import ChannelBulkCreateError from './errors/ChannelBulkCreateError'
 import ChannelBulkDeleteError from './errors/ChannelBulkDeleteError'
-import { pool } from '../../..'
+import { connection } from '../../..'
 
 export default class ChannelsController {
   readonly cache: Collection<string, Channel> = new Collection()
@@ -17,7 +17,7 @@ export default class ChannelsController {
     return new Promise((resolve, reject) => {
       const query = 'SELECT * FROM channels'
 
-      pool.query(query, async (error, results: DatabaseChannel[]) => {
+      connection.query(query, async (error, results: DatabaseChannel[]) => {
         if (error) {
           log.error(
             `Erro ao buscar os canais no banco de dados!\nQuery: ${query}\nErro:`,
@@ -167,7 +167,7 @@ export default class ChannelsController {
         )
         .join(', ')}`
 
-      pool.query(query, (error, results) => {
+      connection.query(query, (error, results) => {
         if (error)
           reject(new ChannelBulkCreateError('Error', query, error, results))
         else {
@@ -237,7 +237,7 @@ export default class ChannelsController {
         .map((channelId) => `'${channelId}'`)
         .join(', ')})`
 
-      pool.query(query, (error, results) => {
+      connection.query(query, (error, results) => {
         if (error)
           reject(new ChannelBulkDeleteError('Error', query, error, results))
         else {
@@ -274,7 +274,7 @@ export default class ChannelsController {
 
       const query = `SELECT * FROM channels WHERE channel_id = '${channelId}'`
 
-      pool.query(query, async (error, results: [DatabaseChannel]) => {
+      connection.query(query, async (error, results: [DatabaseChannel]) => {
         if (error) {
           log.error(
             `Erro ao buscar um canal no banco de dados!\nQuery: ${query}\nErro:`,

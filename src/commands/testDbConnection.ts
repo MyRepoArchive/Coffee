@@ -1,4 +1,4 @@
-import { pool } from '..'
+import { connection } from '..'
 import Command from '../shared/Command'
 
 export default new Command({
@@ -7,7 +7,7 @@ export default new Command({
   allowDM: true,
   type: 'admin',
   run: async ({ message }) => {
-    pool.query('SELECT * FROM guilds', (err, res) => {
+    connection.query('SELECT 1', (err, res) => {
       if (err) {
         message.author.send(`Error: ${JSON.stringify(err, null, 2)}`)
       } else {

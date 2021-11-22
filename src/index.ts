@@ -4,40 +4,50 @@ import { Bot } from './shared/Bot'
 import login from './utils/login'
 import mysql from 'mysql'
 import mySqlConfig from './utils/mySqlConfig'
+import log from './utils/log'
 
-export const pool = mysql.createPool(mySqlConfig)
+export const connection = mysql.createConnection(mySqlConfig)
 
-async function app() {
-  const bot = new Bot(
-    {
-      intents: [
-        'GUILDS',
-        'DIRECT_MESSAGES',
-        'GUILD_MESSAGES',
-        'GUILD_BANS',
-        'GUILD_MESSAGE_REACTIONS',
-        'GUILD_MESSAGE_TYPING',
-        'GUILD_PRESENCES',
-        'GUILD_VOICE_STATES',
-        'DIRECT_MESSAGE_REACTIONS',
-        'DIRECT_MESSAGE_TYPING',
-        'GUILD_EMOJIS_AND_STICKERS',
-        'GUILD_INTEGRATIONS',
-        'GUILD_INVITES',
-        'GUILD_MEMBERS',
-        'GUILD_WEBHOOKS',
-      ],
-    },
-    true
-  )
+connection.connect((err) => {
+  if (err) log.error(`Erro ao conectar com banco de dados: `, err)
+})
 
-  dayjs.locale('pt-br')
+setInterval(() => {
+  connection.query('SELECT 1', (err) => {
+    if (err) {
+      log.error(`Erro ao dar ping no banco de dados: `, err)
+    }
+  })
+}, 50000)
 
-  await login(bot)
-  await setHandlers(bot)
-}
+export const bot = new Bot(
+  {
+    intents: [
+      'GUILDS',
+      'DIRECT_MESSAGES',
+      'GUILD_MESSAGES',
+      'GUILD_BANS',
+      'GUILD_MESSAGE_REACTIONS',
+      'GUILD_MESSAGE_TYPING',
+      'GUILD_PRESENCES',
+      'GUILD_VOICE_STATES',
+      'DIRECT_MESSAGE_REACTIONS',
+      'DIRECT_MESSAGE_TYPING',
+      'GUILD_EMOJIS_AND_STICKERS',
+      'GUILD_INTEGRATIONS',
+      'GUILD_INVITES',
+      'GUILD_MEMBERS',
+      'GUILD_WEBHOOKS',
+    ],
+  },
+  true
+)
 
-app()
+dayjs.locale('pt-br')
+
+setHandlers(bot)
+
+login(bot)
 
 /* export const logs: string[] = []
 

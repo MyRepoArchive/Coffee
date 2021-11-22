@@ -1,4 +1,5 @@
 import chalk from 'chalk'
+import { bot } from '..'
 import Event from '../shared/Event'
 import changeActivity from '../utils/changeActivity'
 import getLogChannel from '../utils/getLogChannel'
@@ -6,7 +7,7 @@ import log from '../utils/log'
 
 export default new Event(
   'ready',
-  async (bot) => {
+  async () => {
     log.info(chalk.bold('INICIANDO...'))
 
     const guilds = bot.guilds.cache
@@ -50,8 +51,11 @@ export default new Event(
     log.info(chalk.bold('SINCRONIZANDO BANCO DE DADOS COM DISCORD...'))
 
     const dataToSync = [
-      { name: 'guilds', promise: bot.database.guilds.syncWithDiscord(bot) },
-      { name: 'channels', promise: bot.database.channels.syncWithDiscord(bot) },
+      { name: 'guilds', promise: bot.database!.guilds.syncWithDiscord(bot) },
+      {
+        name: 'channels',
+        promise: bot.database!.channels.syncWithDiscord(bot),
+      },
     ]
 
     dataToSync.forEach(({ name, promise }, index) => {

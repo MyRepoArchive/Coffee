@@ -9,8 +9,9 @@ import successTemplate from '../utils/successTemplate'
 import { Bot } from '../shared/Bot'
 import { env } from '../utils/env'
 import GuildCreateError from '../database/controllers/GuildsController/errors/GuildCreateError'
+import { bot } from '..'
 
-export default new Event('guildCreate', async (bot, guild) => {
+export default new Event('guildCreate', async (guild) => {
   enterLogs(bot, guild)
 
   bot.database?.guilds

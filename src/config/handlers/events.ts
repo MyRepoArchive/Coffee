@@ -1,14 +1,11 @@
 import chalk from 'chalk'
-import { MessageAttachment } from 'discord.js'
 import { readdirSync } from 'fs'
 import { Bot } from '../../shared/Bot'
 import Event from '../../shared/Event'
-import { env } from '../../utils/env'
 import getFormatedDirname from '../../utils/getFormatedDirname'
-import getLogChannel from '../../utils/getLogChannel'
 import log from '../../utils/log'
 
-export default async function setEventsHandler(bot: Bot<true>) {
+export default async function setEventsHandler(bot: Bot<false>) {
   log.info(chalk.bold('SETANDO EVENTOS...'))
 
   try {
@@ -21,7 +18,7 @@ export default async function setEventsHandler(bot: Bot<true>) {
 
       try {
         const event = require(`../../events/${file}`)?.default as Event
-        bot[event.type](event.name, (...params) => event.run(bot, ...params))
+        bot[event.type](event.name, (...params) => event.run(...params))
 
         log.success(
           `[${chalk.green(
@@ -35,55 +32,9 @@ export default async function setEventsHandler(bot: Bot<true>) {
           `Erro ao setar o evento: ${file?.slice(0, -3)}!\nErro:`,
           error
         )
-
-        const logChannel = await getLogChannel(bot)
-        const attachment = new MessageAttachment(
-          Buffer.from(error.stack || error),
-          'error.txt'
-        )
-        logChannel?.send({
-          content: env.OWNERS.map((id) => `<@${id}>`).join(', '),
-          embeds: [
-            {
-              color: '#FC2A2A',
-              title: `<:x_:905962263750537257>  Erro ao setar o evento: **${file?.slice(
-                0,
-                -3
-              )}**!`,
-
-              footer: {
-                text: __filename,
-              },
-              timestamp: Date.now(),
-            },
-          ],
-        })
-        logChannel?.send({ files: [attachment] })
       }
     }
   } catch (error: any) {
     log.error('Erro ao setar os eventos!\nErro:', error)
-
-    const logChannel = await getLogChannel(bot)
-    const attachment = new MessageAttachment(
-      Buffer.from(error.stack || error),
-      'error.txt'
-    )
-
-    logChannel?.send({
-      content: env.OWNERS.map((id) => `<@${id}>`).join(', '),
-      embeds: [
-        {
-          color: '#FC2A2A',
-          title: `<:x_:905962263750537257>  Erro ao setar os eventos!`,
-
-          footer: {
-            text: __filename,
-          },
-          timestamp: Date.now(),
-        },
-      ],
-    })
-    logChannel?.send({ files: [attachment] })
   }
 }

@@ -1,18 +1,19 @@
+import { bot } from '..'
 import Event from '../shared/Event'
 import calc from '../utils/calc'
 import { env } from '../utils/env'
 import getPrefix from '../utils/getPrefix'
 
-export default new Event('messageCreate', async (bot, message) => {
+export default new Event('messageCreate', async (message) => {
   const isGuild = message.inGuild()
   const dbPrefix = isGuild && (await getPrefix(message.guildId!, bot))
 
   if (!dbPrefix && isGuild)
-    bot.database.guilds.create({ guild_id: message.guildId! })
+    bot.database!.guilds.create({ guild_id: message.guildId! })
 
   const isMentionPrefix =
-    message.content.startsWith(`<@${bot.user.id}>`) ||
-    message.content.startsWith(`<@!${bot.user.id}>`)
+    message.content.startsWith(`<@${bot.user!.id}>`) ||
+    message.content.startsWith(`<@!${bot.user!.id}>`)
 
   const prefix = isMentionPrefix
     ? message.content.slice(0, message.content.indexOf('>') + 1)

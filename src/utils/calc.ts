@@ -11,9 +11,9 @@ export default async function calc({
 }) {
   if (!(message.channel instanceof GuildChannel)) return
 
-  const dbChannel = await bot.database.channels.fetch(message.channel.id, bot)
+  const dbChannel = bot.database.channels.cache.get(message.channel.id)
 
-  if (!dbChannel) bot.database.channels.syncWithDiscord(bot)
+  if (!dbChannel) bot.database.channels.syncWithDiscord()
 
   const calcAllowed = dbChannel?.calc_allowed.value ?? true
 

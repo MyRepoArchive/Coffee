@@ -6,7 +6,7 @@ import getFormatedDirname from '../../utils/getFormatedDirname'
 import log from '../../utils/log'
 
 export default async function setEventsHandler(bot: Bot<false>) {
-  log.info(chalk.bold('SETANDO EVENTOS...'))
+  log.info('SETANDO EVENTOS...')
 
   try {
     const eventFiles = readdirSync(
@@ -28,13 +28,12 @@ export default async function setEventsHandler(bot: Bot<false>) {
           )} setado!`
         )
       } catch (error: any) {
-        log.error(
-          `Erro ao setar o evento: ${file?.slice(0, -3)}!\nErro:`,
-          error
-        )
+        log.error(`Erro ao setar o evento: ${file?.slice(0, -3)}!\nErro:`, {
+          restLogs: [error],
+        })
       }
     }
   } catch (error: any) {
-    log.error('Erro ao setar os eventos!\nErro:', error)
+    log.error('Erro ao setar os eventos!\nErro:', { restLogs: [error] })
   }
 }

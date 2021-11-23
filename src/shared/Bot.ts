@@ -21,10 +21,7 @@ export class Bot<Ready extends boolean = boolean> extends Client<Ready> {
   async login(token: string): Promise<string> {
     const logedToken = await super.login(token)
 
-    this.database = (await Database.init(this, this.makeCache)) as If<
-      Ready,
-      Database
-    >
+    this.database = new Database() as If<Ready, Database>
 
     return logedToken
   }

@@ -5,7 +5,7 @@ import getFormatedDirname from '../../utils/getFormatedDirname'
 import log from '../../utils/log'
 
 export default async function setCommandsHandler(bot: Bot<false>) {
-  log.info(chalk.bold('SETANDO COMANDOS...'))
+  log.info('SETANDO COMANDOS...')
 
   try {
     const commandFiles = readdirSync(
@@ -27,13 +27,12 @@ export default async function setCommandsHandler(bot: Bot<false>) {
           )} setado!`
         )
       } catch (error: any) {
-        log.error(
-          `Erro ao setar o comando: ${file?.slice(0, -3)}!\nErro:`,
-          error
-        )
+        log.error(`Erro ao setar o comando: ${file?.slice(0, -3)}!\nErro:`, {
+          restLogs: [error],
+        })
       }
     }
   } catch (error: any) {
-    log.error('Erro ao setar os comandos!\nErro:', error)
+    log.error('Erro ao setar os comandos!\nErro:', { restLogs: [error] })
   }
 }

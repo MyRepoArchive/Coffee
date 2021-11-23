@@ -1,17 +1,23 @@
 import chalk from 'chalk'
 import { bot } from '..'
+import { DatabaseTables } from '../database'
 import Event from '../shared/Event'
 import changeActivity from '../utils/changeActivity'
-import getLogChannel from '../utils/getLogChannel'
 import log from '../utils/log'
 
 export default new Event(
   'ready',
   async () => {
-    log.info(chalk.bold('INICIANDO...'))
+    log.info('INICIANDO...', {
+      discord: {
+        title: `Bot \`${bot.user?.username}\` iniciado em ${
+          (bot.readyTimestamp! - bot.instanciedTime.getTime()) / 1000
+        } segundos!`,
+        emoji: 'onoff',
+      },
+    })
 
     const guilds = bot.guilds.cache
-    const logChannel = await getLogChannel(bot)
 
     log.info(chalk.bold('ESTATÍSTICAS'))
     log.info(`Usuários: ${chalk.yellow(bot.users.cache.size)}`)
@@ -33,44 +39,22 @@ export default new Event(
       )
     }
 
-    logChannel?.send({
-      embeds: [
-        {
-          color: '#00ffff',
-          title: `<:onoff:905961889081741382>  Bot \`${
-            bot.user?.username
-          }\` iniciado em ${
-            (bot.readyTimestamp! - bot.instanciedTime.getTime()) / 1000
-          } segundos!`,
-          timestamp: new Date(),
-        },
-      ],
-    })
     changeActivity(bot)
 
-    log.info(chalk.bold('SINCRONIZANDO BANCO DE DADOS COM DISCORD...'))
+    log.info('SINCRONIZANDO BANCO DE DADOS COM DISCORD...')
 
-    const dataToSync = [
-      { name: 'guilds', promise: bot.database!.guilds.syncWithDiscord(bot) },
-      {
-        name: 'channels',
-        promise: bot.database!.channels.syncWithDiscord(bot),
-      },
-    ]
+    const dataToSync: DatabaseTables[] = ['guilds', 'channels']
 
-    dataToSync.forEach(({ name, promise }, index) => {
+    dataToSync.forEach((name, index) => {
       const idx = `${index + 1}`.padStart(`${dataToSync.length}`.length, '0')
 
-      promise
-        .then(() => {
-          log.success(
-            `[${chalk.green(idx)}/${chalk.greenBright(
-              dataToSync.length
-            )}] Dados de ${chalk.cyan(name)} sincronizados!`
-          )
-        })
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        .catch(() => {})
+      bot.database![name].syncWithDiscord(bot)
+
+      log.success(
+        `[${chalk.green(idx)}/${chalk.greenBright(
+          dataToSync.length
+        )}] Dados de ${chalk.cyan(name)} sincronizados!`
+      )
     })
   },
   'once'

@@ -7,6 +7,7 @@ interface IEnv {
   MAIN_LOG_CHANNEL: string
   REPORT_CHANNEL: string
   SUGGESTIONS_CHANNEL: string
+  BACKUP_CHANNEL: string
   COMMANDS_URL: string
   REPOSITORY_URL: string
   MYSQL_USER: string
@@ -14,6 +15,7 @@ interface IEnv {
   MYSQL_HOST: string
   MYSQL_DATABASE: string
   MYSQL_PORT: number
+  SYNC_CACHE_INTERVAL: number
 }
 
 export const env: IEnv = {
@@ -30,4 +32,6 @@ export const env: IEnv = {
   MYSQL_HOST: process.env.MYSQL_HOST || '',
   MYSQL_DATABASE: process.env.MYSQL_DATABASE || '',
   MYSQL_PORT: Number(process.env.MYSQL_PORT) || 3306,
+  SYNC_CACHE_INTERVAL: Number(process.env.SYNC_CACHE_INTERVAL) || 15,
+  BACKUP_CHANNEL: process.env.BACKUP_CHANNEL || '',
 }

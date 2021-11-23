@@ -1,8 +1,18 @@
-import { Message, PermissionString, TextChannel } from 'discord.js'
+import { Message, PermissionString, TextChannel, Collection } from 'discord.js'
 import { env } from '../utils/env'
 import { Bot } from './Bot'
 
-export type CommandType = 'utility' | 'miscellany' | 'moderation' | 'admin'
+export interface Cooldown {
+  time: number
+  uses: number
+}
+
+export type CommandType =
+  | 'utility'
+  | 'miscellany'
+  | 'moderation'
+  | 'admin'
+  | 'configuration'
 
 export interface StartData {
   message: Message
@@ -29,6 +39,7 @@ export interface CommandOptions {
   readonly allowDM?: boolean
   readonly memberNecessaryPermissions?: PermissionString[][]
   readonly botNecessaryPermissions?: PermissionString[][]
+  readonly cooldown?: Cooldown
   readonly run: (data: Data) => any
 }
 export default class Command {
@@ -40,7 +51,12 @@ export default class Command {
   readonly allowDM!: boolean
   readonly memberNecessaryPermissions!: PermissionString[][]
   readonly botNecessaryPermissions!: PermissionString[][]
+  readonly cooldown!: Cooldown
   readonly run!: (data: Data) => any
+  readonly talkedRecently: Collection<
+    string,
+    { timestamp: number; times: number }
+  > = new Collection()
 
   constructor(public readonly options: CommandOptions) {
     Object.assign(this, {
@@ -51,6 +67,10 @@ export default class Command {
       type: 'miscellany',
       memberNecessaryPermissions: [[]],
       botNecessaryPermissions: [[]],
+      cooldown: {
+        time: 0,
+        uses: 1,
+      },
       ...options,
     })
   }
@@ -60,6 +80,7 @@ export default class Command {
     const isBot = data.message.author.bot
 
     ;(await this.primaryValidation({ ...data, isDm, isBot })) &&
+      (await this.cooldownValidation({ ...data, isDm, isBot })) &&
       (await this.memberPermissionsValidation({ ...data, isDm, isBot })) &&
       (await this.botPermissionsValidation({ ...data, isDm, isBot })) &&
       (await this.run({ ...data, isDm, isBot }))
@@ -70,6 +91,48 @@ export default class Command {
     if (!this.allowDM && isDm) return
 
     return true
+  }
+
+  async cooldownValidation({ message, isDm }: Data) {
+    const talkedUser = this.talkedRecently.get(message.author.id)
+
+    if (!talkedUser) {
+      this.talkedRecently.set(message.author.id, {
+        times: 1,
+        timestamp: Date.now(),
+      })
+      return true
+    }
+
+    if (talkedUser.timestamp + this.cooldown.time > Date.now()) {
+      if (talkedUser.times >= this.cooldown.uses) {
+        const messageContent = `> <:x_:905962263750537257> Você não pode usar este comando novamente por ${
+          this.cooldown.time / 1000
+        } segundos!`
+
+        if (isDm) {
+          message.author.send(messageContent)
+        } else {
+          message.channel.send(messageContent).catch(() => {})
+        }
+
+        return false
+      } else {
+        this.talkedRecently.set(message.author.id, {
+          times: talkedUser.times + 1,
+          timestamp: talkedUser.timestamp,
+        })
+
+        return true
+      }
+    } else {
+      this.talkedRecently.set(message.author.id, {
+        times: 1,
+        timestamp: Date.now(),
+      })
+
+      return true
+    }
   }
 
   async memberPermissionsValidation({ message, isDm }: Data) {

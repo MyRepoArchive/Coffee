@@ -1,6 +1,6 @@
 import { MysqlError, OkPacket } from 'mysql'
 
-export default class GuildBulkCreateError<
+export default class QueryError<
   Reason extends 'Error' | 'Quantidade de linhas afetadas incompatível' =
     | 'Error'
     | 'Quantidade de linhas afetadas incompatível'
@@ -12,6 +12,6 @@ export default class GuildBulkCreateError<
     public readonly results: Reason extends 'Error' ? null : OkPacket
   ) {
     super(reason)
-    this.name = 'GuildBulkCreateError'
+    this.name = 'QueryError'
   }
 }

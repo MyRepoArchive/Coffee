@@ -4,39 +4,8 @@ import { Bot } from './shared/Bot'
 import login from './utils/login'
 import mysql from 'mysql'
 import mySqlConfig from './utils/mySqlConfig'
-import log from './utils/log'
 
-export let connection: mysql.Connection
-
-function handleConnection() {
-  log.info('Conectando ao banco de dados...')
-  connection = mysql.createConnection(mySqlConfig)
-
-  connection.connect((err) => {
-    if (err) log.error(`Erro ao conectar com banco de dados: `, err)
-    else log.info('Conectado ao banco de dados')
-  })
-
-  setInterval(() => {
-    connection.query('SELECT 1', (err) => {
-      if (err) {
-        log.error(`Erro ao realizar query ping: `, err)
-        log.info('Reconectando ao banco de dados...')
-        handleConnection()
-      }
-    })
-  }, 50000)
-
-  connection.on('error', (err) => {
-    if (err.code === 'PROTOCOL_CONNECTION_LOST')
-      log.error('Conexão com banco de dados perdida')
-    else log.error('Erro no banco de dados: ', err)
-    log.info('Reconectando ao banco de dados...')
-    handleConnection()
-  })
-}
-
-handleConnection()
+export const connection = mysql.createPool(mySqlConfig)
 
 export const bot = new Bot(
   {

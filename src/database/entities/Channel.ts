@@ -33,6 +33,14 @@ export default class Channel {
     }
   }
 
+  get dbValue(): DatabaseChannel {
+    return {
+      guild_id: this.guild_id.value,
+      channel_id: this.channel_id.value,
+      calc_allowed: `${this.calc_allowed.value}`,
+    }
+  }
+
   static create(channel: ChannelDTO): Channel {
     const channel_id = DiscordID.create(channel.channel_id, 'channel_id')
     const guild_id = DiscordID.create(channel.guild_id, 'guild_id')

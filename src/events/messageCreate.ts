@@ -1,4 +1,5 @@
 import { bot } from '..'
+import Guild from '../database/entities/Guild'
 import Event from '../shared/Event'
 import calc from '../utils/calc'
 import { env } from '../utils/env'
@@ -9,7 +10,10 @@ export default new Event('messageCreate', async (message) => {
   const dbPrefix = isGuild && (await getPrefix(message.guildId!, bot))
 
   if (!dbPrefix && isGuild)
-    bot.database!.guilds.create({ guild_id: message.guildId! })
+    bot.database!.guilds.cache.set(
+      message.guildId!,
+      Guild.create({ guild_id: message.guildId! })
+    )
 
   const isMentionPrefix =
     message.content.startsWith(`<@${bot.user!.id}>`) ||

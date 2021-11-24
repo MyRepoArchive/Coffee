@@ -5,7 +5,7 @@ import { env } from '../../utils/env'
 import { connection } from '../..'
 import log from '../../utils/log'
 import sortObjByKey from '../../utils/sortObjByKey'
-import mysqlBackup from 'mysql-backup'
+import mysqlBackup from '../../utils/mysqlBackup'
 import mySqlConfig from '../../utils/mySqlConfig'
 
 export default class GuildsController {
@@ -59,7 +59,7 @@ export default class GuildsController {
   }
 
   async syncCached() {
-    const dump = await mysqlBackup({ ...mySqlConfig, tables: ['guilds'] })
+    const dump = mysqlBackup(mySqlConfig)
 
     this.getDbGuilds().then((dbGuilds) => {
       const guildsToDelete = dbGuilds

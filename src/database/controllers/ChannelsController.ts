@@ -4,9 +4,9 @@ import { env } from '../../utils/env'
 import Channel, { ChannelObject, DatabaseChannel } from '../entities/Channel'
 import log from '../../utils/log'
 import { bot, connection } from '../..'
-import mysqlBackup from 'mysql-backup'
 import mySqlConfig from '../../utils/mySqlConfig'
 import sortObjByKey from '../../utils/sortObjByKey'
+import mysqlBackup from '../../utils/mysqlBackup'
 
 export default class ChannelsController {
   readonly cache: Collection<string, Channel> = new Collection()
@@ -67,7 +67,9 @@ export default class ChannelsController {
   }
 
   async syncCached() {
-    const dump = await mysqlBackup({ ...mySqlConfig, tables: ['channels'] })
+    const dump = mysqlBackup(mySqlConfig)
+
+    console.log(dump)
 
     this.getDbChannels().then((dbChannels) => {
       const channelsToDelete = dbChannels

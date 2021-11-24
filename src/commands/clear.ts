@@ -1,5 +1,6 @@
 import { TextChannel } from 'discord.js'
 import Command from '../shared/Command'
+import { x_ } from '../../emojis.json'
 
 export default new Command({
   name: 'clear',
@@ -27,7 +28,7 @@ export default new Command({
         'Digite a quantidade de mensagens a serem deletadas! (De 2 a 100)'
       )
 
-      await qtdToDeleteMessage.react('905962263750537257')
+      await qtdToDeleteMessage.react(x_)
 
       const cancelCollector = qtdToDeleteMessage.createReactionCollector({
         filter: (reaction, user) =>

@@ -1,5 +1,6 @@
 import { MessageEmbed } from 'discord.js'
 import Command from '../shared/Command'
+import { x_ } from '../../emojis.json'
 
 export default new Command({
   name: 'desc',
@@ -57,7 +58,7 @@ export default new Command({
 
     message.channel.send({ embeds: [embed] }).catch(() => {
       message.author.send({ embeds: [embed] })
-      message.react('905962263750537257')
+      message.react(x_)
     })
   },
 })

@@ -1,6 +1,7 @@
 import { MessageEmbed } from 'discord.js'
 import Command from '../shared/Command'
 import { env } from '../utils/env'
+import { x_ } from '../../emojis.json'
 
 export default new Command({
   name: 'eval',
@@ -46,12 +47,12 @@ export default new Command({
 
     const msg = await message.channel.send({ embeds: [evalEmbed] })
 
-    await msg.react('905962263750537257')
+    await msg.react(x_)
 
     const collector = msg.createReactionCollector({
       time: 600000,
       filter: (react, user) =>
-        react.emoji.id === '905962263750537257' && env.OWNERS.includes(user.id),
+        react.emoji.id === x_ && env.OWNERS.includes(user.id),
     })
 
     collector.on('collect', () => {

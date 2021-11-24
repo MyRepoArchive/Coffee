@@ -1,5 +1,6 @@
 import { MessageEmbed, ReactionCollectorOptions } from 'discord.js'
 import Command from '../shared/Command'
+import { x_, check } from '../../emojis.json'
 
 export default new Command({
   name: 'ban',
@@ -29,55 +30,55 @@ export default new Command({
         .setTimestamp()
       return message.channel.send({ embeds: [descEmbed] }).catch(() => {
         message.author.send({ embeds: [descEmbed] })
-        message.react('905962263750537257')
+        message.react(x_)
       })
     }
     if (membro.user.id === bot.user.id) {
-      const messageContent = `> <:x_:905962263750537257> Não posso me banir!`
+      const messageContent = `> <:x_:${x_}> Não posso me banir!`
       return message.channel.send(messageContent).catch(() => {
         message.author.send(messageContent)
-        message.react('905962263750537257')
+        message.react(x_)
       })
     }
     if (membro === message.member) {
-      const messageContent = `> <:x_:905962263750537257> Não pode banir a si mesmo!`
+      const messageContent = `> <:x_:${x_}> Não pode banir a si mesmo!`
       return message.channel.send(messageContent).catch(() => {
         message.author.send(messageContent)
-        message.react('905962263750537257')
+        message.react(x_)
       })
     }
     if (membro.user.id === message.guild!.ownerId) {
-      const messageContent = `> <:x_:905962263750537257> O dono do servidor não pode ser banido!`
+      const messageContent = `> <:x_:${x_}> O dono do servidor não pode ser banido!`
       return message.channel.send(messageContent).catch(() => {
         message.author.send(messageContent)
-        message.react('905962263750537257')
+        message.react(x_)
       })
     }
     if (
       membro.roles.highest.position >= message.guild!.me!.roles.highest.position
     ) {
-      const messageContent = `> <:x_:905962263750537257> Usuário com cargo maior que o meu!`
+      const messageContent = `> <:x_:${x_}> Usuário com cargo maior que o meu!`
       return message.channel.send(messageContent).catch(() => {
         message.author.send(messageContent)
-        message.react('905962263750537257')
+        message.react(x_)
       })
     }
     if (
       membro.roles.highest.position >= message.member!.roles.highest.position &&
       message.author.id !== message.guild!.ownerId
     ) {
-      const messageContent = `> <:x_:905962263750537257> Usuário com cargo maior que o seu!`
+      const messageContent = `> <:x_:${x_}> Usuário com cargo maior que o seu!`
       return message.channel.send(messageContent).catch(() => {
         message.author.send(messageContent)
-        message.react('905962263750537257')
+        message.react(x_)
       })
     }
 
     const msgMotivo = await message.channel.send(
       'Deseja adiciona um motivo ao banimento?'
     )
-    await msgMotivo.react('905962263750537257')
-    await msgMotivo.react('905952950864715836')
+    await msgMotivo.react(x_)
+    await msgMotivo.react(check)
 
     const collectorOptions: ReactionCollectorOptions = {
       filter: (reaction, user) => reaction.me && user.id === message.author.id,
@@ -95,9 +96,7 @@ export default new Command({
             membro!.user.tag
           }** sejam deletadas!`
         )
-        await msgMotivo.reactions.cache
-          .get('905952950864715836')
-          ?.users.remove(bot.user.id)
+        await msgMotivo.reactions.cache.get(check)?.users.remove(bot.user.id)
 
         await msgMotivo.react('0️⃣')
         await msgMotivo.react('1️⃣')
@@ -107,7 +106,7 @@ export default new Command({
         await msgMotivo.react('5️⃣')
         await msgMotivo.react('6️⃣')
         await msgMotivo.react('7️⃣')
-        await msgMotivo.react('905962263750537257')
+        await msgMotivo.react(x_)
 
         const collectorDias =
           msgMotivo.createReactionCollector(collectorOptions)
@@ -130,7 +129,7 @@ export default new Command({
           if (reaction.emoji.name === '7️⃣')
             membro!.ban({ days: 7, reason: motivo })
 
-          if (reaction.emoji.id === '905962263750537257') {
+          if (reaction.emoji.id === x_) {
             return msgMotivo.edit('Banimento cancelado!')
           }
 
@@ -142,9 +141,9 @@ export default new Command({
         })
       }
 
-      if (reaction.emoji.id === '905962263750537257') {
+      if (reaction.emoji.id === x_) {
         daysAndBan()
-      } else if (reaction.emoji.id === '905952950864715836') {
+      } else if (reaction.emoji.id === check) {
         msgMotivo.edit(`Digite abaixo o motivo do banimento!`)
 
         const collector = message.channel.createMessageCollector({

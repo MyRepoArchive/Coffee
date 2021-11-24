@@ -1,6 +1,7 @@
 import { Message, PermissionString, TextChannel, Collection } from 'discord.js'
 import { env } from '../utils/env'
 import { Bot } from './Bot'
+import { x_ } from '../../emojis.json'
 
 export interface Cooldown {
   time: number
@@ -106,7 +107,7 @@ export default class Command {
 
     if (talkedUser.timestamp + this.cooldown.time > Date.now()) {
       if (talkedUser.times >= this.cooldown.uses) {
-        const messageContent = `> <:x_:905962263750537257> Você não pode usar este comando novamente por ${
+        const messageContent = `> <:x_:${x_}> Você não pode usar este comando novamente por ${
           this.cooldown.time / 1000
         } segundos!`
 
@@ -142,7 +143,7 @@ export default class Command {
 
       message.channel.send(messageContent).catch(() => {
         message.author.send(messageContent)
-        message.react('905962263750537257')
+        message.react(x_)
       })
 
       return false
@@ -163,7 +164,7 @@ export default class Command {
     )
 
     if (!havePermission) {
-      const messageContent = `> <:x_:905962263750537257> Você não possui as permissões necessárias para usar este comando!\n\`\`\`\n(${this.memberNecessaryPermissions
+      const messageContent = `> <:x_:${x_}> Você não possui as permissões necessárias para usar este comando!\n\`\`\`\n(${this.memberNecessaryPermissions
         .map((permissions) => permissions.join(' e '))
         .join('), (')})\n\`\`\``
 
@@ -171,7 +172,7 @@ export default class Command {
         message.channel.send(messageContent)
       } else {
         message.author.send(messageContent)
-        message.react('905962263750537257')
+        message.react(x_)
       }
     }
 
@@ -192,7 +193,7 @@ export default class Command {
     })
 
     if (!havePermission) {
-      const messageContent = `> <:x_:905962263750537257> Eu não possuo as permissões necessárias para usar este comando!\n\`\`\`\n(${this.botNecessaryPermissions
+      const messageContent = `> <:x_:${x_}> Eu não possuo as permissões necessárias para usar este comando!\n\`\`\`\n(${this.botNecessaryPermissions
         .map((permissions) => permissions.join(' e '))
         .join('), (')})\n\`\`\``
 
@@ -200,7 +201,7 @@ export default class Command {
         message.channel.send(messageContent)
       } else {
         message.author.send(messageContent)
-        message.react('905962263750537257')
+        message.react(x_)
       }
     }
 

@@ -1,6 +1,8 @@
+/* eslint-disable camelcase */
 import { MessageEmbed } from 'discord.js'
 import Channel from '../database/entities/Channel'
 import Command from '../shared/Command'
+import { x_, check, user_check, user_x } from '../../emojis.json'
 
 export default new Command({
   name: 'controlcalculator',
@@ -37,25 +39,23 @@ export default new Command({
       .setTimestamp()
       .setDescription(
         `**${bot.emojis.cache.get(
-          currentChannelAllowed ? '912834126812430336' : '912834126770499594'
+          currentChannelAllowed ? user_x : user_check
         )} \`|\` ${
           currentChannelAllowed
             ? 'Desativar calculadora neste canal'
             : 'Ativar calculadora neste canal'
         }\n${bot.emojis.cache.get(
-          '905952950864715836'
+          check
         )} \`|\` Desativar a calculadora em todos os canais registrados do servidor\n${bot.emojis.cache.get(
-          '905962263750537257'
+          x_
         )} \`|\` Ativar a calculadora em todos os canais registrados do servidor**`
       )
 
     const msg = await message.channel.send({ embeds: [embed] })
 
-    await msg.react(
-      currentChannelAllowed ? '912834126812430336' : '912834126770499594'
-    )
-    await msg.react('905952950864715836')
-    await msg.react('905962263750537257')
+    await msg.react(currentChannelAllowed ? user_x : user_check)
+    await msg.react(check)
+    await msg.react(x_)
 
     const collector = msg.createReactionCollector({
       max: 1,
@@ -66,9 +66,7 @@ export default new Command({
     collector.on('collect', async (reaction) => {
       if (
         reaction.emoji ===
-        bot.emojis.cache.get(
-          currentChannelAllowed ? '912834126812430336' : '912834126770499594'
-        )!
+        bot.emojis.cache.get(currentChannelAllowed ? user_x : user_check)!
       ) {
         const embedConclusao = new MessageEmbed()
           .setColor('#7289DA')
@@ -89,7 +87,7 @@ export default new Command({
         )
 
         msg.edit({ embeds: [embedConclusao] })
-      } else if (reaction.emoji.id === '905952950864715836') {
+      } else if (reaction.emoji.id === check) {
         const embedConclusao = new MessageEmbed()
           .setColor('#7289DA')
           .setTitle(`O comando **calculator** foi ativado neste servidor!`)
@@ -107,7 +105,7 @@ export default new Command({
         })
 
         msg.edit({ embeds: [embedConclusao] })
-      } else if (reaction.emoji.id === '905962263750537257') {
+      } else if (reaction.emoji.id === x_) {
         const embedConclusao = new MessageEmbed()
           .setColor('#7289DA')
           .setTitle(`O comando **calculator** foi desativado neste servidor!`)

@@ -9,6 +9,7 @@ export default class Database {
   channels: ChannelsController
 
   constructor() {
+    connection.getConnection(() => {})
     this.guilds = new GuildsController(connection)
     this.channels = new ChannelsController(connection)
   }

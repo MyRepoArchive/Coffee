@@ -2,14 +2,16 @@ import Collection from '@discordjs/collection'
 import Guild, { GuildObject } from '../entities/Guild'
 import { Bot } from '../../shared/Bot'
 import { env } from '../../utils/env'
-import { connection } from '../..'
 import log from '../../utils/log'
 import sortObjByKey from '../../utils/sortObjByKey'
+import { Connection, Pool } from 'mysql'
 
 export default class GuildsController {
   readonly cache: Collection<string, Guild> = new Collection()
+  private connection: Pool | Connection
 
-  constructor() {
+  constructor(connection: Pool | Connection) {
+    this.connection = connection
     this.makeCache().then(() => {
       setInterval(() => this.syncCached(), env.SYNC_CACHE_INTERVAL * 1000)
     })
@@ -92,7 +94,7 @@ export default class GuildsController {
     return new Promise((resolve, reject) => {
       const query = 'SELECT * FROM guilds'
 
-      connection.query(query, async (error, results: GuildObject[]) => {
+      this.connection.query(query, async (error, results: GuildObject[]) => {
         if (error) {
           log.error(`Erro ao buscar os servidores no banco de dados!`, {
             restLogs: [`\nQuery: ${query}\nErro:`, error],
@@ -117,7 +119,7 @@ export default class GuildsController {
       .map((id) => `'${id}'`)
       .join(', ')})`
 
-    connection.query(query, (error, results) => {
+    this.connection.query(query, (error, results) => {
       if (error)
         log.error(
           `Erro ao remover os servidores do banco de dados durante a sincronização dos dados em cache!`,
@@ -183,7 +185,7 @@ export default class GuildsController {
       .map((guild) => `('${guild.guild_id}', '${guild.prefix}')`)
       .join(', ')}`
 
-    connection.query(query, (error, results) => {
+    this.connection.query(query, (error, results) => {
       if (error)
         log.error(
           `Erro ao adicionar os servidores no banco de dados durante a sincronização dos dados em cache!`,
@@ -245,7 +247,7 @@ export default class GuildsController {
         ', '
       )} ON DUPLICATE KEY UPDATE guild_id = VALUES(guild_id), prefix = VALUES(prefix)`
 
-    connection.query(query, (error, results) => {
+    this.connection.query(query, (error, results) => {
       if (error)
         log.error(
           `Erro ao atualizar os servidores no banco de dados durante a sincronização dos dados em cache!`,

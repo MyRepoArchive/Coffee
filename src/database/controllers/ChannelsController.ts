@@ -3,13 +3,16 @@ import { GuildChannel } from 'discord.js'
 import { env } from '../../utils/env'
 import Channel, { ChannelObject, DatabaseChannel } from '../entities/Channel'
 import log from '../../utils/log'
-import { bot, connection } from '../..'
+import { bot } from '../..'
 import sortObjByKey from '../../utils/sortObjByKey'
+import { Connection, Pool } from 'mysql'
 
 export default class ChannelsController {
   readonly cache: Collection<string, Channel> = new Collection()
+  private connection: Pool | Connection
 
-  constructor() {
+  constructor(connection: Pool | Connection) {
+    this.connection = connection
     this.makeCache().then(() => {
       setInterval(() => this.syncCached(), env.SYNC_CACHE_INTERVAL * 1000)
     })
@@ -101,23 +104,26 @@ export default class ChannelsController {
     return new Promise((resolve, reject) => {
       const query = 'SELECT * FROM channels'
 
-      connection.query(query, async (error, results: DatabaseChannel[]) => {
-        if (error) {
-          log.error(`Erro ao buscar os canais no banco de dados!`, {
-            restLogs: [`\nQuery: ${query}\nErro:`, error],
-            discord: {
-              filename: __filename,
-              description: { content: query, code: true, slice: true },
-              files: [
-                ['error.txt', error.stack || error.message],
-                ['error.json', JSON.stringify(error, null, 2)],
-              ],
-            },
-          })
+      this.connection.query(
+        query,
+        async (error, results: DatabaseChannel[]) => {
+          if (error) {
+            log.error(`Erro ao buscar os canais no banco de dados!`, {
+              restLogs: [`\nQuery: ${query}\nErro:`, error],
+              discord: {
+                filename: __filename,
+                description: { content: query, code: true, slice: true },
+                files: [
+                  ['error.txt', error.stack || error.message],
+                  ['error.json', JSON.stringify(error, null, 2)],
+                ],
+              },
+            })
 
-          return reject(error)
-        } else return resolve(results)
-      })
+            return reject(error)
+          } else return resolve(results)
+        }
+      )
     })
   }
 
@@ -126,7 +132,7 @@ export default class ChannelsController {
       .map((id) => `'${id}'`)
       .join(', ')})`
 
-    connection.query(query, (error, results) => {
+    this.connection.query(query, (error, results) => {
       if (error)
         log.error(
           `Erro ao remover os canais do banco de dados durante a sincronização dos dados em cache!`,
@@ -197,7 +203,7 @@ export default class ChannelsController {
       )
       .join(', ')}`
 
-    connection.query(query, (error, results) => {
+    this.connection.query(query, (error, results) => {
       if (error)
         log.error(
           `Erro ao adicionar os canais no banco de dados durante a sincronização dos dados em cache!`,
@@ -264,7 +270,7 @@ export default class ChannelsController {
         ', '
       )} ON DUPLICATE KEY UPDATE channel_id = VALUES(channel_id), guild_id = VALUES(guild_id), calc_allowed = VALUES(calc_allowed)`
 
-    connection.query(query, (error, results) => {
+    this.connection.query(query, (error, results) => {
       if (error)
         log.error(
           `Erro ao atualizar os canais no banco de dados durante a sincronização dos dados em cache!`,

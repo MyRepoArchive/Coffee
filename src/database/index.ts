@@ -1,3 +1,4 @@
+import { connection } from '..'
 import ChannelsController from './controllers/ChannelsController'
 import GuildsController from './controllers/GuildsController'
 
@@ -8,7 +9,7 @@ export default class Database {
   channels: ChannelsController
 
   constructor() {
-    this.guilds = new GuildsController()
-    this.channels = new ChannelsController()
+    this.guilds = new GuildsController(connection)
+    this.channels = new ChannelsController(connection)
   }
 }

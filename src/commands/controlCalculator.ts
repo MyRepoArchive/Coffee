@@ -2,7 +2,7 @@
 import { MessageEmbed } from 'discord.js'
 import Channel from '../database/entities/Channel'
 import Command from '../shared/Command'
-import { x_, check, user_check, user_x } from '../../emojis.json'
+import { x_, check, user_check, user_x } from '../utils/emojis.json'
 
 export default new Command({
   name: 'controlcalculator',

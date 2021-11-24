@@ -1,7 +1,7 @@
 import { Message, PermissionString, TextChannel, Collection } from 'discord.js'
 import { env } from '../utils/env'
 import { Bot } from './Bot'
-import { x_ } from '../../emojis.json'
+import { x_ } from '../utils/emojis.json'
 
 export interface Cooldown {
   time: number

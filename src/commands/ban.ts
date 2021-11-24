@@ -1,6 +1,6 @@
 import { MessageEmbed, ReactionCollectorOptions } from 'discord.js'
 import Command from '../shared/Command'
-import { x_, check } from '../../emojis.json'
+import { x_, check } from '../utils/emojis.json'
 
 export default new Command({
   name: 'ban',

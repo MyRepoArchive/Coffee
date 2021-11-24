@@ -1,6 +1,6 @@
 import { MessageEmbed } from 'discord.js'
 import Command from '../shared/Command'
-import { x_ } from '../../emojis.json'
+import { x_ } from '../utils/emojis.json'
 
 export default new Command({
   name: 'desc',

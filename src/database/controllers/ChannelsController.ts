@@ -4,9 +4,7 @@ import { env } from '../../utils/env'
 import Channel, { ChannelObject, DatabaseChannel } from '../entities/Channel'
 import log from '../../utils/log'
 import { bot, connection } from '../..'
-import mySqlConfig from '../../utils/mySqlConfig'
 import sortObjByKey from '../../utils/sortObjByKey'
-import mysqlBackup from '../../utils/mysqlBackup'
 
 export default class ChannelsController {
   readonly cache: Collection<string, Channel> = new Collection()
@@ -30,10 +28,7 @@ export default class ChannelsController {
           this.cache.set(channel.channel_id.value, channel)
         } catch (error: any) {
           log.error(`Erro ao criar entidades de Channel e setar em cache!`, {
-            restLogs: [
-              `\nResult: ${JSON.stringify(dbChannel, null, 2)}\nErro:`,
-              error,
-            ],
+            restLogs: ['\nResult:', dbChannel, '\nErro:', error],
             discord: {
               filename: __filename,
               files: [
@@ -67,10 +62,6 @@ export default class ChannelsController {
   }
 
   async syncCached() {
-    const dump = mysqlBackup(mySqlConfig)
-
-    console.log(dump)
-
     this.getDbChannels().then((dbChannels) => {
       const channelsToDelete = dbChannels
         .map((dbChannel) => dbChannel.channel_id)
@@ -95,17 +86,13 @@ export default class ChannelsController {
         })
         .map((dbChannel) => dbChannel.channel_id)
 
-      if (channelsToDelete.length) this.syncCachedDelete(channelsToDelete, dump)
+      if (channelsToDelete.length) this.syncCachedDelete(channelsToDelete)
       if (channelsToAdd.length)
-        this.syncCachedAdd(
-          channelsToAdd.map((id) => this.cache.get(id)!.value),
-          dump
-        )
+        this.syncCachedAdd(channelsToAdd.map((id) => this.cache.get(id)!.value))
 
       if (channelsToUpdate.length)
         this.syncCachedUpdate(
-          channelsToUpdate.map((id) => this.cache.get(id)!.value),
-          dump
+          channelsToUpdate.map((id) => this.cache.get(id)!.value)
         )
     })
   }
@@ -134,7 +121,7 @@ export default class ChannelsController {
     })
   }
 
-  private syncCachedDelete(channelsToDelete: string[], dump: string) {
+  private syncCachedDelete(channelsToDelete: string[]) {
     const query = `DELETE FROM channels WHERE channel_id IN (${channelsToDelete
       .map((id) => `'${id}'`)
       .join(', ')})`
@@ -145,7 +132,10 @@ export default class ChannelsController {
           `Erro ao remover os canais do banco de dados durante a sincronização dos dados em cache!`,
           {
             restLogs: [
-              `\nQuery: ${query}\nchannelsToDelete: ${channelsToDelete}\nError: `,
+              `\nQuery: ${query}`,
+              '\nchannelsToDelete: ',
+              channelsToDelete,
+              '\nError: ',
               error,
             ],
             discord: {
@@ -168,11 +158,11 @@ export default class ChannelsController {
           `Uma quantidade incompatível de linhas foi afetada ao tentar remover os canais do banco de dados durante a sincronização dos dados em cache!\nchannelsToDeleteLength: ${channelsToDelete.length}`,
           {
             restLogs: [
-              `\nQuery: ${query}\nchannelsToDelete: ${channelsToDelete}\nOkPacket: ${JSON.stringify(
-                results,
-                null,
-                2
-              )}`,
+              `\nQuery: ${query}`,
+              '\nchannelsToDelete: ',
+              channelsToDelete,
+              '\nOkPacket: ',
+              results,
             ],
             discord: {
               filename: __filename,
@@ -184,7 +174,14 @@ export default class ChannelsController {
                   JSON.stringify(channelsToDelete, null, 2),
                 ],
                 ['ok_packet.json', JSON.stringify(results, null, 2)],
-                ['backup_dump.sql', dump],
+                [
+                  'cached.json',
+                  JSON.stringify(
+                    this.cache.map((c) => c.value),
+                    null,
+                    2
+                  ),
+                ],
               ],
             },
           }
@@ -192,7 +189,7 @@ export default class ChannelsController {
     })
   }
 
-  private syncCachedAdd(channelsToAdd: ChannelObject[], dump: string) {
+  private syncCachedAdd(channelsToAdd: ChannelObject[]) {
     const query = `INSERT INTO channels (channel_id, guild_id, calc_allowed) VALUES ${channelsToAdd
       .map(
         (channel) =>
@@ -206,7 +203,10 @@ export default class ChannelsController {
           `Erro ao adicionar os canais no banco de dados durante a sincronização dos dados em cache!`,
           {
             restLogs: [
-              `\nQuery: ${query}\nchannelsToAdd: ${channelsToAdd}\nError: `,
+              `\nQuery: ${query}`,
+              '\nchannelsToAdd: ',
+              channelsToAdd,
+              '\nError: ',
               error,
             ],
             discord: {
@@ -226,11 +226,11 @@ export default class ChannelsController {
           `Uma quantidade incompatível de linhas foi afetada ao tentar adicionar os canais no banco de dados durante a sincronização dos dados em cache!\nchannelsToAddLength: ${channelsToAdd.length}`,
           {
             restLogs: [
-              `\nQuery: ${query}\nchannelsToAdd: ${channelsToAdd}\nOkPacket: ${JSON.stringify(
-                results,
-                null,
-                2
-              )}`,
+              `\nQuery: ${query}`,
+              '\nchannelsToAdd: ',
+              channelsToAdd,
+              '\nOkPacket: ',
+              results,
             ],
             discord: {
               filename: __filename,
@@ -239,7 +239,14 @@ export default class ChannelsController {
                 ['query.txt', query],
                 ['channelsToAdd.json', JSON.stringify(channelsToAdd, null, 2)],
                 ['ok_packet.json', JSON.stringify(results, null, 2)],
-                ['backup_dump.sql', dump],
+                [
+                  'cached.json',
+                  JSON.stringify(
+                    this.cache.map((c) => c.value),
+                    null,
+                    2
+                  ),
+                ],
               ],
             },
           }
@@ -247,7 +254,7 @@ export default class ChannelsController {
     })
   }
 
-  private syncCachedUpdate(channelsToUpdate: ChannelObject[], dump: string) {
+  private syncCachedUpdate(channelsToUpdate: ChannelObject[]) {
     const query = `INSERT INTO channels (channel_id, guild_id, calc_allowed) VALUES ${channelsToUpdate
       .map(
         (channel) =>
@@ -263,7 +270,10 @@ export default class ChannelsController {
           `Erro ao atualizar os canais no banco de dados durante a sincronização dos dados em cache!`,
           {
             restLogs: [
-              `\nQuery: ${query}\nchannelsToUpdate: ${channelsToUpdate}\nError: `,
+              `\nQuery: ${query}`,
+              '\nchannelsToUpdate: ',
+              channelsToUpdate,
+              '\nError: ',
               error,
             ],
             discord: {
@@ -286,11 +296,11 @@ export default class ChannelsController {
           `Uma quantidade incompatível de linhas foi afetada ao tentar atualizar os canais no banco de dados durante a sincronização dos dados em cache!\nchannelsToUpdateLength: ${channelsToUpdate.length}`,
           {
             restLogs: [
-              `\nQuery: ${query}\nchannelsToUpdate: ${channelsToUpdate}\nOkPacket: ${JSON.stringify(
-                results,
-                null,
-                2
-              )}`,
+              `\nQuery: ${query}`,
+              '\nchannelsToUpdate: ',
+              channelsToUpdate,
+              '\nOkPacket: ',
+              results,
             ],
             discord: {
               filename: __filename,
@@ -302,7 +312,14 @@ export default class ChannelsController {
                   JSON.stringify(channelsToUpdate, null, 2),
                 ],
                 ['ok_packet.json', JSON.stringify(results, null, 2)],
-                ['backup_dump.sql', dump],
+                [
+                  'cached.json',
+                  JSON.stringify(
+                    this.cache.map((c) => c.value),
+                    null,
+                    2
+                  ),
+                ],
               ],
             },
           }

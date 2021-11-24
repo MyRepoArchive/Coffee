@@ -5,8 +5,6 @@ import { env } from '../../utils/env'
 import { connection } from '../..'
 import log from '../../utils/log'
 import sortObjByKey from '../../utils/sortObjByKey'
-import mysqlBackup from '../../utils/mysqlBackup'
-import mySqlConfig from '../../utils/mySqlConfig'
 
 export default class GuildsController {
   readonly cache: Collection<string, Guild> = new Collection()
@@ -29,10 +27,7 @@ export default class GuildsController {
           this.cache.set(guild.guild_id.value, guild)
         } catch (error: any) {
           log.error(`Erro ao criar entidades de Guild e setar em cache!`, {
-            restLogs: [
-              `\nResult: ${JSON.stringify(dbGuild, null, 2)}\nErro:`,
-              error,
-            ],
+            restLogs: ['\nResult: ', dbGuild, '\nErro: ', error],
             discord: {
               filename: __filename,
               files: [
@@ -59,8 +54,6 @@ export default class GuildsController {
   }
 
   async syncCached() {
-    const dump = mysqlBackup(mySqlConfig)
-
     this.getDbGuilds().then((dbGuilds) => {
       const guildsToDelete = dbGuilds
         .map((dbGuild) => dbGuild.guild_id)
@@ -84,17 +77,13 @@ export default class GuildsController {
         })
         .map((dbGuild) => dbGuild.guild_id)
 
-      if (guildsToDelete.length) this.syncCachedDelete(guildsToDelete, dump)
+      if (guildsToDelete.length) this.syncCachedDelete(guildsToDelete)
       if (guildsToAdd.length)
-        this.syncCachedAdd(
-          guildsToAdd.map((id) => this.cache.get(id)!.value),
-          dump
-        )
+        this.syncCachedAdd(guildsToAdd.map((id) => this.cache.get(id)!.value))
 
       if (guildsToUpdate.length)
         this.syncCachedUpdate(
-          guildsToUpdate.map((id) => this.cache.get(id)!.value),
-          dump
+          guildsToUpdate.map((id) => this.cache.get(id)!.value)
         )
     })
   }
@@ -123,7 +112,7 @@ export default class GuildsController {
     })
   }
 
-  private syncCachedDelete(guildsToDelete: string[], dump: string) {
+  private syncCachedDelete(guildsToDelete: string[]) {
     const query = `DELETE FROM guilds WHERE guild_id IN (${guildsToDelete
       .map((id) => `'${id}'`)
       .join(', ')})`
@@ -134,7 +123,9 @@ export default class GuildsController {
           `Erro ao remover os servidores do banco de dados durante a sincronização dos dados em cache!`,
           {
             restLogs: [
-              `\nQuery: ${query}\nguildsToDelete: ${guildsToDelete}\nError: `,
+              `\nQuery: ${query}\nguildsToDelete: `,
+              guildsToDelete,
+              '\nError: ',
               error,
             ],
             discord: {
@@ -157,11 +148,10 @@ export default class GuildsController {
           `Uma quantidade incompatível de linhas foi afetada ao tentar remover os servidores do banco de dados durante a sincronização dos dados em cache!\nguildsToDeleteLength: ${guildsToDelete.length}`,
           {
             restLogs: [
-              `\nQuery: ${query}\nguildsToDelete: ${guildsToDelete}\nOkPacket: ${JSON.stringify(
-                results,
-                null,
-                2
-              )}`,
+              `\nQuery: ${query}\nguildsToDelete: `,
+              guildsToDelete,
+              '\nOkPacket: ',
+              results,
             ],
             discord: {
               filename: __filename,
@@ -173,7 +163,14 @@ export default class GuildsController {
                   JSON.stringify(guildsToDelete, null, 2),
                 ],
                 ['ok_packet.json', JSON.stringify(results, null, 2)],
-                ['backup_dump.sql', dump],
+                [
+                  'cached.json',
+                  JSON.stringify(
+                    this.cache.map((g) => g.value),
+                    null,
+                    2
+                  ),
+                ],
               ],
             },
           }
@@ -181,7 +178,7 @@ export default class GuildsController {
     })
   }
 
-  private syncCachedAdd(guildsToAdd: GuildObject[], dump: string) {
+  private syncCachedAdd(guildsToAdd: GuildObject[]) {
     const query = `INSERT INTO guilds (guild_id, prefix) VALUES ${guildsToAdd
       .map((guild) => `('${guild.guild_id}', '${guild.prefix}')`)
       .join(', ')}`
@@ -192,7 +189,9 @@ export default class GuildsController {
           `Erro ao adicionar os servidores no banco de dados durante a sincronização dos dados em cache!`,
           {
             restLogs: [
-              `\nQuery: ${query}\nguildsToAdd: ${guildsToAdd}\nError: `,
+              `\nQuery: ${query}\nguildsToAdd: `,
+              guildsToAdd,
+              '\nError: ',
               error,
             ],
             discord: {
@@ -212,11 +211,10 @@ export default class GuildsController {
           `Uma quantidade incompatível de linhas foi afetada ao tentar adicionar os servidores no banco de dados durante a sincronização dos dados em cache!\nguildsToAddLength: ${guildsToAdd.length}`,
           {
             restLogs: [
-              `\nQuery: ${query}\nguildsToAdd: ${guildsToAdd}\nOkPacket: ${JSON.stringify(
-                results,
-                null,
-                2
-              )}`,
+              `\nQuery: ${query}\nguildsToAdd: `,
+              guildsToAdd,
+              '\nOkPacket: ',
+              results,
             ],
             discord: {
               filename: __filename,
@@ -225,7 +223,14 @@ export default class GuildsController {
                 ['query.txt', query],
                 ['guildsToAdd.json', JSON.stringify(guildsToAdd, null, 2)],
                 ['ok_packet.json', JSON.stringify(results, null, 2)],
-                ['backup_dump.sql', dump],
+                [
+                  'cached.json',
+                  JSON.stringify(
+                    this.cache.map((g) => g.value),
+                    null,
+                    2
+                  ),
+                ],
               ],
             },
           }
@@ -233,7 +238,7 @@ export default class GuildsController {
     })
   }
 
-  private syncCachedUpdate(guildsToUpdate: GuildObject[], dump: string) {
+  private syncCachedUpdate(guildsToUpdate: GuildObject[]) {
     const query = `INSERT INTO guilds (guild_id, prefix) VALUES ${guildsToUpdate
       .map((guild) => `('${guild.guild_id}', '${guild.prefix}')`)
       .join(
@@ -246,7 +251,9 @@ export default class GuildsController {
           `Erro ao atualizar os servidores no banco de dados durante a sincronização dos dados em cache!`,
           {
             restLogs: [
-              `\nQuery: ${query}\nguildsToUpdate: ${guildsToUpdate}\nError: `,
+              `\nQuery: ${query}\nguildsToUpdate: `,
+              guildsToUpdate,
+              '\nError: ',
               error,
             ],
             discord: {
@@ -269,11 +276,10 @@ export default class GuildsController {
           `Uma quantidade incompatível de linhas foi afetada ao tentar atualizar os servidores no banco de dados durante a sincronização dos dados em cache!\nguildsToUpdateLength: ${guildsToUpdate.length}`,
           {
             restLogs: [
-              `\nQuery: ${query}\nguildsToUpdate: ${guildsToUpdate}\nOkPacket: ${JSON.stringify(
-                results,
-                null,
-                2
-              )}`,
+              `\nQuery: ${query}\nguildsToUpdate: `,
+              guildsToUpdate,
+              '\nOkPacket: ',
+              results,
             ],
             discord: {
               filename: __filename,
@@ -285,7 +291,14 @@ export default class GuildsController {
                   JSON.stringify(guildsToUpdate, null, 2),
                 ],
                 ['ok_packet.json', JSON.stringify(results, null, 2)],
-                ['backup_dump.sql', dump],
+                [
+                  'cached.json',
+                  JSON.stringify(
+                    this.cache.map((g) => g.value),
+                    null,
+                    2
+                  ),
+                ],
               ],
             },
           }

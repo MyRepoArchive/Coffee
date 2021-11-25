@@ -5,7 +5,10 @@ import login from './utils/login'
 import mysql from 'mysql'
 import mySqlConfig from './utils/mySqlConfig'
 
-export const connection = mysql.createPool(mySqlConfig)
+export const connection = mysql.createPool({
+  ...mySqlConfig,
+  connectionLimit: 1,
+})
 
 export const bot = new Bot(
   {

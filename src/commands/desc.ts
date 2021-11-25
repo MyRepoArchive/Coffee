@@ -1,6 +1,7 @@
 import { MessageEmbed } from 'discord.js'
 import Command from '../shared/Command'
 import { x_ } from '../utils/emojis.json'
+import makeCommandDescEmbed from '../utils/makeCommandDescEmbed'
 
 export default new Command({
   name: 'desc',
@@ -20,17 +21,6 @@ export default new Command({
   allowDM: true,
   type: 'utility',
   run: async ({ message, bot, prefix, usedCommand, args }) => {
-    const arrayCommandAndAliases = bot.commands.map((command) =>
-      command.aliases.concat([command.name])
-    )
-    let concated: string[] = []
-    for (let i = 0; i < arrayCommandAndAliases.length; i++) {
-      concated = concated.concat(
-        arrayCommandAndAliases[i].concat(arrayCommandAndAliases[i + 1])
-      )
-    }
-    concated = concated.filter((item) => item)
-
     const descEmbed = new MessageEmbed()
       .setColor('#7289DA')
       .setTitle(`Descrição do comando ${prefix}${usedCommand}`)
@@ -43,18 +33,14 @@ export default new Command({
 
     if (args[0].startsWith(prefix)) args[0] = args[0].slice(prefix.length)
 
-    if (!concated.find((aliase) => aliase === args[0]))
+    const cmd =
+      bot.commands.get(args[0]) ||
+      bot.commands.find((command) => command.aliases.includes(args[0]))
+
+    if (!cmd)
       return message.channel.send(`O comando ***${args[0]}*** não existe!`)
 
-    const desc =
-      bot.commands.get(args[0])?.description ||
-      bot.commands.find((command) => command.aliases.includes(args[0]))
-        ?.description ||
-      '***`COMANDO SEM DESCRIÇÃO`***'
-    const embed = new MessageEmbed()
-      .setColor('#7289DA')
-      .setTitle(`Descrição do comando **${args[0]}**`)
-      .setDescription(desc)
+    const embed = makeCommandDescEmbed(cmd)
 
     message.channel.send({ embeds: [embed] }).catch(() => {
       message.author.send({ embeds: [embed] })

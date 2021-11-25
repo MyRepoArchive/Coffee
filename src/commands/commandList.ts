@@ -18,7 +18,7 @@ export default new Command({
       .setDescription(`\`${commands.join('`, `')}\``)
       .addField(
         `Observação`,
-        `Se você estiver precisando de algo mais detalhado, use **${prefix}desc nomeDoComando** ou **${prefix}ajuda**`
+        `Se você estiver precisando de algo mais detalhado, use *${prefix} desc \`comando\`* ou *${prefix} ajuda*`
       )
 
     message.channel.send({ embeds: [embed] }).catch(() => {

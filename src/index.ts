@@ -4,6 +4,8 @@ import { Bot } from './shared/Bot'
 import login from './utils/login'
 import mysql from 'mysql'
 import mySqlConfig from './utils/mySqlConfig'
+import localizedFormat from 'dayjs/plugin/localizedFormat'
+import 'dayjs/locale/pt-br'
 
 export const connection = mysql.createPool({
   ...mySqlConfig,
@@ -34,6 +36,7 @@ export const bot = new Bot(
 )
 
 dayjs.locale('pt-br')
+dayjs.extend(localizedFormat)
 
 setHandlers(bot)
 

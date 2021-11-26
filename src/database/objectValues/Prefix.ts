@@ -17,12 +17,12 @@ export class Prefix {
   }
 
   static minimumLength = 1
-  static maximumLength = 5
+  static maximumLength = 10
   static regexps: IRegexp[] = [
     {
       type: 'negative',
-      value: () => /[\\]+/g,
-      error: 'Não é permitido o uso de contra-barras',
+      value: () => /[\\ ]+/g,
+      error: 'Não é permitido o uso de contra-barras nem de espaços',
     },
   ]
 

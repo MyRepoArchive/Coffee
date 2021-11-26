@@ -6,6 +6,7 @@ import errorTemplate from './errorTemplate'
 import getLogChannel from './getLogChannel'
 import infoTemplate from './infoTemplate'
 import successTemplate from './successTemplate'
+import emojis from './emojis.json'
 
 export default {
   info: (
@@ -22,11 +23,9 @@ export default {
     console.info(infoTemplate(), message, ...(options?.restLogs || []))
 
     if (options?.discord) {
-      const emoji = bot.guilds.cache
-        .get('738578134336536598')
-        ?.emojis.cache.find(
-          (emoji) => emoji.name === (options.discord!.emoji || 'info')
-        )
+      const emoji = bot.emojis.cache.get(
+        emojis[options.discord.emoji || 'info']
+      )
 
       getLogChannel(bot).then((channel) => {
         channel.send({
@@ -57,11 +56,9 @@ export default {
     console.info(successTemplate(), message, ...(options?.restLogs || []))
 
     if (options?.discord) {
-      const emoji = bot.guilds.cache
-        .get('738578134336536598')
-        ?.emojis.cache.find(
-          (emoji) => emoji.name === (options.discord!.emoji || 'check')
-        )
+      const emoji = bot.emojis.cache.get(
+        emojis[options.discord.emoji || 'check']
+      )
 
       getLogChannel(bot).then((channel) => {
         channel.send({
@@ -102,11 +99,7 @@ export default {
     )
 
     if (options?.discord) {
-      const emoji = bot.guilds.cache
-        .get('738578134336536598')
-        ?.emojis.cache.find(
-          (emoji) => emoji.name === (options.discord!.emoji || 'x_')
-        )
+      const emoji = bot.emojis.cache.get(emojis[options.discord.emoji || 'x_'])
 
       getLogChannel(bot).then(async (channel) => {
         await channel.send({

@@ -43,7 +43,7 @@ ou, caso possua o yarn instalado na máquina:
 yarn install
 ```
 
-Para rodar o bot em ambiente de deselvolvimento você pode executar o comando: `npm run dev` ou, caso possua yar:n `yarn dev`.
+Para rodar o bot em ambiente de deselvolvimento você pode executar o comando: `npm run dev` ou, caso possua yarn: `yarn dev`.
 Para rodar o bot em ambiente de produção você pode executar o comando: `npm run start` ou, caso possua yarn: `yarn start`.
 
 

@@ -8,7 +8,7 @@ export default new Command({
   name: 'botinfo',
   aliases: ['bi'],
   description:
-    'Exibe para o usuário alguma informações bacanas do bot, como número de comandos, de usuários, de canais, servidores, etc...',
+    'Exibe algumas informações do bot, como número de comandos, de usuários, de canais, servidores...',
   run: async ({ message, bot, dbPrefix }) => {
     const comandos = bot.commands.map((comando) => comando.name)
     const cpu = await osu.cpu.usage()

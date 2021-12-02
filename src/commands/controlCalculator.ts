@@ -9,7 +9,7 @@ export default new Command({
   aliases: ['controlcalc', 'configcalculator', 'configcalc', 'cc'],
   category: 'configuration',
   description:
-    'Com esse comando você pode escolher em qual(is) canal(is) o comando **calculator** deve funcionar, já que é um comando sem prefixo e pode em alguns casos atrapalhar uma conversa ou responder algo para o qual não foi chamado!',
+    'Com esse comando você pode escolher em qual(is) canal(is) o comando **calculator** deve funcionar',
   memberNecessaryPermissions: [['MANAGE_GUILD']],
   botNecessaryPermissions: [['ADD_REACTIONS', 'SEND_MESSAGES']],
   cooldown: {

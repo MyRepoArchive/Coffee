@@ -18,7 +18,7 @@ export default new Command({
   category: 'moderation',
   botNecessaryPermissions: [['MANAGE_MESSAGES']],
   description:
-    'O comando clean é usado para limpar até 100 mensagens de um canal (apenas mensagens com menos de 2 semanas de enviadas)',
+    'O comando clean é usado para limpar até 100 mensagens de um canal',
   memberNecessaryPermissions: [['MANAGE_MESSAGES']],
   run: async ({ message, args }) => {
     const thisChannel = message.channel as TextChannel

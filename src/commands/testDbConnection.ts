@@ -6,6 +6,7 @@ export default new Command({
   aliases: ['testedb', 'testdb', 'tdb', 'tdbc', 'testedbconn', 'testdbconn'],
   allowDM: true,
   category: 'admin',
+  description: 'Testa a conexão do banco de dados',
   run: async ({ message }) => {
     connection.query('SELECT 1', (err, res) => {
       if (err) {

@@ -9,6 +9,7 @@ export default new Command({
   category: 'admin',
   allowDM: true,
   botNecessaryPermissions: [['ADD_REACTIONS', 'SEND_MESSAGES']],
+  description: 'Executa scripts em JavaScript',
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   run: async ({ message, args, bot }) => {
     const evalContent = args.join(' ')

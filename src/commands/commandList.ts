@@ -8,7 +8,7 @@ export default new Command({
   allowDM: true,
   description:
     'Exibe em uma Embed uma lista com o nome prímário de todos os comandos do bot',
-  type: 'utility',
+  category: 'utility',
   run: async ({ message, bot, prefix }) => {
     const commands = [...new Set(bot.commands.map((command) => command.name))]
     const embed = new MessageEmbed()

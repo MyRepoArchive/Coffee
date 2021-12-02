@@ -9,7 +9,7 @@ export default new Command({
   description:
     'Seta um prefixo específico para o servidor em que é utilizado o comando.',
   memberNecessaryPermissions: [['MANAGE_GUILD']],
-  type: 'configuration',
+  category: 'configuration',
   run: async ({ args, bot, message, dbPrefix }) => {
     if (!args[0]) {
       return message.channel.send('Por favor, especifique um prefixo.')

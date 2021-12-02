@@ -19,7 +19,7 @@ export default new Command({
   description:
     'Mostra a descrição de cada comando!\nModo de usar: **@Coffee desc avatar**',
   allowDM: true,
-  type: 'utility',
+  category: 'utility',
   run: async ({ message, bot, prefix, usedCommand, args }) => {
     const descEmbed = new MessageEmbed()
       .setColor('#7289DA')

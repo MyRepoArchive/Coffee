@@ -7,7 +7,7 @@ import { x_, check, user_check, user_x } from '../utils/emojis.json'
 export default new Command({
   name: 'controlcalculator',
   aliases: ['controlcalc', 'configcalculator', 'configcalc', 'cc'],
-  type: 'configuration',
+  category: 'configuration',
   description:
     'Com esse comando você pode escolher em qual(is) canal(is) o comando **calculator** deve funcionar, já que é um comando sem prefixo e pode em alguns casos atrapalhar uma conversa ou responder algo para o qual não foi chamado!',
   memberNecessaryPermissions: [['MANAGE_GUILD']],

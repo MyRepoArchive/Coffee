@@ -9,10 +9,10 @@ export default new Command({
   allowDM: true,
   description:
     'Comando usado quando o usuário necessita de ajuda ou precisa saber os comandos do bot',
-  type: 'utility',
+  category: 'utility',
   run: async ({ args, bot, message, prefix }) => {
     const tiposComandos = [
-      ...new Set(bot.commands.map((comando) => comando.type)),
+      ...new Set(bot.commands.map((comando) => comando.category)),
     ]
 
     const command =
@@ -35,9 +35,9 @@ export default new Command({
       .setDescription(
         tiposComandos
           .map(
-            (type) =>
-              `**${type}**\n> ${bot.commands
-                .filter((cmd) => cmd.type === type)
+            (category) =>
+              `**${category}**\n> ${bot.commands
+                .filter((cmd) => cmd.category === category)
                 .map((cmd) => `\`${cmd.name}\``)
                 .join(', ')}`
           )

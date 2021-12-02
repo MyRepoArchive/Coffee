@@ -18,7 +18,7 @@ export default (command: Command) => {
       },
       {
         name: 'Tipo',
-        value: command.type,
+        value: command.category,
         inline: true,
       },
       {

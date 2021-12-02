@@ -6,7 +6,7 @@ import { x_ } from '../utils/emojis.json'
 export default new Command({
   name: 'eval',
   aliases: ['ev', 'e'],
-  type: 'admin',
+  category: 'admin',
   allowDM: true,
   botNecessaryPermissions: [['ADD_REACTIONS', 'SEND_MESSAGES']],
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

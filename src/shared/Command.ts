@@ -8,7 +8,7 @@ export interface Cooldown {
   uses: number
 }
 
-export type CommandType =
+export type CommandCategory =
   | 'utility'
   | 'miscellany'
   | 'moderation'
@@ -35,7 +35,7 @@ export interface CommandOptions {
   readonly name: string
   readonly description?: string
   readonly aliases?: string[]
-  readonly type?: Exclude<CommandType, 'miscellany'>
+  readonly category?: Exclude<CommandCategory, 'miscellany'>
   readonly allowBot?: boolean
   readonly allowDM?: boolean
   readonly memberNecessaryPermissions?: PermissionString[][]
@@ -47,7 +47,7 @@ export default class Command {
   readonly name!: string
   readonly description!: string | null
   readonly aliases!: string[]
-  readonly type!: CommandType
+  readonly category!: CommandCategory
   readonly allowBot!: boolean
   readonly allowDM!: boolean
   readonly memberNecessaryPermissions!: PermissionString[][]
@@ -65,7 +65,7 @@ export default class Command {
       allowBot: false,
       allowDM: false,
       description: null,
-      type: 'miscellany',
+      category: 'miscellany',
       memberNecessaryPermissions: [[]],
       botNecessaryPermissions: [[]],
       cooldown: {
@@ -137,7 +137,7 @@ export default class Command {
   }
 
   async memberPermissionsValidation({ message, isDm }: Data) {
-    if (this.type === 'admin' && !env.OWNERS.includes(message.author.id)) {
+    if (this.category === 'admin' && !env.OWNERS.includes(message.author.id)) {
       const messageContent =
         'Apenas administradores do bot podem utilizar este comando!'
 

@@ -5,7 +5,7 @@ import { x_, check } from '../utils/emojis.json'
 export default new Command({
   name: 'ban',
   aliases: ['banir'],
-  type: 'moderation',
+  category: 'moderation',
   description: `Bane o usuário mencionado do servidor!`,
   botNecessaryPermissions: [['BAN_MEMBERS']],
   memberNecessaryPermissions: [['BAN_MEMBERS']],

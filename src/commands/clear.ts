@@ -15,7 +15,7 @@ export default new Command({
     'cleanmessages',
     'deletarmensagens',
   ],
-  type: 'moderation',
+  category: 'moderation',
   botNecessaryPermissions: [['MANAGE_MESSAGES']],
   description:
     'O comando clean é usado para limpar até 100 mensagens de um canal (apenas mensagens com menos de 2 semanas de enviadas)',

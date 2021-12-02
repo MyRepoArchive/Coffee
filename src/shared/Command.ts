@@ -1,4 +1,11 @@
-import { Message, PermissionString, TextChannel, Collection } from 'discord.js'
+import {
+  Message,
+  PermissionString,
+  TextChannel,
+  Collection,
+  ApplicationCommandType,
+  ApplicationCommandOption,
+} from 'discord.js'
 import { env } from '../utils/env'
 import { Bot } from './Bot'
 import { x_ } from '../utils/emojis.json'
@@ -33,14 +40,16 @@ export interface Data extends StartData {
 
 export interface CommandOptions {
   readonly name: string
-  readonly description?: string
+  readonly description: string
   readonly aliases?: string[]
   readonly category?: Exclude<CommandCategory, 'miscellany'>
   readonly allowBot?: boolean
+  readonly type?: ApplicationCommandType
   readonly allowDM?: boolean
   readonly memberNecessaryPermissions?: PermissionString[][]
   readonly botNecessaryPermissions?: PermissionString[][]
   readonly cooldown?: Cooldown
+  readonly options?: ApplicationCommandOption[]
   readonly run: (data: Data) => any
 }
 export default class Command {
@@ -48,23 +57,24 @@ export default class Command {
   readonly description!: string | null
   readonly aliases!: string[]
   readonly category!: CommandCategory
+  readonly type!: ApplicationCommandType
   readonly allowBot!: boolean
   readonly allowDM!: boolean
   readonly memberNecessaryPermissions!: PermissionString[][]
   readonly botNecessaryPermissions!: PermissionString[][]
   readonly cooldown!: Cooldown
+  readonly options?: ApplicationCommandOption[]
   readonly run!: (data: Data) => any
   readonly talkedRecently: Collection<
     string,
     { timestamp: number; times: number }
   > = new Collection()
 
-  constructor(public readonly options: CommandOptions) {
+  constructor(options: CommandOptions) {
     Object.assign(this, {
       aliases: [],
       allowBot: false,
       allowDM: false,
-      description: null,
       category: 'miscellany',
       memberNecessaryPermissions: [[]],
       botNecessaryPermissions: [[]],
@@ -72,6 +82,7 @@ export default class Command {
         time: 0,
         uses: 1,
       },
+      type: 'CHAT_INPUT',
       ...options,
     })
   }

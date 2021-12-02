@@ -1,5 +1,6 @@
 import chalk from 'chalk'
 import { bot } from '..'
+import setCommandsHandler from '../config/handlers/commands'
 import { DatabaseTables } from '../database'
 import Event from '../shared/Event'
 import changeActivity from '../utils/changeActivity'
@@ -56,6 +57,8 @@ export default new Event(
         )}] Dados de ${chalk.cyan(name)} sincronizados!`
       )
     })
+
+    await setCommandsHandler(bot)
   },
   'once'
 )

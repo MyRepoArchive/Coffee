@@ -4,7 +4,7 @@ import { Bot } from '../../shared/Bot'
 import getFormatedDirname from '../../utils/getFormatedDirname'
 import log from '../../utils/log'
 
-export default async function setCommandsHandler(bot: Bot<false>) {
+export default async function setCommandsHandler(bot: Bot<true>) {
   log.info('SETANDO COMANDOS...')
 
   try {
@@ -32,6 +32,15 @@ export default async function setCommandsHandler(bot: Bot<false>) {
         })
       }
     }
+
+    bot.application.commands.set(
+      bot.commands.toJSON().map((command) => ({
+        name: command.name,
+        description: command.type === 'CHAT_INPUT' && command.description,
+        options: command.type === 'CHAT_INPUT' && command.options,
+        type: command.type as any,
+      }))
+    )
   } catch (error: any) {
     log.error('Erro ao setar os comandos!\nErro:', { restLogs: [error] })
   }

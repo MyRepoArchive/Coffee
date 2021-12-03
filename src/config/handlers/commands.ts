@@ -37,7 +37,7 @@ export default async function setCommandsHandler(bot: Bot<true>) {
       bot.commands.toJSON().map((command) => ({
         name: command.name,
         description: command.type === 'CHAT_INPUT' && command.description,
-        options: command.type === 'CHAT_INPUT' && command.options,
+        options: command.type === 'CHAT_INPUT' ? command.options : undefined,
         type: command.type as any,
       }))
     )

@@ -1,6 +1,7 @@
 import chalk from 'chalk'
 import { readdirSync } from 'fs'
 import { Bot } from '../../shared/Bot'
+import { CommandClass } from '../../shared/Command'
 import getFormatedDirname from '../../utils/getFormatedDirname'
 import log from '../../utils/log'
 
@@ -16,7 +17,8 @@ export default async function setCommandsHandler(bot: Bot<true>) {
       const idx = `${commandFiles.indexOf(file) + 1}`
 
       try {
-        const command = require(`../../commands/${file}`)?.default
+        const command = new (require(`../../commands/${file}`)
+          ?.default as typeof CommandClass)()
         bot.commands.set(command.name, command)
 
         log.success(

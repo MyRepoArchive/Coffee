@@ -1,16 +1,21 @@
-import Command from '../shared/Command'
+import Command, { Data } from '../shared/Command'
 import makeCommandDescEmbed from '../utils/makeCommandDescEmbed'
 import { x_ } from '../utils/emojis.json'
 import { MessageEmbed } from 'discord.js'
 
-export default new Command({
-  name: 'ajuda',
-  aliases: ['help'],
-  allowDM: true,
-  description:
-    'Comando usado quando o usuário necessita de ajuda ou precisa saber os comandos do bot',
-  category: 'utility',
-  run: async ({ args, bot, message, prefix }) => {
+export default class extends Command {
+  constructor() {
+    super({
+      name: 'ajuda',
+      aliases: ['help'],
+      allowDM: true,
+      description:
+        'Comando usado quando o usuário necessita de ajuda ou precisa saber os comandos do bot',
+      category: 'utility',
+    })
+  }
+
+  run = async ({ args, bot, message, prefix }: Data) => {
     const tiposComandos = [
       ...new Set(bot.commands.map((comando) => comando.category)),
     ]
@@ -52,5 +57,5 @@ export default new Command({
       message.author.send({ embeds: [embed] })
       message.react(x_)
     })
-  },
-})
+  }
+}

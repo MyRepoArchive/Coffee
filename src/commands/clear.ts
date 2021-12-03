@@ -1,26 +1,31 @@
 import { TextChannel } from 'discord.js'
-import Command from '../shared/Command'
+import Command, { Data } from '../shared/Command'
 import { x_ } from '../utils/emojis.json'
 
-export default new Command({
-  name: 'clear',
-  aliases: [
-    'clean',
-    'limpar',
-    'limpe',
-    'clearchannel',
-    'clearmessages',
-    'clearmensagens',
-    'cleanchannel',
-    'cleanmessages',
-    'deletarmensagens',
-  ],
-  category: 'moderation',
-  botNecessaryPermissions: [['MANAGE_MESSAGES']],
-  description:
-    'O comando clean é usado para limpar até 100 mensagens de um canal',
-  memberNecessaryPermissions: [['MANAGE_MESSAGES']],
-  run: async ({ message, args }) => {
+export default class extends Command {
+  constructor() {
+    super({
+      name: 'clear',
+      aliases: [
+        'clean',
+        'limpar',
+        'limpe',
+        'clearchannel',
+        'clearmessages',
+        'clearmensagens',
+        'cleanchannel',
+        'cleanmessages',
+        'deletarmensagens',
+      ],
+      category: 'moderation',
+      botNecessaryPermissions: [['MANAGE_MESSAGES']],
+      description:
+        'O comando clean é usado para limpar até 100 mensagens de um canal',
+      memberNecessaryPermissions: [['MANAGE_MESSAGES']],
+    })
+  }
+
+  run = async ({ message, args }: Data) => {
     const thisChannel = message.channel as TextChannel
 
     if (!args[0]) {
@@ -83,5 +88,5 @@ export default new Command({
           } mensagens não foram deletadas pois tinham mais de duas semanas!`
         )
     })
-  },
-})
+  }
+}

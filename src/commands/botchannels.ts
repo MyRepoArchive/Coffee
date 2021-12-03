@@ -1,13 +1,18 @@
 import { ChannelTypes } from 'discord.js/typings/enums'
-import Command from '../shared/Command'
+import Command, { Data } from '../shared/Command'
 
-export default new Command({
-  name: 'botchannels',
-  aliases: ['channelsbots', 'bc'],
-  allowDM: true,
-  botNecessaryPermissions: [['SEND_MESSAGES']],
-  description: 'Mostra a quantidade de canais em que o bot tem acesso',
-  run: async ({ message, bot }) => {
+export default class extends Command {
+  constructor() {
+    super({
+      name: 'botchannels',
+      aliases: ['channelsbots', 'bc'],
+      allowDM: true,
+      botNecessaryPermissions: [['SEND_MESSAGES']],
+      description: 'Mostra a quantidade de canais em que o bot tem acesso',
+    })
+  }
+
+  run = async ({ message, bot }: Data) => {
     message.channel.send(
       `Tenho acesso a **${getChannelSize()}** canais\nDM's: **${getChannelSize(
         'DM'
@@ -37,5 +42,5 @@ export default new Command({
         type ? channel.type === type : true
       ).size
     }
-  },
-})
+  }
+}

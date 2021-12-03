@@ -1,17 +1,22 @@
 import { MessageEmbed } from 'discord.js'
-import Command from '../shared/Command'
+import Command, { Data } from '../shared/Command'
 import { env } from '../utils/env'
 import { x_ } from '../utils/emojis.json'
 
-export default new Command({
-  name: 'eval',
-  aliases: ['ev', 'e'],
-  category: 'admin',
-  allowDM: true,
-  botNecessaryPermissions: [['ADD_REACTIONS', 'SEND_MESSAGES']],
-  description: 'Executa scripts em JavaScript',
+export default class extends Command {
+  constructor() {
+    super({
+      name: 'eval',
+      aliases: ['ev', 'e'],
+      category: 'admin',
+      allowDM: true,
+      botNecessaryPermissions: [['ADD_REACTIONS', 'SEND_MESSAGES']],
+      description: 'Executa scripts em JavaScript',
+    })
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  run: async ({ message, args, bot }) => {
+  run = async ({ message, args, bot }: Data) => {
     const evalContent = args.join(' ')
     const evalEmbed = new MessageEmbed()
       .setAuthor(message.author.username, message.author.displayAvatarURL())
@@ -59,5 +64,5 @@ export default new Command({
     collector.on('collect', () => {
       msg.edit({ embeds: [], content: `Este eval foi trancado!` })
     })
-  },
-})
+  }
+}

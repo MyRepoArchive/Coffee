@@ -5,6 +5,9 @@ import {
   Collection,
   ApplicationCommandType,
   ApplicationCommandOption,
+  Channel,
+  User,
+  GuildMember,
 } from 'discord.js'
 import { env } from '../utils/env'
 import { Bot } from './Bot'
@@ -50,7 +53,6 @@ export interface CommandOptions {
   readonly botNecessaryPermissions?: PermissionString[][]
   readonly cooldown?: Cooldown
   readonly options?: ApplicationCommandOption[]
-  readonly run: (data: Data) => any
 }
 export default class Command {
   readonly name!: string
@@ -64,11 +66,14 @@ export default class Command {
   readonly botNecessaryPermissions!: PermissionString[][]
   readonly cooldown!: Cooldown
   readonly options?: ApplicationCommandOption[]
-  readonly run!: (data: Data) => any
   readonly talkedRecently: Collection<
     string,
     { timestamp: number; times: number }
   > = new Collection()
+  run!: (data: Data) => any
+
+  formattedArgs: (Channel | User | GuildMember | boolean | string | number)[] =
+    []
 
   constructor(options: CommandOptions) {
     Object.assign(this, {

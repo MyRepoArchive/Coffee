@@ -1,13 +1,25 @@
 import { connection } from '..'
-import Command from '../shared/Command'
+import Command, { Data } from '../shared/Command'
 
-export default new Command({
-  name: 'testdbconnection',
-  aliases: ['testedb', 'testdb', 'tdb', 'tdbc', 'testedbconn', 'testdbconn'],
-  allowDM: true,
-  category: 'admin',
-  description: 'Testa a conexão do banco de dados',
-  run: async ({ message }) => {
+export default class extends Command {
+  constructor() {
+    super({
+      name: 'testdbconnection',
+      aliases: [
+        'testedb',
+        'testdb',
+        'tdb',
+        'tdbc',
+        'testedbconn',
+        'testdbconn',
+      ],
+      allowDM: true,
+      category: 'admin',
+      description: 'Testa a conexão do banco de dados',
+    })
+  }
+
+  run = async ({ message }: Data) => {
     connection.query('SELECT 1', (err, res) => {
       if (err) {
         message.author.send(`Error: ${JSON.stringify(err, null, 2)}`)
@@ -20,5 +32,5 @@ export default new Command({
         })
       }
     })
-  },
-})
+  }
+}

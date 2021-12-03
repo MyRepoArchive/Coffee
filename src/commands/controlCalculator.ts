@@ -1,22 +1,27 @@
 /* eslint-disable camelcase */
 import { MessageEmbed } from 'discord.js'
 import Channel from '../database/entities/Channel'
-import Command from '../shared/Command'
+import Command, { Data } from '../shared/Command'
 import { x_, check, user_check, user_x } from '../utils/emojis.json'
 
-export default new Command({
-  name: 'controlcalculator',
-  aliases: ['controlcalc', 'configcalculator', 'configcalc', 'cc'],
-  category: 'configuration',
-  description:
-    'Com esse comando você pode escolher em qual(is) canal(is) o comando **calculator** deve funcionar',
-  memberNecessaryPermissions: [['MANAGE_GUILD']],
-  botNecessaryPermissions: [['ADD_REACTIONS', 'SEND_MESSAGES']],
-  cooldown: {
-    time: 10000,
-    uses: 2,
-  },
-  run: async ({ message, bot }) => {
+export default class extends Command {
+  constructor() {
+    super({
+      name: 'controlcalculator',
+      aliases: ['controlcalc', 'configcalculator', 'configcalc', 'cc'],
+      category: 'configuration',
+      description:
+        'Com esse comando você pode escolher em qual(is) canal(is) o comando **calculator** deve funcionar',
+      memberNecessaryPermissions: [['MANAGE_GUILD']],
+      botNecessaryPermissions: [['ADD_REACTIONS', 'SEND_MESSAGES']],
+      cooldown: {
+        time: 10000,
+        uses: 2,
+      },
+    })
+  }
+
+  run = async ({ message, bot }: Data) => {
     const databaseChannel = bot.database.channels.cache.get(message.channel.id)
 
     if (!databaseChannel)
@@ -135,5 +140,5 @@ export default new Command({
         msg.edit({ embeds: [closedEmbed] }).catch(() => {})
       }
     })
-  },
-})
+  }
+}

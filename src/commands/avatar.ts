@@ -1,20 +1,25 @@
 import { MessageEmbed } from 'discord.js'
-import Command from '../shared/Command'
+import Command, { Data } from '../shared/Command'
 
-export default new Command({
-  name: 'avatar',
-  aliases: [
-    'mostraravatar',
-    'fotodeperfil',
-    'imagemdeperfil',
-    'imagedeperfil',
-    'displayavatar',
-  ],
-  allowDM: true,
-  description:
-    'Obtenha o avatar do usuário de maneira baixável e com grande visualização',
-  botNecessaryPermissions: [['SEND_MESSAGES']],
-  run: async ({ message, args, isGuild, bot }) => {
+export default class extends Command {
+  constructor() {
+    super({
+      name: 'avatar',
+      aliases: [
+        'mostraravatar',
+        'fotodeperfil',
+        'imagemdeperfil',
+        'imagedeperfil',
+        'displayavatar',
+      ],
+      allowDM: true,
+      description:
+        'Obtenha o avatar do usuário de maneira baixável e com grande visualização',
+      botNecessaryPermissions: [['SEND_MESSAGES']],
+    })
+  }
+
+  run = async ({ message, args, isGuild, bot }: Data) => {
     const member =
       (isGuild &&
         (message.mentions.members?.first() ||
@@ -59,5 +64,5 @@ export default new Command({
       )
 
     message.channel.send({ embeds: [embed] })
-  },
-})
+  }
+}

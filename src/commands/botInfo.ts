@@ -1,15 +1,20 @@
-import Command from '../shared/Command'
+import Command, { Data } from '../shared/Command'
 import osu from 'node-os-utils'
 import dayjs from 'dayjs'
 import { MessageEmbed } from 'discord.js'
 import { x_ } from '../utils/emojis.json'
 
-export default new Command({
-  name: 'botinfo',
-  aliases: ['bi'],
-  description:
-    'Exibe algumas informações do bot, como número de comandos, de usuários, de canais, servidores...',
-  run: async ({ message, bot, dbPrefix }) => {
+export default class extends Command {
+  constructor() {
+    super({
+      name: 'botinfo',
+      aliases: ['bi'],
+      description:
+        'Exibe algumas informações do bot, como número de comandos, de usuários, de canais, servidores...',
+    })
+  }
+
+  run = async ({ message, bot, dbPrefix }: Data) => {
     const comandos = bot.commands.map((comando) => comando.name)
     const cpu = await osu.cpu.usage()
     const criacao = dayjs(bot.user.createdTimestamp).format('LLLL')
@@ -95,5 +100,5 @@ export default new Command({
       message.author.send({ embeds: [embedInfo] })
       message.react(x_)
     })
-  },
-})
+  }
+}

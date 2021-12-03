@@ -1,16 +1,21 @@
 import Guild from '../database/entities/Guild'
 import { Prefix } from '../database/objectValues/Prefix'
-import Command from '../shared/Command'
+import Command, { Data } from '../shared/Command'
 import { check, x_ } from '../utils/emojis.json'
 
-export default new Command({
-  name: 'setprefix',
-  aliases: ['sp'],
-  description:
-    'Seta um prefixo específico para o servidor em que é utilizado o comando.',
-  memberNecessaryPermissions: [['MANAGE_GUILD']],
-  category: 'configuration',
-  run: async ({ args, bot, message, dbPrefix }) => {
+export default class extends Command {
+  constructor() {
+    super({
+      name: 'setprefix',
+      aliases: ['sp'],
+      description:
+        'Seta um prefixo específico para o servidor em que é utilizado o comando.',
+      memberNecessaryPermissions: [['MANAGE_GUILD']],
+      category: 'configuration',
+    })
+  }
+
+  run = async ({ args, bot, message, dbPrefix }: Data) => {
     if (!args[0]) {
       return message.channel.send('Por favor, especifique um prefixo.')
     }
@@ -31,5 +36,5 @@ export default new Command({
     message.channel.send(
       `<:check:${check}> Prefixo alterado com sucesso! \`${dbPrefix}\` → \`${prefixEntity.value}\``
     )
-  },
-})
+  }
+}

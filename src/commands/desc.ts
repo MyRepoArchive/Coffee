@@ -1,26 +1,31 @@
 import { MessageEmbed } from 'discord.js'
-import Command from '../shared/Command'
+import Command, { Data } from '../shared/Command'
 import { x_ } from '../utils/emojis.json'
 import makeCommandDescEmbed from '../utils/makeCommandDescEmbed'
 
-export default new Command({
-  name: 'desc',
-  aliases: [
-    'descreva',
-    'describe',
-    'guia',
-    'howtouse',
-    'comousa',
-    'comouso',
-    'mododeusar',
-    'mododeuso',
-    'comousar',
-  ],
-  description:
-    'Mostra a descrição de cada comando!\nModo de usar: **@Coffee desc avatar**',
-  allowDM: true,
-  category: 'utility',
-  run: async ({ message, bot, prefix, usedCommand, args }) => {
+export default class extends Command {
+  constructor() {
+    super({
+      name: 'desc',
+      aliases: [
+        'descreva',
+        'describe',
+        'guia',
+        'howtouse',
+        'comousa',
+        'comouso',
+        'mododeusar',
+        'mododeuso',
+        'comousar',
+      ],
+      description:
+        'Mostra a descrição de cada comando!\nModo de usar: **@Coffee desc avatar**',
+      allowDM: true,
+      category: 'utility',
+    })
+  }
+
+  run = async ({ message, bot, prefix, usedCommand, args }: Data) => {
     const descEmbed = new MessageEmbed()
       .setColor('#7289DA')
       .setTitle(`Descrição do comando ${prefix}${usedCommand}`)
@@ -46,5 +51,5 @@ export default new Command({
       message.author.send({ embeds: [embed] })
       message.react(x_)
     })
-  },
-})
+  }
+}

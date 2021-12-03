@@ -1,15 +1,20 @@
 import { MessageEmbed, ReactionCollectorOptions } from 'discord.js'
-import Command from '../shared/Command'
+import Command, { Data } from '../shared/Command'
 import { x_, check } from '../utils/emojis.json'
 
-export default new Command({
-  name: 'ban',
-  aliases: ['banir'],
-  category: 'moderation',
-  description: `Bane o usuário mencionado do servidor!`,
-  botNecessaryPermissions: [['BAN_MEMBERS']],
-  memberNecessaryPermissions: [['BAN_MEMBERS']],
-  run: async ({ message, args, prefix, bot, isMentionPrefix }) => {
+export default class extends Command {
+  constructor() {
+    super({
+      name: 'ban',
+      aliases: ['banir'],
+      category: 'moderation',
+      description: `Bane o usuário mencionado do servidor!`,
+      botNecessaryPermissions: [['BAN_MEMBERS']],
+      memberNecessaryPermissions: [['BAN_MEMBERS']],
+    })
+  }
+
+  run = async ({ message, args, prefix, bot, isMentionPrefix }: Data) => {
     const membro =
       (isMentionPrefix
         ? message.mentions.members?.at(1)
@@ -161,5 +166,5 @@ export default new Command({
       if (reason === 'time') msgMotivo.edit('Banimento cancelado!')
     })
     message.delete()
-  },
-})
+  }
+}

@@ -11,7 +11,8 @@ import {
 } from 'discord.js'
 import { env } from '../utils/env'
 import { Bot } from './Bot'
-import { x_ } from '../utils/emojis.json'
+// eslint-disable-next-line camelcase
+import { x_, airplane_paper } from '../utils/emojis.json'
 
 export interface Cooldown {
   time: number

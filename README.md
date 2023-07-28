@@ -1,5 +1,7 @@
 # Coffe
 
+!!!!! PROJETO DESCONTINUADO!
+
 ![Banner Coffee](src/image/coffee-zorro-16x9.png)
 
 Um Bot para o Discord de código aberto, que usa a biblioteca [Discord.js](https://discord.js.org/#/)!

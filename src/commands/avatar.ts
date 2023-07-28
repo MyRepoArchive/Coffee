@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js'
+import { MessageEmbed, User } from 'discord.js'
 import Command, { Data } from '../shared/Command'
 
 export default class extends Command {
@@ -16,41 +16,22 @@ export default class extends Command {
       description:
         'Obtenha o avatar do usuário de maneira baixável e com grande visualização',
       botNecessaryPermissions: [['SEND_MESSAGES']],
+      optionsSplit: null,
+      options: [
+        {
+          name: 'usuário',
+          description: 'Usuário que deseja obter o avatar',
+          type: 'USER',
+          fetch: true,
+          matchIncluding: true,
+        },
+      ],
     })
   }
 
-  run = async ({ message, args, isGuild, bot }: Data) => {
-    const member =
-      (isGuild &&
-        (message.mentions.members?.first() ||
-          message.guild!.members.cache.find(
-            (member) =>
-              member.user.username.toLowerCase() ===
-              args.join(' ').toLowerCase()
-          ) ||
-          message.guild!.members.cache.find(
-            (member) =>
-              member.displayName.toLowerCase() === args.join(' ').toLowerCase()
-          ) ||
-          message.guild!.members.cache.get(args[0]) ||
-          message.guild!.members.cache.find((member) =>
-            args.length === 0
-              ? member.id === message.member!.id
-              : member.user.tag
-                  .toLowerCase()
-                  .includes(args.join(' ').toLowerCase())
-          ) ||
-          message.guild!.members.cache.find((member) =>
-            args.length === 0
-              ? member.id === message.member!.id
-              : member.displayName
-                  .toLowerCase()
-                  .includes(args.join(' ').toLowerCase())
-          ))) ||
-      undefined
-
-    const user =
-      (await bot.users.fetch(args[0]).catch(() => {})) || message.author
+  run = async ({ message, bot }: Data) => {
+    const user = (this.formattedArgs[0] as User) || message.author
+    const member = message.guild?.members.cache.get(user.id)
 
     const embed = new MessageEmbed() // Cria a embed
       .setColor(member?.displayHexColor || '#7289DA')
@@ -59,7 +40,7 @@ export default class extends Command {
       .setTimestamp()
       .setFooter(bot.user.username, bot.user.displayAvatarURL())
       .setImage(
-        member?.user.displayAvatarURL({ size: 1024, dynamic: true }) ||
+        member?.displayAvatarURL({ size: 1024, dynamic: true }) ||
           user.displayAvatarURL({ size: 1024, dynamic: true })
       )
 

@@ -43,6 +43,16 @@ export default async function setCommandsHandler(bot: Bot<true>) {
         type: command.type as any,
       }))
     )
+    ;['738578134336536598', '738578134336536598'].map((guildId) =>
+      bot.guilds.cache.get(guildId)?.commands.set(
+        bot.commands.toJSON().map((command) => ({
+          name: command.name,
+          description: command.type === 'CHAT_INPUT' && command.description,
+          options: command.type === 'CHAT_INPUT' ? command.options : undefined,
+          type: command.type as any,
+        }))
+      )
+    )
   } catch (error: any) {
     log.error('Erro ao setar os comandos!\nErro:', { restLogs: [error] })
   }
